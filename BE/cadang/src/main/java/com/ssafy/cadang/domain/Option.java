@@ -1,4 +1,4 @@
-package com.ssafy.cadang.entity;
+package com.ssafy.cadang.domain;
 
 import javax.persistence.*;
 

@@ -1,4 +1,4 @@
-package com.ssafy.cadang.entity;
+package com.ssafy.cadang.domain;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,12 +18,4 @@ public class Franchise {
 
     @OneToMany(mappedBy = "franchise")
     List<Option> options = new java.util.ArrayList<>();
-
-    public List<Option> getOptions() {
-        return options;
-    }
-
-    public void setOptions(List<Option> options) {
-        this.options = options;
-    }
 }

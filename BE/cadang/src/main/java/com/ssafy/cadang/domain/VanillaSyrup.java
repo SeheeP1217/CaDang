@@ -1,8 +1,7 @@
-package com.ssafy.cadang.entity;
+package com.ssafy.cadang.domain;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
 @DiscriminatorValue("vanilla")

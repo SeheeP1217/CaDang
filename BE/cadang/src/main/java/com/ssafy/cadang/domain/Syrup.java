@@ -1,9 +1,9 @@
-package com.ssafy.cadang.entity;
+package com.ssafy.cadang.domain;
 
 import javax.persistence.Entity;
 
 @Entity
-public class Whip extends Option{
+public class Syrup extends Option{
     private int sugar;
 
 }
