@@ -1,5 +1,7 @@
 package com.ssafy.cadang.domain;
 
+import com.ssafy.cadang.domain.custom.Option;
+
 import javax.persistence.*;
 import java.util.List;
 

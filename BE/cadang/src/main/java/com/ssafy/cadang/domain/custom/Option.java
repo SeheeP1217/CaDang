@@ -1,4 +1,6 @@
-package com.ssafy.cadang.domain;
+package com.ssafy.cadang.domain.custom;
+
+import com.ssafy.cadang.domain.Franchise;
 
 import javax.persistence.*;
 

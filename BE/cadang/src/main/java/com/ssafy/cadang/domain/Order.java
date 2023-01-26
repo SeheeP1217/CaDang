@@ -1,5 +1,7 @@
 package com.ssafy.cadang.domain;
 
+import com.ssafy.cadang.domain.custom.SugarContent;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
