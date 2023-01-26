@@ -4,10 +4,11 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import './OrderStatus.css'
 
 export default function OrderStatus() {
   return (
-    <div>
+    <div className="div">
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
