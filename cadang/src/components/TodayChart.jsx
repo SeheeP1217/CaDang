@@ -2,18 +2,31 @@ import * as React from "react";
 // import React, { useRef, useEffect } from "react";
 import Box from "@mui/material/Box";
 import { Bar } from "react-chartjs-2";
-// import {
-//   Chart as ChartJS,
-//   BarElement,
-//   // CategoryScale,
-//   LinearScale,
-//   Tooltip,
-//   Legend
-// } from "chart.js";
+import Chart from 'chart.js/auto';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  } from 'chart.js';
+  
+  ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+  );
 
 const TodayChart = () => {
   const data = {
-    labels: ["Mon", "Tue", "Wed"],
+    labels: ["Mon", "Tue"],
     datasets: [
       {
         label: "My First Dataset",
