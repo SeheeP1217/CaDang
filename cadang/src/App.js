@@ -4,6 +4,7 @@ import RegisterPage from "./pages/RegisterPage"
 import * as React from "react"
 import TopBar from './components/util/TopBar'
 import BottomNav from "./components/util/BottomNav";
+import MainPage from "./pages/MainPage";
 
 function App() {
   // const [{ user }, dispatch] = useStateValue();
@@ -15,6 +16,7 @@ function App() {
         <Route exact path="/sign_in" component={LoginPage} />
         <Route exact path="/sign_up" component={RegisterPage} />
       </Switch>
+      <MainPage/>
       <BottomNav/>
     </div>
   );
