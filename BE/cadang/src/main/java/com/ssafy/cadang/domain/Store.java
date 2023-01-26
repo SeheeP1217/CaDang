@@ -10,7 +10,7 @@ public class Store {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "franchise_id")
     private Franchise franchise;
 
