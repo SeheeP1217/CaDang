@@ -1,0 +1,19 @@
+body {
+  background: #F5F5F5 !important;
+}
+
+.appBar {
+  box-sizing: border-box !important;
+
+  position: absolute !important;
+  
+  background: #FFF4E6 !important;
+  border-bottom: 1px solid #000000 !important;
+}
+.logoText {
+  color: #000000 !important;
+}
+.nav {
+  background: #FFF4E6 !important;
+  border-top: 1px solid #000000 !important;
+}
