@@ -26,11 +26,11 @@ import {
 
 const TodayChart = () => {
   const data = {
-    labels: ["Mon", "Tue"],
+    labels: ["카페인 섭취량", "당 섭취량"],
     datasets: [
       {
-        label: "My First Dataset",
-        data: [65, 59, 80, 81, 56, 55, 40],
+        // label: "My First Dataset",
+        data: [65, 59],
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(255, 159, 64, 0.2)",
@@ -61,11 +61,12 @@ const TodayChart = () => {
   return (
     <Box
       sx={{
-        width: 400,
-        height: 250,
+        // width: 400,
+        // height: 250,
         marginTop: 5,
         marginLeft: 5,
-        backgroundColor: "primary.dark",
+        marginRight: 5,
+        backgroundColor: "#FFFFFF",
         "&:hover": {
           backgroundColor: "primary.main",
           opacity: [0.9, 0.8, 0.7]
@@ -73,10 +74,10 @@ const TodayChart = () => {
       }}
     >
       <p>오늘의 현황</p>
-      <div>
+      <div >
         <Bar data={data} options={options}></Bar>
       </div>
-      <p>카페인 섭취량</p>
+      {/* <p>카페인 섭취량</p> */}
     </Box>
   );
 };
