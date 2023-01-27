@@ -1,0 +1,19 @@
+.container {
+  margin-top: 5% !important;
+}
+
+.btn {
+  position: relative !important;
+  top: 5px !important; 
+  left: 330px !important;
+  bottom: 10px !important;
+}
+
+.drinkImg {
+  position: relative !important;
+  margin-left: 150px !important;
+}
+
+.text {
+  margin-left: 190px !important;
+}
