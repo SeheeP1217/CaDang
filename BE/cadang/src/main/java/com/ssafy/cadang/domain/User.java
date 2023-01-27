@@ -30,8 +30,6 @@ public class User {
 
     private Timestamp lastUpdated;
 
-    private Long authId;
-
     private String refreshToken;
 
     @ManyToOne
