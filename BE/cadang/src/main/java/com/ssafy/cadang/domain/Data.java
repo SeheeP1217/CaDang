@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 
 @Entity
 public class Data {
-
     @Id
     @GeneratedValue
     private Long id;

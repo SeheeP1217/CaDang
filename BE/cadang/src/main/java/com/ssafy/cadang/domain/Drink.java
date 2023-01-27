@@ -10,7 +10,7 @@ public class Drink {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "FRANCHISE_ID")
     private Franchise franchise;
 
@@ -19,10 +19,10 @@ public class Drink {
     private int vol;
     private String image;
 
-    private Integer caffeine;
-    private Integer sugar;
-    private Integer cal;
-    private Integer price;
+    private int caffeine;
+    private int sugar;
+    private int cal;
+    private int price;
 
     private int shot;
     private boolean whip;
