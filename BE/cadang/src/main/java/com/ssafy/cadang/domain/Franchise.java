@@ -12,7 +12,7 @@ public class Franchise {
     @GeneratedValue
     private Long id;
 
-    private String name;
+    private String franchiseName;
     private String image;
 
     @OneToMany(mappedBy = "franchise")

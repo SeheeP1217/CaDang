@@ -14,7 +14,7 @@ public class Store {
     @JoinColumn(name = "franchise_id")
     private Franchise franchise;
 
-    private String name;
+    private String storeName;
 
     @OneToMany(mappedBy = "store")
     List<Order> orders = new java.util.ArrayList<>();
