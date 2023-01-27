@@ -1,5 +1,5 @@
 // import * as React from "react";
-import React, { useRef, useEffect } from "react";
+import React, { useEffect, useState } from 'react'
 
 const { kakao } = window;
 
@@ -11,15 +11,10 @@ export default function SearchCafePage() {
 
     const options = {
         center: new window.kakao.maps.LatLng(37.566826, 126.9786567),
-        level: 9, // 지도의 확대 레벨
+        level: 3, // 지도의 확대 레벨
     };
 
     const map = new window.kakao.maps.Map(container, options);
-
-    // 장소 카테고리
-    const ps = new window.kakao.maps.services.Place(map);
-
-    ps.categorySearch('CE7', placeSearchCB, {useMapBounds:true});
 
     const markerPosition  = new kakao.maps.LatLng(37.365264512305174, 127.10676860117488);
     const marker = new kakao.maps.Marker({
@@ -40,7 +35,9 @@ export default function SearchCafePage() {
     <div
       id="map"
       className="map"
-      style={{ width: "500px", height: "500px" }}
-    ></div>
+      style={{ width: "500px", height: "300px" }}
+    >
+  
+  </div>
   );
 }
