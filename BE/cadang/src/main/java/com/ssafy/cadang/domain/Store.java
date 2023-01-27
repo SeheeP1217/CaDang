@@ -1,9 +1,14 @@
 package com.ssafy.cadang.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class Store {
 
     @Id

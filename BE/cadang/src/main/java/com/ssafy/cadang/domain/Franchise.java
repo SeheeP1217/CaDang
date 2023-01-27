@@ -1,11 +1,17 @@
 package com.ssafy.cadang.domain;
 
 import com.ssafy.cadang.domain.custom.Option;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class Franchise {
 
     @Id
