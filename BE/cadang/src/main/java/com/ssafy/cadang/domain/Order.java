@@ -13,11 +13,11 @@ public class Order {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "drink_id")
     private Drink drink;
 
@@ -48,7 +48,7 @@ public class Order {
 
     //----   기록
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = true)
     @JoinColumn(name = "store_id")
     private Store store;
 
