@@ -13,7 +13,7 @@ public class Data {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-    private LocalDateTime date;
+    private LocalDateTime regDate;
     private int caffeGoal;
     private int sugarGoal;
     private int caffeDaily;

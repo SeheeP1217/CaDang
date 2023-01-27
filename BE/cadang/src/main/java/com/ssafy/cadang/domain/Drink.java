@@ -14,7 +14,7 @@ public class Drink {
     @JoinColumn(name = "FRANCHISE_ID")
     private Franchise franchise;
 
-    private String name;
+    private String drinkName;
     private String size;
     private int vol;
     private String image;
