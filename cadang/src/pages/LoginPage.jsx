@@ -14,8 +14,13 @@ import {
   Typography,
   Container,
 } from "@mui/material/"
-import { createTheme, ThemeProvider } from "@mui/material/styles"
-import styled from "styled-components"
+import {
+  createTheme,
+  ThemeProvider,
+  CreateMUIStyled,
+} from "@mui/material/styles"
+import styled, { css } from "styled-components"
+import "./LoginPage.css"
 
 // mui의 css 우선순위가 높기때문에 important를 설정 - 실무하다 보면 종종 발생 우선순위 문제
 const FormHelperTexts = styled(FormHelperText)`
@@ -28,6 +33,26 @@ const FormHelperTexts = styled(FormHelperText)`
 const Boxs = styled(Box)`
   padding-bottom: 40px !important;
 `
+
+const StyledButton = styled.button`
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  line-height: 1.5;
+  border: 1px solid lightgray;
+
+  color: ${(props) => props.color || "gray"};
+  background: ${(props) => props.background || "white"};
+
+  ${(props) =>
+    props.primary &&
+    css`
+      color: white;
+      background: navy;
+      border-color: navy;
+    `}
+`
+
 const LoginPage = () => {
   const theme = createTheme()
   // const [checked, setChecked] = useState(false)
