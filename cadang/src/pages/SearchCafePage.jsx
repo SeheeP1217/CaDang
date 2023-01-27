@@ -16,6 +16,11 @@ export default function SearchCafePage() {
 
     const map = new window.kakao.maps.Map(container, options);
 
+    // 장소 카테고리
+    const ps = new window.kakao.maps.services.Place(map);
+
+    ps.categorySearch('CE7', placeSearchCB, {useMapBounds:true});
+
     const markerPosition  = new kakao.maps.LatLng(37.365264512305174, 127.10676860117488);
     const marker = new kakao.maps.Marker({
         position: markerPosition
