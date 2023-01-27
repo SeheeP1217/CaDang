@@ -1,12 +1,18 @@
 package com.ssafy.cadang.domain;
 
 import com.ssafy.cadang.domain.custom.SugarContent;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Order {
 
     @Id
@@ -56,12 +62,5 @@ public class Order {
     private OrderStatus orderStatus;
 
     // ------- 주문
-
-
-
-
-
-
-
 
 }
