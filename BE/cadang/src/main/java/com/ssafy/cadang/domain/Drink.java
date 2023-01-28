@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class Drink {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
