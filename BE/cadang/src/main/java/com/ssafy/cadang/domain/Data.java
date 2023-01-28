@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,13 +14,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Data {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-    private LocalDateTime regDate;
+    private Timestamp regDate;
     private int caffeGoal;
     private int sugarGoal;
     private int caffeDaily;
@@ -31,10 +32,16 @@ public class Data {
     private int calDaily;
     private int moneyDaily;
 
-    public Data(User user, LocalDateTime regDate, int caffeGoal, int sugarGoal) {
+    public Data(User user) {
         this.user = user;
-        this.regDate = regDate;
-        this.caffeGoal = caffeGoal;
-        this.sugarGoal = sugarGoal;
+        this.caffeGoal = Math.toIntExact(user.getCaffeGoal());
+        this.sugarGoal = Math.toIntExact(user.getSugarGoal());
+        this.caffeDaily = 0;
+        this.sugarDaily = 0;
+        this.caffeSuccess = caffeGoal - caffeDaily >= 0;
+        this.sugarSuccess = sugarGoal - sugarDaily >= 0;
+        this.regDate = Timestamp.valueOf(LocalDateTime.now());
+
+
     }
 }

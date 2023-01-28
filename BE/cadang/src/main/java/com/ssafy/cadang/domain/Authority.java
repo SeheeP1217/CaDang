@@ -14,6 +14,7 @@ import javax.persistence.*;
 public class Authority {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 

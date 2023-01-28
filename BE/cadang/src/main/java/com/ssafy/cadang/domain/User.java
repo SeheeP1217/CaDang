@@ -1,21 +1,25 @@
 package com.ssafy.cadang.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
+@Getter
 @Table(name = "user")
 public class User {
 
     @JsonIgnore
     @Id
-    @Column(name = "user_id")
+//    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String userName;
+
+    private String memberId;
 
     private String password;
 
