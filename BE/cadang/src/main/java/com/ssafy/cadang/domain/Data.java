@@ -3,6 +3,7 @@ package com.ssafy.cadang.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public class Data {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+    @CreatedDate
     private LocalDate regDate;
     private int caffeGoal;
     private int sugarGoal;
@@ -39,7 +41,7 @@ public class Data {
         this.sugarDaily = 0;
         this.caffeSuccess = caffeGoal - caffeDaily >= 0;
         this.sugarSuccess = sugarGoal - sugarDaily >= 0;
-        this.regDate = LocalDate.now();
+//        this.regDate = LocalDate.now();
     }
 
 
