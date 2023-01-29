@@ -19,11 +19,11 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "drink_id")
     private Drink drink;
 
@@ -54,7 +54,7 @@ public class Order {
 
     //----   기록
 
-    @ManyToOne(optional = true)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "store_id")
     private Store store;
 
@@ -62,5 +62,11 @@ public class Order {
     private OrderStatus orderStatus;
 
     // ------- 주문
+
+    // store와 양방향 연관관계 편의 메소드 있어야 할까?
+//    public void setStore(Store store){
+//        this.store = store;
+//        store.getOrders().add(this);
+//    }
 
 }
