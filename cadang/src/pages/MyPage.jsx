@@ -6,6 +6,9 @@ import Stack from "@mui/material/Stack";
 import ContentPasteSearchIcon from "@mui/icons-material/ContentPasteSearch";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import Typography from "@mui/joy/Typography";
+import Avatar from "@mui/joy/Avatar";
+import Grid from "@mui/material/Grid";
 
 // 검색바 import
 import TextField from "@mui/material/TextField";
@@ -13,55 +16,77 @@ import Autocomplete from "@mui/material/Autocomplete";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
 
+// 기록 리스트
+import List from "@mui/joy/List";
+import Paper from "@mui/material/Paper";
+
 import TodayChart from "../components/TodayChart";
+import ReviewListItem from "../components/ReviewListItem";
+import { blueGrey } from "@mui/material/colors";
 
 function MyPage() {
   return (
-    <Box>
-      <TodayChart />
-
-      <Box sx={{ width: "85%" }} margin="auto">
-        <br />
-        <Stack spacing={1}>
-          <Button
-            variant="filledTonal"
-            startIcon={<ContentPasteSearchIcon />}
-            endIcon={<ArrowForwardIosIcon />}
-            >
-            주문 내역
-          </Button>
-          <Button
-            variant="filledTonal"
-            startIcon={<AssessmentIcon />}
-            endIcon={<ArrowForwardIosIcon />}
-            >
-            내 리포트 보러가기
-          </Button>
-        </Stack>
+    <Box width="85%" margin="auto">
+      <Typography
+        level="h3"
+        fontSize="xl2"
+        fontWeight="xl"
+        id="ios-example-demo"
+        mt={1}
+      >
+        Settings
+      </Typography>
+      <Grid container>
+        <Grid item xs={2} margin='auto'>
+          <Avatar src="/static/images/avatar/1.jpg" />
+        </Grid>
+        <Grid item xs={10}>
+          <TodayChart />
+        </Grid>
+      </Grid>
+      <Stack spacing={1}>
+        <Button
+          variant="filledTonal"
+          startIcon={<ContentPasteSearchIcon />}
+          endIcon={<ArrowForwardIosIcon />}
+          size="small"
+        >
+          주문 내역
+        </Button>
+        <Button
+          variant="filledTonal"
+          startIcon={<AssessmentIcon />}
+          endIcon={<ArrowForwardIosIcon />}
+          size="small"
+        >
+          내 리포트 보러가기
+        </Button>
+      </Stack>
 
       <Autocomplete
         id="highlights-demo"
         sx={{ width: "100%" }}
         options={top100Films}
         getOptionLabel={(option) => option.title}
+        size="small"
         renderInput={(params) => (
-          <TextField {...params} label="Highlights" margin="normal" />
-          )}
-          renderOption={(props, option, { inputValue }) => {
-            const matches = match(option.title, inputValue, {
-              insideWords: true,
-            });
-            const parts = parse(option.title, matches);
-            
-            return (
-              <li {...props}>
+          <TextField {...params} label="카페명, 메뉴명 검색" margin="normal" />
+        )}
+        renderOption={(props, option, { inputValue }) => {
+          const matches = match(option.title, inputValue, {
+            insideWords: true,
+          });
+          const parts = parse(option.title, matches);
+
+          return (
+            <li {...props}>
               <div>
                 {parts.map((part, index) => (
                   <span
-                  key={index}
-                  style={{
-                    fontWeight: part.highlight ? 700 : 400,
-                  }}
+                    key={index}
+                    style={{
+                      fontWeight: part.highlight ? 700 : 400,
+                    }}
                   >
                     {part.text}
                   </span>
@@ -70,8 +95,23 @@ function MyPage() {
             </li>
           );
         }}
-        />
-        </Box>
+      />
+      <Paper variant="outlined" sx={{backgroundColor: "#fff3e0"}}>
+        <Typography
+          level="body4"
+          fontWeight="xl"
+          sx={{ letterSpacing: "0.15rem" }}
+        >
+          나의 기록
+        </Typography>
+        <List
+          aria-labelledby="ellipsis-list-demo"
+          sx={{ "--List-decorator-size": "56px" }}
+        >
+          <ReviewListItem/>
+          <ReviewListItem />
+        </List>
+      </Paper>
     </Box>
   );
 }

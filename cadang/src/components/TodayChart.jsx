@@ -63,9 +63,7 @@ const TodayChart = () => {
       sx={{
         // width: 400,
         // height: 250,
-        marginTop: 5,
-        marginLeft: 5,
-        marginRight: 5,
+        margin: 1,
         backgroundColor: "#FFFFFF",
         "&:hover": {
           backgroundColor: "primary.main",
