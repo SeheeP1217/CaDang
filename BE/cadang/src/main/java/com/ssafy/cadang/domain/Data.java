@@ -5,8 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -20,7 +19,7 @@ public class Data {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-    private Timestamp regDate;
+    private LocalDate regDate;
     private int caffeGoal;
     private int sugarGoal;
     private int caffeDaily;
@@ -40,8 +39,8 @@ public class Data {
         this.sugarDaily = 0;
         this.caffeSuccess = caffeGoal - caffeDaily >= 0;
         this.sugarSuccess = sugarGoal - sugarDaily >= 0;
-        this.regDate = Timestamp.valueOf(LocalDateTime.now());
-
-
+        this.regDate = LocalDate.now();
     }
+
+
 }
