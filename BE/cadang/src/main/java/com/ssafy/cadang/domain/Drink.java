@@ -32,7 +32,7 @@ public class Drink {
     private int price;
 
     private int shot;
-    private boolean whip;
+    private Boolean whip;
 
 
 }

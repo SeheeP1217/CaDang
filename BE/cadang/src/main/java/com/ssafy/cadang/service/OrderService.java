@@ -4,7 +4,8 @@ import com.ssafy.cadang.domain.Drink;
 import com.ssafy.cadang.domain.Order;
 import com.ssafy.cadang.domain.Store;
 import com.ssafy.cadang.domain.User;
-import com.ssafy.cadang.dto.OrderDto;
+import com.ssafy.cadang.dto.order.CustomerOrderDto;
+import com.ssafy.cadang.dto.order.OrderDto;
 import com.ssafy.cadang.repository.DrinkRepository;
 import com.ssafy.cadang.repository.OrderRepository;
 import com.ssafy.cadang.repository.StoreRepository;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -67,6 +67,11 @@ public class OrderService {
         Long orderId = orderRepository.save(order).getId();
 
         return orderId;
+    }
+
+    public CustomerOrderDto getCustomerOrderById(Long userId) {
+
+        return null;
     }
 
 }
