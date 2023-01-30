@@ -10,6 +10,12 @@ import Box from "@mui/material/Box";
 import sugar from "../assets/sugar.png";
 import caffeine from "../assets/caffeine.png";
 
+// 정보 박스
+import List from '@mui/joy/List';
+import ListItem from '@mui/joy/ListItem';
+import ListItemDecorator from '@mui/joy/ListItemDecorator';
+import Divider from '@mui/material/Divider';
+
 import WeeklyReportChart from "./WeeklyReportChart";
 
 function TabPanel(props) {
@@ -86,6 +92,27 @@ function WeeklyReportData() {
         <WeeklyReportChart/>
         </TabPanel>
       {/* </SwipeableViews> */}
+
+      <Box width='85%' margin='auto'>
+      <Paper
+        id="decorated-list-demo"
+        level="body3"
+        textTransform="uppercase"
+        fontWeight="lg"
+        mb={1}
+        elevation={2}
+      >
+        <Typography textAlign='left'>
+        Ingredients | 
+      <ListItemDecorator>☕</ListItemDecorator> 250mg
+      <ListItemDecorator>🧂</ListItemDecorator> 54g
+        </Typography>
+      </Paper>
+        <Paper variant="outlined" color='info'>
+          지난주 대비 어쩌구 저쩌궁 이러쿵 저러쿵쿵쿵
+        </Paper>
+    </Box>
+
     </Paper>
   );
 }

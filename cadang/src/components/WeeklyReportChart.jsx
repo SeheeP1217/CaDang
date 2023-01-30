@@ -43,10 +43,8 @@ const data = [
 
 function WeeklyReportChart() {
   return (
-    <box width={700} height="80%">
+      <ResponsiveContainer width="100%" height={300}>
       <BarChart
-        width={500}
-        height={300}
         data={data}
         margin={{
           top: 5,
@@ -61,7 +59,7 @@ function WeeklyReportChart() {
         <Tooltip />
         <Bar dataKey="caffeine" fill="#8884d8" />
       </BarChart>
-    </box>
+    </ResponsiveContainer>
   );
 }
 
