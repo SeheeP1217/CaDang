@@ -52,28 +52,11 @@ class DataTest {
 //        }
 //    }
 
-    /**
-     * 월요일~해당 날짜까지 data
-     */
-    @Test
-    public void selectByWeekDate() {
-        LocalDate date = LocalDate.of(2023, 1, 31);
-        int dayOfWeek = date.getDayOfWeek().getValue();
-
-
-        PageRequest pageRequest = PageRequest.of(0, dayOfWeek); // 일주일치 데이터 반환
-
-        Page<Data> thisWeekDatas = dataRepository.findWeekDataByUserAndDate(date, 1L, pageRequest);
-
-        for (Data data : thisWeekDatas) {
-            System.out.println(data.getRegDate());
-        }
-    }
 
     @Test
     public void weekDataService() {
         WeekDataDto dataByWeek = dataService.getDataByWeek(LocalDate.of(2023, 1, 12), 1L);
-        assertThat(dataByWeek.getThisWeekGraphList().size()).isEqualTo(7);
+        assertThat(dataByWeek.getThisWeekGraphDto().getWeekDataList().size()).isEqualTo(7);
         assertThat(dataByWeek.getThisWeekCaffe()).isEqualTo(42);
     }
 
