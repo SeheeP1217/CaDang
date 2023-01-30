@@ -41,7 +41,7 @@ public class User {
 
     private String refreshToken;
 
-    private String authority;
+    private String authorityName;
 
 
 

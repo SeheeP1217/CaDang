@@ -40,7 +40,7 @@ public class UserService {
                         .memberId(userDto.getMemberId())
                         .password(passwordEncoder.encode(userDto.getPassword()))
                         .nickname(userDto.getNickname())
-                        .authority("ROLE_USER")
+                        .authorityName("ROLE_USER")
                         .build();
         userRepository.save(user);
 
