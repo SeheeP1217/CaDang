@@ -23,7 +23,7 @@ public class DataController {
 
     @GetMapping("/day")
     public DayDataDto dayDataByUserIdAndDate(@RequestParam Long userId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        return dataService.selectOneByDate(date, userId);
+        return dataService.getOneByDate(date, userId);
     }
 
     @GetMapping("/week")

@@ -5,6 +5,7 @@ import com.ssafy.cadang.domain.User;
 import com.ssafy.cadang.dto.data.DayDataDto;
 import com.ssafy.cadang.dto.data.DayGraphDto;
 import com.ssafy.cadang.dto.data.WeekDataDto;
+import com.ssafy.cadang.dto.data.WeekGraphDto;
 import com.ssafy.cadang.repository.DataRepository;
 import com.ssafy.cadang.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -104,20 +105,13 @@ public class DataService {
 
         // 지난주 데이터 합
         Page<Data> lastWeekData = dataRepository.findWeekDataByUserAndDate(endDate.minusWeeks(1), userId, pageRequest);
-        int lastCaffeSum = lastWeekData.getContent().stream()
-                .mapToInt(Data::getCaffeDaily)
-                .sum();
-        int lasSugarSum = lastWeekData.getContent().stream()
-                .mapToInt(Data::getSugarDaily)
-                .sum();
+        int lastCaffeSum = getCaffeSum(lastWeekData);
+
+        int lasSugarSum = getSugarSum(lastWeekData);
 
         // 이번주 데이터 합
-        int thisCaffeSum = thisWeekDatas.getContent().stream()
-                .mapToInt(Data::getCaffeDaily)
-                .sum();
-        int thisSugarSum = thisWeekDatas.getContent().stream()
-                .mapToInt(Data::getSugarDaily)
-                .sum();
+        int thisCaffeSum = getCaffeSum(thisWeekDatas);
+        int thisSugarSum = getSugarSum(thisWeekDatas);
 
         return WeekDataDto.builder()
                 .thisWeekGraphList(thisWeekGraph)
@@ -137,10 +131,27 @@ public class DataService {
 
     }
 
-    public DayDataDto selectOneByDate(LocalDate date, Long userId) {
+    public DayDataDto getOneByDate(LocalDate date, Long userId) {
 
         Optional<Data> data = dataRepository.findByUserAndDate(date, userId);
         return new DayDataDto(data.orElse(null));
+    }
+
+
+//    public WeekGraphDto getWeekGraphDto(LocalDate date, Long userId) {
+//
+//    }
+
+    private int getCaffeSum(Page<Data> datas) {
+        return datas.getContent().stream()
+                .mapToInt(Data::getCaffeDaily)
+                .sum();
+    }
+
+    private int getSugarSum(Page<Data> datas) {
+        return datas.getContent().stream()
+                .mapToInt(Data::getSugarDaily)
+                .sum();
     }
 
 }
