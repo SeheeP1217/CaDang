@@ -2,6 +2,7 @@ package com.ssafy.cadang.controller;
 
 
 import com.ssafy.cadang.dto.OrderDto;
+import com.ssafy.cadang.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class OrderController {
 
-    @PostMapping
-    @Operation(summary = "주문 등록", description = "신규 주문을 등록합니다.")
-    public ResponseEntity<String> orderRegister(@RequestBody OrderDto orderDto){
+    private final OrderService orderService;
 
-        // OrderDto to Entity  -> how?(builder?) where?(Service or Controller)
+    @PostMapping    
+    @Operation(summary = "주문 등록", description = "신규 주문을 등록합니다.")
+    public ResponseEntity<String> saveOrder(@RequestBody OrderDto orderDto){
+
+
+        Long orderId = orderService.saveOrder(orderDto);
+        // OrderDto to Entity  -> how?(builder? modelmapper?)  where?(Service or Controller)
         // Save Entity -> use built-in method of JpaRepository
         // return OrderId or ErrorMessage?
         // git
