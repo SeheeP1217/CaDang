@@ -1,5 +1,6 @@
 package com.ssafy.cadang.domain;
 
+import com.ssafy.cadang.dto.data.MonthDataDto;
 import com.ssafy.cadang.dto.data.WeekDataDto;
 import com.ssafy.cadang.repository.DataRepository;
 import com.ssafy.cadang.service.DataService;
@@ -47,8 +48,8 @@ class DataTest {
 
 //    @Test
 //    public void dateDummyCreate() {
-//        for (int i = 1; i <= 30; i++) {
-//            dataService.createDataByRegDate(1L, LocalDate.of(2023, 1, i));
+//        for (int i = 10; i <= 20; i++) {
+//            dataService.createDataByRegDate(2L, LocalDate.of(2022, 12, i));
 //        }
 //    }
 
@@ -65,6 +66,17 @@ class DataTest {
         LocalDate date = LocalDate.of(2023, 1, 3);
         Optional<Data> data = dataRepository.findByUserAndDate(date, 1L);
         assertThat(data.orElse(null).getRegDate()).isEqualTo(date);
+    }
+
+    @Test
+    public void monthData() {
+        MonthDataDto monthData = dataService.getMonthData(LocalDate.parse("2023-01-12"), 2L);
+    }
+
+    @Test
+    public void existsTest() {
+        boolean b = dataRepository.existsByRegDateGreaterThan(LocalDate.parse("2023-01-30"), 2L);
+        assertThat(b).isTrue();
     }
 
 }

@@ -2,10 +2,7 @@ package com.ssafy.cadang.service;
 
 import com.ssafy.cadang.domain.Data;
 import com.ssafy.cadang.domain.User;
-import com.ssafy.cadang.dto.data.DayDataDto;
-import com.ssafy.cadang.dto.data.DayGraphDto;
-import com.ssafy.cadang.dto.data.WeekDataDto;
-import com.ssafy.cadang.dto.data.WeekGraphDto;
+import com.ssafy.cadang.dto.data.*;
 import com.ssafy.cadang.repository.DataRepository;
 import com.ssafy.cadang.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,24 +35,23 @@ public class DataService {
         return null; // 에러 처리 하기
     }
 
-//    @Transactional
-//    public Long createDataByRegDate(Long userId, LocalDate date) {
-//        Optional<User> userOptional = userRepository.findById(userId);
-//        User user = userOptional.orElse(null);
-//        if (user != null) {
-//            Data saveData = dataRepository.save(new Data(user, date));
-//            saveData.setCaffeDaily(date.getDayOfMonth());
-//            return saveData.getId();
-//        }
-//        return null; // 에러 처리 하기
-//    }
+    @Transactional
+    public Long createDataByRegDate(Long userId, LocalDate date) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        User user = userOptional.orElse(null);
+        if (user != null) {
+            Data saveData = dataRepository.save(new Data(user, date));
+            saveData.setCaffeDaily(date.getDayOfMonth());
+            return saveData.getId();
+        }
+        return null; // 에러 처리 하기
+    }
 
     public WeekDataDto getDataByWeek(LocalDate date, Long userId) {
 
         WeekGraphDto weekGraphDto = getWeekGraphDto(date, userId);
         int dayOfWeek = date.getDayOfWeek().getValue();
         LocalDate startDate = date.minusDays(dayOfWeek - 1); // 월요일
-        LocalDate endDate = date.plusDays(7 - dayOfWeek); // 일요일
         List<Data> thisWeekList = dataRepository.findWeekDataByUserAndStartDate(startDate, date, userId);
 
         // 오늘의 데이터
@@ -121,19 +117,22 @@ public class DataService {
                         .date(d.getRegDate())
                         .caffeine(d.getCaffeDaily())
                         .sugar(d.getSugarDaily())
-                        .build())
-                .collect(Collectors.toList());
+                        .build()).sorted(Comparator.comparing(DayGraphDto::getDate)).collect(Collectors.toList());
+
+
+        boolean hasNext = dataRepository.existsByRegDateGreaterThan(endDate, userId);
+        boolean hasPrevious = dataRepository.existsByRegDateLessThan(startDate, userId);
 
         // 실제 반환 데이터의 시작 요일
-
-        LocalDate firstData = content.get(0).getRegDate();
+        LocalDate firstData = dayGraphDtos.get(0).getDate();
         int firstDay = firstData.getDayOfWeek().getValue();
-        // 실제 반환 데이터의 끝 요일
-        LocalDate lastData = content.get(content.size() - 1).getRegDate();
-        int lastDay = lastData.getDayOfWeek().getValue();
 
+        // 실제 반환 데이터의 끝 요일
+        LocalDate lastData = dayGraphDtos.get(dayGraphDtos.size() - 1).getDate();
+        int lastDay = lastData.getDayOfWeek().getValue();
         // 시작 요일 이전의 데이터가 없을 경우
         for (int d = 1; d < firstDay; d++) {
+            System.out.println("이전 추가" + startDate.plusDays(d - 1));
             dayGraphDtos.add(DayGraphDto.builder()
                     .date(startDate.plusDays(d - 1))
                     .caffeine(0)
@@ -142,6 +141,7 @@ public class DataService {
         }
         // 현재 요일 이후의 데이터가 없을 경우
         for (int d = lastDay + 1; d <= 7; d++) {
+            System.out.println("이후 추가");
             dayGraphDtos.add(DayGraphDto.builder()
                     .date(startDate.plusDays(d - 1))
                     .caffeine(0)
@@ -152,21 +152,38 @@ public class DataService {
         // 날짜 순 정렬
         dayGraphDtos.sort(Comparator.comparing(DayGraphDto::getDate));
 
-
         return WeekGraphDto.builder()
                 .weekDataList(dayGraphDtos)
-                .hasNext(hasNext(endDate, lastData))
-                .hasPrevious(hasPrevious(startDate, firstData))
+                .hasNext(hasNext)
+                .hasPrevious(hasPrevious)
                 .build();
     }
 
-    private boolean hasNext(LocalDate endDate, LocalDate lastData) {
-        return endDate.isEqual(lastData);
+    public MonthDataDto getMonthData(LocalDate date, Long userId) {
+        List<Data> monthData = dataRepository.findMonthData(date, userId);
+        monthData.sort(Comparator.comparing(Data::getRegDate));
+        LocalDate startDate = monthData.get(0).getRegDate();
+        LocalDate endDate = monthData.get(monthData.size() - 1).getRegDate();
+        boolean hasNext = dataRepository.existsByRegDateGreaterThan(endDate, userId);
+        boolean hasPrevious = dataRepository.existsByRegDateLessThan(startDate, userId);
+
+        List<DayDataDtoByMonth> daydatas = monthData.stream()
+                .map(m -> DayDataDtoByMonth.builder()
+                        .date(m.getRegDate())
+                        .caffeDaily(m.getCaffeDaily())
+                        .sugarDaily(m.getSugarDaily())
+                        .caffeSuccess(m.isCaffeSuccess())
+                        .sugarSuccess(m.isSugarSuccess())
+                        .build()
+                ).collect(Collectors.toList());
+        return MonthDataDto.builder()
+                .monthDataList(daydatas)
+                .hasPrevious(hasPrevious)
+                .hasNext(hasNext)
+                .build();
+
     }
 
-    private boolean hasPrevious(LocalDate startDate, LocalDate firstData) {
-        return startDate.isEqual(firstData);
-    }
 
     private int getCaffeSum(List<Data> datas) {
         return datas.stream()
