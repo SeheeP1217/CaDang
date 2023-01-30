@@ -1,10 +1,13 @@
 package com.ssafy.cadang.service;
 
 
+
 import com.ssafy.cadang.domain.User;
 
+import com.ssafy.cadang.dto.UserDto;
 import com.ssafy.cadang.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,16 +15,33 @@ import java.util.List;
 
 
 @Service
-@Transactional(readOnly = true)
-@RequiredArgsConstructor
+@Transactional(readOnly = false)
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder){
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     //회원가입
-    public void join(User user){
+    public void join(UserDto userDto){
 
+        userRepository.existsByMemberId(userDto.getMemberId());
+        userRepository.existsByEmail(userDto.getEmail());
+        userRepository.existsByNickname(userDto.getNickname());
 
+        //TODO: activated 필드를 만들어야 되나?
+
+        User user = User.builder()
+                        .userName(userDto.getUsername())
+                        .memberId(userDto.getMemberId())
+                        .password(passwordEncoder.encode(userDto.getPassword()))
+                        .nickname(userDto.getNickname())
+                        .authority("ROLE_USER")
+                        .build();
         userRepository.save(user);
 
     }
