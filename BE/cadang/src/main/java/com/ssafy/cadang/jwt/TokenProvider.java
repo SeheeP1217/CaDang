@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 //토큰의 생성, 토큰의 유효성 검증 등을 담당한다.
-@Component
+//@Component
 public class TokenProvider implements InitializingBean {
 
     private final Logger logger = LoggerFactory.getLogger(TokenProvider.class);

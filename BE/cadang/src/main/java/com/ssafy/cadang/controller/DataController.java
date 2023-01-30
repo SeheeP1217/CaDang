@@ -1,6 +1,7 @@
 package com.ssafy.cadang.controller;
 
 import com.ssafy.cadang.dto.data.DayDataDto;
+import com.ssafy.cadang.dto.data.MonthDataDto;
 import com.ssafy.cadang.dto.data.WeekDataDto;
 import com.ssafy.cadang.dto.data.WeekGraphDto;
 import com.ssafy.cadang.service.DataService;
@@ -35,6 +36,11 @@ public class DataController {
     @GetMapping("/week/graph")
     public WeekGraphDto weekGraph(@RequestParam Long userId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         return dataService.getWeekGraphDto(date, userId);
+    }
+
+    @GetMapping("/month")
+    public MonthDataDto dataraph(@RequestParam Long userId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        return dataService.getMonthData(date, userId);
     }
 
 }

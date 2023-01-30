@@ -14,12 +14,18 @@ import java.util.Optional;
 
 public interface DataRepository extends JpaRepository<Data, Long> {
 
-    @EntityGraph(attributePaths = "user")
     @Query("select d from Data d  where d.user.id = :userId and d.regDate >=:startdate and d.regDate<=:enddate order by d.regDate desc")
     List<Data> findWeekDataByUserAndStartDate(@Param("startdate") LocalDate startdate, @Param("enddate") LocalDate enddate, @Param("userId") Long userId);
 
-    @EntityGraph(attributePaths = "user")
     @Query("select d from Data d  where d.user.id = :userId and d.regDate = :date")
     Optional<Data> findByUserAndDate(@Param("date") LocalDate date, @Param("userId") Long userId);
 
+    @Query("select d from Data d where d.user.id = :userId and month(d.regDate) = month(:date)")
+    List<Data> findMonthData(@Param("date") LocalDate date, @Param("userId") Long userId);
+
+    @Query("select CASE WHEN COUNT(d.id) > 0 THEN true ELSE false END FROM Data d where d.user.id = :userId and d.regDate > :date")
+    boolean existsByRegDateGreaterThan(@Param("date") LocalDate date, @Param("userId") Long userId);
+
+    @Query("select CASE WHEN COUNT(d.id) > 0 THEN true ELSE false END FROM Data d where d.user.id = :userId and d.regDate < :date")
+    boolean existsByRegDateLessThan(@Param("date") LocalDate date, @Param("userId") Long userId);
 }
