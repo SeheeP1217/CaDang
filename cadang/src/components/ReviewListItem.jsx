@@ -13,24 +13,21 @@ import DeleteIcon from "@mui/icons-material/Delete";
 const Img = styled("img")({
   margin: "auto",
   display: "block",
-  maxWidth: "75%",
-  maxHeight: "75%",
+  width: "75%",
 });
 
 function ReviewListItem() {
   return (
     <Paper elevation={3} sx={{ backgroundColor: "#fafafa" }}>
       <Grid container spacing={2}>
-        <Grid item>
-          <ButtonBase sx={{ width: 128, height: 128 }}>
+        <Grid item xs={2} margin='auto'>
             <Img
               alt="complex"
               src={drink}
-              sx={{ backgroundColor: "#fafafa" }}
+              sx={{width: '90%', backgroundColor: "#fafafa" }}
             />
-          </ButtonBase>
         </Grid>
-        <Grid item xs={12} sm container>
+        <Grid item xs={10} sm container margin='auto'>
           <Grid item xs container direction="column" spacing={2}>
             <Grid item xs>
               <Typography gutterBottom variant="subtitle1" component="div">

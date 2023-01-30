@@ -7,6 +7,7 @@ import BottomNav from "./components/util/BottomNav";
 import MyPage from "./pages/MyPage";
 import MainPage from "./pages/MainPage";
 import MonthReportPage from "./pages/MonthReportPage";
+import WeeklyReportPage from "./pages/WeeklyReportPage";
 
 function App() {
   // const [{ user }, dispatch] = useStateValue();
@@ -20,6 +21,7 @@ function App() {
         <Route exact path="/main" component={MainPage}/>
         <Route exact path="/mypage" component={MyPage} />
         <Route exact path="/month_report" component={MonthReportPage}/>
+        <Route exact path="/weekly-report" component={WeeklyReportPage}/>
       </Switch>
       <BottomNav/>
     </div>

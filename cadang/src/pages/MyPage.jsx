@@ -22,7 +22,7 @@ import Paper from "@mui/material/Paper";
 
 import TodayChart from "../components/TodayChart";
 import ReviewListItem from "../components/ReviewListItem";
-import { blueGrey } from "@mui/material/colors";
+
 
 function MyPage() {
   return (
@@ -32,13 +32,14 @@ function MyPage() {
         fontSize="xl2"
         fontWeight="xl"
         id="ios-example-demo"
-        mt={1}
+        mt={2}
       >
         Settings
       </Typography>
       <Grid container>
         <Grid item xs={2} margin='auto'>
           <Avatar src="/static/images/avatar/1.jpg" />
+          <Typography>김싸퓌</Typography>
         </Grid>
         <Grid item xs={10}>
           <TodayChart />
@@ -49,7 +50,6 @@ function MyPage() {
           variant="filledTonal"
           startIcon={<ContentPasteSearchIcon />}
           endIcon={<ArrowForwardIosIcon />}
-          size="small"
         >
           주문 내역
         </Button>
@@ -57,7 +57,6 @@ function MyPage() {
           variant="filledTonal"
           startIcon={<AssessmentIcon />}
           endIcon={<ArrowForwardIosIcon />}
-          size="small"
         >
           내 리포트 보러가기
         </Button>
@@ -108,7 +107,8 @@ function MyPage() {
           aria-labelledby="ellipsis-list-demo"
           sx={{ "--List-decorator-size": "56px" }}
         >
-          <ReviewListItem/>
+          <ReviewListItem />
+          <ReviewListItem />
           <ReviewListItem />
         </List>
       </Paper>
