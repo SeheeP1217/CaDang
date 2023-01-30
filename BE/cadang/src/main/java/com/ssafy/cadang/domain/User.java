@@ -39,9 +39,7 @@ public class User {
 
     private String refreshToken;
 
-    @ManyToOne
-    @JoinColumn(name = "auth_id")
-    private Authority authority;
+
 
 
 }
