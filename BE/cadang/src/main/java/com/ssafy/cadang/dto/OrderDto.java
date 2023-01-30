@@ -34,6 +34,8 @@ public class OrderDto {
     private Integer hazelnut;
     private Integer caramel;
     private boolean isPaid;
+    private String photo;
+    private String storeName;
 
     // ---------- 기록 주문 공통
 

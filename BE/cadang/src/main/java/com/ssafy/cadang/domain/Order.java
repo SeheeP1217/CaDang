@@ -44,12 +44,12 @@ public class Order {
     private Integer hazelnut;
     private Integer caramel;
     private boolean isPaid;
-
-    // ---------- 기록 주문 공통
-    private boolean isPublic;
-    private String memo;
     private String photo;
 
+    // ---------- 기록 주문 공통
+
+    private boolean isPublic;
+    private String memo;
     private String storeName;
 
     //----   기록
