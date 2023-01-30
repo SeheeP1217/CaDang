@@ -12,8 +12,6 @@ import java.time.LocalDateTime;
 @Getter @Setter
 public class OrderDto {
 
-    //git
-    private Long id;
     private Long userId;
     private Long drinkId;
 
@@ -46,7 +44,7 @@ public class OrderDto {
     // ------- 주문
 
     public OrderDto(Order order){
-        id = order.getId();
+
         userId = order.getUser().getId();
         drinkId = order.getDrink().getId();
         regDate = order.getRegDate();
