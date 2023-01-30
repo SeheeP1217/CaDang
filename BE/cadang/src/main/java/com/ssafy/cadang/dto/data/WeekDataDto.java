@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class WeekDataDto {
 
-    private List<DayGraphDto> thisWeekGraphList;
+    private WeekGraphDto thisWeekGraphDto;
     private int todayCaffe;
     private int todaySugar;
     private int dayCaffeGap;
