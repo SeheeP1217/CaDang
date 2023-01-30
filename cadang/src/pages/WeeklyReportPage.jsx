@@ -51,7 +51,7 @@ function WeeklyReportPage() {
   };
 
   return (
-    <Paper width="85%" margin="auto" sx={{backgroundColor: "#e3f2fd"}}>
+    <Paper width="85%" margin="auto" sx={{backgroundColor: "#EFF5F5"}}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }} mt={2}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" variant="fullWidth">
           <Tab label="주간리포트" {...a11yProps(0)} />
