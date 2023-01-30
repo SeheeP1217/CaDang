@@ -1,4 +1,4 @@
-package com.ssafy.cadang.dto;
+package com.ssafy.cadang.dto.order;
 
 
 import com.ssafy.cadang.domain.*;
