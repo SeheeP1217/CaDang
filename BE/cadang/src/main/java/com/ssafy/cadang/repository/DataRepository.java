@@ -9,16 +9,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 public interface DataRepository extends JpaRepository<Data, Long> {
 
     @EntityGraph(attributePaths = "user")
-    @Query("select d from Data d  where d.user.id = :userId and d.regDate >=:date")
+    @Query("select d from Data d  where d.user.id = :userId and d.regDate <=:date order by d.regDate desc")
     Page<Data> findWeekDataByUserAndDate(@Param("date") LocalDate date, @Param("userId") Long userId, Pageable pageable);
 
     @EntityGraph(attributePaths = "user")
     @Query("select d from Data d  where d.user.id = :userId and d.regDate = :date")
-    Data findByUserAndDate(@Param("date") LocalDate date, @Param("userId") Long userId);
+    Optional<Data> findByUserAndDate(@Param("date") LocalDate date, @Param("userId") Long userId);
 
 
 }

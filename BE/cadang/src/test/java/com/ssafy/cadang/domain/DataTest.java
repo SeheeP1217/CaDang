@@ -1,5 +1,6 @@
 package com.ssafy.cadang.domain;
 
+import com.ssafy.cadang.dto.data.WeekDataDto;
 import com.ssafy.cadang.repository.DataRepository;
 import com.ssafy.cadang.service.DataService;
 import org.junit.jupiter.api.Test;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -49,21 +51,34 @@ class DataTest {
 //        }
 //    }
 
+    /**
+     * 월요일~해당 날짜까지 data
+     */
     @Test
     public void selectByWeekDate() {
-        PageRequest pageRequest = PageRequest.of(0, 7);
-        Page<Data> byUserAndDate = dataRepository.findWeekDataByUserAndDate(LocalDate.of(2023, 1, 28), 1L, pageRequest);
-        for (Data data : byUserAndDate) {
+        LocalDate date = LocalDate.of(2022, 12, 31);
+        int dayOfWeek = date.getDayOfWeek().getValue();
+
+
+        PageRequest pageRequest = PageRequest.of(0, dayOfWeek); // 일주일치 데이터 반환
+
+        Page<Data> thisWeekDatas = dataRepository.findWeekDataByUserAndDate(date, 1L, pageRequest);
+
+        for (Data data : thisWeekDatas) {
             System.out.println(data.getRegDate());
         }
+    }
 
+    @Test
+    public void weekDataService() {
+        dataService.getDataByWeek(LocalDate.of(2023, 1, 2), 1L);
     }
 
     @Test
     public void selectOneByDate() {
-        LocalDate date = LocalDate.of(2023, 1, 28);
-        Data data = dataRepository.findByUserAndDate(date, 1L);
-        assertThat(data.getRegDate()).isEqualTo(date);
+        LocalDate date = LocalDate.of(2023, 1, 2);
+        Optional<Data> data = dataRepository.findByUserAndDate(date, 1L);
+        assertThat(data.orElse(null).getRegDate()).isEqualTo(date);
     }
 
 }
