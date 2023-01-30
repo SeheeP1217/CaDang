@@ -1,6 +1,7 @@
 // import * as React from "react";
 import React, { useState } from "react";
 import MapContainer from "../components/MapContainer";
+import CategorySearch from "../components/CategorySearch";
 
 // const { kakao } = window;
 
@@ -29,7 +30,16 @@ export default function SearchCafePage() {
         />
         <button type="submit">검색</button>
       </form> */}
-      <MapContainer searchPlace={place} />
+      {/* <Map
+      center={{ lat: 33.5563, lng: 126.79581 }}
+      style={{ width: "100%", height: "360px" }}
+    >
+      <MapMarker position={{ lat: 33.55635, lng: 126.795841 }}>
+        <div style={{color:"#000"}}>Hello World!</div>
+      </MapMarker>
+    </Map> */}
+      {/* <MapContainer searchPlace={place} /> */}
+      <CategorySearch/>
     </>
   );
 };
