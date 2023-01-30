@@ -1,6 +1,7 @@
 package com.ssafy.cadang.controller;
 
 import com.ssafy.cadang.dto.data.DayDataDto;
+import com.ssafy.cadang.dto.data.WeekDataDto;
 import com.ssafy.cadang.service.DataService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,11 @@ public class DataController {
     @GetMapping("/day")
     public DayDataDto dayDataByUserIdAndDate(@RequestParam Long userId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         return dataService.selectOneByDate(date, userId);
+    }
+
+    @GetMapping("/week")
+    public WeekDataDto weekDataByUserIdAndDate(@RequestParam Long userId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        return dataService.getDataByWeek(date, userId);
     }
 
 

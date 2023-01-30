@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -56,7 +57,7 @@ class DataTest {
      */
     @Test
     public void selectByWeekDate() {
-        LocalDate date = LocalDate.of(2022, 12, 31);
+        LocalDate date = LocalDate.of(2023, 1, 31);
         int dayOfWeek = date.getDayOfWeek().getValue();
 
 
@@ -71,12 +72,14 @@ class DataTest {
 
     @Test
     public void weekDataService() {
-        dataService.getDataByWeek(LocalDate.of(2023, 1, 2), 1L);
+        WeekDataDto dataByWeek = dataService.getDataByWeek(LocalDate.of(2023, 1, 12), 1L);
+        assertThat(dataByWeek.getThisWeekGraphList().size()).isEqualTo(7);
+        assertThat(dataByWeek.getThisWeekCaffe()).isEqualTo(42);
     }
 
     @Test
     public void selectOneByDate() {
-        LocalDate date = LocalDate.of(2023, 1, 2);
+        LocalDate date = LocalDate.of(2023, 1, 3);
         Optional<Data> data = dataRepository.findByUserAndDate(date, 1L);
         assertThat(data.orElse(null).getRegDate()).isEqualTo(date);
     }
