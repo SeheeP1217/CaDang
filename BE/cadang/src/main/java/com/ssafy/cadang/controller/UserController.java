@@ -17,26 +17,14 @@ import javax.validation.Valid;
 public class UserController {
     private final UserService userService;
 
-//    public UserController(UserService userService) {
-//        this.userService = userService;
-//    }
 
-
+    //회원가입
     @PostMapping("/user/join")
-    public void join(@Valid UserDto userDto){
+    public void join(@Valid @RequestBody UserDto userDto){
 
-        User user = new User();
-        user.setUserName(userDto.getUsername());
-        user.setMemberId(userDto.getMemberId());
-        user.setPassword(userDto.getPassword());
-        user.setNickname(userDto.getNickname());
-        user.setImg(userDto.getImg());
 
-        userService.validateDuplicateUserId(user);
-        userService.validateDuplicateEmail(user);
-        userService.validateDuplicateNickname(user);
-
-        userService.join(user);
+        // 유효성 검증은 서비스에서 한다.
+        userService.join(userDto);
 
     }
 
