@@ -19,7 +19,7 @@ import {
   ThemeProvider,
   // CreateMUIStyled,
 } from "@mui/material/styles"
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import "./LoginPage.css"
 
 // mui의 css 우선순위가 높기때문에 important를 설정 - 실무하다 보면 종종 발생 우선순위 문제
@@ -155,15 +155,18 @@ const LoginPage = () => {
                 </Grid>
                 <FormHelperTexts>{passwordState}</FormHelperTexts>
               </Grid>
+
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
                 size="large"
+                className="button"
               >
                 LOGIN
               </Button>
+              
               <h4>아이디 찾기 | 비밀번호 찾기 | 회원가입 추가예정</h4>
             </FormControl>
             <FormHelperTexts>{loginError}</FormHelperTexts>
