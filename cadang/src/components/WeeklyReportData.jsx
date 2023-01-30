@@ -4,17 +4,17 @@ import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 // import { useTheme } from '@mui/material/styles';
-import { Paper } from "@mui/material";
+import { Paper, Card, CardHeader } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import sugar from "../assets/sugar.png";
 import caffeine from "../assets/caffeine.png";
 
 // 정보 박스
-import List from '@mui/joy/List';
-import ListItem from '@mui/joy/ListItem';
-import ListItemDecorator from '@mui/joy/ListItemDecorator';
-import Divider from '@mui/material/Divider';
+import List from "@mui/joy/List";
+import ListItem from "@mui/joy/ListItem";
+import ListItemDecorator from "@mui/joy/ListItemDecorator";
+import Divider from "@mui/material/Divider";
 
 import WeeklyReportChart from "./WeeklyReportChart";
 
@@ -66,6 +66,7 @@ function WeeklyReportData() {
         aria-label="full width tabs example"
         variant="fullWidth"
       >
+        {/* 이미지 크기 제한 어케 하징......... */}
         <Tab
           icon={<img width="15%" src={caffeine} alt="sugar" />}
           iconPosition="start"
@@ -85,34 +86,42 @@ function WeeklyReportData() {
         index={value}
         onChangeIndex={handleChange}
       > */}
-        <TabPanel value={value} index={0} >
-          <WeeklyReportChart/>
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-        <WeeklyReportChart/>
-        </TabPanel>
+      <TabPanel value={value} index={0}>
+        <WeeklyReportChart />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <WeeklyReportChart />
+      </TabPanel>
       {/* </SwipeableViews> */}
 
-      <Box width='85%' margin='auto'>
-      <Paper
-        id="decorated-list-demo"
-        level="body3"
-        textTransform="uppercase"
-        fontWeight="lg"
-        mb={1}
-        elevation={2}
-      >
-        <Typography textAlign='left'>
-        Ingredients | 
-      <ListItemDecorator>☕</ListItemDecorator> 250mg
-      <ListItemDecorator>🧂</ListItemDecorator> 54g
-        </Typography>
-      </Paper>
-        <Paper variant="outlined" color='info'>
-          지난주 대비 어쩌구 저쩌궁 이러쿵 저러쿵쿵쿵
+      <Box width="85%" margin="auto">
+        <Paper elevation={1} style={{ backgroundColor: "#E5E0FF" }}>
+          <Typography variant="h6" gutterBottom>
+            오늘 섭취량 |<ListItemDecorator>☕</ListItemDecorator> 250mg
+            <ListItemDecorator>🧂</ListItemDecorator> 54g
+          </Typography>
         </Paper>
-    </Box>
 
+        <Paper variant="outlined" style={{ backgroundColor: "#FFF2F2" }}>
+          <Typography varient="body1">
+            지난주 대비 어쩌구 저쩌궁 \n 이러쿵 저러쿵쿵쿵
+          </Typography>
+        </Paper>
+        <br />
+        <Paper elevation={1} style={{ backgroundColor: "#E5E0FF" }}>
+          <Typography variant="h6" gutterBottom>
+            이번주 총 섭취량 |<ListItemDecorator>☕</ListItemDecorator> 1625mg
+            <ListItemDecorator>🧂</ListItemDecorator> 420g
+          </Typography>
+        </Paper>
+
+        <Paper variant="outlined" style={{ backgroundColor: "#FFF2F2" }}>
+          <Typography varient="body1">
+            지난주 대비 어쩌구 저쩌궁 \n 이러쿵 저러쿵쿵쿵
+          </Typography>
+        </Paper>
+      </Box>
+      <br />
     </Paper>
   );
 }

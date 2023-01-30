@@ -23,96 +23,101 @@ import Paper from "@mui/material/Paper";
 import TodayChart from "../components/TodayChart";
 import ReviewListItem from "../components/ReviewListItem";
 
-
 function MyPage() {
   return (
-    <Box width="85%" margin="auto">
-      <Typography
-        level="h3"
-        fontSize="xl2"
-        fontWeight="xl"
-        id="ios-example-demo"
-        mt={2}
-      >
-        Settings
-      </Typography>
-      <Grid container>
-        <Grid item xs={2} margin='auto'>
-          <Avatar src="/static/images/avatar/1.jpg" />
-          <Typography>김싸퓌</Typography>
-        </Grid>
-        <Grid item xs={10}>
-          <TodayChart />
-        </Grid>
-      </Grid>
-      <Stack spacing={1}>
-        <Button
-          variant="filledTonal"
-          startIcon={<ContentPasteSearchIcon />}
-          endIcon={<ArrowForwardIosIcon />}
-        >
-          주문 내역
-        </Button>
-        <Button
-          variant="filledTonal"
-          startIcon={<AssessmentIcon />}
-          endIcon={<ArrowForwardIosIcon />}
-        >
-          내 리포트 보러가기
-        </Button>
-      </Stack>
-
-      <Autocomplete
-        id="highlights-demo"
-        sx={{ width: "100%" }}
-        options={top100Films}
-        getOptionLabel={(option) => option.title}
-        size="small"
-        renderInput={(params) => (
-          <TextField {...params} label="카페명, 메뉴명 검색" margin="normal" />
-        )}
-        renderOption={(props, option, { inputValue }) => {
-          const matches = match(option.title, inputValue, {
-            insideWords: true,
-          });
-          const parts = parse(option.title, matches);
-
-          return (
-            <li {...props}>
-              <div>
-                {parts.map((part, index) => (
-                  <span
-                    key={index}
-                    style={{
-                      fontWeight: part.highlight ? 700 : 400,
-                    }}
-                  >
-                    {part.text}
-                  </span>
-                ))}
-              </div>
-            </li>
-          );
-        }}
-      />
-      <Paper variant="outlined" sx={{backgroundColor: "#fff3e0"}}>
+    <Paper sx={{ backgroundColor: "#EFF5F5" }}>
+      <Box width="90%" margin="auto">
         <Typography
-          level="body4"
+          level="h3"
+          fontSize="xl2"
           fontWeight="xl"
-          sx={{ letterSpacing: "0.15rem" }}
+          id="ios-example-demo"
+          mt={2}
         >
-          나의 기록
+          Settings
         </Typography>
-        <List
-          aria-labelledby="ellipsis-list-demo"
-          sx={{ "--List-decorator-size": "56px" }}
-        >
-          <ReviewListItem />
-          <ReviewListItem />
-          <ReviewListItem />
-        </List>
-      </Paper>
-    </Box>
+        <Grid container>
+          <Grid item xs={2} margin="auto">
+            <Avatar src="/static/images/avatar/1.jpg" />
+            <Typography>김싸퓌</Typography>
+          </Grid>
+          <Grid item xs={10}>
+            <TodayChart />
+          </Grid>
+        </Grid>
+        <Stack spacing={1}>
+          <Button
+            variant="filledTonal"
+            startIcon={<ContentPasteSearchIcon />}
+            endIcon={<ArrowForwardIosIcon />}
+          >
+            주문 내역
+          </Button>
+          <Button
+            variant="filledTonal"
+            startIcon={<AssessmentIcon />}
+            endIcon={<ArrowForwardIosIcon />}
+          >
+            내 리포트 보러가기
+          </Button>
+        </Stack>
+
+        <Autocomplete
+          id="highlights-demo"
+          sx={{ width: "100%" }}
+          options={top100Films}
+          getOptionLabel={(option) => option.title}
+          size="small"
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="카페명, 메뉴명 검색"
+              margin="normal"
+            />
+          )}
+          renderOption={(props, option, { inputValue }) => {
+            const matches = match(option.title, inputValue, {
+              insideWords: true,
+            });
+            const parts = parse(option.title, matches);
+
+            return (
+              <li {...props}>
+                <div>
+                  {parts.map((part, index) => (
+                    <span
+                      key={index}
+                      style={{
+                        fontWeight: part.highlight ? 700 : 400,
+                      }}
+                    >
+                      {part.text}
+                    </span>
+                  ))}
+                </div>
+              </li>
+            );
+          }}
+        />
+        <Paper variant="outlined" sx={{ backgroundColor: "#fff3e0" }}>
+          <Typography
+            level="body4"
+            fontWeight="xl"
+            sx={{ letterSpacing: "0.15rem" }}
+          >
+            나의 기록
+          </Typography>
+          <List
+            aria-labelledby="ellipsis-list-demo"
+            sx={{ "--List-decorator-size": "56px" }}
+          >
+            <ReviewListItem />
+            <ReviewListItem />
+            <ReviewListItem />
+          </List>
+        </Paper>
+      </Box>
+    </Paper>
   );
 }
 
