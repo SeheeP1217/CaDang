@@ -23,7 +23,7 @@ public class OrderController {
 
     @PostMapping    
     @Operation(summary = "주문 등록", description = "신규 주문을 등록합니다.")
-    public ResponseEntity<String> saveOrder(@RequestBody OrderDto orderDto){
+    public ResponseEntity<Long> saveOrder(@RequestBody OrderDto orderDto){
 
 
         Long orderId = orderService.saveOrder(orderDto);
@@ -31,6 +31,6 @@ public class OrderController {
         // Save Entity -> use built-in method of JpaRepository
         // return OrderId or ErrorMessage?
         // git
-        return new ResponseEntity<String>("SUCCESS", HttpStatus.ACCEPTED);
+        return new ResponseEntity<Long>(orderId, HttpStatus.ACCEPTED);
     }
 }
