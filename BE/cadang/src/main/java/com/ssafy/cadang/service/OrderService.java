@@ -25,7 +25,6 @@ public class OrderService {
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
     private final DrinkRepository drinkRepository;
-    //git
     public Long saveOrder(OrderDto orderDto) {
 
         Order order = new Order();
