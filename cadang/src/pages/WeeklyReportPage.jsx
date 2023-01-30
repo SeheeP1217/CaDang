@@ -64,34 +64,7 @@ function WeeklyReportPage() {
       <TabPanel value={value} index={1}>
         월간리포트 컴포넌트로 추가
       </TabPanel>
-			<Card sx={{ width: '95%', margin: 1}}>
-        <Typography>
-          오늘 섭취량 400mg/ 50g
-        </Typography>
-			</Card>
-			<Card sx={{ width: '95%', margin: 1}}>
-      <CardContent>
-        <Typography>
-					<p>지난주 수요일보다</p>
-					<p>카페인 섭취량이 120mg 줄었어요</p>
-					<p>당 섭취량이 50g 늘었어요</p>
-        </Typography>
-      </CardContent>
-			</Card>
-			<Card sx={{ width: '95%', margin: 1}}>
-        <Typography>
-          이번주 총 섭취량 2102mg/ 350g
-        </Typography>
-			</Card>
-			<Card sx={{ width: '95%', margin: 1}}>
-      <CardContent>
-        <Typography>
-					<p>지난주 보다</p>
-					<p>카페인 섭취량이 120mg 줄었어요</p>
-					<p>당 섭취량이 50g 늘었어요</p>
-        </Typography>
-      </CardContent>
-			</Card>
+
 			
     </Paper>
   );
