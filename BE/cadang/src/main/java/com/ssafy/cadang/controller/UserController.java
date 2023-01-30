@@ -1,23 +1,45 @@
 package com.ssafy.cadang.controller;
 
-//import com.jayjay.jwttest.dto.UserDto;
-//import com.jayjay.jwttest.entity.User;
-//import com.jayjay.jwttest.service.UserService;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.security.access.prepost.PreAuthorize;
-//import org.springframework.web.bind.annotation.*;
-//
-//import javax.validation.Valid;
-//
-//@RestController
-//@RequestMapping("/api")
-//public class UserController {
-//    private final UserService userService;
-//
+
+import com.ssafy.cadang.domain.User;
+import com.ssafy.cadang.dto.UserDto;
+import com.ssafy.cadang.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
+@RestController
+@RequiredArgsConstructor
+public class UserController {
+    private final UserService userService;
+
 //    public UserController(UserService userService) {
 //        this.userService = userService;
 //    }
-//
+
+
+    @PostMapping("/user/join")
+    public void join(@Valid UserDto userDto){
+
+        User user = new User();
+        user.setUserName(userDto.getUsername());
+        user.setMemberId(userDto.getMemberId());
+        user.setPassword(userDto.getPassword());
+        user.setNickname(userDto.getNickname());
+        user.setImg(userDto.getImg());
+
+        userService.validateDuplicateUserId(user);
+        userService.validateDuplicateEmail(user);
+        userService.validateDuplicateNickname(user);
+
+        userService.join(user);
+
+    }
+
 //    @PostMapping("/signup")
 //    public ResponseEntity<User> signup(
 //            @Valid @RequestBody UserDto userDto
@@ -38,4 +60,4 @@ package com.ssafy.cadang.controller;
 //    public ResponseEntity<User> getUserInfo(@PathVariable String username) {
 //        return ResponseEntity.ok(userService.getUserWithAuthorities(username).get());
 //    }
-//}
+}

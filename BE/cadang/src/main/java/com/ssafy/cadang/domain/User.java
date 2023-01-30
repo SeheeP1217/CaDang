@@ -2,12 +2,14 @@ package com.ssafy.cadang.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
 @Getter
+@Setter
 @Table(name = "user")
 public class User {
 
@@ -36,6 +38,8 @@ public class User {
     private Timestamp lastUpdated;
 
     private String refreshToken;
+
+
 
 
 }

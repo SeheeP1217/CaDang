@@ -14,11 +14,11 @@ import javax.persistence.*;
 public class Authority {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-
-    @Column(name = "authority_name")
+    @Column(name = "authority_name",length = 50)
     private String authorityName;
+
+    @OneToOne
+    @JoinColumn(name="id")
+    private User user;
 
 }
