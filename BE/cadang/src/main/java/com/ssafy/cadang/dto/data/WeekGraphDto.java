@@ -10,5 +10,6 @@ import java.util.List;
 public class WeekGraphDto {
 
     List<DayGraphDto> weekDataList;
-    boolean hasContent;
+    boolean hasPrevious;
+    boolean hasNext;
 }
