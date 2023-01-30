@@ -6,12 +6,10 @@ import TopBar from './components/util/TopBar'
 import BottomNav from "./components/util/BottomNav";
 import MyPage from "./pages/MyPage";
 import MainPage from "./pages/MainPage";
-<<<<<<< HEAD
 import SearchCafePage from "./pages/SearchCafePage";
-=======
 import MonthReportPage from "./pages/MonthReportPage";
 import WeeklyReportPage from "./pages/WeeklyReportPage";
->>>>>>> 96bb0251877a44fe197d7253149d4d701c0e0452
+
 
 function App() {
   // const [{ user }, dispatch] = useStateValue();
