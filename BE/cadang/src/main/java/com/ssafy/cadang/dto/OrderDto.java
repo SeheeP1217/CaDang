@@ -3,13 +3,16 @@ package com.ssafy.cadang.dto;
 
 import com.ssafy.cadang.domain.*;
 import com.ssafy.cadang.domain.custom.SugarContent;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter @Setter
+@RequiredArgsConstructor
 public class OrderDto {
 
     private Long userId;
@@ -43,34 +46,29 @@ public class OrderDto {
 
     // ------- 주문
 
-    public OrderDto(Order order){
 
-        userId = order.getUser().getId();
-        drinkId = order.getDrink().getId();
-        regDate = order.getRegDate();
-        caffeine = order.getCaffeine();
-        sugar = order.getSugar();
-        cal = order.getCal();
-        price = order.getPrice();
-
-        if(order.getShot() != null){
-            shot = order.getShot();
-        }
-        if(order.getWhip() != null){
-            whip = order.getWhip();
-        }
-        sugarContent = order.getSugarContent();
-
-        syrup = order.getSyrup();
-        vanilla = order.getVanilla();
-        hazelnut = order.getHazelnut();
-        caramel = order.getCaramel();
-        isPaid = order.isPaid();
-
-        storeId = order.getStore().getId();
-        orderStatus = order.getOrderStatus();
-
-
+    @Override
+    public String toString() {
+        return "OrderDto{" +
+                "userId=" + userId +
+                ", drinkId=" + drinkId +
+                ", regDate=" + regDate +
+                ", caffeine=" + caffeine +
+                ", sugar=" + sugar +
+                ", cal=" + cal +
+                ", price=" + price +
+                ", shot=" + shot +
+                ", whip=" + whip +
+                ", sugarContent=" + sugarContent +
+                ", syrup=" + syrup +
+                ", vanilla=" + vanilla +
+                ", hazelnut=" + hazelnut +
+                ", caramel=" + caramel +
+                ", isPaid=" + isPaid +
+                ", photo='" + photo + '\'' +
+                ", storeName='" + storeName + '\'' +
+                ", storeId=" + storeId +
+                ", orderStatus=" + orderStatus +
+                '}';
     }
-
 }
