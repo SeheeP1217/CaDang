@@ -16,7 +16,7 @@ public class CustomerOrderDto {
 
     private String drinkName;
     private int drinkPrice;
-    private Timestamp regDate;
+    private LocalDateTime regDate;
     private OrderStatus orderStatus;
     private String storeName;
 
