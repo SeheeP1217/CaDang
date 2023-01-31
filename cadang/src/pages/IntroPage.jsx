@@ -5,7 +5,7 @@ import Stack from "@mui/material/Stack";
 function FirstPage() {
   return (
     <div>
-      <img width="100%" src={introImg} alt="커피" />
+      <img width="100%" src={introImg} alt="커피" style={{marginTop: 20, marginBottom: 100}}/>
 
       <Stack spacing={1} width="50%" margin="auto">
         <Button

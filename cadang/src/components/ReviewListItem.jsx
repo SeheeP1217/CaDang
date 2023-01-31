@@ -18,7 +18,7 @@ const Img = styled("img")({
 
 function ReviewListItem() {
   return (
-    <Paper elevation={3} sx={{ backgroundColor: "#fafafa" }}>
+    <Paper elevation={1} sx={{ backgroundColor: "#fafafa", margin: "3px" }}>
       <Grid container spacing={2}>
         <Grid item xs={2} margin='auto'>
             <Img

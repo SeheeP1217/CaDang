@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 // import { useTheme } from '@mui/material/styles';
-import { Paper, Card, CardHeader } from "@mui/material";
+import styled from "styled-components";
+import { Paper, Card, CardHeader, Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import sugar from "../assets/sugar.png";
@@ -95,16 +96,29 @@ function WeeklyReportData() {
       {/* </SwipeableViews> */}
 
       <Box width="85%" margin="auto">
-        <Paper elevation={1} style={{ backgroundColor: "#E5E0FF" }}>
-          <Typography variant="h6" gutterBottom>
-            오늘 섭취량 |<ListItemDecorator>☕</ListItemDecorator> 250mg
+        <Grid container spacing={1} style={{background: "#E5E0FF", borderRadius: "10px", alignSelf: "center", paddingTop: "0px", height: "5%", marginBottom: "5px"}}>
+          <Grid item xs={6}>
+            <Typography>
+              오늘 섭취량
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+          <Typography style={{textAlign: "center"}}>
+            <ListItemDecorator>☕</ListItemDecorator> 250mg
             <ListItemDecorator>🧂</ListItemDecorator> 54g
           </Typography>
-        </Paper>
+          </Grid>
+        </Grid>
 
         <Paper variant="outlined" style={{ backgroundColor: "#FFF2F2" }}>
           <Typography varient="body1">
-            지난주 대비 어쩌구 저쩌궁 \n 이러쿵 저러쿵쿵쿵
+            <div>
+            지난주 대비 어쩌구 저쩌궁
+            </div>
+            <div>
+             이러쿵 저러쿵쿵쿵
+            </div>
+
           </Typography>
         </Paper>
         <br />
@@ -125,5 +139,6 @@ function WeeklyReportData() {
     </Paper>
   );
 }
+
 
 export default WeeklyReportData;
