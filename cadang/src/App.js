@@ -13,6 +13,7 @@ import MonthReportPage from "./pages/MonthReportPage";
 import WeeklyReportPage from "./pages/WeeklyReportPage";
 import IntroPage from "./pages/IntroPage";
 import InfoPage from "./pages/InfoPage";
+import TextSearchPage from "./pages/TextSearchPage";
 
 function App() {
   // const [{ user }, dispatch] = useStateValue();
@@ -40,6 +41,7 @@ function App() {
         <Route exact path="/mypage" component={MyPage} />
         <Route exact path="/month_report" component={MonthReportPage} />
         <Route exact path="/weekly-report" component={WeeklyReportPage} />
+        <Route exact path="/text-search" component={TextSearchPage} />
       </Switch>
       <BottomNav />
     </div>
@@ -54,7 +56,9 @@ function App() {
           <Route exact path="/sign_in" component={IntroContainer} />
           <Route exact path="/sign_up" component={IntroContainer} />
           <Route exact path="/info" component={IntroContainer} />
+          
           <Route component={DefaultContainer} />
+          <Route exact path="/text-search" component={DefaultContainer} />
         </Switch>
       </div>
     </BrowserRouter>

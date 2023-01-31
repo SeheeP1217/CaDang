@@ -69,7 +69,7 @@ function WeeklyReportData() {
       >
         {/* 이미지 크기 제한 어케 하징......... */}
         <Tab
-          icon={<img width="15%" src={caffeine} alt="sugar" />}
+          icon={<img width="15%" src={caffeine} alt="caffeine" />}
           iconPosition="start"
           label="카페인"
           {...a11yProps(0)}
@@ -96,49 +96,70 @@ function WeeklyReportData() {
       {/* </SwipeableViews> */}
 
       <Box width="85%" margin="auto">
-        <Grid container spacing={1} style={{background: "#E5E0FF", borderRadius: "10px", alignSelf: "center", paddingTop: "0px", height: "5%", marginBottom: "5px"}}>
+        <Grid
+          container
+          spacing={1}
+          style={{
+            background: "#E5E0FF",
+            borderRadius: "10px",
+            alignSelf: "center",
+            paddingTop: "0px",
+            height: "5%",
+            marginBottom: "5px",
+          }}
+        >
           <Grid item xs={6}>
-            <Typography>
-              오늘 섭취량
-            </Typography>
+            <Typography>오늘 섭취량</Typography>
           </Grid>
           <Grid item xs={6}>
-          <Typography style={{textAlign: "center"}}>
-            <ListItemDecorator>☕</ListItemDecorator> 250mg
-            <ListItemDecorator>🧂</ListItemDecorator> 54g
-          </Typography>
+            <Typography style={{ textAlign: "center" }}>
+              <ListItemDecorator>☕</ListItemDecorator> 250mg
+              <ListItemDecorator>🧂</ListItemDecorator> 54g
+            </Typography>
           </Grid>
         </Grid>
 
         <Paper variant="outlined" style={{ backgroundColor: "#FFF2F2" }}>
           <Typography varient="body1">
-            <div>
-            지난주 대비 어쩌구 저쩌궁
-            </div>
-            <div>
-             이러쿵 저러쿵쿵쿵
-            </div>
-
+            <div>지난주 대비 어쩌구 저쩌궁</div>
+            <div>이러쿵 저러쿵쿵쿵</div>
           </Typography>
         </Paper>
         <br />
-        <Paper elevation={1} style={{ backgroundColor: "#E5E0FF" }}>
-          <Typography variant="h6" gutterBottom>
-            이번주 총 섭취량 |<ListItemDecorator>☕</ListItemDecorator> 1625mg
-            <ListItemDecorator>🧂</ListItemDecorator> 420g
-          </Typography>
-        </Paper>
+        <Grid
+          container
+          spacing={1}
+          style={{
+            background: "#E5E0FF",
+            borderRadius: "10px",
+            alignSelf: "center",
+            paddingTop: "0px",
+            height: "5%",
+            marginBottom: "5px",
+          }}
+        >
+          <Grid item xs={6}>
+            <Typography>이번주 섭취량</Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography style={{ textAlign: "center" }}>
+              <ListItemDecorator>☕</ListItemDecorator> 250mg
+              <ListItemDecorator>🧂</ListItemDecorator> 54g
+            </Typography>
+          </Grid>
+        </Grid>
 
         <Paper variant="outlined" style={{ backgroundColor: "#FFF2F2" }}>
           <Typography varient="body1">
-            지난주 대비 어쩌구 저쩌궁 \n 이러쿵 저러쿵쿵쿵
+            <div>지난주 대비 어쩌구 저쩌궁</div>
+            <div>이러쿵 저러쿵쿵쿵</div>
           </Typography>
         </Paper>
+        <br />
       </Box>
       <br />
     </Paper>
   );
 }
-
 
 export default WeeklyReportData;
