@@ -16,8 +16,6 @@ public class OrderDto {
     private Long userId;
     private Long drinkId;
 
-    private LocalDateTime regDate;
-
     private int caffeine;
     private int sugar;
     private int cal;
@@ -38,8 +36,7 @@ public class OrderDto {
     // ---------- 기록 주문 공통
 
     private Long storeId;
-    @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
+
 
     // ------- 주문
 

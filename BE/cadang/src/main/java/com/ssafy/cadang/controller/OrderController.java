@@ -1,6 +1,7 @@
 package com.ssafy.cadang.controller;
 
 
+import com.ssafy.cadang.dto.order.CustomerOrderDto;
 import com.ssafy.cadang.dto.order.OrderDto;
 import com.ssafy.cadang.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,10 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "주문", description = "주문 관련 api 입니다.")
 @RestController
@@ -37,5 +37,14 @@ public class OrderController {
         // Save Entity -> use built-in method of JpaRepository
         // return OrderId or ErrorMessage?
         return new ResponseEntity<Long>(orderId, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/list/{userId}")
+    @Operation(summary = "주문 내역 조회(고객)", description = "고객의 전체 주문 내역을 조회합니다.")
+    public ResponseEntity<List<CustomerOrderDto>> getCustomerOrderList(@PathVariable Long userId){
+
+        List<CustomerOrderDto> CustomerOrderDtoList = orderService.getCustomerOrderById(userId);
+
+        return new ResponseEntity<List<CustomerOrderDto>>(CustomerOrderDtoList, HttpStatus.ACCEPTED);
     }
 }
