@@ -10,7 +10,7 @@ public enum OrderStatus {
         CANCEL: 가게에서 주문 취소
     */
 
-    REQUEST, ACCEPT, COMPLETE, PICKUP, CANCEL
+    REQUEST, ACCEPT, COMPLETE, PICKUP, CANCEL, RECORD
 
 
 }
