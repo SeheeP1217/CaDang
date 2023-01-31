@@ -21,7 +21,19 @@ class MyCalendar extends Component {
       <div className="maincontainer">
         <FullCalendar
           plugins={[dayGridPlugin, interactionPlugin]}
+          // 월 단위 표시
           initialView="dayGridMonth"
+          // ****년 **월로 표시
+          titleFormat={function (date) {
+            const year = date.date.year
+            const month = date.date.month + 1
+
+            return year + "년 " + month + "월"
+          }}
+          // 추후 날짜 클릭 시 기록 표시 추가 예정
+          dateClick={function () {
+            alert("날짜 클릭 시 기록 표시 추가 예정!!")
+          }}
           eventContent={renderEventContent}
           events={[
             {
