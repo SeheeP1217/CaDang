@@ -38,4 +38,9 @@ public class RecordController {
     public Long updateRecord(@RequestBody RecordUpdateDto updateDto) {
         return recordService.updateRecord(updateDto);
     }
+
+    @DeleteMapping("/{recordId}")
+    public Long deleteByRecordId(@PathVariable Long recordId) {
+        return recordService.deleteOrderById(recordId);
+    }
 }

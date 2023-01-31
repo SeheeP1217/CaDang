@@ -21,7 +21,7 @@ import java.io.IOException;
 @Slf4j
 public class UserController {
     private final UserService userService;
-    private final FileStore fileStore;
+//    private final FileStore fileStore;
 
 
 

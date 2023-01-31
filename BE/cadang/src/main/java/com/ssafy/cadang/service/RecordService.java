@@ -78,6 +78,15 @@ public class RecordService {
     }
 
     @Transactional
+    public Long deleteOrderById(Long recordId) {
+        Optional<Order> order = recordReposiotry.findById(recordId);
+        if (order.isEmpty())
+            throw new IllegalStateException("기록이 존재하지 않습니다.");
+        recordReposiotry.delete(order.get());
+        return recordId;
+    }
+
+    @Transactional
     public Long updateRecord(RecordUpdateDto updateDto) {
         Order findRecord = recordReposiotry.findById(updateDto.getId())
                 .orElseThrow(() -> new NoSuchElementException());
