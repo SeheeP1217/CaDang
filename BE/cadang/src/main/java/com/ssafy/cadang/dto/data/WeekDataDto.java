@@ -9,7 +9,6 @@ import java.util.List;
 
 @Data
 @Builder
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class WeekDataDto {
 
     private WeekGraphDto thisWeekGraphDto;
