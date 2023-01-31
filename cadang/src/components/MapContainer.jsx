@@ -156,7 +156,7 @@ const MapContainer = ({searchPlace}) => {
         //     height: '300px'
         // }}></div>
 
-<Map // 로드뷰를 표시할 Container
+    <Map // 로드뷰를 표시할 Container
       center={{
         lat: 37.566826,
         lng: 126.9786567,
