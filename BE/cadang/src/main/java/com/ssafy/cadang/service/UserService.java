@@ -19,6 +19,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    // 카페인, 당 목표량 디폴트 값 설정
     private final Long defaultCaffeineGoal = 400L;
     private final Long defaultSugarGoal = 25L;
 
@@ -44,6 +45,7 @@ public class UserService {
                         .authorityName("ROLE_USER")
                         .caffeGoal(defaultCaffeineGoal)
                         .sugarGoal(defaultSugarGoal)
+                        .imgUrl(userDto.getImgUrl())
                         .build();
         userRepository.save(user);
 
