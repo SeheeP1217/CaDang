@@ -9,6 +9,7 @@ import MainPage from "./pages/MainPage";
 import SearchCafePage from "./pages/SearchCafePage";
 import MonthReportPage from "./pages/MonthReportPage";
 import WeeklyReportPage from "./pages/WeeklyReportPage";
+import IntroPage from "./pages/IntroPage";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
     <div>
       <TopBar/>
       <Switch>
+        <Route exact path="/" component={IntroPage} />
         <Route exact path="/sign_in" component={LoginPage} />
         <Route exact path="/sign_up" component={RegisterPage} />
         <Route exact path="/main" component={MainPage}/>
