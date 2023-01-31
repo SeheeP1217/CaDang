@@ -3,6 +3,7 @@ package com.ssafy.cadang.controller;
 
 import com.ssafy.cadang.dto.order.CustomerOrderDto;
 import com.ssafy.cadang.dto.order.OrderDto;
+import com.ssafy.cadang.dto.order.StoreOrderDto;
 import com.ssafy.cadang.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -46,5 +47,14 @@ public class OrderController {
         List<CustomerOrderDto> CustomerOrderDtoList = orderService.getCustomerOrderById(userId);
 
         return new ResponseEntity<List<CustomerOrderDto>>(CustomerOrderDtoList, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/store-list/{storeId}")
+    @Operation(summary = "주문 내역 조회(가게)", description = "가게의 전체 주문 내역을 조회합니다.")
+    public ResponseEntity<List<StoreOrderDto>> getStoreOrderList(@PathVariable Long storeId){
+
+        List<StoreOrderDto> StoreOrderDtoList = orderService.getStoreOrderById(storeId);
+
+        return new ResponseEntity<List<StoreOrderDto>>(StoreOrderDtoList, HttpStatus.ACCEPTED);
     }
 }

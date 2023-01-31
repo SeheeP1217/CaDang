@@ -4,9 +4,7 @@ import com.ssafy.cadang.domain.Drink;
 import com.ssafy.cadang.domain.Order;
 import com.ssafy.cadang.domain.OrderStatus;
 import com.ssafy.cadang.domain.User;
-import com.ssafy.cadang.dto.record.MyPageRecordDto;
-import com.ssafy.cadang.dto.record.MyPageRecordListDto;
-import com.ssafy.cadang.dto.record.RecordSaveRequestDto;
+import com.ssafy.cadang.dto.record.*;
 import com.ssafy.cadang.repository.DrinkRepository;
 import com.ssafy.cadang.repository.RecordReposiotry;
 import com.ssafy.cadang.repository.UserRepository;
@@ -16,6 +14,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -58,7 +58,7 @@ public class RecordService {
         return saveRecord.getId();
     }
 
-    public MyPageRecordListDto getOrderBySlice(Long lastUpdateId,  Long userId, int size) {
+    public MyPageRecordListDto getOrderBySlice(Long lastUpdateId, Long userId, int size) {
         PageRequest pageRequest = PageRequest.of(0, size);
 
         Slice<Order> orders = recordReposiotry.findByIdLessThanAndUserIdAndOrderStatusIn(lastUpdateId, userId, Arrays.asList(recordStatus), pageRequest);
@@ -69,11 +69,33 @@ public class RecordService {
                 .build();
     }
 
-    public Order getOrderByRecordId(Long recordId) {
-        Optional<Order> byUserId = recordReposiotry.findById(recordId);
-        if (byUserId.isEmpty())
+    public RecordDetailDto getOrderByRecordId(Long recordId) {
+        Optional<Order> order = recordReposiotry.findById(recordId);
+        if (order.isEmpty())
             throw new IllegalStateException("기록이 존재하지 않습니다.");
-        return byUserId.get();
+        return toRecordDetailDto(order.get());
+
+    }
+
+    @Transactional
+    public Long updateRecord(RecordUpdateDto updateDto) {
+        Order findRecord = recordReposiotry.findById(updateDto.getId())
+                .orElseThrow(() -> new NoSuchElementException());
+        if (findRecord.getOrderStatus() == OrderStatus.PICKUP && updateDto.getRegDate() != null) {
+            throw new IllegalStateException("주문 상품은 등록 날짜를 수정할 수 없습니다.");
+        }
+        if (updateDto.getRegDate() != null) {
+            LocalDateTime localDateTime = LocalDate.parse(updateDto.getRegDate()).atStartOfDay();
+            findRecord.setRegDate(localDateTime);
+        }
+        if (updateDto.getMemo() != null)
+            findRecord.setMemo(updateDto.getMemo());
+        if (updateDto.getIsPublic() != null)
+            findRecord.setPublic(updateDto.getIsPublic());
+        if (updateDto.getPhoto() != null)
+            findRecord.setPhoto(updateDto.getPhoto());
+        return findRecord.getId();
+
     }
 
     private List<MyPageRecordDto> toMyPqgeRecordDtos(Slice<Order> orders) {
@@ -83,7 +105,7 @@ public class RecordService {
                         .id(o.getId())
                         .storeName(o.getStoreName())
                         .drinkName(o.getDrink().getDrinkName())
-                        .regDate(o.getRegDate().minusHours(9))
+                        .regDate(o.getRegDate())
                         .caffeine(o.getCaffeine())
                         .sugar(o.getSugar())
                         .cal(o.getCal())
@@ -94,6 +116,26 @@ public class RecordService {
                         .build())
                 .sorted(Comparator.comparing(MyPageRecordDto::getRegDate).reversed())
                 .collect(Collectors.toList());
+    }
+
+    private RecordDetailDto toRecordDetailDto(Order order) {
+        return RecordDetailDto.builder()
+                .id(order.getId())
+                .photo(order.getPhoto())
+                .drinkName(order.getDrink().getDrinkName())
+                .isPublic(order.isPublic())
+                .regDate(order.getRegDate())
+                .memo(order.getMemo())
+                .size(order.getDrink().getSize())
+                .shot(order.getShot())
+                .whip(order.getWhip())
+                .sugarContent(order.getSugarContent())
+                .syrup(order.getSyrup())
+                .vanilla(order.getVanilla())
+                .caramel(order.getCaramel())
+                .hazelnut(order.getHazelnut())
+                .orderStatus(order.getOrderStatus())
+                .build();
     }
 
 
