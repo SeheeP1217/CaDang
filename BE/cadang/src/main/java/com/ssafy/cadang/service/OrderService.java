@@ -3,6 +3,7 @@ package com.ssafy.cadang.service;
 import com.ssafy.cadang.domain.*;
 import com.ssafy.cadang.dto.order.CustomerOrderDto;
 import com.ssafy.cadang.dto.order.OrderDto;
+import com.ssafy.cadang.dto.order.StoreOrderDto;
 import com.ssafy.cadang.repository.DrinkRepository;
 import com.ssafy.cadang.repository.OrderRepository;
 import com.ssafy.cadang.repository.StoreRepository;
@@ -42,7 +43,9 @@ public class OrderService {
                 .orElseThrow(() -> new NoSuchElementException());
 
         /**
-         *  카당칼가
+         *  nullable 한 칼럼 중 값이 들어온다는 보장이 없는 것들 null일 때 처리 해야합니다.
+         *
+         *  nullable: hazelnut, vanilla, caramel, syrup, shot, whip
          */
          Order order = Order.builder().user(user).
                           drink(drink).
@@ -71,14 +74,21 @@ public class OrderService {
     public List<CustomerOrderDto> getCustomerOrderById(Long userId) {
 
         List<Order> orders = orderRepository.findAllByUserid(userId);
-        for(Order o: orders){
-            System.out.println(o);
-        }
 
-        List<CustomerOrderDto> CustomerOrderDtoList = orders.stream()
+        List<CustomerOrderDto> customerOrderDtoList = orders.stream()
                 .map(o -> new CustomerOrderDto(o))
                 .collect(Collectors.toList());
-        return CustomerOrderDtoList;
+        return customerOrderDtoList;
+    }
+
+    public List<StoreOrderDto> getStoreOrderById(Long storeId) {
+
+        List<Order> orders = orderRepository.findAllByStoreid(storeId);
+
+        List<StoreOrderDto> storeOrderDtoList = orders.stream()
+                .map(o -> new StoreOrderDto(o))
+                .collect(Collectors.toList());
+        return storeOrderDtoList;
     }
 
 }
