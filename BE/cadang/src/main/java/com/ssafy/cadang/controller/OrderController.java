@@ -12,6 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,4 +60,17 @@ public class OrderController {
 
         return new ResponseEntity<List<StoreOrderDto>>(StoreOrderDtoList, HttpStatus.ACCEPTED);
     }
+
+    @GetMapping("/store-new/{storeId}")
+    @Operation(summary = "신규 주문 조회(가게)", description = "가게의 주문 내역 중 상태가 REQUEST인 신규 주문을 조회합니다.")
+    public ResponseEntity<List<StoreOrderDto>> getStoreNewOrderList(@PathVariable Long storeId){
+
+        List<StoreOrderDto> StoreNewOrderDtoList = orderService.getStoreNewOrderById(storeId);
+
+        return new ResponseEntity<List<StoreOrderDto>>(StoreNewOrderDtoList, HttpStatus.ACCEPTED);
+    }
+
+
+
+
 }

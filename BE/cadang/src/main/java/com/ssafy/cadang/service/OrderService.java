@@ -91,4 +91,16 @@ public class OrderService {
         return storeOrderDtoList;
     }
 
+    public List<StoreOrderDto> getStoreNewOrderById(Long storeId) {
+
+        List<Order> orders = orderRepository.findAllByStoreidAndOrderStatus(storeId);
+
+        List<StoreOrderDto> storeNewOrderDtoList = orders.stream()
+                .map(o -> new StoreOrderDto(o))
+                .collect(Collectors.toList());
+        return storeNewOrderDtoList;
+    }
+
+
+
 }
