@@ -123,30 +123,32 @@ public class DataService {
         boolean hasNext = dataRepository.existsByRegDateGreaterThan(endDate, userId);
         boolean hasPrevious = dataRepository.existsByRegDateLessThan(startDate, userId);
 
-        // 실제 반환 데이터의 시작 요일
-        LocalDate firstData = dayGraphDtos.get(0).getDate();
-        int firstDay = firstData.getDayOfWeek().getValue();
+        if (dayGraphDtos.size() > 0) {
+            // 실제 반환 데이터의 시작 요일
+            LocalDate firstData = dayGraphDtos.get(0).getDate();
+            int firstDay = firstData.getDayOfWeek().getValue();
 
-        // 실제 반환 데이터의 끝 요일
-        LocalDate lastData = dayGraphDtos.get(dayGraphDtos.size() - 1).getDate();
-        int lastDay = lastData.getDayOfWeek().getValue();
-        // 시작 요일 이전의 데이터가 없을 경우
-        for (int d = 1; d < firstDay; d++) {
-            System.out.println("이전 추가" + startDate.plusDays(d - 1));
-            dayGraphDtos.add(DayGraphDto.builder()
-                    .date(startDate.plusDays(d - 1))
-                    .caffeine(0)
-                    .sugar(0)
-                    .build());
-        }
-        // 현재 요일 이후의 데이터가 없을 경우
-        for (int d = lastDay + 1; d <= 7; d++) {
-            System.out.println("이후 추가");
-            dayGraphDtos.add(DayGraphDto.builder()
-                    .date(startDate.plusDays(d - 1))
-                    .caffeine(0)
-                    .sugar(0)
-                    .build());
+            // 실제 반환 데이터의 끝 요일
+            LocalDate lastData = dayGraphDtos.get(dayGraphDtos.size() - 1).getDate();
+            int lastDay = lastData.getDayOfWeek().getValue();
+            // 시작 요일 이전의 데이터가 없을 경우
+            for (int d = 1; d < firstDay; d++) {
+                System.out.println("이전 추가" + startDate.plusDays(d - 1));
+                dayGraphDtos.add(DayGraphDto.builder()
+                        .date(startDate.plusDays(d - 1))
+                        .caffeine(0)
+                        .sugar(0)
+                        .build());
+            }
+            // 현재 요일 이후의 데이터가 없을 경우
+            for (int d = lastDay + 1; d <= 7; d++) {
+                System.out.println("이후 추가");
+                dayGraphDtos.add(DayGraphDto.builder()
+                        .date(startDate.plusDays(d - 1))
+                        .caffeine(0)
+                        .sugar(0)
+                        .build());
+            }
         }
 
         // 날짜 순 정렬
