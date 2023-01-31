@@ -3,16 +3,30 @@ package com.ssafy.cadang.controller;
 
 
 import com.ssafy.cadang.dto.UserDto;
+import com.ssafy.cadang.file.FileStore;
 import com.ssafy.cadang.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
     private final UserService userService;
+    private final FileStore fileStore;
+
+
+
+    //프로필 사진 등록하기
+
 
 
     //회원가입
@@ -24,6 +38,8 @@ public class UserController {
         userService.join(userDto);
 
     }
+
+
 
 
 
