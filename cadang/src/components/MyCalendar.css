@@ -54,3 +54,9 @@
   justify-content: center;
   margin-top: 25px;
 }
+
+.fc-button-primary {
+  border-color: bisque !important;
+  background-color: bisque !important;
+
+}
