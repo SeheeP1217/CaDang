@@ -20,7 +20,7 @@ class RecordServiceTest {
 
     @Test
     public void getBySlice() {
-        MyPageRecordListDto orderBySlice = recordService.getOrderBySlice(8L, 3, 2L);
+        MyPageRecordListDto orderBySlice = recordService.getOrderBySlice(8L, 2L, 3);
         System.out.println(orderBySlice);
     }
 

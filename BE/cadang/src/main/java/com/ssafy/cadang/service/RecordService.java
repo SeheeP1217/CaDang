@@ -58,7 +58,7 @@ public class RecordService {
         return saveRecord.getId();
     }
 
-    public MyPageRecordListDto getOrderBySlice(Long lastUpdateId, int size, Long userId) {
+    public MyPageRecordListDto getOrderBySlice(Long lastUpdateId,  Long userId, int size) {
         PageRequest pageRequest = PageRequest.of(0, size);
 
         Slice<Order> orders = recordReposiotry.findByIdLessThanAndUserIdAndOrderStatusIn(lastUpdateId, userId, Arrays.asList(recordStatus), pageRequest);
@@ -83,7 +83,7 @@ public class RecordService {
                         .id(o.getId())
                         .storeName(o.getStoreName())
                         .drinkName(o.getDrink().getDrinkName())
-                        .regDate(o.getRegDate())
+                        .regDate(o.getRegDate().minusHours(9))
                         .caffeine(o.getCaffeine())
                         .sugar(o.getSugar())
                         .cal(o.getCal())
