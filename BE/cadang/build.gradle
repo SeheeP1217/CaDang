@@ -24,6 +24,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.7'
+	// https://mvnrepository.com/artifact/commons-io/commons-io
+
+
 
 
 	// jwt 라이브러리

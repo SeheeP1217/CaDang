@@ -31,7 +31,7 @@ public class User {
 
     private String nickname;
 
-    private String img;
+    private String imgUrl;
 
     private Long caffeGoal;
 
