@@ -1,6 +1,6 @@
 import * as React from "react"
 import Box from "@mui/material/Box"
-import Calendar from "../components/Calendar"
+import MyCalendar from "../components/MyCalendar"
 import MonthAmount from "../components/MonthAmont"
 import MonthRank from "../components/MonthRank"
 
@@ -8,7 +8,7 @@ export default function MonthReportPage() {
   return (
     <div>
       <Box>
-        <Calendar />
+        <MyCalendar />
       </Box>
       <Box>
         <MonthAmount />
