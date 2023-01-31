@@ -4,10 +4,7 @@ import com.ssafy.cadang.domain.Drink;
 import com.ssafy.cadang.domain.Order;
 import com.ssafy.cadang.domain.OrderStatus;
 import com.ssafy.cadang.domain.User;
-import com.ssafy.cadang.dto.record.MyPageRecordDto;
-import com.ssafy.cadang.dto.record.MyPageRecordListDto;
-import com.ssafy.cadang.dto.record.RecordDetailDto;
-import com.ssafy.cadang.dto.record.RecordSaveRequestDto;
+import com.ssafy.cadang.dto.record.*;
 import com.ssafy.cadang.repository.DrinkRepository;
 import com.ssafy.cadang.repository.RecordReposiotry;
 import com.ssafy.cadang.repository.UserRepository;
@@ -18,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -79,9 +77,26 @@ public class RecordService {
 
     }
 
-//    public Long updateRecord() {
-//
-//    }
+    @Transactional
+    public Long updateRecord(RecordUpdateDto updateDto) {
+        Order findRecord = recordReposiotry.findById(updateDto.getId())
+                .orElseThrow(() -> new NoSuchElementException());
+        if (findRecord.getOrderStatus() == OrderStatus.PICKUP && updateDto.getRegDate() != null) {
+            throw new IllegalStateException("주문 상품은 등록 날짜를 수정할 수 없습니다.");
+        }
+        if (updateDto.getRegDate() != null) {
+            LocalDateTime localDateTime = LocalDate.parse(updateDto.getRegDate()).atStartOfDay();
+            findRecord.setRegDate(localDateTime);
+        }
+        if (updateDto.getMemo() != null)
+            findRecord.setMemo(updateDto.getMemo());
+        if (updateDto.getIsPublic() != null)
+            findRecord.setPublic(updateDto.getIsPublic());
+        if (updateDto.getPhoto() != null)
+            findRecord.setPhoto(updateDto.getPhoto());
+        return findRecord.getId();
+
+    }
 
     private List<MyPageRecordDto> toMyPqgeRecordDtos(Slice<Order> orders) {
         return orders.getContent()
@@ -122,8 +137,6 @@ public class RecordService {
                 .orderStatus(order.getOrderStatus())
                 .build();
     }
-
-
 
 
 }
