@@ -2,6 +2,7 @@ package com.ssafy.cadang.domain;
 
 import com.ssafy.cadang.domain.custom.SugarContent;
 import lombok.*;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -9,8 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
-@Getter @Setter
-@ToString
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
