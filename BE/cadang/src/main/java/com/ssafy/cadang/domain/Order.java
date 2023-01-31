@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
@@ -27,7 +28,7 @@ public class Order {
     @JoinColumn(name = "drink_id")
     private Drink drink;
 
-    private Timestamp regDate;
+    private LocalDateTime regDate;
 
     private int caffeine;
     private int sugar;

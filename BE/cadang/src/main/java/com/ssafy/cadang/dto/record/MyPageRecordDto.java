@@ -12,7 +12,7 @@ public class MyPageRecordDto {
     private Long id;
     private String storeName;
     private String drinkName;
-    private Timestamp regDate;
+    private LocalDateTime regDate;
     private int caffeine;
     private int sugar;
     private int cal;

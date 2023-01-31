@@ -15,7 +15,7 @@ public class RecordDetailDto {
     private String photo;
     private String drinkName;
     private boolean isPublic;
-    private Timestamp regDate;
+    private LocalDateTime regDate;
     private String memo;
     private String size;
     private Integer shot;

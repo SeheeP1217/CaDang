@@ -61,7 +61,7 @@ public class OrderService {
                           photo(orderDto.getPhoto()).
                           storeName(orderDto.getStoreName()).
                           orderStatus(OrderStatus.REQUEST).
-                          regDate(Timestamp.valueOf(LocalDateTime.now())).build();
+                          regDate(LocalDateTime.now()).build();
 
         Long orderId = orderRepository.save(order).getId();
 

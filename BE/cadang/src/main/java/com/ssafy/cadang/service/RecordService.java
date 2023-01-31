@@ -40,7 +40,7 @@ public class RecordService {
         Order record = Order.builder()
                 .user(user)
                 .drink(drink)
-                .regDate(Timestamp.valueOf(LocalDateTime.now()))
+                .regDate(LocalDateTime.now())
                 .caffeine(recordDto.getCaffeine())
                 .sugar(recordDto.getSugar())
                 .cal(recordDto.getCal())
@@ -78,6 +78,10 @@ public class RecordService {
         return toRecordDetailDto(order.get());
 
     }
+
+//    public Long updateRecord() {
+//
+//    }
 
     private List<MyPageRecordDto> toMyPqgeRecordDtos(Slice<Order> orders) {
         return orders.getContent()
@@ -118,6 +122,8 @@ public class RecordService {
                 .orderStatus(order.getOrderStatus())
                 .build();
     }
+
+
 
 
 }
