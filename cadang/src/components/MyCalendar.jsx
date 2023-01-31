@@ -2,7 +2,10 @@ import React, { Component } from "react"
 import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import interactionPlugin from "@fullcalendar/interaction"
-// import coffeecong from "../store/coffeecong.png"
+import coffeebean from "../assets/coffeebean.png"
+import coffeebeansugar from "../assets/coffeebeansugar.png"
+import sugar from "../assets/sugar.png"
+import "./MyCalendar.css"
 
 class MyCalendar extends Component {
   render() {
@@ -10,7 +13,6 @@ class MyCalendar extends Component {
     function renderEventContent(eventInfo) {
       return (
         <div>
-          <p>{eventInfo.event.title}</p>
           <img className="eventimage" src={eventInfo.event.url} />
         </div>
       )
@@ -23,14 +25,16 @@ class MyCalendar extends Component {
           eventContent={renderEventContent}
           events={[
             {
-              title: "event 1",
               date: "2023-01-13",
-              imageurl: "../store/coffeecong.png",
+              url: coffeebean,
             },
             {
-              title: "event 2",
               date: "2023-01-08",
-              url: "https://cdn-icons-png.flaticon.com/128/712/712287.png",
+              url: coffeebeansugar,
+            },
+            {
+              date: "2023-02-01",
+              url: sugar,
             },
           ]}
         />
