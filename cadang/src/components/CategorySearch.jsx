@@ -113,25 +113,33 @@ export default function CategorySearch() {
     //   }, []);
 
     // 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
-    var placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
+    let placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
       contentNode = document.createElement("div"), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
       markers = [], // 마커를 담을 배열입니다
       currCategory = "CE7"; // 현재 선택된 카테고리를 가지고 있을 변수입니다
 
-    var mapContainer = document.getElementById("map"), // 지도를 표시할 div
+    let mapContainer = document.getElementById("map"), // 지도를 표시할 div
       mapOption = {
         center: new kakao.maps.LatLng(37.503325874722, 127.04403462366), // 지도의 중심좌표
         level: 3, // 지도의 확대 레벨
       };
 
     // 지도를 생성합니다
-    var map = new kakao.maps.Map(mapContainer, mapOption);
+    let map = new kakao.maps.Map(mapContainer, mapOption);
 
     // 장소 검색 객체를 생성합니다
-    var ps = new kakao.maps.services.Places();
+    let ps = new kakao.maps.services.Places();
+
+    // 지도 중심좌표를 얻어옵니다 
+    let latlng = map.getCenter(); 
 
     // 지도에 idle 이벤트를 등록합니다
     kakao.maps.event.addListener(map, "idle", searchPlaces);
+
+    // 마우스 드래그로 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
+    kakao.maps.event.addListener(map, 'dragend',searchPlaces);
+
+    kakao.maps.event.addListener(map, 'zoom_changed',searchPlaces);
 
     // 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다
     contentNode.className = "placeinfo_wrap";
@@ -165,16 +173,30 @@ export default function CategorySearch() {
       // 커스텀 오버레이를 숨깁니다
       placeOverlay.setMap(null);
 
+
+      // 지도 중심좌표를 얻어옵니다 
+      latlng = map.getCenter(); 
+      
+      let message = '변경된 지도 중심좌표는 ' + latlng.getLat() + ' 이고, ';
+      message += '경도는 ' + latlng.getLng() + ' 입니다';
+      
+      let resultDiv = document.getElementById('result');  
+      resultDiv.innerHTML = message;
+
       // 지도에 표시되고 있는 마커를 제거합니다
       removeMarker();
 
-      ps.categorySearch("CE7", placesSearchCB, {
-        location: new kakao.maps.LatLng(37.5018952591279, 127.039347134781),
-        useMapBounds: true,
-        radius: 500,
-        page: 1,
-        useMapBounds: true,
-      });
+      for(let i=1;i<=45;i++) {
+        
+        ps.categorySearch("CE7", placesSearchCB, {
+          // location: new kakao.maps.LatLng(37.5018952591279, 127.039347134781),
+          x: latlng.getLng(),
+          y: latlng.getLat(),
+          useMapBounds: true,
+          radius: 300,
+          page: i
+        });
+      }
     }
 
     // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
@@ -182,7 +204,10 @@ export default function CategorySearch() {
       if (status === kakao.maps.services.Status.OK) {
         // 정상적으로 검색이 완료됐으면 지도에 마커를 표출합니다
         console.log(data);
+        // console.log(pagination.totalCount);
+
         displayPlaces(data);
+        
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         // 검색결과가 없는경우 해야할 처리가 있다면 이곳에 작성해 주세요
       } else if (status === kakao.maps.services.Status.ERROR) {
@@ -194,11 +219,12 @@ export default function CategorySearch() {
     function displayPlaces(places) {
       // 몇번째 카테고리가 선택되어 있는지 얻어옵니다
       // 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
-      var order = document.getElementById(currCategory).getAttribute("data-order");
+      let order = document.getElementById(currCategory).getAttribute("data-order");
+      
 
-      for (var i = 0; i < places.length; i++) {
+      for (let i = 0; i < places.length; i++) {
         // 마커를 생성하고 지도에 표시합니다
-        var marker = addMarker(new kakao.maps.LatLng(places[i].y, places[i].x), order);
+        let marker = addMarker(new kakao.maps.LatLng(places[i].y, places[i].x), order);
 
         // 마커와 검색결과 항목을 클릭 했을 때
         // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
@@ -212,7 +238,7 @@ export default function CategorySearch() {
 
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
     function addMarker(position, order) {
-      var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
+      let imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
         imageSize = new kakao.maps.Size(27, 28), // 마커 이미지의 크기
         imgOptions = {
           spriteSize: new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기
@@ -233,7 +259,7 @@ export default function CategorySearch() {
 
     // 지도 위에 표시되고 있는 마커를 모두 제거합니다
     function removeMarker() {
-      for (var i = 0; i < markers.length; i++) {
+      for (let i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
       }
       markers = [];
@@ -241,7 +267,7 @@ export default function CategorySearch() {
 
     // 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
     function displayPlaceInfo(place) {
-      var content =
+      let content =
         '<div class="placeinfo">' +
         '   <a class="title" href="' +
         place.place_url +
@@ -277,17 +303,17 @@ export default function CategorySearch() {
 
     // 각 카테고리에 클릭 이벤트를 등록합니다
     function addCategoryClickEvent() {
-      var category = document.getElementById("category"),
+      let category = document.getElementById("category"),
         children = category.children;
 
-      for (var i = 0; i < children.length; i++) {
+      for (let i = 0; i < children.length; i++) {
         children[i].onclick = onClickCategory;
       }
     }
 
     // 카테고리를 클릭했을 때 호출되는 함수입니다
     function onClickCategory() {
-      var id = this.id,
+      let id = this.id,
         className = this.className;
 
       placeOverlay.setMap(null);
@@ -321,23 +347,24 @@ export default function CategorySearch() {
 
   return (
     <>
+    <div className="container">
       <div
         className="map"
         id="map"
         style={{
           position: "relative",
-          width: "500px",
-          height: "500px",
-          padding: "10px",
+          width: "100%",
+          height: "400px",
           background: "beige",
         }}
-      ></div>
-      <ul id="category">
-        <li id="CE7" data-order="4">
-          <button className="category_bg cafe"></button>
-          카페
-        </li>
-      </ul>
+      />
+        <div id="category">
+          <li id="CE7" data-order="4">
+            <button className="category_bg cafe">카페</button>
+          </li>
+        </div>
+        <p id="result"></p>
+      </div>
     </>
   );
 }
