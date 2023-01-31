@@ -3,15 +3,13 @@ package com.ssafy.cadang.dto.order;
 
 import com.ssafy.cadang.domain.*;
 import com.ssafy.cadang.domain.custom.SugarContent;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter @Setter
+@ToString
 @RequiredArgsConstructor
 public class OrderDto {
 
@@ -34,7 +32,6 @@ public class OrderDto {
     private Integer vanilla;
     private Integer hazelnut;
     private Integer caramel;
-    private boolean isPaid;
     private String photo;
     private String storeName;
 
@@ -47,28 +44,4 @@ public class OrderDto {
     // ------- 주문
 
 
-    @Override
-    public String toString() {
-        return "OrderDto{" +
-                "userId=" + userId +
-                ", drinkId=" + drinkId +
-                ", regDate=" + regDate +
-                ", caffeine=" + caffeine +
-                ", sugar=" + sugar +
-                ", cal=" + cal +
-                ", price=" + price +
-                ", shot=" + shot +
-                ", whip=" + whip +
-                ", sugarContent=" + sugarContent +
-                ", syrup=" + syrup +
-                ", vanilla=" + vanilla +
-                ", hazelnut=" + hazelnut +
-                ", caramel=" + caramel +
-                ", isPaid=" + isPaid +
-                ", photo='" + photo + '\'' +
-                ", storeName='" + storeName + '\'' +
-                ", storeId=" + storeId +
-                ", orderStatus=" + orderStatus +
-                '}';
-    }
 }
