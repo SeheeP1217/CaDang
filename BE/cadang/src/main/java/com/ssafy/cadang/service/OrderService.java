@@ -14,7 +14,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -33,7 +36,6 @@ public class OrderService {
          *  예외처리 사용자 정의로 만들어야 할까요?
          *  Dto to Entity 빠르게 하는 방법 없나요?
          */
-
         User user = userRepository.findById(orderDto.getUserId())
                 .orElseThrow(() -> new NoSuchElementException());
         order.setUser(user);
@@ -51,8 +53,8 @@ public class OrderService {
         order.setCal(orderDto.getCal());
         order.setPrice(orderDto.getPrice());
 
-        if(orderDto.getShot() != null) order.setShot(orderDto.getShot());
-        if(orderDto.getWhip() != null) order.setWhip(orderDto.getWhip());
+        order.setShot(orderDto.getShot());
+        order.setWhip(orderDto.getWhip());
         order.setSugarContent(orderDto.getSugarContent());
 
         order.setSyrup(orderDto.getSyrup());
@@ -60,18 +62,25 @@ public class OrderService {
         order.setHazelnut(orderDto.getHazelnut());
         order.setCaramel(orderDto.getHazelnut());
         order.setCaramel(orderDto.getCaramel());
-        order.setPaid(true); //주문은 TRUE , 기록은 FALSE
         order.setPhoto(orderDto.getPhoto());
         order.setStoreName(orderDto.getStoreName());
         order.setOrderStatus(orderDto.getOrderStatus());
+        order.setRegDate(LocalDateTime.now());
+
+//        order.builder()
+
         Long orderId = orderRepository.save(order).getId();
 
         return orderId;
     }
 
-    public CustomerOrderDto getCustomerOrderById(Long userId) {
+    public List<CustomerOrderDto> getCustomerOrderById(Long userId) {
 
-        return null;
+        List<Order> orders = orderRepository.findAllByUserid(userId);
+        List<CustomerOrderDto> result = orders.stream()
+                .map(o -> new CustomerOrderDto(o))
+                .collect(Collectors.toList());
+        return result;
     }
 
 }

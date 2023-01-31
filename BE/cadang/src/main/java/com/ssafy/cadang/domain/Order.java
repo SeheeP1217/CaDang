@@ -1,17 +1,17 @@
 package com.ssafy.cadang.domain;
 
 import com.ssafy.cadang.domain.custom.SugarContent;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 public class Order {
 
@@ -43,7 +43,6 @@ public class Order {
     private Integer vanilla;
     private Integer hazelnut;
     private Integer caramel;
-    private boolean isPaid;
     private String photo;
 
     // ---------- 기록 주문 공통
@@ -68,5 +67,33 @@ public class Order {
 //        this.store = store;
 //        store.getOrders().add(this);
 //    }
+
+    @Builder
+    public Order(User user, Drink drink, Store store, int caffeine,
+                 int sugar, int cal, int price, Integer shot, Boolean whip,
+                 SugarContent sugarContent, Integer syrup, Integer vanilla,
+                 Integer hazelnut, Integer caramel, String photo, boolean isPublic,
+                 String memo, String storeName, OrderStatus orderStatus) {
+
+        this.user = user;
+        this.store = store;
+        this.caffeine = caffeine;
+        this.sugar = sugar;
+        this.cal = cal;
+        this.price = price;
+        this.shot = shot;
+        this.whip = whip;
+        this.sugarContent = sugarContent;
+        this.syrup = syrup;
+        this.vanilla = vanilla;
+        this.hazelnut = hazelnut;
+        this.caramel = caramel;
+        this.photo = photo;
+        this.isPublic = isPublic;
+        this.memo = memo;
+        this.storeName = storeName;
+        this.orderStatus = orderStatus;
+    }
+
 
 }
