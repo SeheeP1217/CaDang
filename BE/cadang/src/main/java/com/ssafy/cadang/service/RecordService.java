@@ -86,6 +86,18 @@ public class RecordService {
         return recordId;
     }
 
+    public MyPageRecordListDto searchByKeyword(Long userId, String keyword, Long lastUpdateId, int size) {
+        keyword = "%" + keyword + "%";
+        PageRequest pageRequest = PageRequest.of(0, size);
+        Slice<Order> orders = recordReposiotry.findBySearchKeyword(lastUpdateId, userId, keyword, pageRequest);
+        List<MyPageRecordDto> recordDtos = toMyPqgeRecordDtos(orders);
+        return MyPageRecordListDto.builder()
+                .recordList(recordDtos)
+                .hasNext(orders.hasNext())
+                .build();
+
+    }
+
     @Transactional
     public Long updateRecord(RecordUpdateDto updateDto) {
         Order findRecord = recordReposiotry.findById(updateDto.getId())
