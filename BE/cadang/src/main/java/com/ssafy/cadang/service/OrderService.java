@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -60,7 +61,7 @@ public class OrderService {
                           photo(orderDto.getPhoto()).
                           storeName(orderDto.getStoreName()).
                           orderStatus(OrderStatus.REQUEST).
-                          regDate(LocalDateTime.now()).build();
+                          regDate(Timestamp.valueOf(LocalDateTime.now())).build();
 
         Long orderId = orderRepository.save(order).getId();
 

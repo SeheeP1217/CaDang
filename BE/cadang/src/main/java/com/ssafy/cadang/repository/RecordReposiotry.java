@@ -17,4 +17,8 @@ public interface RecordReposiotry extends JpaRepository<Order, Long> {
     @EntityGraph(attributePaths = "drink")
     @Query("select o from Order o where o.id < :id and o.user.id=:userId and o.orderStatus in :orderStatuses order by o.regDate desc")
     Slice<Order> findByIdLessThanAndUserIdAndOrderStatusIn(@Param("id") Long id,@Param(("userId")) Long userId,@Param("orderStatuses") List<OrderStatus> orderStatuses, Pageable pageable);
+
+    @EntityGraph(attributePaths = "drink")
+    Optional<Order> findById(Long id);
+
 }

@@ -1,6 +1,7 @@
 package com.ssafy.cadang.controller;
 
 import com.ssafy.cadang.dto.record.MyPageRecordListDto;
+import com.ssafy.cadang.dto.record.RecordDetailDto;
 import com.ssafy.cadang.dto.record.RecordSaveRequestDto;
 import com.ssafy.cadang.service.RecordService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,7 +23,12 @@ public class RecordController {
     }
 
     @GetMapping
-    public MyPageRecordListDto RecordByUserId(@RequestParam Long userId, @RequestParam Long lastUpdatedId, int size) {
+    public MyPageRecordListDto recordByUserId(@RequestParam Long userId, @RequestParam Long lastUpdatedId, int size) {
         return recordService.getOrderBySlice(lastUpdatedId, userId, size);
+    }
+
+    @GetMapping("/{recordId}")
+    public RecordDetailDto recordByRecordId(@PathVariable Long recordId) {
+        return recordService.getOrderByRecordId(recordId);
     }
 }

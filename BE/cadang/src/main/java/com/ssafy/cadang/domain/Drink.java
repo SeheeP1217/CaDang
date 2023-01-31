@@ -34,5 +34,4 @@ public class Drink {
     private int shot;
     private Boolean whip;
 
-
 }

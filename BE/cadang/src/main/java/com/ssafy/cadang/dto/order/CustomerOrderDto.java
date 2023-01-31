@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 
@@ -15,7 +16,7 @@ public class CustomerOrderDto {
 
     private String drinkName;
     private int drinkPrice;
-    private LocalDateTime regDate;
+    private Timestamp regDate;
     private OrderStatus orderStatus;
     private String storeName;
 

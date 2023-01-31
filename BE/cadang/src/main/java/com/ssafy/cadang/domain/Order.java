@@ -4,8 +4,7 @@ import com.ssafy.cadang.domain.custom.SugarContent;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "orders")
@@ -28,7 +27,7 @@ public class Order {
     @JoinColumn(name = "drink_id")
     private Drink drink;
 
-    private LocalDateTime regDate;
+    private Timestamp regDate;
 
     private int caffeine;
     private int sugar;
