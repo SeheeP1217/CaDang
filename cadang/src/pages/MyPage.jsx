@@ -25,7 +25,7 @@ import ReviewListItem from "../components/ReviewListItem";
 
 function MyPage() {
   return (
-    <Paper sx={{ backgroundColor: "#EFF5F5" }}>
+    <Paper sx={{ backgroundColor: "#EFF5F5" , marginBottom: 7.4}}>
       <Box width="90%" margin="auto">
         <Typography
           level="h3"
@@ -111,6 +111,12 @@ function MyPage() {
             aria-labelledby="ellipsis-list-demo"
             sx={{ "--List-decorator-size": "56px" }}
           >
+            <ReviewListItem />
+            <ReviewListItem />
+            <ReviewListItem />
+            <ReviewListItem />
+            <ReviewListItem />
+            <ReviewListItem />
             <ReviewListItem />
             <ReviewListItem />
             <ReviewListItem />
