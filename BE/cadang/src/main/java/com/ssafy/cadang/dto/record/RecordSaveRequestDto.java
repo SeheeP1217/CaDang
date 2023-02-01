@@ -5,12 +5,14 @@ import com.ssafy.cadang.domain.custom.SugarContent;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 
 @Data
 public class RecordSaveRequestDto {
     private Long userId;
     private Long drinkId;
+    private String regDate;
 
     private int caffeine;
     private int sugar;
