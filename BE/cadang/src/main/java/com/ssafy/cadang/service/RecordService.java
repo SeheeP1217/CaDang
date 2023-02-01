@@ -5,7 +5,7 @@ import com.ssafy.cadang.domain.Order;
 import com.ssafy.cadang.domain.OrderStatus;
 import com.ssafy.cadang.domain.User;
 import com.ssafy.cadang.dto.record.*;
-import com.ssafy.cadang.dto.record.query.CaffeineRankingDto;
+import com.ssafy.cadang.dto.record.query.RecordRankingDto;
 import com.ssafy.cadang.repository.DrinkRepository;
 import com.ssafy.cadang.repository.RecordReposiotry;
 import com.ssafy.cadang.repository.UserRepository;
@@ -138,13 +138,21 @@ public class RecordService {
 
     public List<String> rankingCaffeine(Long userId, int month) {
         PageRequest pageRequest = PageRequest.of(0, 3);
-        List<CaffeineRankingDto> topList = recordReposiotry.findTop3ByCaffeine(userId, month, pageRequest);
+        List<RecordRankingDto> topList = recordReposiotry.findTop3ByCaffeine(userId, month, pageRequest);
         return topList.stream()
                 .map(o -> o.getFranchiseName() + " " + o.getDrinkName())
                 .collect(Collectors.toList());
 
-
     }
+
+    public List<String> rankingSugar(Long userId, int month) {
+        PageRequest pageRequest = PageRequest.of(0, 3);
+        List<RecordRankingDto> topList = recordReposiotry.findTop3BySugar(userId, month, pageRequest);
+        return topList.stream()
+                .map(o -> o.getFranchiseName() + " " + o.getDrinkName())
+                .collect(Collectors.toList());
+    }
+
 
     private List<MyPageRecordDto> toMyPqgeRecordDtos(Slice<Order> orders) {
         return orders.getContent()
