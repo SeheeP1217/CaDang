@@ -34,10 +34,16 @@ public class RecordService {
                 .orElseThrow(() -> new NoSuchElementException());
         Drink drink = drinkRepository.findById(recordDto.getDrinkId())
                 .orElseThrow(() -> new NoSuchElementException());
+        LocalDateTime regDate = LocalDateTime.now();
+        if (recordDto.getRegDate() != null) {
+            regDate = LocalDate.parse(recordDto.getRegDate()).atStartOfDay();
+        }
+
+
         Order record = Order.builder()
                 .user(user)
                 .drink(drink)
-                .regDate(LocalDateTime.now())
+                .regDate(regDate)
                 .caffeine(recordDto.getCaffeine())
                 .sugar(recordDto.getSugar())
                 .cal(recordDto.getCal())
@@ -59,8 +65,9 @@ public class RecordService {
 
     public MyPageRecordListDto getOrderBySlice(Long lastUpdateId, Long userId, int size) {
         PageRequest pageRequest = PageRequest.of(0, size);
+        Order lastRecord = recordReposiotry.findById(lastUpdateId).orElseThrow(() -> new NoSuchElementException());
 
-        Slice<Order> orders = recordReposiotry.findByIdLessThanAndUserIdAndOrderStatusIn(lastUpdateId, userId, recordStatus, pageRequest);
+        Slice<Order> orders = recordReposiotry.findByIdLessThanAndUserIdAndOrderStatusIn(lastRecord.getRegDate(), userId, recordStatus, pageRequest);
         List<MyPageRecordDto> recordDtos = toMyPqgeRecordDtos(orders);
         return MyPageRecordListDto.builder()
                 .recordList(recordDtos)
@@ -86,9 +93,19 @@ public class RecordService {
     }
 
     public MyPageRecordListDto searchByKeyword(Long userId, String keyword, Long lastUpdateId, int size) {
-        keyword = "%" + keyword + "%";
+        // 마지막 주문의 날짜를 찾음
+        Order lastRecord = recordReposiotry.findById(lastUpdateId).orElse(new Order(LocalDateTime.now()));
+        
+        // pagination
         PageRequest pageRequest = PageRequest.of(0, size);
-        Slice<Order> orders = recordReposiotry.findBySearchKeyword(lastUpdateId, userId, keyword, recordStatus, pageRequest);
+        Slice<Order> orders;
+        if (keyword == null) // keyword가 null면 전체 조회
+            orders = recordReposiotry.findByIdLessThanAndUserIdAndOrderStatusIn(lastRecord.getRegDate(), userId, recordStatus, pageRequest);
+        else {
+            // 키워드 검색
+            keyword = "%" + keyword + "%";
+            orders = recordReposiotry.findBySearchKeyword(lastRecord.getRegDate(), userId, keyword, recordStatus, pageRequest);
+        }
         List<MyPageRecordDto> recordDtos = toMyPqgeRecordDtos(orders);
         return MyPageRecordListDto.builder()
                 .recordList(recordDtos)

@@ -61,6 +61,10 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    public Order(LocalDateTime regDate) {
+        this.regDate = regDate;
+    }
+
     // ------- 주문
 
     // store와 양방향 연관관계 편의 메소드 있어야 할까?
