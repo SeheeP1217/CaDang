@@ -34,6 +34,7 @@ public class StoreOrderDto {
         whip = order.getWhip();
         syrup = order.getSyrup();
         vanilla = order.getHazelnut();
+        hazelnut = order.getHazelnut();
         caramel = order.getCaramel();
         sugarContent = order.getSugarContent();
         drinkName = order.getDrink().getDrinkName();
