@@ -55,4 +55,9 @@ public class RecordController {
         return recordService.rankingCaffeine(userId, month);
     }
 
+    @GetMapping("/ranking/sugar")
+    public List<String> sugarRanking(@RequestParam Long userId, @RequestParam int month) {
+        return recordService.rankingSugar(userId, month);
+    }
+
 }

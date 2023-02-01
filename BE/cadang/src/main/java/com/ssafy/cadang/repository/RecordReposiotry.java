@@ -2,7 +2,7 @@ package com.ssafy.cadang.repository;
 
 import com.ssafy.cadang.domain.Order;
 import com.ssafy.cadang.domain.OrderStatus;
-import com.ssafy.cadang.dto.record.query.CaffeineRankingDto;
+import com.ssafy.cadang.dto.record.query.RecordRankingDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -27,7 +27,7 @@ public interface RecordReposiotry extends JpaRepository<Order, Long> {
     Slice<Order> findBySearchKeyword(@Param("regDate") LocalDateTime regDate, @Param(("userId")) Long userId, @Param(("keyword")) String keyword, @Param("orderStatuses") OrderStatus[] orderStatuses, Pageable pageable);
 
     // ----- 랭킹 -------
-    @Query("SELECT new com.ssafy.cadang.dto.record.query.CaffeineRankingDto(d.drinkName, MAX(f.franchiseName), MAX(o.caffeine) as caffeine) " +
+    @Query("SELECT new com.ssafy.cadang.dto.record.query.RecordRankingDto(d.drinkName, MAX(f.franchiseName), MAX(o.caffeine) as caffeine) " +
             "FROM Order o " +
             "JOIN o.drink d " +
             "JOIN d.franchise f " +
@@ -35,6 +35,16 @@ public interface RecordReposiotry extends JpaRepository<Order, Long> {
             "AND month(o.regDate) = :month " +
             "GROUP BY d.franchise.id, d.drinkName " +
             "ORDER BY caffeine DESC")
-    List<CaffeineRankingDto> findTop3ByCaffeine(@Param("userId") Long userId, @Param("month") int month, Pageable pageable);
+    List<RecordRankingDto> findTop3ByCaffeine(@Param("userId") Long userId, @Param("month") int month, Pageable pageable);
+
+    @Query("SELECT new com.ssafy.cadang.dto.record.query.RecordRankingDto(d.drinkName, MAX(f.franchiseName), MAX(o.sugar) as sugar) " +
+            "FROM Order o " +
+            "JOIN o.drink d " +
+            "JOIN d.franchise f " +
+            "WHERE o.user.id = :userId " +
+            "AND month(o.regDate) = :month " +
+            "GROUP BY d.franchise.id, d.drinkName " +
+            "ORDER BY sugar DESC")
+    List<RecordRankingDto> findTop3BySugar(@Param("userId") Long userId, @Param("month") int month, Pageable pageable);
 
 }
