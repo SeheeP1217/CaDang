@@ -34,13 +34,17 @@ public class OrderController {
     public ResponseEntity<Long> saveOrder(@RequestBody OrderDto orderDto){
 
         logger.info("saveOrder - 호출 {} ", orderDto);
-
-
         Long orderId = orderService.saveOrder(orderDto);
-        // OrderDto to Entity  -> how?(builder? modelmapper?)  where?(Service or Controller)
-        // Save Entity -> use built-in method of JpaRepository
-        // return OrderId or ErrorMessage?
+
         return new ResponseEntity<Long>(orderId, HttpStatus.ACCEPTED);
+    }
+    @GetMapping("/{userId}")
+    @Operation(summary = "주문 현황 조회(고객)", description = "현재 진행 중인 주문을 조회합니다.")
+    public ResponseEntity<List<CustomerOrderDto>> getCustomerNowOrderList(@PathVariable Long userId){
+
+        List<CustomerOrderDto> CustomerOrderDtoList = orderService.getCustomerNowOrderById(userId);
+
+        return new ResponseEntity<List<CustomerOrderDto>>(CustomerOrderDtoList, HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/list/{userId}")
@@ -69,6 +73,27 @@ public class OrderController {
 
         return new ResponseEntity<List<StoreOrderDto>>(StoreNewOrderDtoList, HttpStatus.ACCEPTED);
     }
+
+    public ResponseEntity<String> acceptOrder(@PathVariable Long orderId) {
+
+        return null;
+    }
+
+    public ResponseEntity<String> completeOrder(@PathVariable Long orderId) {
+
+        return null;
+    }
+
+    public ResponseEntity<String> pickUpOrder(@PathVariable Long orderId) {
+
+        return null;
+    }
+
+    public ResponseEntity<String> canceclOrder(@PathVariable Long orderId) {
+
+        return null;
+    }
+
 
 
 

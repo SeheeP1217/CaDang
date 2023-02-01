@@ -12,7 +12,7 @@ public class MessageController {
 
     private final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
-    //고객이 가게에게 신규 주문 확인 위해 보내는 메시지
+    //고객이 가게에게 신규 주문 요청을 위해 보내는 메시지
     @MessageMapping("/order-request/{storeId}")
     @SendTo("/topic/request-complete/{storeId}")
     public String customerRequestMessage(@DestinationVariable long storeId, String message){
@@ -23,7 +23,7 @@ public class MessageController {
         return message;
     }
 
-    //가게가 고객에게 주문 수락 여부 확인 위해 보내는 메시지
+    //가게가 고객에게 주문 수락 여부 알리기 위해 보내는 메시지
     @MessageMapping("/order-response/{customerId}")
     @SendTo("/topic/request-complete/{customerId}")
     public String storeResponseMessage(@DestinationVariable long customerId, String message){

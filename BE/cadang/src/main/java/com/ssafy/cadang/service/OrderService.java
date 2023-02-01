@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -27,6 +28,9 @@ public class OrderService {
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
     private final DrinkRepository drinkRepository;
+
+    private static OrderStatus[] orderStatusList = {OrderStatus.RECORD, OrderStatus.PICKUP, OrderStatus.CANCEL};
+
     public Long saveOrder(OrderDto orderDto) {
 
         /**
@@ -78,6 +82,7 @@ public class OrderService {
         List<CustomerOrderDto> customerOrderDtoList = orders.stream()
                 .map(o -> new CustomerOrderDto(o))
                 .collect(Collectors.toList());
+
         return customerOrderDtoList;
     }
 
@@ -88,6 +93,7 @@ public class OrderService {
         List<StoreOrderDto> storeOrderDtoList = orders.stream()
                 .map(o -> new StoreOrderDto(o))
                 .collect(Collectors.toList());
+
         return storeOrderDtoList;
     }
 
@@ -98,8 +104,43 @@ public class OrderService {
         List<StoreOrderDto> storeNewOrderDtoList = orders.stream()
                 .map(o -> new StoreOrderDto(o))
                 .collect(Collectors.toList());
+
         return storeNewOrderDtoList;
     }
+
+    public List<CustomerOrderDto> getCustomerNowOrderById(Long userId) {
+
+        List<Order> orders = orderRepository.findAllByUserIdAndOrderStatus(userId, Arrays.asList(orderStatusList));
+
+        List<CustomerOrderDto> customerNowOrderDtoList = orders.stream()
+                .map(o -> new CustomerOrderDto(o))
+                .collect(Collectors.toList());
+
+        return customerNowOrderDtoList;
+    }
+
+    public int updateOrderToAccept(Long orderId) {
+
+        return 1;
+    }
+
+    public int updateOrderToComplete(Long orderId) {
+
+        return 1;
+    }
+
+    public int updateOrderToPickUp(Long orderId) {
+
+        return 1;
+    }
+
+    public int updateOrderToCancel(Long orderId) {
+
+        return 1;
+    }
+
+
+
 
 
 

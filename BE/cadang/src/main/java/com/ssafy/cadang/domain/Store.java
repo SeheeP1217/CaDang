@@ -24,6 +24,4 @@ public class Store {
     @OneToMany(mappedBy = "store")
     List<Order> orders = new java.util.ArrayList<>();
 
-
-
 }
