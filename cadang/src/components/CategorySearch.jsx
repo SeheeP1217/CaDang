@@ -6,11 +6,10 @@ const { kakao } = window;
 
 export default function CategorySearch() {
   // const [map, setMap] = useState()
-  const [list,setList] = useState([]);
+  const [list, setList] = useState([]);
   const [location, setLocation] = useState();
 
   useEffect(() => {
-
     // Get the user's current location
     //     navigator.geolocation.getCurrentPosition(position => {
     //     setLocation({
@@ -124,7 +123,7 @@ export default function CategorySearch() {
     let mapContainer = document.getElementById("map"), // 지도를 표시할 div
       mapOption = {
         center: new kakao.maps.LatLng(37.50153289264357, 127.03983097807087), // 지도의 중심좌표
-        level: 3, // 지도의 확대 레벨
+        level: 4, // 지도의 확대 레벨
       };
 
     // 지도를 생성합니다
@@ -133,11 +132,10 @@ export default function CategorySearch() {
     // 장소 검색 객체를 생성합니다
     let ps = new kakao.maps.services.Places();
 
-    // 지도 중심좌표를 얻어옵니다 
+    // 지도 중심좌표를 얻어옵니다
     let latlng = map.getCenter();
 
     searchPlaces();
-
 
     // 지도에 idle 이벤트를 등록합니다
     kakao.maps.event.addListener(map, "idle", searchPlaces);
@@ -179,30 +177,28 @@ export default function CategorySearch() {
       // 커스텀 오버레이를 숨깁니다
       placeOverlay.setMap(null);
 
+      // 지도 중심좌표를 얻어옵니다
+      latlng = map.getCenter();
 
-      // 지도 중심좌표를 얻어옵니다 
-      latlng = map.getCenter(); 
-      
-      let message = '변경된 지도 중심좌표는 ' + latlng.getLat() + ' 이고, ';
-      message += '경도는 ' + latlng.getLng() + ' 입니다';
-      
-      let resultDiv = document.getElementById('result');  
+      let message = "변경된 지도 중심좌표는 " + latlng.getLat() + " 이고, ";
+      message += "경도는 " + latlng.getLng() + " 입니다";
+
+      let resultDiv = document.getElementById("result");
       resultDiv.innerHTML = message;
 
       // 지도에 표시되고 있는 마커를 제거합니다
       removeMarker();
 
-      for(let i=1;i<=3;i++) { 
+      for (let i = 1; i <= 3; i++) {
         ps.categorySearch("CE7", placesSearchCB, {
           // location: new kakao.maps.LatLng(37.5018952591279, 127.039347134781),
           x: latlng.getLng(),
           y: latlng.getLat(),
           useMapBounds: true,
           radius: 300, // 전방 300m
-          page: i
+          page: i,
         });
       }
-
     }
 
     // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
@@ -212,7 +208,6 @@ export default function CategorySearch() {
         // console.log(pagination.totalCount);
 
         displayPlaces(data);
-        
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         // 검색결과가 없는경우 해야할 처리가 있다면 이곳에 작성해 주세요
       } else if (status === kakao.maps.services.Status.ERROR) {
@@ -234,7 +229,6 @@ export default function CategorySearch() {
       console.log(list);
 
       for (let i = 0; i < places.length; i++) {
-
         // 마커를 생성하고 지도에 표시합니다
         let marker = addMarker(new kakao.maps.LatLng(places[i].y, places[i].x), order);
 
@@ -359,17 +353,17 @@ export default function CategorySearch() {
 
   return (
     <>
-    <div className="container">
-      <div
-        className="map"
-        id="map"
-        style={{
-          position: "relative",
-          width: "100%",
-          height: "100%",
-          background: "beige",
-        }}
-      />
+      <div className="container">
+        <div
+          className="map"
+          id="map"
+          style={{
+            position: "relative",
+            width: "100%",
+            height: "100%",
+            background: "beige",
+          }}
+        />
         <div id="category">
           <li id="CE7" data-order="4">
             <button className="category_bg cafe">카페</button>
@@ -378,14 +372,9 @@ export default function CategorySearch() {
         <p id="result"></p>
         <div className="list">
           <div>
-            {
-            list.length !== 0 ?
-            (
-              list.map((element,i) => (<div key={i}>{element.address_name}</div>))
-            ) 
-            : 
-            null
-            }
+            {list.length !== 0
+              ? list.map((element, i) => <div key={i}>{element.address_name}</div>)
+              : null}
           </div>
         </div>
       </div>
