@@ -31,7 +31,7 @@ public class UserController {
 
     //회원가입
     @PostMapping("/user/join")
-    public void join(@Valid @RequestBody UserDto userDto){
+    public void join(@Valid @ModelAttribute UserDto userDto) throws IOException {
 
 
         // 유효성 검증은 서비스에서 한다.
