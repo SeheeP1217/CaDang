@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Tag(name = "기록", description = "기록 관련 api 입니다.")
 @RestController
 @RequestMapping("/record")
@@ -48,5 +50,9 @@ public class RecordController {
         return recordService.deleteOrderById(recordId);
     }
 
+    @GetMapping("/ranking/caffe")
+    public List<String> caffeineRanking(@RequestParam Long userId, @RequestParam int month) {
+        return recordService.rankingCaffeine(userId, month);
+    }
 
 }
