@@ -5,6 +5,7 @@ import com.ssafy.cadang.domain.Order;
 import com.ssafy.cadang.domain.OrderStatus;
 import com.ssafy.cadang.domain.User;
 import com.ssafy.cadang.dto.record.*;
+import com.ssafy.cadang.dto.record.query.CaffeineRankingDto;
 import com.ssafy.cadang.repository.DrinkRepository;
 import com.ssafy.cadang.repository.RecordReposiotry;
 import com.ssafy.cadang.repository.UserRepository;
@@ -95,7 +96,7 @@ public class RecordService {
     public MyPageRecordListDto searchByKeyword(Long userId, String keyword, Long lastUpdateId, int size) {
         // 마지막 주문의 날짜를 찾음
         Order lastRecord = recordReposiotry.findById(lastUpdateId).orElse(new Order(LocalDateTime.now()));
-        
+
         // pagination
         PageRequest pageRequest = PageRequest.of(0, size);
         Slice<Order> orders;
@@ -132,6 +133,16 @@ public class RecordService {
         if (updateDto.getPhoto() != null)
             findRecord.setPhoto(updateDto.getPhoto());
         return findRecord.getId();
+
+    }
+
+    public List<String> rankingCaffeine(Long userId, int month) {
+        PageRequest pageRequest = PageRequest.of(0, 3);
+        List<CaffeineRankingDto> topList = recordReposiotry.findTop3ByCaffeine(userId, month, pageRequest);
+        return topList.stream()
+                .map(o -> o.getFranchiseName() + " " + o.getDrinkName())
+                .collect(Collectors.toList());
+
 
     }
 

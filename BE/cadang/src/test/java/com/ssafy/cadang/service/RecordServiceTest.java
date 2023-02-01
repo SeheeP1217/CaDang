@@ -29,5 +29,10 @@ class RecordServiceTest {
         recordService.searchByKeyword(2L, "바닐라빈", 17L, 5);
     }
 
+    @Test
+    void topCaffeine() {
+        recordService.rankingCaffeine(6L, 2);
+    }
+
 
 }
