@@ -25,14 +25,11 @@ public class RecordController {
 
     @GetMapping
     public MyPageRecordListDto searchByKeyword(@RequestParam Long userId,
-                                               @RequestParam(required = false) Long lastupdatedId,
+                                               @RequestParam int page,
                                                @RequestParam int size,
                                                @RequestParam(required = false) String keyword) {
-        if (lastupdatedId == null) lastupdatedId = Long.MAX_VALUE;
 
-
-
-        return recordService.searchByKeyword(userId, keyword, lastupdatedId, size);
+        return recordService.searchByKeyword(userId, keyword, page, size);
     }
 
     @GetMapping("/{recordId}")
@@ -50,14 +47,5 @@ public class RecordController {
         return recordService.deleteOrderById(recordId);
     }
 
-    @GetMapping("/ranking/caffe")
-    public List<String> caffeineRanking(@RequestParam Long userId, @RequestParam int month) {
-        return recordService.rankingCaffeine(userId, month);
-    }
-
-    @GetMapping("/ranking/sugar")
-    public List<String> sugarRanking(@RequestParam Long userId, @RequestParam int month) {
-        return recordService.rankingSugar(userId, month);
-    }
 
 }

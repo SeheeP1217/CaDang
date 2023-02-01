@@ -3,14 +3,14 @@ package com.ssafy.cadang.dto.record.query;
 import lombok.Data;
 
 @Data
-public class RecordRankingDto {
+public class MostRankingDto {
     private String drinkName;
     private String franchiseName;
-    private int amount;
+    private long cnt;
 
-    public RecordRankingDto(String drinkName, String franchiseName, int amount) {
+    public MostRankingDto(String drinkName, String franchiseName, long cnt) {
         this.drinkName = drinkName;
         this.franchiseName = franchiseName;
-        this.amount = amount;
+        this.cnt = cnt;
     }
 }
