@@ -2,8 +2,9 @@ import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
 import axios from "axios"
 import {
+  // Avatar,
   Button,
-  CssBaseline,
+  // CssBaseline,
   TextField,
   FormControl,
   // FormControlLabel,
@@ -11,14 +12,12 @@ import {
   FormHelperText,
   Grid,
   Box,
-  Typography,
-  Container,
+  // Typography,
+  // Container,
 } from "@mui/material/"
-import { createTheme, ThemeProvider } from "@mui/material/styles"
+import { createTheme } from "@mui/material/styles"
 import styled from "styled-components"
-import "./RegisterPage.css"
-import ImageUploader from "../components/util/imageuploader"
-
+import "./RegisterForm.css"
 // mui의 css 우선순위가 높기때문에 important를 설정 - 실무하다 보면 종종 발생 우선순위 문제
 const FormHelperTexts = styled(FormHelperText)`
   width: 100%;
@@ -28,10 +27,10 @@ const FormHelperTexts = styled(FormHelperText)`
 `
 
 const Boxs = styled(Box)`
-  padding-bottom: 10px !important;
+  padding-bottom: 40px !important;
 `
 
-const RegisterPage = () => {
+const RegisterForm = () => {
   const theme = createTheme()
   // const [checked, setChecked] = useState(false)
   const [emailError, setEmailError] = useState("")
@@ -45,18 +44,15 @@ const RegisterPage = () => {
   // const handleAgree = (event) => {
   //   setChecked(event.target.checked)
   // }
-  const imgData = (imgdata) => {
-    console.log("이미지 가져옴", imgdata)
-  }
 
   const onhandlePost = async (data) => {
     const { email, name, nickname, password } = data
-
-    const postData = { email, name, nickname, password, imgData }
-
+    const postData = { email, name, nickname, password }
+  
+  // const userData = { postData, formData}
     // post
     await axios
-      .post("/user/join", postData)
+      .post("/user", postData)
       .then(function (response) {
         console.log(response, "성공")
         history.push("/login")
@@ -125,26 +121,12 @@ const RegisterPage = () => {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 2,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Typography component="h1" variant="h5">
-            회원가입
-          </Typography>
-          <ImageUploader onSubmit={imgData}></ImageUploader>
+
           <Boxs
             component="form"
             noValidate
             onSubmit={handleSubmit}
-            sx={{ mt: 2 }}
+            sx={{ mt: 1 }}
           >
             <FormControl component="fieldset" variant="standard">
               <Grid container spacing={2}>
@@ -228,10 +210,6 @@ const RegisterPage = () => {
             </FormControl>
             <FormHelperTexts>{registerError}</FormHelperTexts>
           </Boxs>
-        </Box>
-      </Container>
-    </ThemeProvider>
-  )
-}
+      ) }
 
-export default RegisterPage
+export default RegisterForm
