@@ -21,6 +21,7 @@ function App() {
   // NavBar 필요 없는 페이지 정의
   const IntroContainer = () => (
     <div>
+      {/* img fixed 옵션으로 바꿀지?? */}
       <img height={75} src={logo} alt="커피" />
       <Switch>
         <Route exact path="/" component={IntroPage}></Route>
