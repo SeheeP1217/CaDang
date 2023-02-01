@@ -12,9 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -74,27 +71,16 @@ public class OrderController {
         return new ResponseEntity<List<StoreOrderDto>>(StoreNewOrderDtoList, HttpStatus.ACCEPTED);
     }
 
-    public ResponseEntity<String> acceptOrder(@PathVariable Long orderId) {
+    @PutMapping
+    @Operation(summary = "주문 상태 수정", description = "주문 상태를 수락/거절/제조완료/픽업완료로 수정합니다")
+    public ResponseEntity<Long> updateOrder(@RequestBody OrderDto orderDto) {
 
-        return null;
+        logger.info("updateOrder - 호출 {} ", orderDto);
+
+        Long orderId = orderService.updateOrderByOrderIdAndOrderStatus(orderDto);
+
+        return new ResponseEntity<Long>(orderId, HttpStatus.ACCEPTED);
     }
-
-    public ResponseEntity<String> completeOrder(@PathVariable Long orderId) {
-
-        return null;
-    }
-
-    public ResponseEntity<String> pickUpOrder(@PathVariable Long orderId) {
-
-        return null;
-    }
-
-    public ResponseEntity<String> canceclOrder(@PathVariable Long orderId) {
-
-        return null;
-    }
-
-
 
 
 

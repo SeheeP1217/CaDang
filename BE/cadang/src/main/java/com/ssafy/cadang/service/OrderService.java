@@ -9,6 +9,7 @@ import com.ssafy.cadang.repository.OrderRepository;
 import com.ssafy.cadang.repository.StoreRepository;
 import com.ssafy.cadang.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -99,7 +100,7 @@ public class OrderService {
 
     public List<StoreOrderDto> getStoreNewOrderById(Long storeId) {
 
-        List<Order> orders = orderRepository.findAllByStoreidAndOrderStatus(storeId);
+        List<Order> orders = orderRepository.findAllByStoreidAndOrderStatus(storeId, OrderStatus.REQUEST);
 
         List<StoreOrderDto> storeNewOrderDtoList = orders.stream()
                 .map(o -> new StoreOrderDto(o))
@@ -119,25 +120,17 @@ public class OrderService {
         return customerNowOrderDtoList;
     }
 
-    public int updateOrderToAccept(Long orderId) {
+    public Long updateOrderByOrderIdAndOrderStatus(OrderDto orderDto) {
 
-        return 1;
+        Order findOrder = orderRepository.findById(orderDto.getOrderId())
+                .orElseThrow( () -> new NoSuchElementException("유효하지 않은 주문입니다"));
+
+        findOrder.setOrderStatus(orderDto.getOrderStatus());
+
+
+        return findOrder.getId();
     }
 
-    public int updateOrderToComplete(Long orderId) {
-
-        return 1;
-    }
-
-    public int updateOrderToPickUp(Long orderId) {
-
-        return 1;
-    }
-
-    public int updateOrderToCancel(Long orderId) {
-
-        return 1;
-    }
 
 
 
