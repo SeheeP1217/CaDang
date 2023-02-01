@@ -13,6 +13,11 @@ public class MonthDataDto {
     private boolean hasPrevious;
     private boolean hasNext;
 
+    private int totalPrice;
+    private List<String> favRanking;
+    private List<String> caffeRanking;
+    private List<String> sugarRanking;
+
 
 
 }

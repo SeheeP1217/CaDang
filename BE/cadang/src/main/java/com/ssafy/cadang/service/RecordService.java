@@ -5,6 +5,7 @@ import com.ssafy.cadang.domain.Order;
 import com.ssafy.cadang.domain.OrderStatus;
 import com.ssafy.cadang.domain.User;
 import com.ssafy.cadang.dto.record.*;
+import com.ssafy.cadang.dto.record.query.MostRankingDto;
 import com.ssafy.cadang.dto.record.query.RecordRankingDto;
 import com.ssafy.cadang.repository.DrinkRepository;
 import com.ssafy.cadang.repository.RecordReposiotry;
@@ -64,17 +65,17 @@ public class RecordService {
         return saveRecord.getId();
     }
 
-    public MyPageRecordListDto getOrderBySlice(Long lastUpdateId, Long userId, int size) {
-        PageRequest pageRequest = PageRequest.of(0, size);
-        Order lastRecord = recordReposiotry.findById(lastUpdateId).orElseThrow(() -> new NoSuchElementException());
-
-        Slice<Order> orders = recordReposiotry.findByIdLessThanAndUserIdAndOrderStatusIn(lastRecord.getRegDate(), userId, recordStatus, pageRequest);
-        List<MyPageRecordDto> recordDtos = toMyPqgeRecordDtos(orders);
-        return MyPageRecordListDto.builder()
-                .recordList(recordDtos)
-                .hasNext(orders.hasNext())
-                .build();
-    }
+//    public MyPageRecordListDto getOrderBySlice(Long lastUpdateId, Long userId, int size) {
+//        PageRequest pageRequest = PageRequest.of(0, size);
+//        Order lastRecord = recordReposiotry.findById(lastUpdateId).orElseThrow(() -> new NoSuchElementException());
+//
+//        Slice<Order> orders = recordReposiotry.findByIdLessThanAndUserIdAndOrderStatusIn(lastRecord.getRegDate(), userId, recordStatus, pageRequest);
+//        List<MyPageRecordDto> recordDtos = toMyPageRecordDtos(orders);
+//        return MyPageRecordListDto.builder()
+//                .recordList(recordDtos)
+//                .hasNext(orders.hasNext())
+//                .build();
+//    }
 
     public RecordDetailDto getOrderByRecordId(Long recordId) {
         Optional<Order> order = recordReposiotry.findById(recordId);
@@ -93,21 +94,19 @@ public class RecordService {
         return recordId;
     }
 
-    public MyPageRecordListDto searchByKeyword(Long userId, String keyword, Long lastUpdateId, int size) {
-        // 마지막 주문의 날짜를 찾음
-        Order lastRecord = recordReposiotry.findById(lastUpdateId).orElse(new Order(LocalDateTime.now()));
+    public MyPageRecordListDto searchByKeyword(Long userId, String keyword, int page, int size) {
 
         // pagination
-        PageRequest pageRequest = PageRequest.of(0, size);
+        PageRequest pageRequest = PageRequest.of(page, size);
         Slice<Order> orders;
         if (keyword == null) // keyword가 null면 전체 조회
-            orders = recordReposiotry.findByIdLessThanAndUserIdAndOrderStatusIn(lastRecord.getRegDate(), userId, recordStatus, pageRequest);
+            orders = recordReposiotry.findAllByPage(userId, recordStatus, pageRequest);
         else {
             // 키워드 검색
             keyword = "%" + keyword + "%";
-            orders = recordReposiotry.findBySearchKeyword(lastRecord.getRegDate(), userId, keyword, recordStatus, pageRequest);
+            orders = recordReposiotry.findBySearchKeyword(userId, keyword, recordStatus, pageRequest);
         }
-        List<MyPageRecordDto> recordDtos = toMyPqgeRecordDtos(orders);
+        List<MyPageRecordDto> recordDtos = toMyPageRecordDtos(orders);
         return MyPageRecordListDto.builder()
                 .recordList(recordDtos)
                 .hasNext(orders.hasNext())
@@ -136,25 +135,13 @@ public class RecordService {
 
     }
 
-    public List<String> rankingCaffeine(Long userId, int month) {
-        PageRequest pageRequest = PageRequest.of(0, 3);
-        List<RecordRankingDto> topList = recordReposiotry.findTop3ByCaffeine(userId, month, pageRequest);
-        return topList.stream()
-                .map(o -> o.getFranchiseName() + " " + o.getDrinkName())
-                .collect(Collectors.toList());
 
+
+    public int getSum(Long userId, int month) {
+        return recordReposiotry.findSumByUserAndMonth(userId, month);
     }
 
-    public List<String> rankingSugar(Long userId, int month) {
-        PageRequest pageRequest = PageRequest.of(0, 3);
-        List<RecordRankingDto> topList = recordReposiotry.findTop3BySugar(userId, month, pageRequest);
-        return topList.stream()
-                .map(o -> o.getFranchiseName() + " " + o.getDrinkName())
-                .collect(Collectors.toList());
-    }
-
-
-    private List<MyPageRecordDto> toMyPqgeRecordDtos(Slice<Order> orders) {
+    private List<MyPageRecordDto> toMyPageRecordDtos(Slice<Order> orders) {
         return orders.getContent()
                 .stream()
                 .map(o -> MyPageRecordDto.builder()

@@ -3,9 +3,13 @@ package com.ssafy.cadang.service;
 import com.ssafy.cadang.domain.Data;
 import com.ssafy.cadang.domain.User;
 import com.ssafy.cadang.dto.data.*;
+import com.ssafy.cadang.dto.record.query.MostRankingDto;
+import com.ssafy.cadang.dto.record.query.RecordRankingDto;
 import com.ssafy.cadang.repository.DataRepository;
+import com.ssafy.cadang.repository.RecordReposiotry;
 import com.ssafy.cadang.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +23,7 @@ import java.util.stream.Collectors;
 public class DataService {
     private final DataRepository dataRepository;
     private final UserRepository userRepository;
+    private final RecordReposiotry recordReposiotry;
 
 
     /**
@@ -169,19 +174,18 @@ public class DataService {
         boolean hasNext = dataRepository.existsByRegDateGreaterThan(endDate, userId);
         boolean hasPrevious = dataRepository.existsByRegDateLessThan(startDate, userId);
 
-        List<DayDataDtoByMonth> daydatas = monthData.stream()
-                .map(m -> DayDataDtoByMonth.builder()
-                        .date(m.getRegDate())
-                        .caffeDaily(m.getCaffeDaily())
-                        .sugarDaily(m.getSugarDaily())
-                        .caffeSuccess(m.isCaffeSuccess())
-                        .sugarSuccess(m.isSugarSuccess())
-                        .build()
-                ).collect(Collectors.toList());
+        List<DayDataDtoByMonth> daydatas = toMonThDto(monthData);
+
+        int month = date.getMonthValue();
+
         return MonthDataDto.builder()
                 .monthDataList(daydatas)
                 .hasPrevious(hasPrevious)
                 .hasNext(hasNext)
+                .totalPrice(recordReposiotry.findSumByUserAndMonth(userId, month))
+                .favRanking(rankingMost(userId, month))
+                .caffeRanking(rankingCaffeine(userId, month))
+                .sugarRanking(rankingSugar(userId, month))
                 .build();
 
     }
@@ -197,6 +201,43 @@ public class DataService {
         return datas.stream()
                 .mapToInt(Data::getSugarDaily)
                 .sum();
+    }
+
+    private List<DayDataDtoByMonth> toMonThDto(List<Data> monthData) {
+        return monthData.stream()
+                .map(m -> DayDataDtoByMonth.builder()
+                        .date(m.getRegDate())
+                        .caffeDaily(m.getCaffeDaily())
+                        .sugarDaily(m.getSugarDaily())
+                        .caffeSuccess(m.isCaffeSuccess())
+                        .sugarSuccess(m.isSugarSuccess())
+                        .build()
+                ).collect(Collectors.toList());
+
+    }
+
+    private List<String> rankingCaffeine(Long userId, int month) {
+        PageRequest pageRequest = PageRequest.of(0, 3);
+        List<RecordRankingDto> topList = recordReposiotry.findTop3ByCaffeine(userId, month, pageRequest);
+        return topList.stream()
+                .map(o -> o.getFranchiseName() + " " + o.getDrinkName())
+                .collect(Collectors.toList());
+    }
+
+    private List<String> rankingSugar(Long userId, int month) {
+        PageRequest pageRequest = PageRequest.of(0, 3);
+        List<RecordRankingDto> topList = recordReposiotry.findTop3BySugar(userId, month, pageRequest);
+        return topList.stream()
+                .map(o -> o.getFranchiseName() + " " + o.getDrinkName())
+                .collect(Collectors.toList());
+    }
+
+    private List<String> rankingMost(Long userId, int month) {
+        PageRequest pageRequest = PageRequest.of(0, 3);
+        List<MostRankingDto> topList = recordReposiotry.findTop3ByMostDrink(userId, month, pageRequest);
+        return topList.stream()
+                .map(o -> o.getFranchiseName() + " " + o.getDrinkName())
+                .collect(Collectors.toList());
     }
 
 
