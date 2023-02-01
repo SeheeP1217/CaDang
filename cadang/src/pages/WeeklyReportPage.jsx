@@ -5,8 +5,7 @@ import Typography from "@mui/joy/Typography";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { Paper } from "@mui/material";
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
+
 
 import WeeklyReportData from '../components/WeeklyReportData';
 
