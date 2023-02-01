@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class OrderDto {
 
+    private Long orderId;
     private Long userId;
     private Long drinkId;
 
@@ -36,6 +37,9 @@ public class OrderDto {
     // ---------- 기록 주문 공통
 
     private Long storeId;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
 
 
     // ------- 주문
