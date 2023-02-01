@@ -9,6 +9,7 @@ import com.ssafy.cadang.repository.DataRepository;
 import com.ssafy.cadang.repository.RecordReposiotry;
 import com.ssafy.cadang.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class DataService {
     private final DataRepository dataRepository;
     private final UserRepository userRepository;
@@ -27,17 +29,24 @@ public class DataService {
 
 
     /**
-     * 회원가입시 자동으로 오늘 data 만들기`
+     * 회원가입시 자동으로 오늘 data 만들기 + 스케줄러
      */
     @Transactional
     public Long createData(Long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        User user = userOptional.orElse(null);
-        if (user != null) {
-            Data saveData = dataRepository.save(new Data(user));
-            return saveData.getId();
+        User user = userRepository.findById(userId)
+                .orElseThrow(NoSuchElementException::new);
+        log.info("user {}", user.getId());
+        Data saveData = dataRepository.save(new Data(user));
+        return saveData.getId();
+
+    }
+
+    @Transactional
+    public void createDataByScheduler() {
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            createData(user.getId());
         }
-        return null; // 에러 처리 하기
     }
 
     @Transactional
