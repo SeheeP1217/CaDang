@@ -1,3 +1,4 @@
+import { element } from "prop-types";
 import React, { useEffect, useState } from "react";
 import "./CategorySearch.css";
 
@@ -5,9 +6,11 @@ const { kakao } = window;
 
 export default function CategorySearch() {
   // const [map, setMap] = useState()
-  const [location, setLocation] = useState({});
+  const [list,setList] = useState([]);
+  const [location, setLocation] = useState();
 
   useEffect(() => {
+
     // Get the user's current location
     //     navigator.geolocation.getCurrentPosition(position => {
     //     setLocation({
@@ -120,7 +123,7 @@ export default function CategorySearch() {
 
     let mapContainer = document.getElementById("map"), // 지도를 표시할 div
       mapOption = {
-        center: new kakao.maps.LatLng(37.503325874722, 127.04403462366), // 지도의 중심좌표
+        center: new kakao.maps.LatLng(37.50153289264357, 127.03983097807087), // 지도의 중심좌표
         level: 3, // 지도의 확대 레벨
       };
 
@@ -131,15 +134,18 @@ export default function CategorySearch() {
     let ps = new kakao.maps.services.Places();
 
     // 지도 중심좌표를 얻어옵니다 
-    let latlng = map.getCenter(); 
+    let latlng = map.getCenter();
+
+    searchPlaces();
+
 
     // 지도에 idle 이벤트를 등록합니다
     kakao.maps.event.addListener(map, "idle", searchPlaces);
 
     // 마우스 드래그로 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
-    kakao.maps.event.addListener(map, 'dragend',searchPlaces);
+    // kakao.maps.event.addListener(map, 'dragend',searchPlaces);
 
-    kakao.maps.event.addListener(map, 'zoom_changed',searchPlaces);
+    // kakao.maps.event.addListener(map, 'zoom_changed',searchPlaces);
 
     // 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다
     contentNode.className = "placeinfo_wrap";
@@ -186,24 +192,23 @@ export default function CategorySearch() {
       // 지도에 표시되고 있는 마커를 제거합니다
       removeMarker();
 
-      for(let i=1;i<=45;i++) {
-        
+      for(let i=1;i<=3;i++) { 
         ps.categorySearch("CE7", placesSearchCB, {
           // location: new kakao.maps.LatLng(37.5018952591279, 127.039347134781),
           x: latlng.getLng(),
           y: latlng.getLat(),
           useMapBounds: true,
-          radius: 300,
+          radius: 300, // 전방 300m
           page: i
         });
       }
+
     }
 
     // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
     function placesSearchCB(data, status, pagination) {
       if (status === kakao.maps.services.Status.OK) {
         // 정상적으로 검색이 완료됐으면 지도에 마커를 표출합니다
-        console.log(data);
         // console.log(pagination.totalCount);
 
         displayPlaces(data);
@@ -220,9 +225,16 @@ export default function CategorySearch() {
       // 몇번째 카테고리가 선택되어 있는지 얻어옵니다
       // 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
       let order = document.getElementById(currCategory).getAttribute("data-order");
-      
+      console.log("================");
+      console.log(places);
+      console.log("================");
+      setList(places);
+      // setData({...data,places});
+      // setData((data) => [...data,places]);
+      console.log(list);
 
       for (let i = 0; i < places.length; i++) {
+
         // 마커를 생성하고 지도에 표시합니다
         let marker = addMarker(new kakao.maps.LatLng(places[i].y, places[i].x), order);
 
@@ -354,7 +366,7 @@ export default function CategorySearch() {
         style={{
           position: "relative",
           width: "100%",
-          height: "400px",
+          height: "100%",
           background: "beige",
         }}
       />
@@ -364,6 +376,18 @@ export default function CategorySearch() {
           </li>
         </div>
         <p id="result"></p>
+        <div className="list">
+          <div>
+            {
+            list.length !== 0 ?
+            (
+              list.map((element,i) => (<div key={i}>{element.address_name}</div>))
+            ) 
+            : 
+            null
+            }
+          </div>
+        </div>
       </div>
     </>
   );

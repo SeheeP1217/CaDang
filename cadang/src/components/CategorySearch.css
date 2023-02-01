@@ -1,10 +1,16 @@
 .container {
   padding-left: 3%;
   padding-right: 3%;
+  /* padding-bottom: 5%; */
+  height: 300px;
 }
 
 .map {
   background-color: red;
   position: relative;
   overflow: hidden;
+}
+
+.list {
+  padding-bottom: 60px;
 }
