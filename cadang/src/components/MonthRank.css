@@ -1,0 +1,12 @@
+.carousel {
+  width: 600px;
+  margin: 0 auto;
+  font-family: "netmarble"
+}
+
+.paper {
+  width: 500px;
+  margin: 0 auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}

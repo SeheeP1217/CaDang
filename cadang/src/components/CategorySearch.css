@@ -1,0 +1,10 @@
+.container {
+  padding-left: 3%;
+  padding-right: 3%;
+}
+
+.map {
+  background-color: red;
+  position: relative;
+  overflow: hidden;
+}
