@@ -27,8 +27,8 @@ public class RecordController {
                                                @RequestParam int size,
                                                @RequestParam(required = false) String keyword) {
         if (lastupdatedId == null) lastupdatedId = Long.MAX_VALUE;
-        if (keyword == null)
-            return recordService.getOrderBySlice(lastupdatedId, userId, size);
+
+
 
         return recordService.searchByKeyword(userId, keyword, lastupdatedId, size);
     }
