@@ -14,7 +14,6 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -61,7 +60,7 @@ public class RecordService {
     public MyPageRecordListDto getOrderBySlice(Long lastUpdateId, Long userId, int size) {
         PageRequest pageRequest = PageRequest.of(0, size);
 
-        Slice<Order> orders = recordReposiotry.findByIdLessThanAndUserIdAndOrderStatusIn(lastUpdateId, userId, Arrays.asList(recordStatus), pageRequest);
+        Slice<Order> orders = recordReposiotry.findByIdLessThanAndUserIdAndOrderStatusIn(lastUpdateId, userId, recordStatus, pageRequest);
         List<MyPageRecordDto> recordDtos = toMyPqgeRecordDtos(orders);
         return MyPageRecordListDto.builder()
                 .recordList(recordDtos)
@@ -89,7 +88,7 @@ public class RecordService {
     public MyPageRecordListDto searchByKeyword(Long userId, String keyword, Long lastUpdateId, int size) {
         keyword = "%" + keyword + "%";
         PageRequest pageRequest = PageRequest.of(0, size);
-        Slice<Order> orders = recordReposiotry.findBySearchKeyword(lastUpdateId, userId, keyword, pageRequest);
+        Slice<Order> orders = recordReposiotry.findBySearchKeyword(lastUpdateId, userId, keyword, recordStatus, pageRequest);
         List<MyPageRecordDto> recordDtos = toMyPqgeRecordDtos(orders);
         return MyPageRecordListDto.builder()
                 .recordList(recordDtos)

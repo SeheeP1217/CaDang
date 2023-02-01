@@ -20,17 +20,20 @@ public class RecordController {
         return id;
     }
 
+
     @GetMapping
-    public MyPageRecordListDto recordByUserId(@RequestParam Long userId, @RequestParam Long lastUpdatedId, int size) {
-        return recordService.getOrderBySlice(lastUpdatedId, userId, size);
-    }
-    @GetMapping("/search")
-    public MyPageRecordListDto searchByKeyword(Long userId, Long lastupdatedId, int size, String keyword) {
+    public MyPageRecordListDto searchByKeyword(@RequestParam Long userId,
+                                               @RequestParam(required = false) Long lastupdatedId,
+                                               @RequestParam int size,
+                                               @RequestParam(required = false) String keyword) {
+        if (lastupdatedId == null) lastupdatedId = Long.MAX_VALUE;
+        if (keyword == null)
+            return recordService.getOrderBySlice(lastupdatedId, userId, size);
 
         return recordService.searchByKeyword(userId, keyword, lastupdatedId, size);
     }
 
-    @GetMapping("/detail/{recordId}")
+    @GetMapping("/{recordId}")
     public RecordDetailDto recordByRecordId(@PathVariable Long recordId) {
         return recordService.getOrderByRecordId(recordId);
     }
