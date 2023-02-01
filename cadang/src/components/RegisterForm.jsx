@@ -48,7 +48,8 @@ const RegisterForm = () => {
   const onhandlePost = async (data) => {
     const { email, name, nickname, password } = data
     const postData = { email, name, nickname, password }
-
+  
+  // const userData = { postData, formData}
     // post
     await axios
       .post("/user", postData)
