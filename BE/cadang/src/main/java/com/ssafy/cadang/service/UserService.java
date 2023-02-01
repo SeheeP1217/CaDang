@@ -5,17 +5,26 @@ package com.ssafy.cadang.service;
 import com.ssafy.cadang.domain.User;
 
 import com.ssafy.cadang.dto.UserDto;
+import com.ssafy.cadang.dto.data.EmailRequest;
 import com.ssafy.cadang.file.FileStore;
 import com.ssafy.cadang.repository.UserRepository;
+import com.ssafy.cadang.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessageRemovedException;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 import java.util.UUID;
 
 
@@ -26,6 +35,10 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+    private final JavaMailSender javaMailSender;
+    private final RedisUtil redisUtil;
+
 
     @Value("${USER_PROFILE_PATH}")
     private String UserProfileImgPath;
@@ -40,9 +53,12 @@ public class UserService {
     private final Long defaultCaffeineGoal = 400L;
     private final Long defaultSugarGoal = 25L;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder){
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+                       JavaMailSender javaMailSender, RedisUtil redisUtil){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.javaMailSender = javaMailSender;
+        this.redisUtil = redisUtil;
     }
 
     //회원가입
@@ -135,10 +151,60 @@ public class UserService {
     }
 
     // 원본 파일의 확장자를 반환한다.
+
     private String extractExt(String originalFilename){
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);
     }
+
+    // 이메일 인증
+
+
+    private void sendAuthEmail(String email, String authKey) {
+        String title = "카당 회원가입 인증번호가 발송되었습니다.";
+        String text = "회원가입을 위한 인증번호는 " + authKey + " 입니다. <br/>";
+
+        try {
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
+            helper.setTo(email);
+            helper.setSubject(title);
+            helper.setText(text, true);
+            javaMailSender.send(mimeMessage);
+
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
+        // 유효시간(5분) 동안 {email,authKey} 저장
+        redisUtil.setDataExpire(authKey, email, 60 * 5L);
+
+    }
+
+    @Transactional
+    public void authEmail(EmailRequest request) {
+        Random random = new Random();
+        String authKey = String.valueOf(random.nextInt(888888) + 111111);
+
+        //이메일 발송
+        sendAuthEmail(request.getEmail(), authKey);
+    }
+
+    public Boolean verifyEmail(String key) throws ChangeSetPersister.NotFoundException{
+        String userEmail = redisUtil.getData(key);
+        if (userEmail == null) {
+            throw new ChangeSetPersister.NotFoundException();
+        }
+        redisUtil.deleteData(key);
+        return true;
+    }
+
+
+
+
+
+
 
 
 }
