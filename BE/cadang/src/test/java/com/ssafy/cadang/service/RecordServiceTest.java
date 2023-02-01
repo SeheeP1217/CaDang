@@ -24,5 +24,10 @@ class RecordServiceTest {
         System.out.println(orderBySlice);
     }
 
+    @Test
+    public void search() {
+        recordService.searchByKeyword(2L, "바닐라빈", 17L, 5);
+    }
+
 
 }

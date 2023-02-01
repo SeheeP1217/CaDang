@@ -9,7 +9,6 @@ import java.util.TimeZone;
 public class CadangApplication {
 
 	public static void main(String[] args) {
-		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
 		SpringApplication.run(CadangApplication.class, args);
 	}
 

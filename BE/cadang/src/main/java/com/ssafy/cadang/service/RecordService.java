@@ -78,6 +78,27 @@ public class RecordService {
     }
 
     @Transactional
+    public Long deleteOrderById(Long recordId) {
+        Optional<Order> order = recordReposiotry.findById(recordId);
+        if (order.isEmpty())
+            throw new IllegalStateException("기록이 존재하지 않습니다.");
+        recordReposiotry.delete(order.get());
+        return recordId;
+    }
+
+    public MyPageRecordListDto searchByKeyword(Long userId, String keyword, Long lastUpdateId, int size) {
+        keyword = "%" + keyword + "%";
+        PageRequest pageRequest = PageRequest.of(0, size);
+        Slice<Order> orders = recordReposiotry.findBySearchKeyword(lastUpdateId, userId, keyword, pageRequest);
+        List<MyPageRecordDto> recordDtos = toMyPqgeRecordDtos(orders);
+        return MyPageRecordListDto.builder()
+                .recordList(recordDtos)
+                .hasNext(orders.hasNext())
+                .build();
+
+    }
+
+    @Transactional
     public Long updateRecord(RecordUpdateDto updateDto) {
         Order findRecord = recordReposiotry.findById(updateDto.getId())
                 .orElseThrow(() -> new NoSuchElementException());

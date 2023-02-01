@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 
 @Slf4j
-@Controller
+//@Controller
 @RequiredArgsConstructor
 public class UserProfileImgController {
 
