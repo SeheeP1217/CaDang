@@ -112,9 +112,7 @@ function TextSearchPage() {
       </Box>
       
       <Box padding={2}>
-      <MenuListItem/>
-      <MenuListItem/>
-      <MenuListItem/>
+      <MenuListItem data={menuData}/>
       </Box>
 
     </Paper>
@@ -122,24 +120,25 @@ function TextSearchPage() {
 }
 
 const menuData = [
-  {name: '아이스 아메리카노',
+  {pk: 1,
+    name: '카페라떼',
     caffeine: 250,
     sugar: 30,
+    cal: 350,
     price: 2500,
   },
-  {name: '아이스 아메리카노',
+  {pk: 2,
+  name: '바닐라 라떼',
   caffeine: 250,
   sugar: 30,
+  cal: 350,
   price: 2500,
   },
-  {name: '아이스 아메리카노',
+  {pk: 3,
+  name: '아이스 아메리카노',
   caffeine: 250,
   sugar: 30,
-  price: 2500,
-  },
-  {name: '아이스 아메리카노',
-  caffeine: 250,
-  sugar: 30,
+  cal: 350,
   price: 2500,
   },
 ]

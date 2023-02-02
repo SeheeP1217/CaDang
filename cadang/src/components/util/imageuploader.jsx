@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
-// import "./uploader.scss"
 // import { Button } from "@mui/material"
-// import axios from "axios"
+import axios from "axios"
 import default_image from "../../assets/default_image.png"
 import styled from "styled-components"
 
@@ -24,6 +23,7 @@ const Uploader = (props) => {
         preview_URL: preview_URL,
       }))
     }
+    console.log(e.target.files)
   }
 
   const deleteImage = () => {
@@ -42,25 +42,26 @@ const Uploader = (props) => {
     }
   }, [])
 
-  // const sendImageToServer = async () => {
-  //   if (image.image_file) {
-  //     const formData = new FormData()
-  //     formData.append("file", image.image_file)
+  const sendImageToServer = async () => {
+    if (image.image_file) {
+      const formData = new FormData()
+      formData.append("file", image.image_file)
 
-  //     console.log(image.image_file)
-  //     console.log(formData)
+      console.log(image.image_file)
+      console.log(formData)
 
-  //     await axios.post("/api/image/upload", formData)
-  //     console.log("서버에 등록이 완료되었습니다!")
-  //     setImage({
-  //       image_file: "",
-  //       preview_URL: default_image,
-  //     })
-  //   }
-  // }
+      await axios.post("/api/image/upload", formData)
+      console.log("서버에 등록이 완료되었습니다!")
+      setImage({
+        image_file: "",
+        preview_URL: default_image,
+      })
+    }
+
+  }
   const handleSubmit = (e) => {
     e.preventDefault()
-    props.onSubmit(image.image_file)
+    props.handleSubmit(image)
   }
 
   return (
