@@ -37,7 +37,7 @@ public class DataService {
     public Long createData(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
-        log.info("user {}", user.getId());
+//        log.info("user {}", user.getId());
         Data saveData = dataRepository.save(new Data(user));
         return saveData.getId();
 
@@ -70,32 +70,29 @@ public class DataService {
         LocalDate startDate = date.minusDays(dayOfWeek - 1); // 월요일
         List<Data> thisWeekList = dataRepository.findWeekDataByUserAndStartDate(startDate, date, userId);
 
+        // 사용자를 찾을 수 없을 때 에러
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
 
 
         // 오늘의 데이터
-        Optional<Data> optionalData = dataRepository.findByUserAndDate(date, userId);
-        Optional<Data> optionalLast = dataRepository.findByUserAndDate(date.minusWeeks(1), userId);
-
-        if (optionalData.isEmpty()) {
-            throw new IllegalStateException("오늘의 데이터가 없습니다.");
-            // null 에러처리 고민
-        }
-        Data todayData = optionalData.get();
+        Data todayData = dataRepository.findByUserAndDate(date, userId)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
 
 
-        Data lastWeekDayData = optionalLast.orElse(new Data(user));
+        // 지난주 데이터가 없으면 0으로 처리
+        Data lastWeekDayData = dataRepository.findByUserAndDate(date.minusWeeks(1), userId).orElse(new Data(user));
 
 
         LocalDate lastWeekDay = date.minusWeeks(1);
         LocalDate lastStartDay = lastWeekDay.minusDays(lastWeekDay.getDayOfWeek().getValue() - 1);
+
         // 지난주 데이터 합
         List<Data> lastWeekData = dataRepository.findWeekDataByUserAndStartDate(lastStartDay, lastWeekDay, userId);
         int lastCaffeSum = getCaffeSum(lastWeekData);
         int lastSugarSum = getSugarSum(lastWeekData);
 
-//         이번주 데이터 합
+//    이번주 데이터 합
         int thisCaffeSum = getCaffeSum(thisWeekList);
         int thisSugarSum = getSugarSum(thisWeekList);
 
@@ -118,8 +115,10 @@ public class DataService {
     }
 
     public DayDataDto getOneByDate(LocalDate date, Long userId) {
-        Optional<Data> data = dataRepository.findByUserAndDate(date, userId);
-        return new DayDataDto(data.orElse(null));
+        Data data = dataRepository.findByUserAndDate(date, userId)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
+
+        return new DayDataDto(data);
     }
 
 
@@ -151,9 +150,9 @@ public class DataService {
             // 실제 반환 데이터의 끝 요일
             LocalDate lastData = dayGraphDtos.get(dayGraphDtos.size() - 1).getDate();
             int lastDay = lastData.getDayOfWeek().getValue();
+
             // 시작 요일 이전의 데이터가 없을 경우
             for (int d = 1; d < firstDay; d++) {
-                System.out.println("이전 추가" + startDate.plusDays(d - 1));
                 dayGraphDtos.add(DayGraphDto.builder()
                         .date(startDate.plusDays(d - 1))
                         .caffeine(0)
@@ -162,7 +161,6 @@ public class DataService {
             }
             // 현재 요일 이후의 데이터가 없을 경우
             for (int d = lastDay + 1; d <= 7; d++) {
-                System.out.println("이후 추가");
                 dayGraphDtos.add(DayGraphDto.builder()
                         .date(startDate.plusDays(d - 1))
                         .caffeine(0)
@@ -186,6 +184,7 @@ public class DataService {
         monthData.sort(Comparator.comparing(Data::getRegDate));
         LocalDate startDate = monthData.get(0).getRegDate();
         LocalDate endDate = monthData.get(monthData.size() - 1).getRegDate();
+
         boolean hasNext = dataRepository.existsByRegDateGreaterThan(endDate, userId);
         boolean hasPrevious = dataRepository.existsByRegDateLessThan(startDate, userId);
 
@@ -202,6 +201,17 @@ public class DataService {
                 .caffeRanking(rankingCaffeine(userId, month))
                 .sugarRanking(rankingSugar(userId, month))
                 .build();
+
+    }
+
+    @Transactional
+    public void updateGoal(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
+        Data todayData = dataRepository.findByUserAndDate(LocalDate.now(), userId)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
+        todayData.setCaffeGoal(user.getCaffeGoal());
+        todayData.setSugarGoal(user.getSugarGoal());
 
     }
 
