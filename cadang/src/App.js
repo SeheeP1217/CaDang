@@ -1,19 +1,20 @@
-import LoginPage from "./pages/LoginPage";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import RegisterPage from "./pages/RegisterPage";
-import * as React from "react";
-import TopBar from "./components/util/TopBar";
-import BottomNav from "./components/util/BottomNav";
-import logo from './assets/logo.png'
+import LoginPage from "./pages/LoginPage"
+import { BrowserRouter, Route, Switch } from "react-router-dom"
+import RegisterPage from "./pages/RegisterPage"
+import * as React from "react"
+import TopBar from "./components/util/TopBar"
+import BottomNav from "./components/util/BottomNav"
+import logo from "./assets/logo.png"
 
-import MyPage from "./pages/MyPage";
-import MainPage from "./pages/MainPage";
-import SearchCafePage from "./pages/SearchCafePage";
-import MonthReportPage from "./pages/MonthReportPage";
-import WeeklyReportPage from "./pages/WeeklyReportPage";
-import IntroPage from "./pages/IntroPage";
-import InfoPage from "./pages/InfoPage";
-import TextSearchPage from "./pages/TextSearchPage";
+import MyPage from "./pages/MyPage"
+import MainPage from "./pages/MainPage"
+import SearchCafePage from "./pages/SearchCafePage"
+import MonthReportPage from "./pages/MonthReportPage"
+import WeeklyReportPage from "./pages/WeeklyReportPage"
+import IntroPage from "./pages/IntroPage"
+import InfoPage from "./pages/InfoPage"
+import TextSearchPage from "./pages/TextSearchPage"
+import ImageRegisterPage from "./pages/ImageRegisterPage"
 
 function App() {
   // const [{ user }, dispatch] = useStateValue();
@@ -27,10 +28,11 @@ function App() {
         <Route exact path="/" component={IntroPage}></Route>
         <Route exact path="/sign_in" component={LoginPage} />
         <Route exact path="/sign_up" component={RegisterPage} />
+        <Route exact path="/image_signup" component={ImageRegisterPage} />
         <Route exact path="/info" component={InfoPage} />
       </Switch>
     </div>
-  );
+  )
 
   // NavBar 필요한 페이지 정의
   const DefaultContainer = () => (
@@ -46,7 +48,7 @@ function App() {
       </Switch>
       <BottomNav />
     </div>
-  );
+  )
 
   // Intro 페이지는 Nav 없는곳으로 렌더링
   return (
@@ -56,14 +58,15 @@ function App() {
           <Route exact path="/" component={IntroContainer} />
           <Route exact path="/sign_in" component={IntroContainer} />
           <Route exact path="/sign_up" component={IntroContainer} />
+          <Route exact path="/image_signup" component={IntroContainer} />
           <Route exact path="/info" component={IntroContainer} />
-          
+
           <Route component={DefaultContainer} />
           <Route exact path="/text-search" component={DefaultContainer} />
         </Switch>
       </div>
     </BrowserRouter>
-  );
+  )
 }
 
-export default App;
+export default App
