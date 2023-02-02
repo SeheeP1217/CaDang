@@ -54,9 +54,7 @@ const RegisterPage = () => {
     const newImage = { image_file, preview_URL }
     setImage(newImage)
   }
-  console.log("===================")
-  console.log(image.image_file)
-  console.log("===================")
+
 
   const onhandlePost = async (data) => {
     const { memberId, email, username, nickname, password } = data
@@ -72,13 +70,15 @@ const RegisterPage = () => {
     const formData = new FormData()
     formData.append("img", image.image_file)
     formData.append("data", JSON.stringify(postData))
-
-    console.log(formData[0])
+    console.log('================')
+    console.log(formData)
+    console.log('================')
+    
     // post
     await axios
-      .post(
-        "http://i8a808.p.ssafy.io:8080/user/join",
-        formData,
+    .post(
+      "http://i8a808.p.ssafy.io:8080/user/join",
+      formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
           params: postData
