@@ -34,10 +34,11 @@ const Boxs = styled(Box)`
 const RegisterPage = () => {
   const theme = createTheme()
   // const [checked, setChecked] = useState(false)
+  const [usernameError, setUserNameError] = useState("")
+  const [memberIdError, setMemberIdError] = useState("")
   const [emailError, setEmailError] = useState("")
   const [passwordState, setPasswordState] = useState("")
   const [passwordError, setPasswordError] = useState("")
-  const [nameError, setNameError] = useState("")
   const [nicknameError, setNicknameError] = useState("")
   const [registerError, setRegisterError] = useState("")
   const history = useHistory()
@@ -45,24 +46,46 @@ const RegisterPage = () => {
   // const handleAgree = (event) => {
   //   setChecked(event.target.checked)
   // }
-  const imgData = (imgdata) => {
-    console.log("이미지 가져옴", imgdata)
+
+  const img = (ImageUploader) => {
+    return ImageUploader.image_file
   }
+  console.log(ImageUploader)
 
   const onhandlePost = async (data) => {
-    const { email, name, nickname, password } = data
+    const { memberId, email, username, nickname, password } = data
 
-    const postData = { email, name, nickname, password, imgData }
+    const postData = {
+      username: username,
+      memberId: memberId,
+      password: password,
+      email: email,
+      nickname: nickname,
+    }
 
+    const formData = new FormData()
+    formData.append("image", img)
+    formData.append("data", JSON.stringify(postData))
+
+
+    console.log(formData)
     // post
     await axios
-      .post("/user/join", postData)
+      .post(
+        "http://i8a808.p.ssafy.io:8080/user/join",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        },
+        { data: formData }
+      )
       .then(function (response) {
         console.log(response, "성공")
-        history.push("/login")
+        history.push("/main")
       })
       .catch(function (err) {
         console.log(err)
+        console.log("왜안돼")
         setRegisterError("회원가입에 실패하였습니다. 다시 한 번 확인해 주세요.")
       })
   }
@@ -72,19 +95,28 @@ const RegisterPage = () => {
 
     const data = new FormData(e.currentTarget)
     const joinData = {
-      name: data.get("name"),
+      username: data.get("username"),
+      memberId: data.get("memberId"),
       password: data.get("password"),
       rePassword: data.get("rePassword"),
       email: data.get("email"),
       nickname: data.get("nickname"),
+      
     }
-    const { name, password, rePassword, email, nickname } = joinData
+    const { username, memberId, password, rePassword, email, nickname } =
+      joinData
 
     // 이름 유효성 검사
-    const nameRegex = /^[가-힣a-zA-Z]+$/
-    if (!nameRegex.test(name) || name.length < 1)
-      setNameError("올바른 이름을 입력해주세요.")
-    else setNameError("")
+    const usernameRegex = /^[가-힣a-zA-Z]+$/
+    if (!usernameRegex.test(username) || username.length < 1)
+      setUserNameError("올바른 이름을 입력해주세요.")
+    else setUserNameError("")
+
+    // 아이디 유효성 체크
+    const idRegex = /^[가-힣a-zA-Z0-9]+$/
+    if (!idRegex.test(memberId) || memberId.length < 1)
+      setMemberIdError("영문자+숫자 조합으로 입력해주세요.")
+    else setMemberIdError("")
 
     // 비밀번호 유효성 체크
     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,20}$/
@@ -113,10 +145,11 @@ const RegisterPage = () => {
     // if (!checked) alert("회원가입 약관에 동의해주세요.")
 
     if (
+      idRegex.test(memberId) &&
       emailRegex.test(email) &&
       passwordRegex.test(password) &&
       password === rePassword &&
-      nameRegex.test(name) &&
+      usernameRegex.test(username) &&
       nicknameRegex.test(nickname)
       // checked
     ) {
@@ -139,7 +172,8 @@ const RegisterPage = () => {
           <Typography component="h1" variant="h5">
             회원가입
           </Typography>
-          <ImageUploader onSubmit={imgData}></ImageUploader>
+          <ImageUploader onSubmit={img}></ImageUploader>
+          <img src={img} />
           <Boxs
             component="form"
             noValidate
@@ -152,13 +186,24 @@ const RegisterPage = () => {
                   <TextField
                     required
                     fullWidth
-                    id="name"
-                    name="name"
+                    id="username"
+                    name="username"
                     label="이름"
-                    error={nameError !== "" || false}
+                    error={usernameError !== "" || false}
                   />
                 </Grid>
-                <FormHelperTexts>{nameError}</FormHelperTexts>
+                <FormHelperTexts>{usernameError}</FormHelperTexts>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="memberId"
+                    name="memberId"
+                    label="아이디"
+                    error={memberIdError !== "" || false}
+                  />
+                </Grid>
+                <FormHelperTexts>{memberIdError}</FormHelperTexts>
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -183,7 +228,7 @@ const RegisterPage = () => {
                   />
                 </Grid>
                 <FormHelperTexts>{passwordError}</FormHelperTexts>
-                <Grid item xs={12}>
+                <Grid item xs={9}>
                   <TextField
                     required
                     autoFocus
