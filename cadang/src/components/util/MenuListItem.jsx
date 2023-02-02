@@ -10,15 +10,15 @@ function MenuListItem(props) {
       <Paper>
         {props.data.map((menu) => {
           return (
-            <Grid Container key={menu.pk}>
-              <Grid item xs={4}>
-                <Img
+            <Grid container sx={{ display: 'flex' }} key={menu.pk}>
+              <Grid item xs={4} margin='auto'>
+                <img
                   alt="menu_img"
                   src={drink}
-                  sx={{ width: "10%", backgroundColor: "#fafafa", margin: "0" }}
+                  width='60%'
                 />
               </Grid>
-              <Grid item xs={8}>
+              <Grid item xs={8}  direction='column'>
                 <Grid item xs={8}>
                   <Typography>{menu.name}</Typography>
                 </Grid>
@@ -36,7 +36,7 @@ function MenuListItem(props) {
 }
 
 const Img = styled("img")({
-  margin: "auto",
+  margin: 0,
   display: "block",
   width: "75%",
 });

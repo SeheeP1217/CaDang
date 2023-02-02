@@ -6,15 +6,16 @@ import TopBar from "./components/util/TopBar"
 import BottomNav from "./components/util/BottomNav"
 import logo from "./assets/logo.png"
 
-import MyPage from "./pages/MyPage"
-import MainPage from "./pages/MainPage"
-import SearchCafePage from "./pages/SearchCafePage"
-import MonthReportPage from "./pages/MonthReportPage"
-import WeeklyReportPage from "./pages/WeeklyReportPage"
-import IntroPage from "./pages/IntroPage"
-import InfoPage from "./pages/InfoPage"
-import TextSearchPage from "./pages/TextSearchPage"
-import ImageRegisterPage from "./pages/ImageRegisterPage"
+import MyPage from "./pages/MyPage";
+import MainPage from "./pages/MainPage";
+import SearchCafePage from "./pages/SearchCafePage";
+import MonthReportPage from "./pages/MonthReportPage";
+import WeeklyReportPage from "./pages/WeeklyReportPage";
+import IntroPage from "./pages/IntroPage";
+import InfoPage from "./pages/InfoPage";
+import TextSearchPage from "./pages/TextSearchPage";
+import CustomPage from "./pages/CustomPage";
+
 
 function App() {
   // const [{ user }, dispatch] = useStateValue();
@@ -45,6 +46,8 @@ function App() {
         <Route exact path="/month_report" component={MonthReportPage} />
         <Route exact path="/weekly-report" component={WeeklyReportPage} />
         <Route exact path="/text-search" component={TextSearchPage} />
+        {/* custom page 프렌차이즈 pk와 메뉴 pk url에 넣어서 접근해야하는지?? */}
+        <Route exact path="/custom" component={CustomPage} />
       </Switch>
       <BottomNav />
     </div>
@@ -63,6 +66,7 @@ function App() {
 
           <Route component={DefaultContainer} />
           <Route exact path="/text-search" component={DefaultContainer} />
+          <Route exact path="/custom" component={DefaultContainer} />
         </Switch>
       </div>
     </BrowserRouter>
