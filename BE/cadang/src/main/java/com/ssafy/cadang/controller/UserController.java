@@ -9,6 +9,8 @@ import com.ssafy.cadang.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -24,9 +26,10 @@ public class UserController {
 
     //회원가입
     @PostMapping("/user/join")
-    public void join(@Valid @ModelAttribute UserDto userDto) throws IOException {
+    public ResponseEntity<String> join(@Valid @ModelAttribute UserDto userDto) throws IOException {
         // 유효성 검증은 서비스에서 한다.
         userService.join(userDto);
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
 
