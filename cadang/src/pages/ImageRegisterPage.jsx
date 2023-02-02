@@ -18,7 +18,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles"
 import styled from "styled-components"
 import "./RegisterPage.css"
 import ImageUploader from "../components/util/imageuploader"
-import default_image from "../assets/default_image.png"
 
 // mui의 css 우선순위가 높기때문에 important를 설정 - 실무하다 보면 종종 발생 우선순위 문제
 const FormHelperTexts = styled(FormHelperText)`
@@ -32,7 +31,7 @@ const Boxs = styled(Box)`
   padding-bottom: 10px !important;
 `
 
-const RegisterPage = () => {
+const ImageRegisterPage = () => {
   const theme = createTheme()
   // const [checked, setChecked] = useState(false)
   const [usernameError, setUserNameError] = useState("")
@@ -48,15 +47,6 @@ const RegisterPage = () => {
   //   setChecked(event.target.checked)
   // }
 
-  const [image, setImage] = useState()
-
-  const getImg = (image_file, preview_URL) => {
-    const newImage = { image_file, preview_URL }
-    setImage(newImage)
-  }
-  console.log("===================")
-  console.log(image.image_file)
-  console.log("===================")
 
   const onhandlePost = async (data) => {
     const { memberId, email, username, nickname, password } = data
@@ -70,10 +60,10 @@ const RegisterPage = () => {
     }
 
     const formData = new FormData()
-    formData.append("img", image.image_file)
+    // formData.append("image", img)
     formData.append("data", JSON.stringify(postData))
 
-    console.log(formData[0])
+    console.log(formData)
     // post
     await axios
       .post(
@@ -81,8 +71,8 @@ const RegisterPage = () => {
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
-          params: postData
         },
+        { data: formData }
       )
       .then(function (response) {
         console.log(response, "성공")
@@ -176,7 +166,6 @@ const RegisterPage = () => {
           <Typography component="h1" variant="h5">
             회원가입
           </Typography>
-          <ImageUploader getImg={getImg}></ImageUploader>
           <Boxs
             component="form"
             noValidate
@@ -282,4 +271,4 @@ const RegisterPage = () => {
   )
 }
 
-export default RegisterPage
+export default ImageRegisterPage
