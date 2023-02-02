@@ -3,28 +3,24 @@ package com.ssafy.cadang.controller;
 
 
 import com.ssafy.cadang.dto.UserDto;
-import com.ssafy.cadang.dto.data.EmailRequest;
-import com.ssafy.cadang.file.FileStore;
+
+import com.ssafy.cadang.service.EmailServiceImpl;
 import com.ssafy.cadang.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
-import java.util.Random;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
     private final UserService userService;
+    private final EmailServiceImpl emailService;
+
+
 
     //회원가입
     @PostMapping("/user/join")
@@ -33,11 +29,38 @@ public class UserController {
         userService.join(userDto);
     }
 
-    // 이메일 전송
+
+    // 이메일 인증 번호 발송 및 재발송
     @PostMapping("/user/email")
-    public ResponseEntity<Void> authEmail(@RequestBody @Valid EmailRequest request) {
-        userService.authEmail(request);
-        return ResponseEntity.ok().build();
+    public String sendEmailCode(@RequestParam("email") String email) throws Exception{
+        emailService.sendMessage(email);
+        return "Send Message";
+    }
+
+    //이메일 인증 번호 검증
+    //Todo: 검증 성공시 성공했다는 반환값을 프론트로 보내줘야 함
+    @PostMapping("/user/email/verify")
+    public boolean emailVerify(@RequestParam("key") String key,@RequestParam("email") String email){
+        boolean key_check;
+
+        // Todo: key 값을 입력하지 않았을시 예외처리
+        if (key.isEmpty()) {
+            // 키를 입력해주세요 알림
+            return false;
+        }
+        try {
+            key_check = emailService.verifyEmail(email, key);
+            if (!key_check) {
+                return false;
+            }
+        } catch (ChangeSetPersister.NotFoundException e) {
+            // Todo: 키 값을 잘못 입력했을 시 에러 메시지 띄우기
+            // Todo: 인증번호를 잘못입력하였습니다.
+            throw new RuntimeException(e);
+        }
+
+        return true;
+
     }
 
 

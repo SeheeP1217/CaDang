@@ -4,7 +4,6 @@ package com.ssafy.cadang.util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -23,7 +22,7 @@ public class RedisUtil {
     public void setDataExpire(String key, String value, long duration) {
         //duration 동안 key와 value를 저장한다.
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        Duration expireDuration = Duration.ofMillis(duration);
+        Duration expireDuration = Duration.ofSeconds(duration);
         valueOperations.set(key, value, expireDuration);
     }
 
