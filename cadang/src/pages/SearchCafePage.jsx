@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import MapContainer from "../components/MapContainer";
 import CategorySearch from "../components/CategorySearch";
+import MapSearchList from "../components/MapSearchList";
 import { MapMarker, Map } from "react-kakao-maps-sdk";
 
 export default function SearchCafePage() {
@@ -93,6 +94,7 @@ export default function SearchCafePage() {
       
       {/* <MapContainer searchPlace={place} /> */}
       <CategorySearch/>
+      {/* <MapSearchList/> */}
     </>
   );
 };
