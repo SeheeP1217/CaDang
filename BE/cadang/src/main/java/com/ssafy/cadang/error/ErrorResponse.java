@@ -2,6 +2,7 @@ package com.ssafy.cadang.error;
 
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @Data
@@ -11,7 +12,7 @@ public class ErrorResponse {
     private String message;
 
 
-    public static ResponseEntity<ErrorResponse> toResponseEntity(ExceptionEnum e) {
+    public static ResponseEntity<ErrorResponse> customToResponseEntity(ExceptionEnum e) {
         return ResponseEntity
                 .status(e.getHttpStatus())
                 .body(ErrorResponse.builder()
@@ -19,4 +20,15 @@ public class ErrorResponse {
                         .message(e.getMessage())
                         .build());
     }
+
+    public static ResponseEntity<ErrorResponse> exceptionToResponse(Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ErrorResponse.builder()
+                        .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                        .message(e.getMessage())
+                        .build());
+
+    }
+
+
 }
