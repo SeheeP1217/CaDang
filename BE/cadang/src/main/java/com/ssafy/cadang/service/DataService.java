@@ -5,6 +5,8 @@ import com.ssafy.cadang.domain.User;
 import com.ssafy.cadang.dto.data.*;
 import com.ssafy.cadang.dto.record.query.MostRankingDto;
 import com.ssafy.cadang.dto.record.query.RecordRankingDto;
+import com.ssafy.cadang.error.CustomException;
+import com.ssafy.cadang.error.ExceptionEnum;
 import com.ssafy.cadang.repository.DataRepository;
 import com.ssafy.cadang.repository.RecordReposiotry;
 import com.ssafy.cadang.repository.UserRepository;
@@ -34,7 +36,7 @@ public class DataService {
     @Transactional
     public Long createData(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
         log.info("user {}", user.getId());
         Data saveData = dataRepository.save(new Data(user));
         return saveData.getId();
@@ -49,17 +51,17 @@ public class DataService {
         }
     }
 
-    @Transactional
-    public Long createDataByRegDate(Long userId, LocalDate date) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        User user = userOptional.orElse(null);
-        if (user != null) {
-            Data saveData = dataRepository.save(new Data(user, date));
-            saveData.setCaffeDaily(date.getDayOfMonth());
-            return saveData.getId();
-        }
-        return null; // 에러 처리 하기
-    }
+//    @Transactional
+//    public Long createDataByRegDate(Long userId, LocalDate date) {
+//        Optional<User> userOptional = userRepository.findById(userId);
+//        User user = userOptional.orElse(null);
+//        if (user != null) {
+//            Data saveData = dataRepository.save(new Data(user, date));
+//            saveData.setCaffeDaily(date.getDayOfMonth());
+//            return saveData.getId();
+//        }
+//        return null; // 에러 처리 하기
+//    }
 
     public WeekDataDto getDataByWeek(LocalDate date, Long userId) {
 
@@ -67,6 +69,10 @@ public class DataService {
         int dayOfWeek = date.getDayOfWeek().getValue();
         LocalDate startDate = date.minusDays(dayOfWeek - 1); // 월요일
         List<Data> thisWeekList = dataRepository.findWeekDataByUserAndStartDate(startDate, date, userId);
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
+
 
         // 오늘의 데이터
         Optional<Data> optionalData = dataRepository.findByUserAndDate(date, userId);
@@ -78,8 +84,8 @@ public class DataService {
         }
         Data todayData = optionalData.get();
 
-        // userId 유효성 검사 추가하기
-        Data lastWeekDayData = optionalLast.orElse(new Data(userRepository.findById(userId).get()));
+
+        Data lastWeekDayData = optionalLast.orElse(new Data(user));
 
 
         LocalDate lastWeekDay = date.minusWeeks(1);
