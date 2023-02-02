@@ -1,15 +1,29 @@
 import { element } from "prop-types";
+import { Paper, Grid, Divider } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import Box from '@mui/material/Box';
 import React, { useEffect, useState } from "react";
 import "./CategorySearch.css";
 
 const { kakao } = window;
 
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
+
 export default function CategorySearch() {
   // const [map, setMap] = useState()
   const [list, setList] = useState([]);
-  const [location, setLocation] = useState();
+
+  // const [plus, setPlus] = useState([]);
+  // const [location, setLocation] = useState();
 
   useEffect(() => {
+    console.log("***");
     // Get the user's current location
     //     navigator.geolocation.getCurrentPosition(position => {
     //     setLocation({
@@ -37,30 +51,29 @@ export default function CategorySearch() {
     //       // 카테고리로 카페를 검색합니다
     //       ps.categorySearch('CE7', placesSearchCB, {useMapBounds:true});
 
-    //       function placesSearchCB (data, status, pagination) {
-    //           if (status === kakao.maps.services.Status.OK) {
+    // function placesSearchCB(data, status, pagination) {
+    //   if (status === kakao.maps.services.Status.OK) {
+    //     displayMarker(data);
+    //     // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+    //     // LatLngBounds 객체에 좌표를 추가합니다
+    //     let bounds = new kakao.maps.LatLngBounds();
 
-    //             displayMarker(data);
-    //               // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-    //               // LatLngBounds 객체에 좌표를 추가합니다
-    //               let bounds = new kakao.maps.LatLngBounds();
+    //     for (let i = 0; i < data.length; i++) {
+    //       displayMarker(data[i]);
+    //       bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+    //     }
 
-    //               for (let i=0; i<data.length; i++) {
-    //                 displayMarker(data[i]);
-    //                 bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-    //               }
+    //     map.setBounds(bounds);
+    //   }
+    // }
 
-    //               map.setBounds(bounds);
-    //           }
-    //       }
-
-    //       // 지도 위에 표시되고 있는 마커를 모두 제거합니다
-    //       function removeMarker() {
-    //         for ( var i = 0; i < markers.length; i++ ) {
-    //           markers[i].setMap(null);
-    //         }
-    //         markers = [];
-    //       }
+    // 지도 위에 표시되고 있는 마커를 모두 제거합니다
+    // function removeMarker() {
+    //   for (var i = 0; i < markers.length; i++) {
+    //     markers[i].setMap(null);
+    //   }
+    //   markers = [];
+    // }
 
     //       function displayMarker(place) {
     //           let marker = new kakao.maps.Marker({
@@ -205,9 +218,29 @@ export default function CategorySearch() {
     function placesSearchCB(data, status, pagination) {
       if (status === kakao.maps.services.Status.OK) {
         // 정상적으로 검색이 완료됐으면 지도에 마커를 표출합니다
-        // console.log(pagination.totalCount);
-
+        console.log(pagination.current);
+        // console.log(data);
+        // setList({...list, data});
+        // getData(data);
         displayPlaces(data);
+        
+        
+        // setList(list.concat(data));
+        // if (list.length == 0) {
+        //   setList(data);
+        //   console.log(list.length);
+        // } else if (list2.length == 0) {
+        //   console.log();
+        //   setList2(data);
+        //   console.log(list2.length);
+        // } else if (list3.length == 0) {
+        //   setList3(data);
+        //   console.log(list3.length);
+        // }
+        for (let i = 0; i < data.length; i++) {
+          // displayMarker(data[i]);
+          // displayPlaces(data[i]);
+        }
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         // 검색결과가 없는경우 해야할 처리가 있다면 이곳에 작성해 주세요
       } else if (status === kakao.maps.services.Status.ERROR) {
@@ -220,12 +253,16 @@ export default function CategorySearch() {
       // 몇번째 카테고리가 선택되어 있는지 얻어옵니다
       // 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
       let order = document.getElementById(currCategory).getAttribute("data-order");
-      console.log("================");
-      console.log(places);
-      console.log("================");
-      setList(places);
-      // setData({...data,places});
-      // setData((data) => [...data,places]);
+      // console.log("================");
+      console.log(list);
+      // console.log("================");
+      // setPlus(places);
+      // setList(places);
+
+      setList(list.concat(places));
+      // setList([ ...list, places ]);
+
+      // setList((list) => [...list, places]);
       console.log(list);
 
       for (let i = 0; i < places.length; i++) {
@@ -240,6 +277,40 @@ export default function CategorySearch() {
           });
         })(marker, places[i]);
       }
+    }
+
+    function displayMarker(place) {
+      let marker = new kakao.maps.Marker({
+        map: map,
+        position: new kakao.maps.LatLng(place.y, place.x),
+      });
+      let infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
+
+      for (let i = 0; i < place.length; i++) {
+        // var marker = addMarker(new kakao.maps.LatLng(place[i].y, place[i].x));
+
+        // 마커와 검색결과 항목을 클릭 했을 때
+        // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
+        (function (marker, place) {
+          kakao.maps.event.addListener(marker, "click", function () {
+            // displayPlaceInfo(place);
+            // 마커를 클릭하면 장소명이 인포윈도우에 표출
+            infowindow.setContent(
+              '<div style="padding:5px;font-size:12px;">' + place.place_name + "</div>"
+            );
+            infowindow.open(map, marker);
+          });
+        })(marker, place[i]);
+      }
+
+      //마커에 클릭이벤트를 등록
+      kakao.maps.event.addListener(marker, "click", function () {
+        // 마커를 클릭하면 장소명이 인포윈도우에 표출
+        infowindow.setContent(
+          '<div style="padding:5px;font-size:12px;">' + place.place_name + "</div>"
+        );
+        infowindow.open(map, marker);
+      });
     }
 
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
@@ -326,30 +397,32 @@ export default function CategorySearch() {
 
       if (className === "on") {
         currCategory = "";
-        changeCategoryClass();
+        // changeCategoryClass();
         removeMarker();
       } else {
         currCategory = "CE7";
-        changeCategoryClass(this);
+        // changeCategoryClass(this);
         searchPlaces();
       }
     }
 
-    // 클릭된 카테고리에만 클릭된 스타일을 적용하는 함수입니다
-    function changeCategoryClass(el) {
-      var category = document.getElementById("category"),
-        children = category.children,
-        i;
+    // // 클릭된 카테고리에만 클릭된 스타일을 적용하는 함수입니다
+    // function changeCategoryClass(el) {
+    //   var category = document.getElementById("category"),
+    //     children = category.children,
+    //     i;
 
-      for (i = 0; i < children.length; i++) {
-        children[i].className = "";
-      }
+    //   for (i = 0; i < children.length; i++) {
+    //     children[i].className = "";
+    //   }
 
-      if (el) {
-        el.className = "on";
-      }
-    }
+    //   if (el) {
+    //     el.className = "on";
+    //   }
+    // }
   }, []);
+
+
 
   return (
     <>
@@ -370,12 +443,38 @@ export default function CategorySearch() {
           </li>
         </div>
         <p id="result"></p>
+
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+            {list.length !== 0
+              ? list.map((element, i) =>
+              <Item key={i}>{element.place_name}</Item>)
+              : null}
+              <Divider/>
+            </Grid>
+            
+          </Grid>
+        </Box>
+
         <div className="list">
-          <div>
+          {/* <div>
             {list.length !== 0
               ? list.map((element, i) => <div key={i}>{element.address_name}</div>)
               : null}
-          </div>
+          </div> */}
+          {/* <div>
+            {list &&
+              list.items.map((item) => {
+                return <p>{item.address_name}</p>;
+              })}
+          </div> */}
+          {/* <Paper>
+            {list.length !== 0
+              ? list.map((element, i) => 
+              <Grid key={i}>{element.place_name}</Grid>)
+              : null}
+          </Paper> */}
         </div>
       </div>
     </>
