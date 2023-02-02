@@ -5,8 +5,8 @@ import com.ssafy.cadang.domain.Order;
 import com.ssafy.cadang.domain.OrderStatus;
 import com.ssafy.cadang.domain.User;
 import com.ssafy.cadang.dto.record.*;
-import com.ssafy.cadang.dto.record.query.MostRankingDto;
-import com.ssafy.cadang.dto.record.query.RecordRankingDto;
+import com.ssafy.cadang.error.CustomException;
+import com.ssafy.cadang.error.ExceptionEnum;
 import com.ssafy.cadang.repository.DrinkRepository;
 import com.ssafy.cadang.repository.RecordReposiotry;
 import com.ssafy.cadang.repository.UserRepository;
@@ -31,16 +31,15 @@ public class RecordService {
     private static OrderStatus[] recordStatus = {OrderStatus.RECORD, OrderStatus.PICKUP};
 
     @Transactional
-    public Long saveOrderDirectly(RecordSaveRequestDto recordDto) {
+    public Long saveRecordDirectly(RecordSaveRequestDto recordDto) {
         User user = userRepository.findById(recordDto.getUserId())
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
         Drink drink = drinkRepository.findById(recordDto.getDrinkId())
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new CustomException(ExceptionEnum.DRINK_NOT_FOUND));
         LocalDateTime regDate = LocalDateTime.now();
         if (recordDto.getRegDate() != null) {
             regDate = LocalDate.parse(recordDto.getRegDate()).atStartOfDay();
         }
-
 
         Order record = Order.builder()
                 .user(user)
@@ -64,6 +63,9 @@ public class RecordService {
         Order saveRecord = recordReposiotry.save(record);
         return saveRecord.getId();
     }
+
+
+
 
 //    public MyPageRecordListDto getOrderBySlice(Long lastUpdateId, Long userId, int size) {
 //        PageRequest pageRequest = PageRequest.of(0, size);

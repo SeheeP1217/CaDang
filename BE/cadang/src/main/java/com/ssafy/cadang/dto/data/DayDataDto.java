@@ -11,8 +11,8 @@ public class DayDataDto {
     private Long id;
     private Long userId;
     private LocalDate date;
-    private int caffeGoal;
-    private int sugarGoal;
+    private long caffeGoal;
+    private long sugarGoal;
     private int caffeDaily;
     private int sugarDaily;
 

@@ -63,6 +63,7 @@ public class UserService {
 
         //TODO: builder() 할 때 activated 필드를 만들어야 되나?
 
+
         // 프로필 이미지를 설정한 경우
         if (!userDto.getImg().isEmpty()) {
 
