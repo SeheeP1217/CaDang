@@ -1,14 +1,24 @@
 import { element } from "prop-types";
+import { Paper, Grid, Divider } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import Box from '@mui/material/Box';
 import React, { useEffect, useState } from "react";
 import "./CategorySearch.css";
 
 const { kakao } = window;
 
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
+
 export default function CategorySearch() {
   // const [map, setMap] = useState()
   const [list, setList] = useState([]);
-  const [list2, setList2] = useState([]);
-  const [list3, setList3] = useState([]);
+
   // const [plus, setPlus] = useState([]);
   // const [location, setLocation] = useState();
 
@@ -208,9 +218,13 @@ export default function CategorySearch() {
     function placesSearchCB(data, status, pagination) {
       if (status === kakao.maps.services.Status.OK) {
         // 정상적으로 검색이 완료됐으면 지도에 마커를 표출합니다
-        console.log(data);
+        console.log(pagination.current);
+        // console.log(data);
+        // setList({...list, data});
         // getData(data);
         displayPlaces(data);
+        
+        
         // setList(list.concat(data));
         // if (list.length == 0) {
         //   setList(data);
@@ -240,16 +254,16 @@ export default function CategorySearch() {
       // 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
       let order = document.getElementById(currCategory).getAttribute("data-order");
       // console.log("================");
-      // console.log(places);
+      console.log(list);
       // console.log("================");
       // setPlus(places);
-      setList(places);
+      // setList(places);
 
-      // setList(list.concat(places));
-      // setList({ ...list, places });
+      setList(list.concat(places));
+      // setList([ ...list, places ]);
 
-      // setList((data) => [...data, places]);
-      // console.log(list);
+      // setList((list) => [...list, places]);
+      console.log(list);
 
       for (let i = 0; i < places.length; i++) {
         // 마커를 생성하고 지도에 표시합니다
@@ -406,7 +420,9 @@ export default function CategorySearch() {
     //     el.className = "on";
     //   }
     // }
-  }, [list]);
+  }, []);
+
+
 
   return (
     <>
@@ -427,6 +443,20 @@ export default function CategorySearch() {
           </li>
         </div>
         <p id="result"></p>
+
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+            {list.length !== 0
+              ? list.map((element, i) =>
+              <Item key={i}>{element.place_name}</Item>)
+              : null}
+              <Divider/>
+            </Grid>
+            
+          </Grid>
+        </Box>
+
         <div className="list">
           {/* <div>
             {list.length !== 0
@@ -439,11 +469,12 @@ export default function CategorySearch() {
                 return <p>{item.address_name}</p>;
               })}
           </div> */}
-          <div>
+          {/* <Paper>
             {list.length !== 0
-              ? list.map((element, i) => <div key={i}>{element.place_name}</div>)
+              ? list.map((element, i) => 
+              <Grid key={i}>{element.place_name}</Grid>)
               : null}
-          </div>
+          </Paper> */}
         </div>
       </div>
     </>
