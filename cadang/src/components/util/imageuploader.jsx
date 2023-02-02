@@ -6,7 +6,7 @@ import styled from "styled-components"
 
 const Uploader = (props) => {
   const [image, setImage] = useState({
-    image_file: "",
+    image_file: null,
     preview_URL: default_image,
   })
 
@@ -23,7 +23,6 @@ const Uploader = (props) => {
         preview_URL: preview_URL,
       }))
     }
-    console.log(e.target.files)
   }
 
   const deleteImage = () => {
