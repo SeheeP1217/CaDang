@@ -5,10 +5,11 @@ package com.ssafy.cadang.service;
 import com.ssafy.cadang.domain.User;
 
 import com.ssafy.cadang.dto.UserDto;
-import com.ssafy.cadang.file.FileStore;
 import com.ssafy.cadang.repository.UserRepository;
+import com.ssafy.cadang.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+
 import java.util.UUID;
 
 
@@ -43,6 +45,7 @@ public class UserService {
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+
     }
 
     //회원가입
@@ -136,10 +139,16 @@ public class UserService {
     }
 
     // 원본 파일의 확장자를 반환한다.
+
     private String extractExt(String originalFilename){
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);
     }
+
+
+
+
+
 
 
 }
