@@ -6,8 +6,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Tag(name = "기록", description = "기록 관련 api 입니다.")
 @RestController
 @RequestMapping("/record")
@@ -18,7 +16,7 @@ public class RecordController {
 
     @PostMapping
     public Long saveRecord(@RequestBody RecordSaveRequestDto recordDto) {
-        Long id = recordService.saveOrderDirectly(recordDto);
+        Long id = recordService.saveRecordDirectly(recordDto);
         return id;
     }
 
