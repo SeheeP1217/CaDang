@@ -37,13 +37,40 @@ export default function PaymentPage() {
       <div style={{marginTop: "3%"}}>
         <DrinkMenuItem/>
       </div>
-      <CardContent sx={{ flex: "1 0 auto" }}>
-        <Typography component="div" variant="h3">
-          주문 음료
-        </Typography>
+      <Box style={{marginTop: "3%"}} component="span" sx={{ display: 'block' }}>주문 음료</Box>
+      <Box backgroundColor="#ffffff">
+        <Box>
+          <Typography sx={{
+            display: 'inline',
+            fontSize: 20,
+            }}>
+              아이스 아메리카노
+          </Typography>
+          <Typography sx={{
+            display:'inline',
+            fontSize: 20,
+            textAlign:'right'
+            }}>
+              +4500원
+          </Typography>
+        </Box>
 
-      </CardContent>
-      
+        <Box>
+        <Typography sx={{
+            display: 'inline',
+            fontSize: 20,
+            }}>
+              샷 추가
+          </Typography>
+          <Typography sx={{
+            display:'inline',
+            fontSize: 20,
+            textAlign:'right'
+            }}>
+              +500원
+          </Typography>
+        </Box>
+      </Box>
     </div>
   );
 };
