@@ -79,10 +79,9 @@ public class EmailServiceImpl implements EmailService{
 
     public Boolean verifyEmail(String email, String input) throws ChangeSetPersister.NotFoundException{
         String authKey = redisUtil.getData(email);
-        System.out.println("authKey = " + authKey);
 
         // Todo: 인증번호가 틀리거나 인증 기간이 만료되었을시 예외처리
-        if (authKey.isEmpty() ) {
+        if (authKey == null) {
             return false;
         }
         if (!authKey.equals(input)) {
