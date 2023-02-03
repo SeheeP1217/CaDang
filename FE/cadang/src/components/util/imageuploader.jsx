@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react"
-// import "./uploader.scss"
 import { Button } from "@mui/material"
-import axios from "axios"
+// import axios from "axios"
 import default_image from "../../assets/default_image.png"
 import styled from "styled-components"
 
-const Uploader = () => {
-  const [image, setImage] = useState({
+const ImageUploader = ({getImg}) => {
+  const [imagestatus, setImageStatus] = useState({
     image_file: "",
     preview_URL: default_image,
   })
@@ -17,9 +16,9 @@ const Uploader = () => {
     e.preventDefault()
     if (e.target.files[0]) {
       // 새로운 이미지를 올리면 createObjectURL()을 통해 생성한 기존 URL을 폐기
-      URL.revokeObjectURL(image.preview_URL)
+      URL.revokeObjectURL(imagestatus.preview_URL)
       const preview_URL = URL.createObjectURL(e.target.files[0])
-      setImage(() => ({
+      setImageStatus(() => ({
         image_file: e.target.files[0],
         preview_URL: preview_URL,
       }))
@@ -28,8 +27,8 @@ const Uploader = () => {
 
   const deleteImage = () => {
     // createObjectURL()을 통해 생성한 기존 URL을 폐기
-    URL.revokeObjectURL(image.preview_URL)
-    setImage({
+    URL.revokeObjectURL(imagestatus.preview_URL)
+    setImageStatus({
       image_file: "",
       preview_URL: default_image,
     })
@@ -38,20 +37,24 @@ const Uploader = () => {
   useEffect(() => {
     // 컴포넌트가 언마운트되면 createObjectURL()을 통해 생성한 기존 URL을 폐기
     return () => {
-      URL.revokeObjectURL(image.preview_URL)
+      URL.revokeObjectURL(imagestatus.preview_URL)
     }
   }, [])
 
   const sendImageToServer = async () => {
-    if (image.image_file) {
-      const formData = new FormData()
-      formData.append("file", image.image_file)
-      await axios.post("/api/image/upload", formData)
-      console.log("서버에 등록이 완료되었습니다!")
-      setImage({
-        image_file: "",
-        preview_URL: default_image,
-      })
+    if (imagestatus.image_file) {
+      // const formData = new FormData()
+      // formData.append("file", imagestatus.image_file)
+      // await axios.post("/api/image/upload", formData)
+      // console.log(imagestatus.image_file)
+      getImg(imagestatus.image_file, imagestatus.preview_URL)
+      alert("서버에 등록이 완료되었습니다!")
+      // setImageStatus({
+      //   image_file: "",
+      //   preview_URL: default_image,
+      // })
+    } else {
+      alert("사진을 등록하세요!")
     }
   }
 
@@ -67,42 +70,50 @@ const Uploader = () => {
         ref={(refParam) => (inputRef = refParam)}
         style={{ display: "none" }}
       />
-      <ImgWrapper>
-        <ImgSpace src={image.preview_URL} />
+      <ImgWrapper className="img-wrapper">
+        <ImgSpace src={imagestatus.preview_URL} alt="img"/>
       </ImgWrapper>
 
       <div className="upload-button">
-        <SelectButton variant="contained" onClick={() => inputRef.click()}>
-          사진 선택
+        <SelectButton
+          variant="contained"
+          onClick={() => inputRef.click()}
+        >
+          사진 선택하기
         </SelectButton>
-        <DeleteButton variant="contained" onClick={deleteImage}>
-          사진 삭제
+        <DeleteButton color="error" variant="contained" onClick={deleteImage}>
+          사진 삭제하기
         </DeleteButton>
-        <Button variant="contained" onClick={sendImageToServer}>
-          Upload
-        </Button>
+        <SaveButton color="success" variant="contained" onClick={sendImageToServer}>
+          사진 저장하기
+        </SaveButton>
       </div>
     </UploaderWrapper>
   )
 }
 
 const UploaderWrapper = styled.div`
-margin-top: 20px;
-display: grid;
-grid-template-columns: 0.5fr 2fr 3fr 0.5fr;
-grid-gap: 30px
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 3fr 0.5fr;
+  grid-gap: 30px;
 `
 const ImgWrapper = styled.div`
-width: 100px;
-grid-column: 2;
+  width: 100px;
+  grid-column: 2;
 `
 const ImgSpace = styled.img`
-width: 100%
+  width: 100%;
 `
 const SelectButton = styled.button`
-grid-column:3;
+  grid-column: 3;
 `
 const DeleteButton = styled.button`
-grid-column:3;
+  grid-column: 3;
 `
-export default Uploader
+const SaveButton = styled.button`
+  grid-column: 3;
+
+`
+
+export default ImageUploader

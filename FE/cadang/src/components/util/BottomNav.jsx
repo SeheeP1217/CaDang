@@ -29,11 +29,11 @@ const BottomNav = () => {
           setValue(newValue);
         }}
       >
-        <BottomNavigationAction label="홈" icon={<HomeIcon fontSize="large" />} />
-        <BottomNavigationAction label="주문하기" icon={<CoffeeIcon fontSize="large" />} />
-        <BottomNavigationAction label="기록하기" icon={<NoteAltIcon fontSize="large" />} />
-        <BottomNavigationAction label="마이페이지" icon={<PersonIcon fontSize="large" />} />
-        <BottomNavigationAction label="설정" icon={<SettingsIcon fontSize="large" />} />
+        <BottomNavigationAction label="홈" icon={<HomeIcon fontSize="medium" />} />
+        <BottomNavigationAction label="주문하기" icon={<CoffeeIcon fontSize="medium" />} />
+        <BottomNavigationAction label="기록하기" icon={<NoteAltIcon fontSize="medium" />} />
+        <BottomNavigationAction label="마이페이지" icon={<PersonIcon fontSize="medium" />} />
+        <BottomNavigationAction label="설정" icon={<SettingsIcon fontSize="medium" />} />
       </BottomNavigation>
     </Paper>
   );

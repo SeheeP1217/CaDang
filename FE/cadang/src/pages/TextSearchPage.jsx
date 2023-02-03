@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
+import MenuListItem from "../components/util/MenuListItem";
 
 function TextSearchPage() {
   return (
@@ -17,51 +18,130 @@ function TextSearchPage() {
         id="ios-example-demo"
         mt={2}
       >
-        검색 주문
+        검색 추가
       </Typography>
 
-      <Box sx={{flexGrow: 1}}>
-      <Grid container spacing={2}>
-        <Grid item xs={4}>나와랏</Grid>
-      </Grid>
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={2}>
+            <Typography>카페</Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Autocomplete
+              id="highlights-demo"
+              sx={{ width: "100%" }}
+              options={top100Films}
+              getOptionLabel={(option) => option.title}
+              size="small"
+              renderInput={(params) => (
+                <TextField {...params} label="카페 검색" margin="normal" />
+              )}
+              renderOption={(props, option, { inputValue }) => {
+                const matches = match(option.title, inputValue, {
+                  insideWords: true,
+                });
+                const parts = parse(option.title, matches);
+
+                return (
+                  <li {...props}>
+                    <div>
+                      {parts.map((part, index) => (
+                        <span
+                          key={index}
+                          style={{
+                            fontWeight: part.highlight ? 700 : 400,
+                          }}
+                        >
+                          {part.text}
+                        </span>
+                      ))}
+                    </div>
+                  </li>
+                );
+              }}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <Typography>지점</Typography>
+          </Grid>
+          <Grid item xs={4}>
+            {/* padding 0으로 바꾸기 */}
+            <TextField
+              id="outlined-basic"
+              label="지점 입력"
+              variant="outlined"
+              size="small"
+            />
+          </Grid>
+        </Grid>
+        <Grid container spacing={2}>
+          <Grid item xs={2}>
+            <Typography>메뉴</Typography>
+          </Grid>
+          <Grid item xs={10}>
+            <Autocomplete
+              id="highlights-demo"
+              sx={{ width: "100%" }}
+              options={top100Films}
+              getOptionLabel={(option) => option.title}
+              size="small"
+              renderInput={(params) => (
+                <TextField {...params} label="메뉴 검색" margin="normal" />
+              )}
+              renderOption={(props, option, { inputValue }) => {
+                const matches = match(option.title, inputValue, {
+                  insideWords: true,
+                });
+                const parts = parse(option.title, matches);
+
+                return (
+                  <li {...props}>
+                    <div>
+                      {parts.map((part, index) => (
+                        <span
+                          key={index}
+                          style={{
+                            fontWeight: part.highlight ? 700 : 400,
+                          }}
+                        >
+                          {part.text}
+                        </span>
+                      ))}
+                    </div>
+                  </li>
+                );
+              }}
+            />
+          </Grid>
+        </Grid>
       </Box>
 
-      <Autocomplete
-        id="highlights-demo"
-        sx={{ width: "100%" }}
-        options={top100Films}
-        getOptionLabel={(option) => option.title}
-        size="small"
-        renderInput={(params) => (
-          <TextField {...params} label="카페명, 메뉴명 검색" margin="normal" />
-        )}
-        renderOption={(props, option, { inputValue }) => {
-          const matches = match(option.title, inputValue, {
-            insideWords: true,
-          });
-          const parts = parse(option.title, matches);
-
-          return (
-            <li {...props}>
-              <div>
-                {parts.map((part, index) => (
-                  <span
-                    key={index}
-                    style={{
-                      fontWeight: part.highlight ? 700 : 400,
-                    }}
-                  >
-                    {part.text}
-                  </span>
-                ))}
-              </div>
-            </li>
-          );
-        }}
-      />
+      <Box padding={2}>
+        <MenuListItem data={menuData} />
+      </Box>
     </Paper>
   );
 }
+
+const menuData = [
+  { pk: 1, name: "카페라떼", caffeine: 250, sugar: 30, cal: 350, price: 2500 },
+  {
+    pk: 2,
+    name: "바닐라 라떼",
+    caffeine: 250,
+    sugar: 30,
+    cal: 350,
+    price: 2500,
+  },
+  {
+    pk: 3,
+    name: "아이스 아메리카노",
+    caffeine: 250,
+    sugar: 30,
+    cal: 350,
+    price: 2500,
+  },
+];
 
 const top100Films = [
   { title: "아이스 아메리카노", year: 1994 },
