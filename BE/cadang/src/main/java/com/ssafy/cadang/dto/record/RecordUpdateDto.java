@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +18,7 @@ public class RecordUpdateDto {
     private String regDate;
     private Boolean isPublic;
     private String memo;
-    private String photo;
+    private MultipartFile image;
 
     public RecordUpdateDto() {
     }
