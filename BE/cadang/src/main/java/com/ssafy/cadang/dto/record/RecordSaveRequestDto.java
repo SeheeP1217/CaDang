@@ -3,6 +3,7 @@ package com.ssafy.cadang.dto.record;
 
 import com.ssafy.cadang.domain.custom.SugarContent;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -28,7 +29,8 @@ public class RecordSaveRequestDto {
     private Integer vanilla;
     private Integer hazelnut;
     private Integer caramel;
-    private String photo;
+    private String image_url;
+    private MultipartFile image;
 
     // ---------- 기록 주문 공통
 
