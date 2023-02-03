@@ -10,7 +10,7 @@ const { kakao } = window;
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
-  padding: theme.spacing(1),
+  padding: theme.spacing(2),
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
@@ -445,7 +445,7 @@ export default function CategorySearch() {
         <p id="result"></p>
 
         <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2}>
+          <Grid container spacing={3}>
             <Grid item xs={12}>
             {list.length !== 0
               ? list.map((element, i) =>
@@ -453,7 +453,6 @@ export default function CategorySearch() {
               : null}
               <Divider/>
             </Grid>
-            
           </Grid>
         </Box>
 
