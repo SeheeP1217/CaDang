@@ -6,21 +6,17 @@ import com.ssafy.cadang.dto.UserDto;
 
 import com.ssafy.cadang.service.EmailServiceImpl;
 import com.ssafy.cadang.service.UserService;
-import com.ssafy.cadang.valid.CheckEmailValidator;
-import com.ssafy.cadang.valid.CheckMemberidValidator;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.WebDataBinder;
+
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Map;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -29,30 +25,10 @@ public class UserController {
     private final UserService userService;
     private final EmailServiceImpl emailService;
 
-    private final CheckEmailValidator checkEmailValidator;
-    private final CheckMemberidValidator checkMemberidValidator;
-
-    @InitBinder
-    public void validatorBinder(WebDataBinder binder) {
-        binder.addValidators(checkEmailValidator);
-        binder.addValidators(checkMemberidValidator);
-    }
-
-
 
     //회원가입
     @PostMapping("/user/join")
-    public ResponseEntity<String> join(@Valid @ModelAttribute UserDto userDto, Errors errors, Model model) throws IOException {
-
-        if (errors.hasErrors()) {
-            model.addAttribute("userDto", userDto);
-
-            Map<String, String> validatorResult = userService.validateHandling(errors);
-            for (String key : validatorResult.keySet()) {
-                model.addAttribute(key, validatorResult.get(key));
-            }
-        }
-
+    public ResponseEntity<String> join(@Valid @ModelAttribute UserDto userDto) throws IOException {
 
         userService.join(userDto);
         return new ResponseEntity<>("success", HttpStatus.OK);
