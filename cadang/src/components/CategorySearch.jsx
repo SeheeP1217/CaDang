@@ -12,7 +12,7 @@ const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(2),
   textAlign: 'center',
-  color: theme.palette.text.secondary,
+  color: "#000000",
 }));
 
 export default function CategorySearch() {
@@ -449,7 +449,7 @@ export default function CategorySearch() {
             <Grid item xs={12}>
             {list.length !== 0
               ? list.map((element, i) =>
-              <Item key={i}>{element.place_name}</Item>)
+              <Item key={i}>{element.place_name} <br/> {element.address_name}</Item>)
               : null}
               <Divider/>
             </Grid>

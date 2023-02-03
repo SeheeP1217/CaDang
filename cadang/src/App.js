@@ -15,6 +15,7 @@ import IntroPage from "./pages/IntroPage";
 import InfoPage from "./pages/InfoPage";
 import TextSearchPage from "./pages/TextSearchPage";
 import CustomPage from "./pages/CustomPage";
+import PaymentPage from "./pages/PaymentPage"
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
         <Route exact path="/text-search" component={TextSearchPage} />
         {/* custom page 프렌차이즈 pk와 메뉴 pk url에 넣어서 접근해야하는지?? */}
         <Route exact path="/custom" component={CustomPage} />
+        <Route exact path="/payment" component={PaymentPage}/>
       </Switch>
       <BottomNav />
     </div>
