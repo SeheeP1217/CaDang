@@ -38,7 +38,6 @@
     "styled-components": "^5.3.6",
     "web-vitals": "^2.1.4"
   },
-  "proxy": "http://43.201.70.136:8080",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -62,5 +61,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/jest": "^29.4.0",
+    "@types/node": "^18.11.18",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "@types/react-router-dom": "^5.3.3",
+    "typescript": "^4.9.5"
   }
 }
