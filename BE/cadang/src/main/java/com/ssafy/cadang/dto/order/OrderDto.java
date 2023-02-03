@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class OrderDto {
 
-    private Long orderId;
     private Long userId;
     private Long drinkId;
 

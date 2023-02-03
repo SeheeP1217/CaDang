@@ -3,11 +3,13 @@ package com.ssafy.cadang.dto.cafe;
 import com.ssafy.cadang.domain.Drink;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class DrinkResponseDto {
 
+    List<DrinkResponseDto> drinkResponseDtos;
     Long drinkId;
-    Long franchiseId;
     String name;
     String size;
     int vol;
@@ -18,7 +20,10 @@ public class DrinkResponseDto {
     int price;
     int shot;
     Boolean whip;
+
+    Long franchiseId;
     String storeName;
+    Long storeId;
     
     public DrinkResponseDto(Drink drink, String storeName){
 
