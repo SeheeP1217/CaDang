@@ -1,5 +1,6 @@
 package com.ssafy.cadang.controller;
 
+import com.ssafy.cadang.dto.cafe.DrinkDto;
 import com.ssafy.cadang.dto.cafe.DrinkResponseDto;
 import com.ssafy.cadang.dto.cafe.FranchiseDto;
 import com.ssafy.cadang.service.CafeService;
@@ -21,12 +22,14 @@ public class CafeController {
     private final CafeService cafeService;
 
 
-//    public ResponseEntity<List<DrinkResponseDto>> getDrinkByCafeNameAndFilter(DrinkDto drinkDto){
-//
-//
-//        cafeService.getDrinkByCafeNameAndFilter(drinkDto);
-//        return null;
-//    }
+    @GetMapping("/drinklist")
+    @Operation(summary = "카페 별 음료목록 조회", description = "유저의 목표량/섭취량 및 선택한 카페의 음료 목록을 반환합니다.")
+    public ResponseEntity<List<DrinkResponseDto>> getDrinkByStoreName(@RequestBody DrinkDto drinkDto){
+
+
+
+        return null;
+    }
 
     @GetMapping("/drink")
     @Operation(summary = "음료 정보 조회", description = "조회 대상 음료의 사이즈별 정보를 사이즈 순서로 오름차순으로 반환합니다.")
