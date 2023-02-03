@@ -79,14 +79,14 @@ const ImageUploader = ({getImg}) => {
           variant="contained"
           onClick={() => inputRef.click()}
         >
-          Preview
+          사진 선택하기
         </SelectButton>
         <DeleteButton color="error" variant="contained" onClick={deleteImage}>
-          Delete
+          사진 삭제하기
         </DeleteButton>
-        <Button color="success" variant="contained" onClick={sendImageToServer}>
-          Upload
-        </Button>
+        <SaveButton color="success" variant="contained" onClick={sendImageToServer}>
+          사진 저장하기
+        </SaveButton>
       </div>
     </UploaderWrapper>
   )
@@ -110,6 +110,10 @@ const SelectButton = styled.button`
 `
 const DeleteButton = styled.button`
   grid-column: 3;
+`
+const SaveButton = styled.button`
+  grid-column: 3;
+
 `
 
 export default ImageUploader

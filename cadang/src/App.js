@@ -29,7 +29,6 @@ function App() {
         <Route exact path="/" component={IntroPage}></Route>
         <Route exact path="/sign_in" component={LoginPage} />
         <Route exact path="/sign_up" component={RegisterPage} />
-        <Route exact path="/image_signup" component={ImageRegisterPage} />
         <Route exact path="/info" component={InfoPage} />
       </Switch>
     </div>
