@@ -1,9 +1,10 @@
 package com.ssafy.cadang.service;
 
 
+import com.ssafy.cadang.error.CustomException;
+import com.ssafy.cadang.error.ExceptionEnum;
 import com.ssafy.cadang.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -77,16 +78,21 @@ public class EmailServiceImpl implements EmailService{
 
     }
 
-    public Boolean verifyEmail(String email, String input) throws ChangeSetPersister.NotFoundException{
+    public Boolean verifyEmail(String email, String input){
+
+        // Todo: key 값을 입력하지 않았을시 예외처리
+        if (input.isEmpty()) {
+            // 키를 입력해주세요 알림
+            throw new CustomException(ExceptionEnum.MAIL_VERIFY_EMPTY);
+        }
+
         String authKey = redisUtil.getData(email);
 
         // Todo: 인증번호가 틀리거나 인증 기간이 만료되었을시 예외처리
-        if (authKey == null) {
-            return false;
+        if (authKey == null || !authKey.equals(input)) {
+            throw new CustomException(ExceptionEnum.MAIL_VERIFY_FAIL);
         }
-        if (!authKey.equals(input)) {
-            return false;
-        }
+
         // 인증이 성공하면 key value를 삭제한다.
         redisUtil.deleteData(email);
         return true;
