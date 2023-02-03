@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -36,7 +39,7 @@ public class RecordService {
     private String UserProfileImgPath;
 
     @Transactional
-    public Long saveRecordDirectly(RecordSaveRequestDto recordDto) {
+    public Long saveRecordDirectly(RecordSaveRequestDto recordDto) throws IOException {
         User user = userRepository.findById(recordDto.getUserId())
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
         Drink drink = drinkRepository.findById(recordDto.getDrinkId())
@@ -45,6 +48,11 @@ public class RecordService {
         if (recordDto.getRegDate() != null) {
             regDate = LocalDate.parse(recordDto.getRegDate()).atStartOfDay();
         }
+        // 파일 업로드
+        String imgUrl = uploadImage(recordDto.getImage());
+        if (imgUrl == null)
+            imgUrl = recordDto.getImage_url();
+
 
         Order record = Order.builder()
                 .user(user)
@@ -61,7 +69,7 @@ public class RecordService {
                 .vanilla(recordDto.getVanilla())
                 .hazelnut(recordDto.getHazelnut())
                 .caramel(recordDto.getCaramel())
-                .photo(recordDto.getPhoto())
+                .photo(imgUrl)
                 .storeName(recordDto.getStoreName())
                 .orderStatus(OrderStatus.RECORD)
                 .build();
@@ -83,6 +91,7 @@ public class RecordService {
 //    }
 
     public RecordDetailDto getOrderByRecordId(Long recordId) {
+
         Optional<Order> order = recordReposiotry.findById(recordId);
         if (order.isEmpty())
             throw new IllegalStateException("기록이 존재하지 않습니다.");
@@ -120,7 +129,7 @@ public class RecordService {
     }
 
     @Transactional
-    public Long updateRecord(RecordUpdateDto updateDto) {
+    public Long updateRecord(RecordUpdateDto updateDto) throws IOException {
         Order findRecord = recordReposiotry.findById(updateDto.getId())
                 .orElseThrow(() -> new NoSuchElementException());
         if (findRecord.getOrderStatus() == OrderStatus.PICKUP && updateDto.getRegDate() != null) {
@@ -136,11 +145,9 @@ public class RecordService {
             findRecord.setPublic(updateDto.getIsPublic());
 
         // 파일 업로드
-        if (!updateDto.getImage().isEmpty()) {
-            MultipartFile file = updateDto.getImage();
-            String uuid = UUID.randomUUID().toString();
-            String originalFilename = file.getOriginalFilename();
-
+        String imgUrl = uploadImage(updateDto.getImage());
+        if (imgUrl != null) {
+            findRecord.setPhoto(imgUrl);
         }
 
         return findRecord.getId();
@@ -190,6 +197,19 @@ public class RecordService {
                 .hazelnut(order.getHazelnut())
                 .orderStatus(order.getOrderStatus())
                 .build();
+    }
+
+
+    private String uploadImage(MultipartFile image) throws IOException {
+        if (!image.isEmpty()) {
+            MultipartFile file = image;
+            String uuid = UUID.randomUUID().toString();
+            String originalFilename = file.getOriginalFilename();
+            String fullPath = UserProfileImgPath + uuid + "_" + originalFilename;
+            file.transferTo(new File(fullPath));
+            return fullPath;
+        }
+        return null;
     }
 
 
