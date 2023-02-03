@@ -20,6 +20,7 @@ import "./RegisterPage.css"
 import ImageUploader from "../components/util/imageuploader"
 import default_image from "../assets/default_image.png"
 
+
 // mui의 css 우선순위가 높기때문에 important를 설정 - 실무하다 보면 종종 발생 우선순위 문제
 const FormHelperTexts = styled(FormHelperText)`
   width: 100%;
@@ -70,9 +71,6 @@ const RegisterPage = () => {
     const formData = new FormData()
     formData.append("img", image.image_file)
     formData.append("data", JSON.stringify(postData))
-    console.log('================')
-    console.log(formData)
-    console.log('================')
     
     // post
     await axios
@@ -112,7 +110,7 @@ const RegisterPage = () => {
 
     // 이름 유효성 검사
     const usernameRegex = /^[가-힣a-zA-Z]+$/
-    if (!usernameRegex.test(username) || username.length < 1)
+    if (!usernameRegex.test(username) || username.length < 1) 
       setUserNameError("올바른 이름을 입력해주세요.")
     else setUserNameError("")
 
@@ -244,6 +242,11 @@ const RegisterPage = () => {
                   />
                 </Grid>
                 <FormHelperTexts>{emailError}</FormHelperTexts>
+                <Grid item xs={3}>
+                  <SendButton>
+                    인증번호 보내기
+                  </SendButton>
+                </Grid>
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -281,5 +284,9 @@ const RegisterPage = () => {
     </ThemeProvider>
   )
 }
+
+const SendButton = styled.button`
+  background-color: #ffffff;
+`
 
 export default RegisterPage
