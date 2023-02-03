@@ -28,10 +28,10 @@ public class Drink {
     private int vol;
     private String image;
 
-    private int caffeine;
-    private int sugar;
-    private int cal;
-    private int price;
+    private Integer caffeine;
+    private Integer sugar;
+    private Integer cal;
+    private Integer price;
 
     private int shot;
     private Boolean whip;
