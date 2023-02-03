@@ -11,10 +11,12 @@ import com.ssafy.cadang.repository.DrinkRepository;
 import com.ssafy.cadang.repository.RecordReposiotry;
 import com.ssafy.cadang.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,6 +31,9 @@ public class RecordService {
     private final UserRepository userRepository;
     private final DrinkRepository drinkRepository;
     private static OrderStatus[] recordStatus = {OrderStatus.RECORD, OrderStatus.PICKUP};
+
+    @Value("${USER_PROFILE_PATH}")
+    private String UserProfileImgPath;
 
     @Transactional
     public Long saveRecordDirectly(RecordSaveRequestDto recordDto) {
@@ -63,8 +68,6 @@ public class RecordService {
         Order saveRecord = recordReposiotry.save(record);
         return saveRecord.getId();
     }
-
-
 
 
 //    public MyPageRecordListDto getOrderBySlice(Long lastUpdateId, Long userId, int size) {
@@ -131,12 +134,18 @@ public class RecordService {
             findRecord.setMemo(updateDto.getMemo());
         if (updateDto.getIsPublic() != null)
             findRecord.setPublic(updateDto.getIsPublic());
-        if (updateDto.getPhoto() != null)
-            findRecord.setPhoto(updateDto.getPhoto());
+
+        // 파일 업로드
+        if (!updateDto.getImage().isEmpty()) {
+            MultipartFile file = updateDto.getImage();
+            String uuid = UUID.randomUUID().toString();
+            String originalFilename = file.getOriginalFilename();
+
+        }
+
         return findRecord.getId();
 
     }
-
 
 
     public int getSum(Long userId, int month) {
