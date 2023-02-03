@@ -15,7 +15,7 @@ public enum ExceptionEnum {
     USER_ID_DUPLICATED(HttpStatus.BAD_REQUEST, "USER-002", "사용중인 아이디입니다."),
     USER_MAIL_DUPLICATED(HttpStatus.BAD_REQUEST, "USER-003", "사용중인 이메일입니다."),
     USER_ID_EMPTY(HttpStatus.BAD_REQUEST, "USER-004", "아이디를 입력해주세요"),
-    MAIL_VERIFY_FAIL(HttpStatus.BAD_REQUEST, "USER-005", "이메일 인증번호가 다릅니다."),
+    MAIL_VERIFY_FAIL(HttpStatus.BAD_REQUEST, "USER-005", "이메일 인증번호가 만료되었거나 다릅니다"),
     MAIL_VERIFY_EMPTY(HttpStatus.BAD_REQUEST, "USER-006", "인증번호를 입력해주세요.");
 
 
