@@ -1,7 +1,6 @@
 package com.ssafy.cadang.controller;
 
 
-
 import com.ssafy.cadang.dto.UserDto;
 
 
@@ -14,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.io.IOException;
 
@@ -37,15 +37,15 @@ public class UserController {
 
     // 이메일 인증 번호 발송 및 재발송
     @PostMapping("/user/email")
-    public String sendEmailCode(@RequestParam("email") String email) throws Exception{
+    public ResponseEntity<String> sendEmailCode(@RequestParam("email") String email) throws Exception {
         emailService.sendMessage(email);
-        return "Send Message";
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
     //이메일 인증 번호 검증
     //Todo: 검증 성공시 성공했다는 반환값을 프론트로 보내줘야 함
     @PostMapping("/user/email/verify")
-    public boolean emailVerify(@RequestParam("key") String key,@RequestParam("email") String email){
+    public boolean emailVerify(@RequestParam("key") String key, @RequestParam("email") String email) {
         boolean key_check;
 
         key_check = emailService.verifyEmail(email, key);
@@ -63,15 +63,6 @@ public class UserController {
         return id_check;
 
     }
-
-
-
-
-
-
-
-
-
 
 
 //    @PostMapping("/signup")
