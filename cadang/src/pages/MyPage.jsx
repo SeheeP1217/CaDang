@@ -11,10 +11,7 @@ import Avatar from "@mui/joy/Avatar";
 import Grid from "@mui/material/Grid";
 
 // 검색바 import
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import parse from "autosuggest-highlight/parse";
-import match from "autosuggest-highlight/match";
+import AutocompleteSearchBar from "../components/util/AutocompleteSearchBar";
 
 // 기록 리스트
 import List from "@mui/joy/List";
@@ -25,7 +22,7 @@ import ReviewListItem from "../components/ReviewListItem";
 
 function MyPage() {
   return (
-    <Paper sx={{ backgroundColor: "#EFF5F5" , marginBottom: 7.4}}>
+    <div>
       <Box width="90%" margin="auto">
         <Typography
           level="h3"
@@ -62,43 +59,7 @@ function MyPage() {
           </Button>
         </Stack>
 
-        <Autocomplete
-          id="highlights-demo"
-          sx={{ width: "100%" }}
-          options={top100Films}
-          getOptionLabel={(option) => option.title}
-          size="small"
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="카페명, 메뉴명 검색"
-              margin="normal"
-            />
-          )}
-          renderOption={(props, option, { inputValue }) => {
-            const matches = match(option.title, inputValue, {
-              insideWords: true,
-            });
-            const parts = parse(option.title, matches);
-
-            return (
-              <li {...props}>
-                <div>
-                  {parts.map((part, index) => (
-                    <span
-                      key={index}
-                      style={{
-                        fontWeight: part.highlight ? 700 : 400,
-                      }}
-                    >
-                      {part.text}
-                    </span>
-                  ))}
-                </div>
-              </li>
-            );
-          }}
-        />
+        <AutocompleteSearchBar label="메뉴, 카페명 검색" data={top100Films} />
         <Paper variant="outlined" sx={{ backgroundColor: "#fff3e0" }}>
           <Typography
             level="body4"
@@ -123,7 +84,7 @@ function MyPage() {
           </List>
         </Paper>
       </Box>
-    </Paper>
+    </div>
   );
 }
 

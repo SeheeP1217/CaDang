@@ -1,9 +1,10 @@
 import * as React from "react";
 import { Paper, Box, Grid, Divider } from "@mui/material";
 import Typography from "@mui/joy/Typography";
+import { styled } from "@mui/material/styles";
 
 import TodayChart from "../components/TodayChart";
-import MenuListItem from "../components/util/MenuListItem";
+import DrinkMenuItem from "../components/util/DrinkMenuItem";
 
 // 커스텀 옵션 폼
 import Button from "@mui/material/Button";
@@ -13,12 +14,18 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
 function CustomPage() {
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: "000000",
+  }));
+
+
 
   return (
-    <Paper
-      width="85%"
-      sx={{ backgroundColor: "#EFF5F5", marginTop: 2, marginBottom: 8 }}
-    >
+    <div>
       <Typography
         level="h3"
         fontSize="xl2"
@@ -28,20 +35,20 @@ function CustomPage() {
       >
         옵션 Custom
       </Typography>
-      <Grid container spacing={2}>
-        <Grid item sx={{ display: "flex" }} xs={7} justifyContent="center">
-          <Button variant="outlined" disabled>
-            스타벅스
-          </Button>
+      <Grid container>
+      <Box sx={{ flexGrow: 1 }} marginTop={1}>
+        <Grid container spacing={2}>
+          <Grid item xs={8}>
+            <Item sx={{ fontWeight: "700" }}>스타벅스</Item>
+          </Grid>
+          <Grid item xs={4}>
+            <Item style={{ fontWeight: "700" }}>강남점</Item>
+          </Grid>
+          <Grid item xs={12}>
+          <DrinkMenuItem data={menuData} />
+          </Grid>
         </Grid>
-        <Grid item sx={{ display: "flex" }} xs={5} justifyContent="center">
-          <Button variant="outlined" disabled>
-            강남점
-          </Button>
-        </Grid>
-        <Grid item sx={{ display: "flex" }} xs={12} margin={1}>
-          <MenuListItem data={menuData} />
-        </Grid>
+      </Box>
       </Grid>
       {/* 현황 */}
       <TodayChart />
@@ -96,9 +103,12 @@ function CustomPage() {
           <Button>달게</Button>
         </ButtonGroup>
           </Grid>
+          <Grid item>
+            <Button fullWidth={true}>주문하기</Button>
+          </Grid>
         </Grid>
       </Box>
-    </Paper>
+    </div>
   );
 }
 
