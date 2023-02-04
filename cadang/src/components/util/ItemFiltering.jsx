@@ -7,7 +7,7 @@ import NativeSelect from "@mui/material/NativeSelect";
 import { Paper, Grid, Divider, Card, List } from "@mui/material";
 
 function ItemFiltering(props) {
-  const rawData = props.data
+  const rawData = props.data;
   const [data, setData] = useState([]);
   const [sortType, setSortType] = useState("caffeine");
 
@@ -31,28 +31,38 @@ function ItemFiltering(props) {
   }, [sortType]);
 
   return (
-    <Grid container sx={{ display: "flex" }} justifyContent='end' alignItems='center'>
-      <Grid item>
-        <FormControlLabel control={<Switch defaultChecked />} label="Filter"/>
+    <Card>
+      <Grid
+        container
+        sx={{ display: "flex" }}
+        justifyContent="end"
+        alignItems="center"
+      >
+        <Grid item>
+          <FormControlLabel
+            control={<Switch defaultChecked />}
+            label="Filter"
+          />
 
-        <FormControl size="small" sx={{paddingTop: 1}}>
-          <NativeSelect
-            defaultValue="caffeine"
-            onChange={(e) => setSortType(e.target.value)}
-          >
-            <option value="caffeine">낮은 카페인순</option>
-            <option tem value="sugar">
-              낮은 당순
-            </option>
-            <option value="cal">낮은 칼로리순</option>
-            <option value="price">낮은 가격순</option>
-          </NativeSelect>
-        </FormControl>
+          <FormControl size="small" sx={{ paddingTop: 1 }}>
+            <NativeSelect
+              defaultValue="caffeine"
+              onChange={(e) => setSortType(e.target.value)}
+            >
+              <option value="caffeine">낮은 카페인순</option>
+              <option tem value="sugar">
+                낮은 당순
+              </option>
+              <option value="cal">낮은 칼로리순</option>
+              <option value="price">낮은 가격순</option>
+            </NativeSelect>
+          </FormControl>
+        </Grid>
+        <Grid item>
+          <MenuListItem data={data} />
+        </Grid>
       </Grid>
-      <Grid item>
-        <MenuListItem data={data} />
-      </Grid>
-    </Grid>
+    </Card>
   );
 }
 

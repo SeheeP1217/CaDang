@@ -4,8 +4,8 @@ import ItemFiltering from "../components/util/ItemFiltering";
 import styled from "styled-components";
 import { Divider, Box, Grid, Card } from "@mui/material";
 import Typography from "@mui/joy/Typography";
-import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
+import FabButton from "../components/util/FabButton";
+
 // 검색바
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -54,12 +54,8 @@ function TextSearchPage() {
           <AutocompleteSearchBar label="메뉴 검색" data={top100Films} />
         </Grid>
       </Grid>
-      <Card>
       <ItemFiltering data={menuData} />
-      </Card>
-      <Fab color="primary" aria-label="add" sx={fabStyle}>
-        <AddIcon />
-      </Fab>
+      <FabButton/>
     </div>
   );
 }
