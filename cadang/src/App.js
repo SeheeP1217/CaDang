@@ -6,6 +6,7 @@ import TopBar from "./components/util/TopBar"
 import BottomNav from "./components/util/BottomNav"
 import logo from "./assets/logo.png"
 
+import PageLayout from "./components/util/PageLayout"
 import MyPage from "./pages/MyPage";
 import MainPage from "./pages/MainPage";
 import SearchCafePage from "./pages/SearchCafePage";
@@ -16,6 +17,7 @@ import InfoPage from "./pages/InfoPage";
 import TextSearchPage from "./pages/TextSearchPage";
 import CustomPage from "./pages/CustomPage";
 import PaymentPage from "./pages/PaymentPage"
+import TestPage from "./pages/TestPage"
 
 
 function App() {
@@ -38,7 +40,7 @@ function App() {
   // NavBar 필요한 페이지 정의
   const DefaultContainer = () => (
     <div>
-      <TopBar />
+      <PageLayout>
       <Switch>
         <Route exact path="/main" component={MainPage} />
         <Route exact path="/searchcafe" component={SearchCafePage} />
@@ -49,8 +51,9 @@ function App() {
         {/* custom page 프렌차이즈 pk와 메뉴 pk url에 넣어서 접근해야하는지?? */}
         <Route exact path="/custom" component={CustomPage} />
         <Route exact path="/payment" component={PaymentPage}/>
+        <Route exact path="/test" component={TestPage}/>
       </Switch>
-      <BottomNav />
+      </PageLayout>
     </div>
   )
 

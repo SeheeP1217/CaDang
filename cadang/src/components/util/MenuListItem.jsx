@@ -1,44 +1,47 @@
 import * as React from "react";
-import { Paper, Grid, Divider } from "@mui/material";
+import { Paper, Grid, Divider, Card, List } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import drink from "../../assets/drink.png";
 import { styled } from "@mui/material/styles";
+import ListItemButton from "@mui/material/ListItemButton";
+import { Key } from "@mui/icons-material";
 
 function MenuListItem(props) {
+  const [selectedIndex, setSelectedIndex] = React.useState();
+
+  const handleListItemClick = (event, index) => {
+    setSelectedIndex(index);
+  };
+
   return (
-    <Paper sx={{ backgroundColor: "white" }} marginBottom={7.6}>
-      <Paper>
-        {props.data.map((menu) => {
-          return (
-            <Grid container sx={{ display: 'flex' }} key={menu.pk}>
-              <Grid item xs={4} margin='auto'>
-                <img
-                  alt="menu_img"
-                  src={drink}
-                  width='60%'
-                />
+    <List>
+      {props.data.map((menu, index) => {
+        return (
+          <Grid
+            container
+            sx={{ display: "flex" }}
+            key={index}
+            alignItems="center"
+          >
+            <ListItemButton
+              selected={selectedIndex === menu.pk}
+              onClick={(event) => handleListItemClick(event, menu.pk)}
+            >
+              <Grid item xs={3} margin="auto">
+                <img alt="menuImg" src={drink} width="80%" />
               </Grid>
-              <Grid item xs={8}  >
-                <Grid item xs={8}>
-                  <Typography>{menu.name}</Typography>
-                </Grid>
-                <Grid item xs={4}>
+              <Grid item xs={8}>
+                <Typography>{menu.name}</Typography>
+                <Typography>
                   {menu.caffeine} / {menu.sugar} / {menu.cal} / {menu.price}
-                </Grid>
+                </Typography>
               </Grid>
-              <Divider/>
-            </Grid>
-          );
-        })}
-      </Paper>
-    </Paper>
+            </ListItemButton>
+          </Grid>
+        );
+      })}
+    </List>
   );
 }
-
-const Img = styled("img")({
-  margin: 0,
-  display: "block",
-  width: "75%",
-});
 
 export default MenuListItem;
