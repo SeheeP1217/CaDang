@@ -7,10 +7,8 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 export default function DrinkMenuItem() {
-
-
-    return (
-      <Card sx={{ display: "flex" }} >
+  return (
+    <Card sx={{ display: "flex" }}>
       <CardMedia
         component="img"
         sx={{ width: 110 }}
@@ -19,15 +17,21 @@ export default function DrinkMenuItem() {
       />
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent sx={{ flex: "1 0 auto" }}>
-          <Typography variant="subtitle1" component="div">
+          <Typography variant="" component="div" sx={{ fontWeight: "700" }}>
             스타벅스
           </Typography>
-          <Typography component="div" variant="">
+          <Typography component="div" sx={{ fontWeight: "700" }}>
             아이스 아메리카노
           </Typography>
         </CardContent>
-        <Typography style={{marginLeft:"10%", marginBottom:"5%"}} component="div">225mg / 15g</Typography>
+        <Typography
+          style={{ marginLeft: "10%", marginBottom: "7%" }}
+          component="div"
+          sx={{ fontWeight: "500" }}
+        >
+          225mg / 15g
+        </Typography>
       </Box>
     </Card>
-    );
-};
+  );
+}
