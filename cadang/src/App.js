@@ -18,6 +18,8 @@ import TextSearchPage from "./pages/TextSearchPage";
 import CustomPage from "./pages/CustomPage";
 import PaymentPage from "./pages/PaymentPage"
 import TestPage from "./pages/TestPage"
+import SelectMenuPage from "./pages/SelectMenuPage"
+import ReviewPage from "./pages/ReviewPage"
 
 
 function App() {
@@ -52,6 +54,8 @@ function App() {
         <Route exact path="/custom" component={CustomPage} />
         <Route exact path="/payment" component={PaymentPage}/>
         <Route exact path="/test" component={TestPage}/>
+        <Route exact path="/selectmenu" component={SelectMenuPage}/>
+        <Route exact path="/review" component={ReviewPage}/>
       </Switch>
       </PageLayout>
     </div>
@@ -71,6 +75,8 @@ function App() {
           <Route component={DefaultContainer} />
           <Route exact path="/text-search" component={DefaultContainer} />
           <Route exact path="/custom" component={DefaultContainer} />
+          <Route exact path="/selectmenu" component={DefaultContainer}/>
+          <Route exact path="/review" component={DefaultContainer}/>
         </Switch>
       </div>
     </BrowserRouter>
