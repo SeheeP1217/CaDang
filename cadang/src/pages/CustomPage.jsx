@@ -28,7 +28,6 @@ function CustomPage() {
       >
         옵션 Custom
       </Typography>
-
       <Grid container spacing={2}>
         <Grid item sx={{ display: "flex" }} xs={7} justifyContent="center">
           <Button variant="outlined" disabled>

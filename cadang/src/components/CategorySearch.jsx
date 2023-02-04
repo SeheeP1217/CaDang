@@ -1,4 +1,5 @@
 import { element } from "prop-types";
+import Stack from '@mui/material/Stack';
 import { Paper, Grid, Divider } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Box from '@mui/material/Box';
@@ -12,7 +13,7 @@ const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(2),
   textAlign: 'center',
-  color: theme.palette.text.secondary,
+  color: "#000000",
 }));
 
 export default function CategorySearch() {
@@ -444,17 +445,26 @@ export default function CategorySearch() {
         </div>
         <p id="result"></p>
 
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ width: '100%' }}>
+          <Stack spacing={1}>
+          {list.length !== 0
+              ? list.map((element, i) =>
+              <Item key={i}>{element.place_name} <br/> {element.address_name}</Item>)
+              : null}
+          </Stack>
+        </Box>
+
+        {/* <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
             {list.length !== 0
               ? list.map((element, i) =>
-              <Item key={i}>{element.place_name}</Item>)
+              <Item key={i}>{element.place_name} <br/> {element.address_name}</Item>)
               : null}
               <Divider/>
             </Grid>
           </Grid>
-        </Box>
+        </Box> */}
 
         <div className="list">
           {/* <div>

@@ -18,7 +18,7 @@ function MenuListItem(props) {
                   width='60%'
                 />
               </Grid>
-              <Grid item xs={8}  direction='column'>
+              <Grid item xs={8}  >
                 <Grid item xs={8}>
                   <Typography>{menu.name}</Typography>
                 </Grid>
