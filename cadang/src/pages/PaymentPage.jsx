@@ -172,7 +172,7 @@ export default function PaymentPage() {
             fontSize: 16,
             fontWeight: "700",
             mt: 3,
-            ml: 28,
+            ml: 26,
           }}
         >
           결제하기
