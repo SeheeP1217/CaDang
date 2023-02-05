@@ -76,10 +76,10 @@ public class UserService {
                     .password(passwordEncoder.encode(userDto.getPassword()))
                     .email(userDto.getEmail())
                     .nickname(userDto.getNickname())
-                    .authorityName("ROLE_USER")
                     .caffeGoal(defaultCaffeineGoal)
                     .sugarGoal(defaultSugarGoal)
                     .imgUrl(storedPath)
+                    .authorities("ROLE_USER")
                     .build();
         // 프로필 이미지를 설정하지 않은 경우
         }else{
@@ -90,10 +90,10 @@ public class UserService {
                     .password(passwordEncoder.encode(userDto.getPassword()))
                     .email(userDto.getEmail())
                     .nickname(userDto.getNickname())
-                    .authorityName("ROLE_USER")
                     .caffeGoal(defaultCaffeineGoal)
                     .sugarGoal(defaultSugarGoal)
                     .imgUrl(DefaultProfileImgPath)
+                    .authorities("ROLE_USER")
                     .build();
 
         }

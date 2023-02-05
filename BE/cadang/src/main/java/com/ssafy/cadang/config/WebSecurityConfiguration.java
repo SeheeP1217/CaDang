@@ -1,10 +1,10 @@
 package com.ssafy.cadang.config;
 
-import antlr.Token;
-import com.ssafy.cadang.jwt.JwtAccessDeniedHandler;
-import com.ssafy.cadang.jwt.JwtAuthenticationEntryPoint;
-import com.ssafy.cadang.jwt.JwtFilter;
-import com.ssafy.cadang.jwt.TokenProvider;
+
+import com.ssafy.cadang.filter.MyFilter1;
+import com.ssafy.cadang.jwt.JwtAuthenticationFilter;
+import com.ssafy.cadang.jwt.JwtAuthorizationFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,26 +18,18 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.filter.CorsFilter;
 
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor
 @Configuration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final TokenProvider tokenProvider;
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final CorsFilter corsFilter;
 
-    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
-    public WebSecurityConfiguration(
-            TokenProvider tokenProvider,
-            JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-            JwtAccessDeniedHandler jwtAccessDeniedHandler
-    ){
-        this.tokenProvider = tokenProvider;
-        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
-        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
-    }
 
 
     @Override
@@ -55,23 +47,22 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic().disable() // 기본 로그인 페이지 사용 X
+        http
                 .csrf().disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .accessDeniedHandler(jwtAccessDeniedHandler)
-                .and()
-                .headers()
-                .frameOptions()
-                .sameOrigin()
-
-                .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
                 .and()
+                .addFilter(corsFilter) //@CrossOrigin(인증X일 때), 인증(O) => 시큐리티 필터에 등록해야함
+                .formLogin().disable() // form 태그로 로그인을 하지 않는다
+                .httpBasic().disable() // basic 사용하지 않고 토큰을 사용하겠다.
+                .addFilter(new JwtAuthenticationFilter(authenticationManager(),"${JWT_SECRET}",Long.parseLong("${JWT_EXPIRE_TIME}"))) // AuthenticationManager
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(),"${JWT_SECRET}"))
                 .authorizeRequests()
-                .antMatchers("/").permitAll();
+                .antMatchers("/")
+                //.access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+                .permitAll();
+                //Todo: 권한 설정
+
 //                .anyRequest().authenticated();
 //
 //                .and()
