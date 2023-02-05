@@ -22,6 +22,7 @@ import SelectMenuPage from "./pages/SelectMenuPage";
 import ReviewPage from "./pages/ReviewPage";
 import Error404Page from "./pages/Error404Page";
 import Error500Page from "./pages/Error500Page";
+import CafeCeoPage from "./pages/CafeCeoPage";
 
 function App() {
   // const [{ user }, dispatch] = useStateValue();
@@ -36,6 +37,7 @@ function App() {
         <Route exact path="/sign_in" component={LoginPage} />
         <Route exact path="/sign_up" component={RegisterPage} />
         <Route exact path="/info" component={InfoPage} />
+        <Route exact path="/cafe-ceo-order" component={CafeCeoPage} />
       </Switch>
     </div>
   );
@@ -74,6 +76,7 @@ function App() {
           <Route exact path="/sign_up" component={IntroContainer} />
           <Route exact path="/image_signup" component={IntroContainer} />
           <Route exact path="/info" component={IntroContainer} />
+          <Route exact path="/cafe-ceo-order" component={IntroContainer} />
 
           <Route component={DefaultContainer} />
           <Route exact path="/text-search" component={DefaultContainer} />
