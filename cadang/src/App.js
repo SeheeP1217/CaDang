@@ -23,6 +23,7 @@ import ReviewPage from "./pages/ReviewPage";
 import Error404Page from "./pages/Error404Page";
 import Error500Page from "./pages/Error500Page";
 import CafeCeoPage from "./pages/CafeCeoPage";
+import UpdateProfilePage from "./pages/UpdateProfilePage";
 
 function App() {
   // const [{ user }, dispatch] = useStateValue();
@@ -61,6 +62,7 @@ function App() {
           <Route exact path="/review" component={ReviewPage} />
           <Route exact path="/error404" component={Error404Page} />
           <Route exact path="/error500" component={Error500Page} />
+          <Route exact path="/update_profile" component={UpdateProfilePage} />
         </Switch>
       </PageLayout>
     </div>
