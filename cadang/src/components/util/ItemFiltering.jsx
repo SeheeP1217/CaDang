@@ -41,7 +41,9 @@ function ItemFiltering(props) {
         <Grid item>
           <FormControlLabel
             control={<Switch defaultChecked />}
-            label="Filter"
+            label="되는 음료만 보기"
+            labelPlacement='end'
+            margin='0'
           />
 
           <FormControl size="small" sx={{ paddingTop: 1 }}>
@@ -59,6 +61,10 @@ function ItemFiltering(props) {
           </FormControl>
         </Grid>
         <Grid item>
+          <MenuListItem data={data} />
+          <MenuListItem data={data} />
+          <MenuListItem data={data} />
+          <MenuListItem data={data} />
           <MenuListItem data={data} />
         </Grid>
       </Grid>
