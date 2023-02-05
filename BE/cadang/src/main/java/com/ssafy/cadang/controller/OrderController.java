@@ -14,7 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Tag(name = "주문", description = "주문 관련 api 입니다.")
 @RestController
@@ -73,13 +75,17 @@ public class OrderController {
 
     @PutMapping
     @Operation(summary = "주문 상태 수정", description = "주문 상태를 수락/거절/제조완료/픽업완료로 수정합니다")
-    public ResponseEntity<Long> updateOrder(@RequestBody OrderDto orderDto) {
+    public ResponseEntity<Map<String, Long>> updateOrder(@RequestBody OrderDto orderDto) {
 
         logger.info("updateOrder - 호출 {} ", orderDto);
 
         Long orderId = orderService.updateOrderByOrderIdAndOrderStatus(orderDto);
+        Long customerId = orderDto.getUserId();
+        Map<String, Long> orderAndCustomerId = new HashMap<>();
+        orderAndCustomerId.put("orderId", orderId);
+        orderAndCustomerId.put("custoemrId", customerId);
 
-        return new ResponseEntity<Long>(orderId, HttpStatus.ACCEPTED);
+        return new ResponseEntity<Map<String, Long>>(orderAndCustomerId, HttpStatus.ACCEPTED);
     }
 
 
