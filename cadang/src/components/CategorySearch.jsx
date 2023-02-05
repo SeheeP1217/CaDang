@@ -1,18 +1,18 @@
 import { element } from "prop-types";
-import Stack from '@mui/material/Stack';
+import Stack from "@mui/material/Stack";
 import { Paper, Grid, Divider } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 import React, { useEffect, useState } from "react";
 import "./CategorySearch.css";
 
 const { kakao } = window;
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
   padding: theme.spacing(2),
-  textAlign: 'center',
+  textAlign: "center",
   color: "#000000",
 }));
 
@@ -219,13 +219,12 @@ export default function CategorySearch() {
     function placesSearchCB(data, status, pagination) {
       if (status === kakao.maps.services.Status.OK) {
         // 정상적으로 검색이 완료됐으면 지도에 마커를 표출합니다
-        console.log(pagination.current);
-        // console.log(data);
+        // console.log(pagination.current);
+        console.log(data);
         // setList({...list, data});
         // getData(data);
         displayPlaces(data);
-        
-        
+
         // setList(list.concat(data));
         // if (list.length == 0) {
         //   setList(data);
@@ -423,8 +422,6 @@ export default function CategorySearch() {
     // }
   }, []);
 
-
-
   return (
     <>
       <div className="container">
@@ -445,11 +442,14 @@ export default function CategorySearch() {
         </div>
         <p id="result"></p>
 
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{ width: "100%" }}>
           <Stack spacing={1}>
-          {list.length !== 0
-              ? list.map((element, i) =>
-              <Item key={i}>{element.place_name} <br/> {element.address_name}</Item>)
+            {list.length !== 0
+              ? list.map((element, i) => (
+                  <Item key={i}>
+                    {element.place_name} <br /> {element.address_name}
+                  </Item>
+                ))
               : null}
           </Stack>
         </Box>
