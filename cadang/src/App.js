@@ -1,29 +1,30 @@
-import LoginPage from "./pages/LoginPage";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import RegisterPage from "./pages/RegisterPage";
-import * as React from "react";
-import TopBar from "./components/util/TopBar";
-import BottomNav from "./components/util/BottomNav";
-import logo from "./assets/logo.png";
+import LoginPage from "./pages/LoginPage"
+import { BrowserRouter, Route, Switch } from "react-router-dom"
+import RegisterPage from "./pages/RegisterPage"
+import * as React from "react"
+import TopBar from "./components/util/TopBar"
+import BottomNav from "./components/util/BottomNav"
+import logo from "./assets/logo.png"
 
-import PageLayout from "./components/util/PageLayout";
-import MyPage from "./pages/MyPage";
-import MainPage from "./pages/MainPage";
-import SearchCafePage from "./pages/SearchCafePage";
-import MonthReportPage from "./pages/MonthReportPage";
-import WeeklyReportPage from "./pages/WeeklyReportPage";
-import IntroPage from "./pages/IntroPage";
-import InfoPage from "./pages/InfoPage";
-import TextSearchPage from "./pages/TextSearchPage";
-import CustomPage from "./pages/CustomPage";
-import PaymentPage from "./pages/PaymentPage";
-import TestPage from "./pages/TestPage";
-import SelectMenuPage from "./pages/SelectMenuPage";
-import ReviewPage from "./pages/ReviewPage";
-import Error404Page from "./pages/Error404Page";
-import Error500Page from "./pages/Error500Page";
-import CafeCeoPage from "./pages/CafeCeoPage";
-import UpdateProfilePage from "./pages/UpdateProfilePage";
+import PageLayout from "./components/util/PageLayout"
+import MyPage from "./pages/MyPage"
+import MainPage from "./pages/MainPage"
+import SearchCafePage from "./pages/SearchCafePage"
+import MonthReportPage from "./pages/MonthReportPage"
+import WeeklyReportPage from "./pages/WeeklyReportPage"
+import IntroPage from "./pages/IntroPage"
+import InfoPage from "./pages/InfoPage"
+import TextSearchPage from "./pages/TextSearchPage"
+import CustomPage from "./pages/CustomPage"
+import PaymentPage from "./pages/PaymentPage"
+import TestPage from "./pages/TestPage"
+import SelectMenuPage from "./pages/SelectMenuPage"
+import ReviewPage from "./pages/ReviewPage"
+import Error404Page from "./pages/Error404Page"
+import Error500Page from "./pages/Error500Page"
+import CafeCeoPage from "./pages/CafeCeoPage"
+import UpdateProfilePage from "./pages/UpdateProfilePage"
+import SearchIdPage from "./pages/SearchIdPage"
 
 function App() {
   // const [{ user }, dispatch] = useStateValue();
@@ -39,9 +40,10 @@ function App() {
         <Route exact path="/sign_up" component={RegisterPage} />
         <Route exact path="/info" component={InfoPage} />
         <Route exact path="/cafe-ceo-order" component={CafeCeoPage} />
+        <Route exact path="/search_id" component={SearchIdPage} />
       </Switch>
     </div>
-  );
+  )
 
   // NavBar 필요한 페이지 정의
   const DefaultContainer = () => (
@@ -66,7 +68,7 @@ function App() {
         </Switch>
       </PageLayout>
     </div>
-  );
+  )
 
   // Intro 페이지는 Nav 없는곳으로 렌더링
   return (
@@ -79,6 +81,7 @@ function App() {
           <Route exact path="/image_signup" component={IntroContainer} />
           <Route exact path="/info" component={IntroContainer} />
           <Route exact path="/cafe-ceo-order" component={IntroContainer} />
+          <Route exact path="/search_id" component={SearchIdPage} />
 
           <Route component={DefaultContainer} />
           <Route exact path="/text-search" component={DefaultContainer} />
@@ -88,7 +91,7 @@ function App() {
         </Switch>
       </div>
     </BrowserRouter>
-  );
+  )
 }
 
-export default App;
+export default App
