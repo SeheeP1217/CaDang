@@ -1,17 +1,16 @@
 package com.ssafy.cadang.dto.cafe;
 
-import lombok.Data;
+import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 
-@Data
-public class DrinkDto {
+@Getter
+public class DrinkRequestDto {
 
-    private String storeName;
-    private Long userId;
+    List<String> storeNames;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate today;
-
+    LocalDate date;
+    Long userId;
 }

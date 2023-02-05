@@ -1,6 +1,8 @@
 package com.ssafy.cadang.dto.cafe;
 
 import com.ssafy.cadang.domain.Drink;
+import com.ssafy.cadang.dto.cafe.query.DrinkInterface;
+import com.ssafy.cadang.dto.data.DayDataDto;
 import lombok.Data;
 
 import java.util.List;
@@ -8,28 +10,44 @@ import java.util.List;
 @Data
 public class DrinkResponseDto {
 
-    List<DrinkResponseDto> drinkResponseDtos;
     Long drinkId;
-    String name;
+    String drinkName;
     String size;
-    int vol;
+    Integer vol;
     String img;
-    int caffeine;
-    int sugar;
-    int cal;
-    int price;
-    int shot;
+    Integer caffeine;
+    Integer sugar;
+    Integer cal;
+    Integer price;
+    Integer shot;
     Boolean whip;
 
     Long franchiseId;
     String storeName;
-    Long storeId;
-    
+
+    long cnt;
+
+    public DrinkResponseDto(Drink drink){
+
+        drinkId = drink.getId();
+        franchiseId = drink.getFranchise().getId();
+        drinkName = drink.getDrinkName();
+        size = drink.getSize();
+        vol = drink.getVol();
+        img = drink.getImage();
+        caffeine = drink.getCaffeine();
+        sugar = drink.getSugar();
+        cal = drink.getCal();
+        price = drink.getPrice();
+        shot = drink.getShot();
+        whip = drink.getWhip();
+    }
+
     public DrinkResponseDto(Drink drink, String storeName){
 
         drinkId = drink.getId();
         franchiseId = drink.getFranchise().getId();
-        name = drink.getDrinkName();
+        drinkName = drink.getDrinkName();
         size = drink.getSize();
         vol = drink.getVol();
         img = drink.getImage();
@@ -40,6 +58,20 @@ public class DrinkResponseDto {
         shot = drink.getShot();
         whip = drink.getWhip();
         this.storeName = storeName;
+    }
 
+    public DrinkResponseDto(DrinkInterface drinkInterface){
+
+        drinkId = drinkInterface.getId();
+        drinkName = drinkInterface.getDrinkName();
+        size = drinkInterface.getSize();
+        vol = drinkInterface.getVol();
+        img = drinkInterface.getImage();
+        caffeine = drinkInterface.getCaffeine();
+        sugar = drinkInterface.getSugar();
+        cal = drinkInterface.getCal();
+        price = drinkInterface.getPrice();
+        shot = drinkInterface.getShot();
+        whip = drinkInterface.getWhip();
     }
 }
