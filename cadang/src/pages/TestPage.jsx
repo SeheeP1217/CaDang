@@ -1,16 +1,36 @@
-import MenuListItem from "../components/util/MenuListItem";
-import ItemFiltering from "../components/util/ItemFiltering";
+import DrinkRecommendation from "../components/DrinkRecommendation";
 
 function TestPage() {
   return (
     <div>
-      <ItemFiltering data={menuData}/>
+      <DrinkRecommendation />
     </div>
       
   )
 }
 
+const dailyData = [
+  {
+    calorie: 4000,
+    money: 2400,
+  }
+]
+
+const data = [
+  {
+    name: "카페인",
+    consumption: 2400,
+    change: 4000,
+  },
+  {
+    name: "당",
+    consumption: 1398,
+    change: 3000,
+  },
+];
+
 export default TestPage;
+
 
 const menuData = [
   { pk: 1, name: "카페라떼", caffeine: 300, sugar: 10, cal: 200, price: 3000 },
