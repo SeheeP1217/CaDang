@@ -4,6 +4,7 @@ package com.ssafy.cadang.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@BatchSize(size = 100) // N+1문제 해결
 public class Drink {
 
     @Id
@@ -26,10 +28,10 @@ public class Drink {
     private int vol;
     private String image;
 
-    private int caffeine;
-    private int sugar;
-    private int cal;
-    private int price;
+    private Integer caffeine;
+    private Integer sugar;
+    private Integer cal;
+    private Integer price;
 
     private int shot;
     private Boolean whip;

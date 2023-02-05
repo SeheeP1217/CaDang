@@ -22,8 +22,8 @@ public class Data {
     private User user;
     @CreatedDate
     private LocalDate regDate;
-    private int caffeGoal;
-    private int sugarGoal;
+    private Long caffeGoal;
+    private Long sugarGoal;
     private int caffeDaily;
     private int sugarDaily;
 
@@ -36,8 +36,8 @@ public class Data {
 
     public Data(User user) {
         this.user = user;
-        this.caffeGoal = Math.toIntExact(user.getCaffeGoal());
-        this.sugarGoal = Math.toIntExact(user.getSugarGoal());
+        this.caffeGoal = user.getCaffeGoal();
+        this.sugarGoal = user.getSugarGoal();
         this.caffeDaily = 0;
         this.sugarDaily = 0;
         this.caffeSuccess = caffeGoal - caffeDaily >= 0;
@@ -47,8 +47,8 @@ public class Data {
 
     public Data(User user, LocalDate date) {
         this.user = user;
-        this.caffeGoal = Math.toIntExact(user.getCaffeGoal());
-        this.sugarGoal = Math.toIntExact(user.getSugarGoal());
+        this.caffeGoal = user.getCaffeGoal();
+        this.sugarGoal = user.getSugarGoal();
         this.caffeDaily = 0;
         this.sugarDaily = 0;
         this.caffeSuccess = caffeGoal - caffeDaily >= 0;

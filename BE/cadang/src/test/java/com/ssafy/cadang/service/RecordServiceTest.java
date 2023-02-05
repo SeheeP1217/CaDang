@@ -18,16 +18,15 @@ class RecordServiceTest {
     @Autowired
     RecordService recordService;
 
-    @Test
-    public void getBySlice() {
-        MyPageRecordListDto orderBySlice = recordService.getOrderBySlice(8L, 2L, 3);
-        System.out.println(orderBySlice);
-    }
 
     @Test
     public void search() {
-        recordService.searchByKeyword(2L, "바닐라빈", 17L, 5);
+        recordService.searchByKeyword(2L, "바닐라빈", 0, 5);
     }
 
+    @Test
+    void getSum() {
+        recordService.getSum(6L, 2);
+    }
 
 }

@@ -5,7 +5,8 @@ package com.ssafy.cadang.service;
 import com.ssafy.cadang.domain.User;
 
 import com.ssafy.cadang.dto.UserDto;
-import com.ssafy.cadang.file.FileStore;
+import com.ssafy.cadang.error.CustomException;
+import com.ssafy.cadang.error.ExceptionEnum;
 import com.ssafy.cadang.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,11 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+
 import java.util.UUID;
 
 
 @Service
-@Transactional(readOnly = false)
+@Transactional(readOnly = true)
 @Slf4j
 public class UserService {
 
@@ -43,22 +45,20 @@ public class UserService {
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+
     }
 
     //회원가입
     //Todo: @ModelAttribute을 UserDto 앞에 붙여야 되나?
     //Todo: IOException 대신 사용할 만한 Exception?
+    @Transactional
     public void join(UserDto userDto) throws IOException {
         MultipartFile multipartFile;
 
-        validateDuplicateUserId(userDto);
-        validateDuplicateEmail(userDto);
-        validateDuplicateNickname(userDto);
-
-        User user = new User();
-        log.info("debugging: " + userDto.getImg());
+        User user;
 
         //TODO: builder() 할 때 activated 필드를 만들어야 되나?
+
 
         // 프로필 이미지를 설정한 경우
         if (!userDto.getImg().isEmpty()) {
@@ -102,30 +102,6 @@ public class UserService {
 
     }
 
-    @Transactional(readOnly = true)
-    public void validateDuplicateUserId(UserDto userDto){
-        boolean userIdDuplicate = userRepository.existsByMemberId(userDto.getMemberId());
-        if(userIdDuplicate){
-            throw new IllegalStateException("이미 존재하는 아이디입니다");
-        }
-    }
-
-    @Transactional(readOnly = true)
-    public void validateDuplicateEmail(UserDto userDto){
-        boolean userEmailDuplicate = userRepository.existsByEmail(userDto.getEmail());
-        if(userEmailDuplicate){
-            throw new IllegalStateException("이미 존재하는 이메일입니다");
-        }
-    }
-
-    @Transactional(readOnly = true)
-    public void validateDuplicateNickname(UserDto userDto){
-        boolean userNicknameDuplicate = userRepository.existsByNickname(userDto.getNickname());
-        if(userNicknameDuplicate){
-            throw new IllegalStateException("이미 존재하는 닉네임입니다");
-        }
-    }
-
 
     // 서버에 저장할 파일명을 만든다.
     private String createStoreFileName(String originalFilename) {
@@ -135,10 +111,29 @@ public class UserService {
     }
 
     // 원본 파일의 확장자를 반환한다.
+
     private String extractExt(String originalFilename){
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);
     }
+
+
+    public boolean verifyId(String memberId) {
+
+        if (memberId.isEmpty()) {
+            // 아이디를 입력해주세요
+            throw new CustomException(ExceptionEnum.USER_ID_EMPTY);
+        }
+
+        if (userRepository.existsByMemberId(memberId)) {
+            // 아이디가 사용중입니다.
+            throw new CustomException(ExceptionEnum.USER_ID_DUPLICATED);
+        }
+
+        return true;
+
+    }
+
 
 
 }

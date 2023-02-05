@@ -16,8 +16,6 @@ build/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
-**/application.properties
-**/schema.sql
 
 ### IntelliJ IDEA ###
 .idea
@@ -27,7 +25,6 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-**/application.properties
 
 ### NetBeans ###
 /nbproject/private/

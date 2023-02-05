@@ -37,6 +37,9 @@ public class OrderDto {
 
     private Long storeId;
 
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
+
 
     // ------- 주문
 
