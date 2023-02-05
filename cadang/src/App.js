@@ -21,6 +21,7 @@ import TestPage from "./pages/TestPage";
 import SelectMenuPage from "./pages/SelectMenuPage";
 import ReviewPage from "./pages/ReviewPage";
 import Error404Page from "./pages/Error404Page";
+import Error500Page from "./pages/Error500Page";
 
 function App() {
   // const [{ user }, dispatch] = useStateValue();
@@ -57,6 +58,7 @@ function App() {
           <Route exact path="/selectmenu" component={SelectMenuPage} />
           <Route exact path="/review" component={ReviewPage} />
           <Route exact path="/error404" component={Error404Page} />
+          <Route exact path="/error500" component={Error500Page} />
         </Switch>
       </PageLayout>
     </div>
