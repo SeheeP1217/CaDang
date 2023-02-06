@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import drink from "../assets/drink.png";
 
 function DrinkRecommendation() {
+  const onChange = (event) => {
+    console.log("위치 업데이트!!!!!!!");
+  };
+
   return (
     <div>
       <Card>
@@ -14,7 +18,9 @@ function DrinkRecommendation() {
             textAlign: "center",
           }}
         >
-          <Button size="small">위치 업데이트</Button>
+          <Button size="small" onClick={onChange}>
+            위치 업데이트
+          </Button>
         </Grid>
         <Grid
           container

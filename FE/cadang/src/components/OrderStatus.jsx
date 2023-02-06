@@ -4,12 +4,16 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import './OrderStatus.css'
 
 export default function OrderStatus() {
   return (
-    <div className="div">
-      <Accordion>
+    <div
+      style={{
+        marginTop: "5%",
+      }}
+    >
+      {/* defaultExpanded 속성을 통해 AccordionDetails 보이게 하기 defaultExpanded="true" */}
+      <Accordion defaultExpanded="true">
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
