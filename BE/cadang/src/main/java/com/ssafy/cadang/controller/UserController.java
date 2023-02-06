@@ -29,8 +29,7 @@ public class UserController {
 
     //회원가입
     @PostMapping("/user/join")
-    public ResponseEntity<String> join(@Valid @RequestBody UserDto userDto) throws IOException {
-
+    public ResponseEntity<String> join(@Valid UserDto userDto) throws IOException {
         userService.join(userDto);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
