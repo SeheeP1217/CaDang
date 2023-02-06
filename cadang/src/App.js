@@ -52,7 +52,7 @@ function App() {
           <Route exact path="/cafe-map" component={CafeMapPage} />
           <Route exact path="/mypage" component={MyPage} />
           <Route exact path="/report" component={ReportPage} />
-          <Route exact path="/text-search" component={DrinkAddPage} />
+          <Route exact path="/drink-add" component={DrinkAddPage} />
           <Route exact path="/payment-report" component={PaymentReportPage} />
           {/* custom page 프렌차이즈 pk와 메뉴 pk url에 넣어서 접근해야하는지?? */}
           <Route exact path="/custom" component={CustomPage} />
