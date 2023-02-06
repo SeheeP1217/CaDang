@@ -22,7 +22,6 @@ import java.io.IOException;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin
 public class UserController {
     private final UserService userService;
     private final EmailServiceImpl emailService;
