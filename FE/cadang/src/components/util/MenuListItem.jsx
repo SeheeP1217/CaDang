@@ -1,10 +1,10 @@
 import * as React from "react";
-import { Paper, Grid, Divider, Card, List } from "@mui/material";
+import { Grid, List } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import drink from "../../assets/drink.png";
-import { styled } from "@mui/material/styles";
+
 import ListItemButton from "@mui/material/ListItemButton";
-import { Key } from "@mui/icons-material";
+
 
 function MenuListItem(props) {
   const [selectedIndex, setSelectedIndex] = React.useState();
