@@ -1,20 +1,22 @@
-import React from "react"
-import { RecoilRoot } from 'recoil';
-import ReactDOM from "react-dom/client"
-import { BrowserRouter } from "react-router-dom"
+import React from "react";
+import { RecoilRoot, atom, selector, useRecoilState, useRecoilValue } from "recoil";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import LoadingPage from "./pages/LoadingPage";
 
+import "./index.css";
+import App from "./App";
 
-import "./index.css"
-import App from "./App"
-
-const root = ReactDOM.createRoot(document.getElementById("root"))
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <RecoilRoot>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <React.Suspense fallback={LoadingPage}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </React.Suspense>
   </RecoilRoot>
-)
+);
 
 // ReactDOM.render(
 //   <BrowserRouter>
