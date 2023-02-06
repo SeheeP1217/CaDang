@@ -31,28 +31,21 @@ import java.util.stream.Collectors;
 // 스프링 시큐리티에서 UsernamePasswordAuthenticationFilter 가 있음.
 // /login 요청해서 id, pw 를 전송하면(post)
 // UsernamePasswordAuthenticationFilter 동작을 함
+@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
 
     private static final String AUTHORITIES_KEY = "auth";
-
-    private final String secret;
-    private final long tokenValidityInMilliseconds;
-
     private Key key;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager,
-            @Value("${JWT_SECRET}") String secret,
-            @Value("${JWT_EXPIRE_TIME}") long tokenValidityInSeconds) {
-        this.authenticationManager = authenticationManager;
-        this.secret = secret;
-        this.tokenValidityInMilliseconds = tokenValidityInSeconds * 10; // 만료시간: 10분
-    }
+
+
+
 
     @Override
     public void afterPropertiesSet() {
-        byte[] keyBytes = Decoders.BASE64.decode(secret);
+        byte[] keyBytes = Decoders.BASE64.decode(JwtProperties.SECRET);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
@@ -60,6 +53,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
+        System.out.println("로그인 시도");
         // 1. id, pw 를 받아서
         try {
 //            BufferedReader br = request.getReader();
@@ -84,6 +78,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             // authentication 객체가 session 영역에 저장을 해야하고 그 방법이 return 해주면 됨.
             // 리턴의 이유는 권한 권리를 security가 대신 해주기 때문에 편하려고 하는 것임
             // 근데 굳이 JWT 토큰을 사용하면서 세션을 만들 이유가 없음. 단지 권한 처리 때문에 session에 넣어준다.
+
+            System.out.println("로그인 정상");
 
             return authentication;
         } catch (IOException e) {
@@ -112,19 +108,23 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
-        Date validity = new Date(now + this.tokenValidityInMilliseconds);
+        Date validity = new Date(now + JwtProperties.EXPIRATION_TIME);
+        System.out.println(validity);
 
         // RSA 방식은 아니고 Hash 암호방식
         // claim을 통해 넣고 싶은 정보들을 집어넣는다.
         // 권한, 아이디, 패스워드를 집어넣었다.
+        System.out.println(principalDetails.getUsername() + " " + authorities + " " + principalDetails.getUser().getPassword());
+        afterPropertiesSet();
+        System.out.println(this.key);
         String jwtToken = Jwts.builder()
                 .setSubject(principalDetails.getUsername())
                 .claim(AUTHORITIES_KEY, authorities)
-                .claim("id",principalDetails.getUser().getMemberId())
                 .claim("pw",principalDetails.getUser().getPassword())
-                .signWith(key, SignatureAlgorithm.HS512)
+                .signWith(this.key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
                 .compact();
+        System.out.println("토큰: " + jwtToken);
 
         response.addHeader("Authorization", "Bearer " + jwtToken);
 
