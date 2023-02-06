@@ -38,6 +38,7 @@
     "react-scripts": "5.0.1",
     "react-swipeable-views-react-18-fix": "^0.14.1",
     "recharts": "^2.3.2",
+    "recoil": "^0.7.6",
     "styled-components": "^5.3.6",
     "web-vitals": "^2.1.4"
   },
