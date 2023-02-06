@@ -156,6 +156,23 @@ const RegisterPage = () => {
     setNickname(e.target.value)
   }
 
+  // const idCheck = async (e) => {
+  //   e.preventDefault();
+  //   await axios
+  //     .post("http://i8a808.p.ssafy.io:8080/user/id/verify", postData)
+  //     .then(function (response) {
+  //       console.log(response, "성공")
+  //       alert("사용할 수 있는 아이디입니다.")
+  //     })
+  //     .catch(function (err) {
+  //       console.log(err)
+  //       alert("이미 사용 중인 아이디입니다.")
+  //     })
+  // }
+
+
+
+
   const handleSubmit = (e) => {
     e.preventDefault()
 
