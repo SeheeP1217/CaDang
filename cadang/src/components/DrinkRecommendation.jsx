@@ -1,5 +1,5 @@
 import { Button, Card, Typography, Box, Grid } from "@mui/material";
-import { textAlign } from "@mui/system";
+import { Link } from "react-router-dom";
 import drink from "../assets/drink.png";
 
 function DrinkRecommendation() {
@@ -31,7 +31,9 @@ function DrinkRecommendation() {
             <Typography>4500원</Typography>
           </Grid>
         </Grid>
-        <Button size="small">주문하러 가기</Button>
+        <Button component={Link} to="/custom" size="small">
+          주문하러 가기
+        </Button>
       </Card>
     </div>
   );

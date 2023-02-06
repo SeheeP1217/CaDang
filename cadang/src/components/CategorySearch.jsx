@@ -1,5 +1,6 @@
 import { element } from "prop-types";
 import Stack from "@mui/material/Stack";
+import { Link } from "react-router-dom";
 import { Paper, Grid, Divider } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -252,7 +253,9 @@ export default function CategorySearch() {
     function displayPlaces(places) {
       // 몇번째 카테고리가 선택되어 있는지 얻어옵니다
       // 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
-      let order = document.getElementById(currCategory).getAttribute("data-order");
+      let order = document
+        .getElementById(currCategory)
+        .getAttribute("data-order");
       // console.log("================");
       console.log(list);
       // console.log("================");
@@ -267,7 +270,10 @@ export default function CategorySearch() {
 
       for (let i = 0; i < places.length; i++) {
         // 마커를 생성하고 지도에 표시합니다
-        let marker = addMarker(new kakao.maps.LatLng(places[i].y, places[i].x), order);
+        let marker = addMarker(
+          new kakao.maps.LatLng(places[i].y, places[i].x),
+          order
+        );
 
         // 마커와 검색결과 항목을 클릭 했을 때
         // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
@@ -296,7 +302,9 @@ export default function CategorySearch() {
             // displayPlaceInfo(place);
             // 마커를 클릭하면 장소명이 인포윈도우에 표출
             infowindow.setContent(
-              '<div style="padding:5px;font-size:12px;">' + place.place_name + "</div>"
+              '<div style="padding:5px;font-size:12px;">' +
+                place.place_name +
+                "</div>"
             );
             infowindow.open(map, marker);
           });
@@ -307,7 +315,9 @@ export default function CategorySearch() {
       kakao.maps.event.addListener(marker, "click", function () {
         // 마커를 클릭하면 장소명이 인포윈도우에 표출
         infowindow.setContent(
-          '<div style="padding:5px;font-size:12px;">' + place.place_name + "</div>"
+          '<div style="padding:5px;font-size:12px;">' +
+            place.place_name +
+            "</div>"
         );
         infowindow.open(map, marker);
       });
@@ -315,14 +325,19 @@ export default function CategorySearch() {
 
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
     function addMarker(position, order) {
-      let imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
+      let imageSrc =
+          "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
         imageSize = new kakao.maps.Size(27, 28), // 마커 이미지의 크기
         imgOptions = {
           spriteSize: new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기
           spriteOrigin: new kakao.maps.Point(46, order * 36), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
           offset: new kakao.maps.Point(11, 28), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
         },
-        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
+        markerImage = new kakao.maps.MarkerImage(
+          imageSrc,
+          imageSize,
+          imgOptions
+        ),
         marker = new kakao.maps.Marker({
           position: position, // 마커의 위치
           image: markerImage,
@@ -367,11 +382,20 @@ export default function CategorySearch() {
           place.address_name +
           ")</span>";
       } else {
-        content += '    <span title="' + place.address_name + '">' + place.address_name + "</span>";
+        content +=
+          '    <span title="' +
+          place.address_name +
+          '">' +
+          place.address_name +
+          "</span>";
       }
 
       content +=
-        '    <span class="tel">' + place.phone + "</span>" + "</div>" + '<div class="after"></div>';
+        '    <span class="tel">' +
+        place.phone +
+        "</span>" +
+        "</div>" +
+        '<div class="after"></div>';
 
       contentNode.innerHTML = content;
       placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));
@@ -446,7 +470,12 @@ export default function CategorySearch() {
           <Stack spacing={1}>
             {list.length !== 0
               ? list.map((element, i) => (
-                  <Item key={i}>
+                  <Item
+                    component={Link}
+                    to="/selectmenu"
+                    textdecoration="none"
+                    key={i}
+                  >
                     {element.place_name} <br /> {element.address_name}
                   </Item>
                 ))
