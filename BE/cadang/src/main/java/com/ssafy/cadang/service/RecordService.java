@@ -12,6 +12,7 @@ import com.ssafy.cadang.repository.RecordReposiotry;
 import com.ssafy.cadang.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -110,7 +111,7 @@ public class RecordService {
     public MyPageRecordListDto searchByKeyword(Long userId, String keyword, int page, int size) {
         // pagination
         PageRequest pageRequest = PageRequest.of(page, size);
-        Slice<Order> orders;
+        Page<Order> orders;
         if (keyword == null) // keyword가 null면 전체 조회
             orders = recordReposiotry.findAllByPage(userId, recordStatus, pageRequest);
         else {
@@ -121,7 +122,9 @@ public class RecordService {
         List<MyPageRecordDto> recordDtos = toMyPageRecordDtos(orders);
         return MyPageRecordListDto.builder()
                 .recordList(recordDtos)
+                .hasPrevious(orders.hasPrevious())
                 .hasNext(orders.hasNext())
+                .totalPage(orders.getTotalPages())
                 .build();
 
     }

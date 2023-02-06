@@ -10,4 +10,6 @@ import java.util.List;
 public class MyPageRecordListDto {
     private List<MyPageRecordDto> recordList;
     private boolean hasNext;
+    private boolean hasPrevious;
+    private int totalPage;
 }
