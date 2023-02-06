@@ -6,14 +6,12 @@ import com.ssafy.cadang.domain.custom.SugarContent;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
-@Getter @Setter
+@Getter
 @ToString
 @RequiredArgsConstructor
-public class OrderDto {
+public class OrderSaveDto {
 
-    private Long orderId;
     private Long userId;
     private Long drinkId;
 

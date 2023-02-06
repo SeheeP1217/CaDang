@@ -2,7 +2,8 @@ package com.ssafy.cadang.controller;
 
 
 import com.ssafy.cadang.dto.order.CustomerOrderDto;
-import com.ssafy.cadang.dto.order.OrderDto;
+import com.ssafy.cadang.dto.order.OrderSaveDto;
+import com.ssafy.cadang.dto.order.OrderUpdateDto;
 import com.ssafy.cadang.dto.order.StoreOrderDto;
 import com.ssafy.cadang.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,13 +31,14 @@ public class OrderController {
 
     @PostMapping
     @Operation(summary = "주문 등록", description = "신규 주문을 등록합니다.")
-    public ResponseEntity<Long> saveOrder(@RequestBody OrderDto orderDto){
+    public ResponseEntity<Long> saveOrder(@RequestBody OrderSaveDto orderSaveDto){
 
-        logger.info("saveOrder - 호출 {} ", orderDto);
-        Long orderId = orderService.saveOrder(orderDto);
+        logger.info("saveOrder - 호출 {} ", orderSaveDto);
+        Long orderId = orderService.saveOrder(orderSaveDto);
 
         return new ResponseEntity<Long>(orderId, HttpStatus.ACCEPTED);
     }
+
     @GetMapping("/{userId}")
     @Operation(summary = "주문 현황 조회(고객)", description = "현재 진행 중인 주문을 조회합니다.")
     public ResponseEntity<List<CustomerOrderDto>> getCustomerNowOrderList(@PathVariable Long userId){
@@ -75,19 +77,16 @@ public class OrderController {
 
     @PutMapping
     @Operation(summary = "주문 상태 수정", description = "주문 상태를 수락/거절/제조완료/픽업완료로 수정합니다")
-    public ResponseEntity<Map<String, Long>> updateOrder(@RequestBody OrderDto orderDto) {
+    public ResponseEntity<Map<String, Long>> updateOrder(@RequestBody OrderUpdateDto orderUpdateDto) {
 
-        logger.info("updateOrder - 호출 {} ", orderDto);
+        logger.info("updateOrder - 호출 {} ", orderUpdateDto);
 
-        Long orderId = orderService.updateOrderByOrderIdAndOrderStatus(orderDto);
-        Long customerId = orderDto.getUserId();
+        Long orderId = orderService.updateOrderByOrderIdAndOrderStatus(orderUpdateDto);
+        Long customerId = orderUpdateDto.getCustomerId();
         Map<String, Long> orderAndCustomerId = new HashMap<>();
         orderAndCustomerId.put("orderId", orderId);
         orderAndCustomerId.put("customerId", customerId);
 
         return new ResponseEntity<Map<String, Long>>(orderAndCustomerId, HttpStatus.ACCEPTED);
     }
-
-
-
 }
