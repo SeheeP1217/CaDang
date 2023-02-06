@@ -91,10 +91,9 @@ public class RecordService {
 //    }
 
     public RecordDetailDto getOrderByRecordId(Long recordId) {
-
         Optional<Order> order = recordReposiotry.findById(recordId);
         if (order.isEmpty())
-            throw new IllegalStateException("기록이 존재하지 않습니다.");
+            throw new CustomException(ExceptionEnum.RECORD_NOT_FOUND);
         return toRecordDetailDto(order.get());
 
     }
@@ -103,13 +102,12 @@ public class RecordService {
     public Long deleteOrderById(Long recordId) {
         Optional<Order> order = recordReposiotry.findById(recordId);
         if (order.isEmpty())
-            throw new IllegalStateException("기록이 존재하지 않습니다.");
+            throw new CustomException(ExceptionEnum.RECORD_NOT_FOUND);
         recordReposiotry.delete(order.get());
         return recordId;
     }
 
     public MyPageRecordListDto searchByKeyword(Long userId, String keyword, int page, int size) {
-
         // pagination
         PageRequest pageRequest = PageRequest.of(page, size);
         Slice<Order> orders;
@@ -131,9 +129,9 @@ public class RecordService {
     @Transactional
     public Long updateRecord(RecordUpdateDto updateDto) throws IOException {
         Order findRecord = recordReposiotry.findById(updateDto.getId())
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new CustomException(ExceptionEnum.RECORD_NOT_FOUND));
         if (findRecord.getOrderStatus() == OrderStatus.PICKUP && updateDto.getRegDate() != null) {
-            throw new IllegalStateException("주문 상품은 등록 날짜를 수정할 수 없습니다.");
+            throw new CustomException(ExceptionEnum.RECORD_NOT_ALLOWED_MODIFY);
         }
         if (updateDto.getRegDate() != null) {
             LocalDateTime localDateTime = LocalDate.parse(updateDto.getRegDate()).atStartOfDay();
