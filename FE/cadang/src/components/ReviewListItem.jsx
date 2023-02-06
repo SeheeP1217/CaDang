@@ -16,14 +16,18 @@ const Img = styled("img")({
   width: "75%",
 })
 
-function ReviewListItem() {
+function ReviewListItem(props) {
+  console.log(props.reviews)
+  const reviewDatas = props.reviews.recordList
   return (
     <Paper elevation={1} sx={{ backgroundColor: "#fafafa", margin: "3px" }}>
-      <Grid container spacing={2}>
+    {reviewDatas.map(review => {
+      return (
+        <Grid container spacing={2}>
         <Grid item xs={2} margin="auto">
           <Img
             alt="complex"
-            src={drink}
+            src={review.photo}
             sx={{ width: "90%", backgroundColor: "#fafafa" }}
           />
         </Grid>
@@ -31,13 +35,13 @@ function ReviewListItem() {
           <Grid item xs container direction="column" spacing={2}>
             <Grid item xs>
               <Typography gutterBottom variant="subtitle1" component="div">
-                바닐라 라떼 (ICE)
+                {review.drinkName}
               </Typography>
               <Typography variant="body2" gutterBottom>
-                50mg / 24g / 240Kcal / 5,100원
+              {review.caffeine} / {review.sugar} / {review.cal} / {review.price}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                역삼점 아바라 존맛탱!
+              {review.memo}
               </Typography>
             </Grid>
           </Grid>
@@ -47,7 +51,7 @@ function ReviewListItem() {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Typography variant="subtitle1">01/05</Typography>
+              <Typography variant="subtitle1">{review.regDate}</Typography>
               <IconButton component={Link} to="/review">
                 <EditOutlinedIcon />
               </IconButton>
@@ -58,6 +62,9 @@ function ReviewListItem() {
           </Grid>
         </Grid>
       </Grid>
+      )
+    })}
+      
     </Paper>
   )
 }

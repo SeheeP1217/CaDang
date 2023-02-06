@@ -11,6 +11,7 @@ import { userId, todayDate } from "../recoil/atom/user.jsx";
 import MapCategory from "../components/MapCategory.jsx";
 
 export default function MainPage() {
+
   const [today, setToday] = useRecoilState(todayDate);
   const [location, setLocation] = useState({});
 
