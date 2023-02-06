@@ -9,9 +9,14 @@ export default function LoadingPage() {
 
   return (
     <div>
-<Grid container sx={{ mt: 15 }}>
+      <Grid container sx={{ mt: 23 }}>
         <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
-          <CardMedia component="img" sx={{ width: 100 }} image={questionMark} alt="questionMark" />
+          <CardMedia component="img" sx={{ width: 150 }} image={questionMark} alt="questionMark" />
+        </Grid>
+      </Grid>
+      <Grid container sx={{ mt: 7, ml:3 }}>
+        <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+          <CardMedia component="img" sx={{ width: 300 }} image={loading} alt="loading" />
         </Grid>
       </Grid>
     </div>

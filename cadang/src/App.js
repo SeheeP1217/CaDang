@@ -23,6 +23,7 @@ import CafeCeoPage from "./pages/CafeCeoPage"
 import UpdateProfilePage from "./pages/UserPages/UpdateProfilePage"
 import SearchIdPage from "./pages/UserPages/SearchIdPage"
 import PaymentReportPage from "./pages/ReportPages/PaymentReportPage"
+import LoadingPage from "./pages/LoadingPage"
 
 function App() {
   // const [{ user }, dispatch] = useStateValue();
@@ -39,6 +40,9 @@ function App() {
         <Route exact path="/info" component={InfoPage} />
         <Route exact path="/cafe-ceo-order" component={CafeCeoPage} />
         <Route exact path="/search-id" component={SearchIdPage} />
+        <Route exact path="/error404" component={Error404Page} />
+        <Route exact path="/error500" component={Error500Page} />
+        <Route exact path="/loading" component={LoadingPage} />
       </Switch>
     </div>
   )
@@ -60,8 +64,6 @@ function App() {
           <Route exact path="/test" component={TestPage} />
           <Route exact path="/selectmenu" component={SelectMenuPage} />
           <Route exact path="/review" component={ReviewPage} />
-          <Route exact path="/error404" component={Error404Page} />
-          <Route exact path="/error500" component={Error500Page} />
           <Route exact path="/update-profile" component={UpdateProfilePage} />
         </Switch>
       </PageLayout>
@@ -80,6 +82,9 @@ function App() {
           <Route exact path="/info" component={IntroContainer} />
           <Route exact path="/cafe-ceo-order" component={IntroContainer} />
           <Route exact path="/search-id" component={SearchIdPage} />
+          <Route exact path="/error404" component={IntroContainer} />
+          <Route exact path="/error500" component={IntroContainer} />
+          <Route exact path="/loading" component={IntroContainer} />
 
           <Route component={DefaultContainer} />
           <Route exact path="/drink-add" component={DefaultContainer} />
