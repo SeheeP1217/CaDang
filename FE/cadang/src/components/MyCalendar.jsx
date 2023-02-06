@@ -8,7 +8,6 @@ import sugar from "../assets/sugar.png"
 import "./MyCalendar.css"
 import { Grid } from "@mui/material"
 
-
 class MyCalendar extends Component {
   render() {
     // Event Render Function To Get Images and Titles
@@ -56,5 +55,6 @@ class MyCalendar extends Component {
     )
   }
 }
+
 
 export default MyCalendar

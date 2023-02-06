@@ -1,9 +1,9 @@
 import React from "react"
 import Carousel from "react-material-ui-carousel"
 import { Paper, Card, Grid } from "@mui/material"
-import "./MonthRank.css"
 import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded"
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded"
+import styled from "styled-components"
 
 const items = [
   {
@@ -27,9 +27,8 @@ const items = [
 ]
 function MonthRank(props) {
   return (
-    <Paper>
-      <Carousel
-        className="carousel"
+    <Card>
+      <RankCarousel
         NextIcon={<KeyboardArrowRightRoundedIcon />}
         PrevIcon={<KeyboardArrowLeftRoundedIcon />}
         navButtonsProps={{
@@ -55,20 +54,25 @@ function MonthRank(props) {
         {items.map((item, i) => (
           <Item key={i} item={item} />
         ))}
-      </Carousel>
-    </Paper>
+      </RankCarousel>
+    </Card>
   )
 }
 
 function Item(props) {
   return (
-    <Paper className="paper">
-      <h2>{props.item.name}</h2>
+    <Card>
+      <h3>{props.item.name}</h3>
       <p>{props.item.top1}</p>
       <p>{props.item.top2}</p>
       <p>{props.item.top3}</p>
-    </Paper>
+    </Card>
   )
 }
+
+const RankCarousel = styled(Carousel)`
+  margin: 0 auto;
+  font-family: "netmarble";
+`
 
 export default MonthRank

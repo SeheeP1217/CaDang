@@ -18,7 +18,7 @@
 }
 /* 달력 제목 형식 */
 .fc .fc-toolbar-title {
-  font-family: "netmarble", cursive;
+  font-family: "netmarble" !important;
 }
 
 .eventimage {
