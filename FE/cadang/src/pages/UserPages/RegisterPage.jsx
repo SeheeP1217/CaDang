@@ -18,6 +18,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles"
 import styled from "styled-components"
 import ImageUploader from "../../components/util/imageuploader"
 import default_image from "../../assets/default_image.png"
+import { set } from "date-fns"
 
 const RegisterPage = () => {
   const theme = createTheme()
@@ -37,6 +38,9 @@ const RegisterPage = () => {
   const [nicknameError, setNicknameError] = useState("")
   const [registerError, setRegisterError] = useState("")
   const history = useHistory()
+
+  const [checkId, setCheckId] = useState("")
+  const [checkEmail, setCheckEmail] = useState("")
 
   // const handleAgree = (event) => {
   //   setChecked(event.target.checked)
@@ -143,19 +147,47 @@ const RegisterPage = () => {
     setNickname(e.target.value)
   }
 
-  // const idCheck = async (e) => {
-  //   e.preventDefault();
-  //   await axios
-  //     .post("http://i8a808.p.ssafy.io:8080/user/id/verify", postData)
-  //     .then(function (response) {
-  //       console.log(response, "성공")
-  //       alert("사용할 수 있는 아이디입니다.")
-  //     })
-  //     .catch(function (err) {
-  //       console.log(err)
-  //       alert("이미 사용 중인 아이디입니다.")
-  //     })
-  // }
+  // 아이디 중복 확인
+  const idCheck = async (data) => {
+    const { memberId } = data
+    // e.preventDefault()
+    const postData = {
+      memberId: memberId,
+    }
+    console.log(memberId)
+    await axios
+      .post("http://i8a808.p.ssafy.io:8080/user/id/verify", postData)
+      .then(function (response) {
+        console.log(response, "성공")
+        alert("사용할 수 있는 아이디입니다.")
+        setCheckId(true)
+      })
+      .catch(function (err) {
+        console.log(err)
+        setCheckId(false)
+        alert("이미 사용 중인 아이디입니다.")
+      })
+  }
+
+  // 이메일 중복 확인
+  const emailCheck = async (e) => {
+    e.preventDefault()
+    const postData = {
+      memberId: memberId,
+    }
+    await axios
+      .post("http://i8a808.p.ssafy.io:8080/user/id/verify", postData)
+      .then(function (response) {
+        console.log(response, "성공")
+        alert("사용할 수 있는 아이디입니다.")
+        setCheckId(true)
+      })
+      .catch(function (err) {
+        console.log(err)
+        setCheckId(false)
+        alert("이미 사용 중인 아이디입니다.")
+      })
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -181,7 +213,8 @@ const RegisterPage = () => {
       passwordRegex.test(password) &&
       password === passwordState &&
       usernameRegex.test(username) &&
-      nicknameRegex.test(nickname)
+      nicknameRegex.test(nickname) &&
+      checkId == true
       // checked
     ) {
       onhandlePost(joinData)
@@ -236,7 +269,16 @@ const RegisterPage = () => {
                   />
                 </Grid>
                 <Grid item xs={3}>
-                  <SendButton>중복확인하기</SendButton>
+                  <Button
+                    noValidate
+                    type="submit"
+                    onClick={idCheck}
+                    fullWidth
+                    variant="contained"
+                    size="small"
+                  >
+                    중복 확인하기
+                  </Button>
                 </Grid>
                 <FormHelperTexts>{memberIdError}</FormHelperTexts>
                 <Grid item xs={12}>
@@ -277,7 +319,16 @@ const RegisterPage = () => {
                   />
                 </Grid>
                 <Grid item xs={3}>
-                  <SendButton>인증번호 보내기</SendButton>
+                  <Button
+                    noValidate
+                    type="submit"
+                    onSubmit={emailCheck}
+                    fullWidth
+                    variant="contained"
+                    size="small"
+                  >
+                    인증번호 보내기
+                  </Button>
                 </Grid>
                 <FormHelperTexts>{emailError}</FormHelperTexts>
                 <Grid item xs={12}>
@@ -322,9 +373,6 @@ const RegisterPage = () => {
   )
 }
 
-const SendButton = styled.button`
-  background-color: #ffffff;
-`
 const FormHelperTexts = styled(FormHelperText)`
   width: 100%;
   padding-left: 16px;

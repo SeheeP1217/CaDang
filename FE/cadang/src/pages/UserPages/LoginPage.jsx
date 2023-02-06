@@ -55,49 +55,54 @@ const Boxs = styled(Box)`
 const LoginPage = () => {
   const theme = createTheme()
   // const [checked, setChecked] = useState(false)
-  const [emailError, setEmailError] = useState("")
-  const [passwordState, setPasswordState] = useState("")
+  const [memberId, setMemberId] = useState("")
+  const [password, setPassword] = useState("")
+  const [memberIdError, setMemberIdError] = useState("")
+  const [passwordError, setPasswordError] = useState("")
   const [loginError, setLoginError] = useState("")
   const history = useHistory()
 
   const onhandlePost = async (data) => {
-    const { email, passwords } = data
-    const postData = { email, passwords }
+    const { memberId, passwords } = data
+    const postData = { memberId, passwords }
 
     await axios
       .post("/login", postData)
       .then(function (response) {
         console.log(response, "성공")
-        history.push("/main")
+        history.push("/info")
       })
       .catch(function (err) {
         console.log(err)
         setLoginError("로그인에 실패하였습니다. 다시 한 번 확인해 주세요")
       })
   }
+  const idRegex = /^[a-zA-Z0-9]+$/
+  const onChangeUserId = (e) => {
+    if (!e.target.value || idRegex.test(e.target.value) || memberId.length < 1)
+      setMemberIdError(false)
+    else setMemberIdError("영문자+숫자 조합으로 입력해주세요.")
+    setMemberId(e.target.value)
+  }
 
+  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,20}$/
+  const onChangePassword = (e) => {
+    if (!e.target.value || passwordRegex.test(e.target.value))
+      setPasswordError(false)
+    else setPasswordError("숫자+영문자 조합으로 8~20자리로 입력해주세요.")
+  }
   const handleSubmit = (e) => {
     e.preventDefault()
 
     const data = new FormData(e.currentTarget)
     const joinData = {
-      email: data.get("email"),
+      memberId: data.get("memberId"),
       passwords: data.get("password"),
     }
-    const { email, passwords } = joinData
-
-    const emailRegex =
-      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
-    if (!emailRegex.test(email)) setEmailError("올바른 이메일 형식이 아닙니다.")
-    else setEmailError("")
-
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,20}$/
-    if (!passwordRegex.test(passwords))
-      setPasswordState("숫자+영문자 조합으로 8~20자리로 입력해주세요.")
-    else setPasswordState("")
+    const { memberId, passwords } = joinData
 
     if (
-      emailRegex.test(email) &&
+      idRegex.test(memberId) &&
       passwordRegex.test(passwords)
       // checked
     ) {
@@ -132,14 +137,14 @@ const LoginPage = () => {
                   <TextField
                     required
                     fullWidth
-                    type="email"
-                    id="email"
-                    name="email"
-                    label="이메일"
-                    error={emailError !== "" || false}
+                    id="memberId"
+                    name="memberId"
+                    label="아이디"
+                    // error={memberIdError !== "" || false}
+                    onChange={onChangeUserId}
                   />
                 </Grid>
-                <FormHelperTexts>{emailError}</FormHelperTexts>
+                <FormHelperTexts>{memberIdError}</FormHelperTexts>
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -147,11 +152,12 @@ const LoginPage = () => {
                     type="password"
                     id="password"
                     name="password"
-                    label="비밀번호 (숫자+영문자+특수문자 8~20자리)"
-                    error={passwordState !== "" || false}
+                    label="비밀번호 (숫자+영문자+특수문자 8자리 이상)"
+                    // error={passwordError !== "" || false}
+                    onChange={onChangePassword}
                   />
                 </Grid>
-                <FormHelperTexts>{passwordState}</FormHelperTexts>
+                <FormHelperTexts>{setPassword}</FormHelperTexts>
               </Grid>
 
               <Button
