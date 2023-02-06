@@ -13,7 +13,6 @@ import java.util.List;
 
 public interface DrinkRepository extends JpaRepository<Drink, Long> {
 
-
     @Query("select d from Drink d where d.franchise.id=:franchiseId and d.drinkName=:drinkName order by d.vol")
     public List<Drink> getDrinkByFranchiseIdAndDrinkName(@Param("franchiseId") Long franchiseId,
                                                     @Param("drinkName") String drinkName);
@@ -27,28 +26,31 @@ public interface DrinkRepository extends JpaRepository<Drink, Long> {
             "GROUP BY d.drinkName")
     List<DrinkNumCheckDto> findByUserIdAndStoreNameAndOrderStatus(@Param("userId") Long userId, @Param("storeName") String storeName, @Param("orderStatus") OrderStatus orderStatus);
 
-    @Query(value = "select drink.id, drink.image, drink.drink_name, drink.caffeine, drink.cal, drink.price, drink.shot, drink.size, drink.vol, drink.sugar, drink.whip, drink.franchise_id " +
-            "from drink, store, " +
-            "(select min(vol) as vol, drink_name " +
-            "from drink d " +
-            "where d.caffeine <=:caffeRest " +
-            "and d.sugar <=:sugarRest " +
-            "group by drink_name) t " +
-            "where store.franchise_id = drink.franchise_id " +
-            "and store.store_name =:storeName " +
-            "and drink.drink_name = t.drink_name " +
-            "and drink.vol = t.vol", nativeQuery = true)
-    List<DrinkInterface> getDrinksByRestVolumeAndStoreName(@Param("caffeRest") long caffeRest, @Param("sugarRest") long sugarRest, @Param("storeName") String storeName);
+    @Query(value = "select drink.id, drink.image, drink.drink_name as drinkName, " +
+                    "drink.caffeine, drink.cal, drink.price, drink.sugar, " +
+                    "drink.franchise_id as franchiseId " +
+                    "from drink, store, " +
+                    "(select min(vol) as vol, drink_name " +
+                    "from drink d " +
+                    "group by drink_name) t " +
+                    "where store.franchise_id = drink.franchise_id " +
+                    "and store.store_name =:storeName " +
+                    "and drink.drink_name = t.drink_name " +
+                    "and drink.vol = t.vol", nativeQuery = true)
+    List<DrinkInterface> getDrinksByStoreName(@Param("storeName") String storeName);
 
-
-
-    @Query(value = "select drink.id, drink.image, drink.drink_name, drink.caffeine, drink.cal, drink.price, drink.shot, drink.size, drink.vol, drink.sugar, drink.whip, drink.franchise_id, store.store_name " +
-            "from drink, store " +
-            "where drink.franchise_id in :franchiseIds " +
-            "and drink.caffeine <= :caffeRest " +
-            "and drink.sugar <= :sugarRest " +
-            "and drink.franchise_id = store.franchise_id", nativeQuery = true)
-    List<Drink> getRecommendDrinksByRestVolumeAndFranchiseIds(@Param("caffeRest") long caffeRest, @Param("sugarRest") long sugarRest, @Param("franchiseIds") List<Long> franchiseIds);
+    @Query(value = "select drink.id, drink.image, drink.drink_name as drinkName, " +
+                    "drink.caffeine, drink.cal, drink.price, " +
+                    "drink.sugar, drink.franchise_id as franchiseId, " +
+                    "store.store_name as storeName " +
+                    "from drink, store " +
+                    "where drink.franchise_id in :franchiseIds " +
+                    "and drink.caffeine <= :caffeRest " +
+                    "and drink.sugar <= :sugarRest " +
+                    "and drink.franchise_id = store.franchise_id " +
+                    "order by rand() " +
+                    "limit 20", nativeQuery = true)
+    List<DrinkInterface> getRecommendDrinksByRestVolumeAndFranchiseIds(@Param("caffeRest") long caffeRest, @Param("sugarRest") long sugarRest, @Param("franchiseIds") List<Long> franchiseIds);
 
 
 }

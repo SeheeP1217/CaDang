@@ -16,8 +16,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query(" select o from Order o join fetch o.drink d where o.user.id=:userId order by o.regDate DESC")
     List<Order> findAllByUserid(@Param("userId") Long userId);   //고객 주문 내역 조회
 
-    @Query(" select o from Order o join fetch o.drink d where o.store.id=:storeId order by o.regDate DESC")
-    List<Order> findAllByStoreid(@Param("storeId") Long storeId);   //가게 주문 내역 조회
+    @Query(" select o from Order o join fetch o.drink d " +
+            "where o.store.id=:storeId and o.orderStatus " +
+            "not in :orderStatusList order by o.regDate DESC")
+    List<Order> findAllByStoreid(@Param("storeId") Long storeId, @Param("orderStatusList") List<OrderStatus> orderStatusList);   //가게 주문 내역 조회
 
     @Query(" select o from Order o join fetch o.drink d where o.store.id=:storeId " +
             "and o.orderStatus =:orderStatus order by o.regDate DESC")
