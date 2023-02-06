@@ -12,11 +12,15 @@ public class DrinkResponseDto {
 
     Long drinkId;
     String drinkName;
+    String size;
+    Integer vol;
     String img;
     Integer caffeine;
     Integer sugar;
     Integer cal;
     Integer price;
+    Integer shot;
+    Boolean whip;
 
     Long franchiseId;
     String storeName;
@@ -28,12 +32,15 @@ public class DrinkResponseDto {
         drinkId = drink.getId();
         franchiseId = drink.getFranchise().getId();
         drinkName = drink.getDrinkName();
+        size = drink.getSize();
+        vol = drink.getVol();
         img = drink.getImage();
         caffeine = drink.getCaffeine();
         sugar = drink.getSugar();
         cal = drink.getCal();
         price = drink.getPrice();
-
+        shot = drink.getShot();
+        whip = drink.getWhip();
     }
 
     public DrinkResponseDto(DrinkInterface drinkInterface){

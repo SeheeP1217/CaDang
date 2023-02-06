@@ -2,7 +2,8 @@ package com.ssafy.cadang.service;
 
 import com.ssafy.cadang.domain.*;
 import com.ssafy.cadang.dto.order.CustomerOrderDto;
-import com.ssafy.cadang.dto.order.OrderDto;
+import com.ssafy.cadang.dto.order.OrderSaveDto;
+import com.ssafy.cadang.dto.order.OrderUpdateDto;
 import com.ssafy.cadang.dto.order.StoreOrderDto;
 import com.ssafy.cadang.error.CustomException;
 import com.ssafy.cadang.error.ExceptionEnum;
@@ -11,15 +12,12 @@ import com.ssafy.cadang.repository.OrderRepository;
 import com.ssafy.cadang.repository.StoreRepository;
 import com.ssafy.cadang.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,40 +32,36 @@ public class OrderService {
 
     private static OrderStatus[] orderStatusList = {OrderStatus.RECORD, OrderStatus.PICKUP, OrderStatus.CANCEL};
 
-    public Long saveOrder(OrderDto orderDto) {
+    public Long saveOrder(OrderSaveDto orderSaveDto) {
 
-        User user = userRepository.findById(orderDto.getUserId())
+        User user = userRepository.findById(orderSaveDto.getUserId())
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
 
-        Drink drink = drinkRepository.findById(orderDto.getDrinkId())
+        Drink drink = drinkRepository.findById(orderSaveDto.getDrinkId())
                 .orElseThrow(() -> new CustomException(ExceptionEnum.DRINK_NOT_FOUND));
 
-        Store store = storeRepository.findById(orderDto.getStoreId())
+        Store store = storeRepository.findById(orderSaveDto.getStoreId())
                 .orElseThrow(() -> new CustomException(ExceptionEnum.STORE_NOT_FOUND));
 
-        /**
-         *  nullable 한 칼럼 중 값이 들어온다는 보장이 없는 것들 null일 때 처리 해야합니다.
-         *
-         *  nullable: hazelnut, vanilla, caramel, syrup, shot, whip
-         */
          Order order = Order.builder().user(user).
                           drink(drink).
                           store(store).
-                          caffeine(orderDto.getCaffeine()).
-                          sugar(orderDto.getSugar()).
-                          cal(orderDto.getCal()).
-                          price(orderDto.getPrice()).
-                          shot(orderDto.getShot()).
-                          whip(orderDto.getWhip()).
-                          sugarContent(orderDto.getSugarContent()).
-                          syrup(orderDto.getSyrup()).
-                          vanilla(orderDto.getVanilla()).
-                          hazelnut(orderDto.getHazelnut()).
-                          caramel(orderDto.getCaramel()).
-                          photo(orderDto.getPhoto()).
-                          storeName(orderDto.getStoreName()).
+                          caffeine(orderSaveDto.getCaffeine()).
+                          sugar(orderSaveDto.getSugar()).
+                          cal(orderSaveDto.getCal()).
+                          price(orderSaveDto.getPrice()).
+                          shot(orderSaveDto.getShot()).
+                          whip(orderSaveDto.getWhip()).
+                          sugarContent(orderSaveDto.getSugarContent()).
+                          syrup(orderSaveDto.getSyrup()).
+                          vanilla(orderSaveDto.getVanilla()).
+                          hazelnut(orderSaveDto.getHazelnut()).
+                          caramel(orderSaveDto.getCaramel()).
+                          photo(orderSaveDto.getPhoto()).
+                          storeName(orderSaveDto.getStoreName()).
                           orderStatus(OrderStatus.REQUEST).
-                          regDate(LocalDateTime.now()).build();
+                          regDate(LocalDateTime.now()).
+                          isPublic((true)).build();
 
         Long orderId = orderRepository.save(order).getId();
 
@@ -118,20 +112,14 @@ public class OrderService {
         return customerNowOrderDtoList;
     }
 
-    public Long updateOrderByOrderIdAndOrderStatus(OrderDto orderDto) {
+    public Long updateOrderByOrderIdAndOrderStatus(OrderUpdateDto orderUpdateDto) {
 
-        Order findOrder = orderRepository.findById(orderDto.getOrderId())
-                .orElseThrow( () -> new NoSuchElementException("유효하지 않은 주문입니다"));
+        Order findOrder = orderRepository.findById(orderUpdateDto.getOrderId())
+                .orElseThrow( () -> new CustomException(ExceptionEnum.ORDER_NOT_FOUND));
 
-        findOrder.setOrderStatus(orderDto.getOrderStatus());
+        findOrder.setOrderStatus(orderUpdateDto.getOrderStatus());
 
         return findOrder.getId();
     }
-
-
-
-
-
-
 
 }
