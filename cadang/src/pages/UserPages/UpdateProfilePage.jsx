@@ -17,8 +17,9 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import styled from "styled-components"
 import "./RegisterPage.css"
-import ImageUploader from "../components/util/imageuploader"
+import ImageUploader from "../../components/util/imageuploader"
 import default_image from "../assets/default_image.png"
+import GoalSettingItem from "../../components/util/goalSettingItem"
 
 // mui의 css 우선순위가 높기때문에 important를 설정 - 실무하다 보면 종종 발생 우선순위 문제
 const FormHelperTexts = styled(FormHelperText)`
@@ -32,7 +33,7 @@ const Boxs = styled(Box)`
   padding-bottom: 10px !important;
 `
 
-const RegisterPage = () => {
+const UpdateProfilePage = () => {
   const theme = createTheme()
   // const [checked, setChecked] = useState(false)
   const [username, setUserName] = useState("")
@@ -200,7 +201,7 @@ const RegisterPage = () => {
           }}
         >
           <Typography component="h1" variant="h5">
-            회원가입
+            회원 정보 수정
           </Typography>
           <ImageUploader getImg={getImg}></ImageUploader>
           <Boxs
@@ -223,7 +224,7 @@ const RegisterPage = () => {
                   />
                 </Grid>
                 <FormHelperTexts>{usernameError}</FormHelperTexts>
-                <Grid item xs={9}>
+                <Grid item xs={12}>
                   <TextField
                     required
                     fullWidth
@@ -235,50 +236,20 @@ const RegisterPage = () => {
                   />
                 </Grid>
                 <FormHelperTexts>{memberIdError}</FormHelperTexts>
+
                 <Grid item xs={12}>
                   <TextField
                     required
+                    autoFocus
                     fullWidth
-                    type="password"
-                    id="password"
-                    name="password"
-                    label="비밀번호 (숫자+영문자+특수문자 8자리 이상)"
-                    // error={passwordError !== "" || false}
-                    onChange={onChangePassword}
+                    type="email"
+                    id="email"
+                    name="email"
+                    label="이메일 주소"
+                    onChange={onChangeEmail}
                   />
                 </Grid>
-                <FormHelperTexts>{passwordError}</FormHelperTexts>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    type="password"
-                    id="passwordState"
-                    name="passwordState"
-                    label="비밀번호 재입력"
-                    // error={passwordStateError !== "" || false}
-                    onChange={onChangePasswordState}
-                  />
-                </Grid>
-                <FormHelperTexts>{passwordStateError}</FormHelperTexts>
-                <Grid container xs={12} spacing={2}>
-                  <Grid item xs={9}>
-                    <TextField
-                      required
-                      autoFocus
-                      fullWidth
-                      type="email"
-                      id="email"
-                      name="email"
-                      label="이메일 주소"
-                      onChange={onChangeEmail}
-                    />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <SendButton>인증번호 보내기</SendButton>
-                  </Grid>
-                </Grid>
-                <FormHelperTexts>{emailError}</FormHelperTexts>
+
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -300,14 +271,23 @@ const RegisterPage = () => {
                   />
                 </Grid> */}
               </Grid>
+              <Button fullWidth variant="contained" sx={{ mt: 3 }} size="large">
+                비밀번호 변경하기
+              </Button>
+              <GoalSettingItem />
               <Button
                 type="submit"
-                fullWidth
                 variant="contained"
                 sx={{ mt: 3 }}
                 size="large"
               >
-                가입하기
+                저장
+              </Button>
+              <Button variant="contanined" sx={{ mt: 3 }}>
+                로그아웃
+              </Button>
+              <Button variant="contanined" sx={{ mt: 3 }}>
+                회원탈퇴
               </Button>
             </FormControl>
             <FormHelperTexts>{registerError}</FormHelperTexts>
@@ -322,4 +302,4 @@ const SendButton = styled.button`
   background-color: #ffffff;
 `
 
-export default RegisterPage
+export default UpdateProfilePage

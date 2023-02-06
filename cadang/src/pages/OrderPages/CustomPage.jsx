@@ -1,12 +1,12 @@
-import * as React from "react";
-import { Paper, Box, Grid, Divider } from "@mui/material";
-import Typography from "@mui/joy/Typography";
-import { styled } from "@mui/material/styles";
-import Button from "@mui/material/Button";
+import * as React from "react"
+import { Paper, Box, Grid, Divider } from "@mui/material"
+import Typography from "@mui/joy/Typography"
+import { styled } from "@mui/material/styles"
+import Button from "@mui/material/Button"
 
-import TodayChart from "../components/TodayChart";
-import DrinkMenuItem from "../components/util/DrinkMenuItem";
-import CustomOption from "../components/CustomOption";
+import TodayChart from "../../components/TodayChart"
+import DrinkMenuItem from "../../components/util/DrinkMenuItem"
+import CustomOption from "../../components/CustomOption"
 
 function CustomPage() {
   const Item = styled(Paper)(({ theme }) => ({
@@ -15,7 +15,7 @@ function CustomPage() {
     padding: theme.spacing(1),
     textAlign: "center",
     color: "000000",
-  }));
+  }))
 
   return (
     <div>
@@ -46,11 +46,11 @@ function CustomPage() {
         <Button fullWidth={true}>주문하기</Button>
       </Grid>
     </div>
-  );
+  )
 }
 
 const menuData = [
   { pk: 1, name: "카페라떼", caffeine: 250, sugar: 30, cal: 350, price: 2500 },
-];
+]
 
-export default CustomPage;
+export default CustomPage
