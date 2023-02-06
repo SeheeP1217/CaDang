@@ -6,7 +6,16 @@ function DrinkRecommendation() {
   return (
     <div>
       <Card>
-        <Button size="small">위치 업데이트</Button>
+        <Grid
+          container
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            textAlign: "center",
+          }}
+        >
+          <Button size="small">위치 업데이트</Button>
+        </Grid>
         <Grid
           container
           sx={{
@@ -31,9 +40,18 @@ function DrinkRecommendation() {
             <Typography>4500원</Typography>
           </Grid>
         </Grid>
-        <Button component={Link} to="/custom" size="small">
-          주문하러 가기
-        </Button>
+        <Grid
+          container
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            textAlign: "center",
+          }}
+        >
+          <Button component={Link} to="/custom" size="small">
+            주문하러 가기
+          </Button>
+        </Grid>
       </Card>
     </div>
   );

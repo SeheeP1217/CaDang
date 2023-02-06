@@ -9,7 +9,7 @@ import Typography from "@mui/joy/Typography";
 
 export default function MainPage() {
   return (
-    <Box>
+    <Box sx={{ mt: 3 }}>
       <Typography level="h3" fontSize="xl" fontWeight="xl">
         오늘의 현황
       </Typography>
@@ -18,7 +18,14 @@ export default function MainPage() {
         <DailyOtherInfo data={dailyData} />
       </Card>
       <OrderStatus />
-      <DrinkRecommendation />
+      <Box sx={{ mt: 2 }}>
+        <Typography level="h3" fontSize="xl" fontWeight="xl">
+          음료 추천
+        </Typography>
+      </Box>
+      <Box sx={{ mt: 1 }}>
+        <DrinkRecommendation />
+      </Box>
     </Box>
   );
 }
