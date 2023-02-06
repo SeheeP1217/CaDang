@@ -9,6 +9,7 @@ import Typography from "@mui/joy/Typography"
 import Avatar from "@mui/joy/Avatar"
 import Grid from "@mui/material/Grid"
 import { Card } from "@mui/material"
+import { Link } from "react-router-dom"
 
 // 검색바 import
 import AutocompleteSearchBar from "../../components/util/AutocompleteSearchBar"
@@ -46,13 +47,17 @@ function MyPage() {
       </Card>
       <Stack spacing={1}>
         <Button
+          component={Link}
+          to="/payment-report"
           variant="filledTonal"
           startIcon={<ContentPasteSearchIcon />}
           endIcon={<ArrowForwardIosIcon />}
         >
-          주문 내역
+          주문 내역 보러가기
         </Button>
         <Button
+          component={Link}
+          to="/weekly-report"
           variant="filledTonal"
           startIcon={<AssessmentIcon />}
           endIcon={<ArrowForwardIosIcon />}

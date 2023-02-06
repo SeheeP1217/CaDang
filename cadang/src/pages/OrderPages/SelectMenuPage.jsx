@@ -3,6 +3,7 @@ import { Box, Card } from "@mui/material"
 import Button from "@mui/material-next/Button"
 import Typography from "@mui/joy/Typography"
 import FabButton from "../../components/util/FabButton"
+import { Link } from "react-router-dom";
 
 import DailyConsumptionGraph from "../../components/util/DailyConsumptionGraph"
 import ItemFiltering from "../../components/util/ItemFiltering"
@@ -27,7 +28,9 @@ function SelectMenuPage() {
         </Box>
       </div>
       <ItemFiltering data={menuData} />
+      <Link to="/custom">
       <FabButton />
+      </Link>
     </body>
   )
 }

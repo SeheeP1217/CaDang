@@ -1,12 +1,13 @@
-import * as React from "react"
-import { Paper, Box, Grid, Divider } from "@mui/material"
-import Typography from "@mui/joy/Typography"
-import { styled } from "@mui/material/styles"
-import Button from "@mui/material/Button"
+import * as React from "react";
+import { Paper, Box, Grid, Card } from "@mui/material";
+import Typography from "@mui/joy/Typography";
+import { styled } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 
-import TodayChart from "../../components/TodayChart"
-import DrinkMenuItem from "../../components/util/DrinkMenuItem"
-import CustomOption from "../../components/CustomOption"
+import DailyConsumptionGraph from "../../components/util/DailyConsumptionGraph";
+import DrinkMenuItem from "../../components/util/DrinkMenuItem";
+import CustomOption from "../../components/CustomOption";
 
 function CustomPage() {
   const Item = styled(Paper)(({ theme }) => ({
@@ -38,16 +39,31 @@ function CustomPage() {
         </Box>
       </Grid>
       {/* 현황 */}
-      <TodayChart />
+      <Card>
+        <DailyConsumptionGraph data={data} />
+      </Card>
 
       <CustomOption />
 
       <Grid item>
-        <Button fullWidth={true}>주문하기</Button>
+      <Button component={Link} to="/payment" fullWidth={true}>주문하기</Button>
       </Grid>
     </div>
   )
 }
+
+const data = [
+  {
+    name: "카페인",
+    consumption: 2400,
+    change: 4000,
+  },
+  {
+    name: "당",
+    consumption: 1398,
+    change: 3000,
+  },
+];
 
 const menuData = [
   { pk: 1, name: "카페라떼", caffeine: 250, sugar: 30, cal: 350, price: 2500 },

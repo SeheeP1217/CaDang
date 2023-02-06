@@ -2,16 +2,13 @@ import LoginPage from "./pages/UserPages/LoginPage"
 import { BrowserRouter, Route, Switch } from "react-router-dom"
 import RegisterPage from "./pages/UserPages/RegisterPage"
 import * as React from "react"
-import TopBar from "./components/util/TopBar"
-import BottomNav from "./components/util/BottomNav"
 import logo from "./assets/logo.png"
 
 import PageLayout from "./components/util/PageLayout"
 import MyPage from "./pages/ReportPages/MyPage"
 import MainPage from "./pages/MainPage"
 import CafeMapPage from "./pages/OrderPages/CafeMapPage"
-import MonthReportPage from "./pages/ReportPages/MonthReportPage"
-import WeeklyReportPage from "./pages/ReportPages/WeeklyReportPage"
+import ReportPage from "./pages/ReportPages/ReportPage"
 import IntroPage from "./pages/UserPages/IntroPage"
 import InfoPage from "./pages/UserPages/InfoPage"
 import DrinkAddPage from "./pages/OrderPages/DrinkAddPage"
@@ -25,6 +22,8 @@ import Error500Page from "./pages/ErrorPages/Error500Page"
 import CafeCeoPage from "./pages/CafeCeoPage"
 import UpdateProfilePage from "./pages/UserPages/UpdateProfilePage"
 import SearchIdPage from "./pages/UserPages/SearchIdPage"
+import PaymentReportPage from "./pages/ReportPages/PaymentReportPage"
+import LoadingPage from "./pages/LoadingPage"
 
 function App() {
   // const [{ user }, dispatch] = useStateValue();
@@ -41,6 +40,9 @@ function App() {
         <Route exact path="/info" component={InfoPage} />
         <Route exact path="/cafe-ceo-order" component={CafeCeoPage} />
         <Route exact path="/search-id" component={SearchIdPage} />
+        <Route exact path="/error404" component={Error404Page} />
+        <Route exact path="/error500" component={Error500Page} />
+        <Route exact path="/loading" component={LoadingPage} />
       </Switch>
     </div>
   )
@@ -53,17 +55,15 @@ function App() {
           <Route exact path="/main" component={MainPage} />
           <Route exact path="/cafe-map" component={CafeMapPage} />
           <Route exact path="/mypage" component={MyPage} />
-          <Route exact path="/month-report" component={MonthReportPage} />
-          <Route exact path="/weekly-report" component={WeeklyReportPage} />
-          <Route exact path="/text-search" component={DrinkAddPage} />
+          <Route exact path="/report" component={ReportPage} />
+          <Route exact path="/drink-add" component={DrinkAddPage} />
+          <Route exact path="/payment-report" component={PaymentReportPage} />
           {/* custom page 프렌차이즈 pk와 메뉴 pk url에 넣어서 접근해야하는지?? */}
           <Route exact path="/custom" component={CustomPage} />
           <Route exact path="/payment" component={PaymentPage} />
           <Route exact path="/test" component={TestPage} />
           <Route exact path="/selectmenu" component={SelectMenuPage} />
           <Route exact path="/review" component={ReviewPage} />
-          <Route exact path="/error404" component={Error404Page} />
-          <Route exact path="/error500" component={Error500Page} />
           <Route exact path="/update-profile" component={UpdateProfilePage} />
         </Switch>
       </PageLayout>
@@ -82,6 +82,9 @@ function App() {
           <Route exact path="/info" component={IntroContainer} />
           <Route exact path="/cafe-ceo-order" component={IntroContainer} />
           <Route exact path="/search-id" component={SearchIdPage} />
+          <Route exact path="/error404" component={IntroContainer} />
+          <Route exact path="/error500" component={IntroContainer} />
+          <Route exact path="/loading" component={IntroContainer} />
 
           <Route component={DefaultContainer} />
           <Route exact path="/drink-add" component={DefaultContainer} />
