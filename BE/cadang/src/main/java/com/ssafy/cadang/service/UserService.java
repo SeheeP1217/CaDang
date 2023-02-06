@@ -61,7 +61,7 @@ public class UserService {
 
 
         // 프로필 이미지를 설정한 경우
-        if (!userDto.getImg().isEmpty()) {
+        if (userDto.getImg() != null) {
 
             multipartFile = userDto.getImg();
 

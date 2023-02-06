@@ -1,14 +1,17 @@
 package com.ssafy.cadang.jwt;
 
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
+import com.ssafy.cadang.auth.PrincipalDetails;
+import com.ssafy.cadang.repository.UserRepository;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -28,40 +31,51 @@ import java.util.stream.Collectors;
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 
+    private UserRepository userRepository;
     private Key key;
     private static final String AUTHORITIES_KEY = "auth";
 
-    private final String secret;
-    public JwtAuthorizationFilter(AuthenticationManager authenticationManager,@Value("${JWT_SECRET}") String secret) {
+
+     public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UserRepository userRepository) {
         super(authenticationManager);
-        this.secret = secret;
+        this.userRepository = userRepository;
     }
 
     @Override
     public void afterPropertiesSet() {
-        byte[] keyBytes = Decoders.BASE64.decode(secret);
+        byte[] keyBytes = Decoders.BASE64.decode(JwtProperties.SECRET);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
     // 인증이나 권한이 필요한 주소요청이 있을 때 해당 필터를 타게 된다.
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        super.doFilterInternal(request, response, chain);
+
         System.out.println("인증이나 권한이 필요한 주소 요청이 됨.");
+        System.out.println("request:  " +request);
+        System.out.println(request.getHeader("Authorization"));
 
-        String jwtHeader = request.getHeader("Authorization");
+        String jwtHeader = request.getHeader(JwtProperties.HEADER_STRING);
 
+        // header 가 있는지 확인
 
-        // header 가 있는지 확인\
-        //Todo: 토큰 유효성 검사 만들기
         if (jwtHeader == null || !jwtHeader.startsWith("Bearer")) {
             chain.doFilter(request, response);
-            // Todo: 권한이 없으면 에러 띄우기
+            System.out.println("header가 없음");
+
             return;
         }
 
         // JWT 토큰을 검증해서 정상적인 사용자인지 확인해야 한다.
-        String token = request.getHeader("Authorization").replace("Bearer ","");
+        String token = request.getHeader(JwtProperties.HEADER_STRING).replace(JwtProperties.TOKEN_PREFIX,"");
+
+        //Todo: 토큰 유효성 검사 만들기
+        // Todo: 권한이 없으면 에러 띄우기
+
+//        if (validateToken(token)) {
+//
+//        }
+
 
         Claims claims = Jwts
                 .parserBuilder()
@@ -76,7 +90,38 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         User principal = new User(claims.getSubject(), (String) claims.get("pw"), authorities);
 
+        String username = principal.getUsername();
 
-        //String username =
+        // 서명이 정상적으로 됨
+        if (username != null) {
+            com.ssafy.cadang.domain.User userEntity = userRepository.findByMemberId(username);
+
+            PrincipalDetails principalDetails = new PrincipalDetails(userEntity);
+            // JWT 토큰 서명을 통해서 서명이 정상이면 Authentication 객체를 만들어준다.
+            Authentication authentication =
+                    new UsernamePasswordAuthenticationToken(principalDetails, principalDetails.getUser().getPassword(),principalDetails.getAuthorities());
+
+            // 강제로 시큐리티의 세션에 접근하여 Authentication 객체를 저장
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            chain.doFilter(request, response);
+        }
+    }
+
+
+    private boolean validateToken(String token) {
+        try {
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            return true;
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            logger.info("잘못된 JWT 서명입니다.");
+        } catch (ExpiredJwtException e) {
+            logger.info("만료된 JWT 토큰입니다.");
+        } catch (UnsupportedJwtException e) {
+            logger.info("지원되지 않는 JWT 토큰입니다.");
+        } catch (IllegalArgumentException e) {
+            logger.info("JWT 토큰이 잘못되었습니다.");
+        }
+        return false;
     }
 }
