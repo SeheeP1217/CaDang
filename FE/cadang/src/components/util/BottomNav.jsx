@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import "./BottomNav.css";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
@@ -29,11 +30,12 @@ const BottomNav = () => {
           setValue(newValue);
         }}
       >
-        <BottomNavigationAction label="홈" icon={<HomeIcon fontSize="medium" />} />
-        <BottomNavigationAction label="주문하기" icon={<CoffeeIcon fontSize="medium" />} />
-        <BottomNavigationAction label="기록하기" icon={<NoteAltIcon fontSize="medium" />} />
-        <BottomNavigationAction label="마이페이지" icon={<PersonIcon fontSize="medium" />} />
-        <BottomNavigationAction label="설정" icon={<SettingsIcon fontSize="medium" />} />
+        
+        <BottomNavigationAction component={Link} to="/main" label="홈" icon={<HomeIcon fontSize="medium" />} />
+        <BottomNavigationAction component={Link} to="/cafe-map" label="주문하기" icon={<CoffeeIcon fontSize="small" />} />
+        <BottomNavigationAction component={Link} to="/drink-add" label="기록하기" icon={<NoteAltIcon fontSize="medium" />} />
+        <BottomNavigationAction component={Link} to="/mypage" label="마이페이지" icon={<PersonIcon fontSize="medium" />} />
+        <BottomNavigationAction  component={Link} to="/update-profile"label="설정" icon={<SettingsIcon fontSize="medium" />} />
       </BottomNavigation>
     </Paper>
   );

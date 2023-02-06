@@ -1,145 +1,91 @@
 import * as React from "react";
-import { Paper, Box, Grid } from "@mui/material";
+import ItemFiltering from "../../components/util/ItemFiltering";
+import { Link } from "react-router-dom";
+
+import styled from "styled-components";
+import { Divider, Box, Grid, Card } from "@mui/material";
 import Typography from "@mui/joy/Typography";
+import FabButton from "../../components/util/FabButton";
+
 // 검색바
 import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import parse from "autosuggest-highlight/parse";
-import match from "autosuggest-highlight/match";
-import MenuListItem from "../components/util/MenuListItem";
+import AutocompleteSearchBar from "../../components/util/AutocompleteSearchBar";
 
-function TextSearchPage() {
+function DrinkAddPage() {
+  const titleTypography = styled(Typography)(() => ({
+    level: "h3",
+    fontSize: "xl",
+    fontWeight: "xl",
+  }));
+
   return (
-    <Paper width="85%" sx={{ backgroundColor: "#EFF5F5", marginTop: 2 }}>
-      <Typography
-        level="h3"
-        fontSize="xl2"
-        fontWeight="xl"
-        id="ios-example-demo"
-        mt={2}
-      >
-        검색 추가
-      </Typography>
+    <div>
+      <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
+        <Box sx={{ backgroundColor: "#F9F6F2", paddingY: 0.3 }}>
+          <Typography level="h3" fontSize="xl" fontWeight="xl">
+            메뉴검색
+          </Typography>
 
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={2}>
-            <Typography>카페</Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <Autocomplete
-              id="highlights-demo"
-              sx={{ width: "100%" }}
-              options={top100Films}
-              getOptionLabel={(option) => option.title}
-              size="small"
-              renderInput={(params) => (
-                <TextField {...params} label="카페 검색" margin="normal" />
-              )}
-              renderOption={(props, option, { inputValue }) => {
-                const matches = match(option.title, inputValue, {
-                  insideWords: true,
-                });
-                const parts = parse(option.title, matches);
+          <Grid container alignItems="center" textAlign="center">
+            <Grid item xs={2}>
+              카페
+            </Grid>
+            <Grid item xs={4}>
+              <AutocompleteSearchBar label="카페 검색" data={top100Films} />
+            </Grid>
+            <Grid item xs={2}>
+              <Typography>지점</Typography>
+            </Grid>
+            <Grid item xs={4}>
+              {/* padding 0으로 바꾸기 */}
+              <TextField
+                id="outlined-basic"
+                label="지점 입력"
+                variant="outlined"
+                size="small"
+              />
+            </Grid>
 
-                return (
-                  <li {...props}>
-                    <div>
-                      {parts.map((part, index) => (
-                        <span
-                          key={index}
-                          style={{
-                            fontWeight: part.highlight ? 700 : 400,
-                          }}
-                        >
-                          {part.text}
-                        </span>
-                      ))}
-                    </div>
-                  </li>
-                );
-              }}
-            />
+            <Grid item xs={2}>
+              <Typography>메뉴</Typography>
+            </Grid>
+            <Grid item xs={10}>
+              <AutocompleteSearchBar label="메뉴 검색" data={top100Films} />
+            </Grid>
           </Grid>
-          <Grid item xs={2}>
-            <Typography>지점</Typography>
-          </Grid>
-          <Grid item xs={4}>
-            {/* padding 0으로 바꾸기 */}
-            <TextField
-              id="outlined-basic"
-              label="지점 입력"
-              variant="outlined"
-              size="small"
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item xs={2}>
-            <Typography>메뉴</Typography>
-          </Grid>
-          <Grid item xs={10}>
-            <Autocomplete
-              id="highlights-demo"
-              sx={{ width: "100%" }}
-              options={top100Films}
-              getOptionLabel={(option) => option.title}
-              size="small"
-              renderInput={(params) => (
-                <TextField {...params} label="메뉴 검색" margin="normal" />
-              )}
-              renderOption={(props, option, { inputValue }) => {
-                const matches = match(option.title, inputValue, {
-                  insideWords: true,
-                });
-                const parts = parse(option.title, matches);
-
-                return (
-                  <li {...props}>
-                    <div>
-                      {parts.map((part, index) => (
-                        <span
-                          key={index}
-                          style={{
-                            fontWeight: part.highlight ? 700 : 400,
-                          }}
-                        >
-                          {part.text}
-                        </span>
-                      ))}
-                    </div>
-                  </li>
-                );
-              }}
-            />
-          </Grid>
-        </Grid>
-      </Box>
-
-      <Box padding={2}>
-        <MenuListItem data={menuData} />
-      </Box>
-    </Paper>
+        </Box>
+      </div>
+      <ItemFiltering data={menuData} />
+      <Link to="/custom">
+        <FabButton />
+      </Link>
+    </div>
   );
 }
 
+const fabStyle = {
+  position: "fixed",
+  bottom: 70,
+  right: 16,
+};
+
 const menuData = [
-  { pk: 1, name: "카페라떼", caffeine: 250, sugar: 30, cal: 350, price: 2500 },
+  { pk: 1, name: "카페라떼", caffeine: 300, sugar: 10, cal: 350, price: 2500 },
   {
     pk: 2,
     name: "바닐라 라떼",
-    caffeine: 250,
-    sugar: 30,
-    cal: 350,
-    price: 2500,
+    caffeine: 200,
+    sugar: 20,
+    cal: 400,
+    price: 5000,
   },
   {
     pk: 3,
     name: "아이스 아메리카노",
-    caffeine: 250,
+    caffeine: 100,
     sugar: 30,
-    cal: 350,
-    price: 2500,
+    cal: 300,
+    price: 3500,
   },
 ];
 
@@ -271,4 +217,4 @@ const top100Films = [
   { title: "Monty Python and the Holy Grail", year: 1975 },
 ];
 
-export default TextSearchPage;
+export default DrinkAddPage;

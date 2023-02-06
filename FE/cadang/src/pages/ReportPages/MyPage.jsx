@@ -1,133 +1,124 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material-next/Button";
+import * as React from "react"
+import Button from "@mui/material-next/Button"
 // import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
-import ContentPasteSearchIcon from "@mui/icons-material/ContentPasteSearch";
-import AssessmentIcon from "@mui/icons-material/Assessment";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import Typography from "@mui/joy/Typography";
-import Avatar from "@mui/joy/Avatar";
-import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack"
+import ContentPasteSearchIcon from "@mui/icons-material/ContentPasteSearch"
+import AssessmentIcon from "@mui/icons-material/Assessment"
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos"
+import Typography from "@mui/joy/Typography"
+import Avatar from "@mui/joy/Avatar"
+import Grid from "@mui/material/Grid"
+import { Card } from "@mui/material"
+import { Link } from "react-router-dom"
 
 // 검색바 import
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import parse from "autosuggest-highlight/parse";
-import match from "autosuggest-highlight/match";
+import AutocompleteSearchBar from "../../components/util/AutocompleteSearchBar"
 
 // 기록 리스트
-import List from "@mui/joy/List";
-import Paper from "@mui/material/Paper";
+import List from "@mui/joy/List"
+import Paper from "@mui/material/Paper"
 
-import TodayChart from "../components/TodayChart";
-import ReviewListItem from "../components/ReviewListItem";
+import DailyConsumptionGraph from "../../components/util/DailyConsumptionGraph"
+import DailyOtherInfo from "../../components/DailyOtherInfo"
+import ReviewListItem from "../../components/ReviewListItem"
+import { Box } from "@mui/system"
 
 function MyPage() {
   return (
-    <Paper sx={{ backgroundColor: "#EFF5F5" , marginBottom: 7.4}}>
-      <Box width="90%" margin="auto">
-        <Typography
-          level="h3"
-          fontSize="xl2"
-          fontWeight="xl"
-          id="ios-example-demo"
-          mt={2}
-        >
-          Settings
-        </Typography>
-        <Grid container>
+    <body>
+      <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
+        <Box sx={{ backgroundColor: "#F9F6F2", paddingY: 0 }}>
+          <Typography level="h3" fontSize="xl" fontWeight="xl">
+            MyPage
+          </Typography>
+        </Box>
+      </div>
+      <Card sx={{ marginBottom: 2 }}>
+        <Grid container textAlign="center">
           <Grid item xs={2} margin="auto">
             <Avatar src="/static/images/avatar/1.jpg" />
             <Typography>김싸퓌</Typography>
           </Grid>
           <Grid item xs={10}>
-            <TodayChart />
+            <DailyConsumptionGraph data={data} />
+            <DailyOtherInfo data={dailyData} />
           </Grid>
         </Grid>
-        <Stack spacing={1}>
-          <Button
-            variant="filledTonal"
-            startIcon={<ContentPasteSearchIcon />}
-            endIcon={<ArrowForwardIosIcon />}
-          >
-            주문 내역
-          </Button>
-          <Button
-            variant="filledTonal"
-            startIcon={<AssessmentIcon />}
-            endIcon={<ArrowForwardIosIcon />}
-          >
-            내 리포트 보러가기
-          </Button>
-        </Stack>
+      </Card>
+      <Stack spacing={1}>
+        <Button
+          component={Link}
+          to="/payment-report"
+          variant="filledTonal"
+          startIcon={<ContentPasteSearchIcon />}
+          endIcon={<ArrowForwardIosIcon />}
+        >
+          주문 내역 보러가기
+        </Button>
+        <Button
+          component={Link}
+          to="/weekly-report"
+          variant="filledTonal"
+          startIcon={<AssessmentIcon />}
+          endIcon={<ArrowForwardIosIcon />}
+        >
+          내 리포트 보러가기
+        </Button>
+      </Stack>
 
-        <Autocomplete
-          id="highlights-demo"
-          sx={{ width: "100%" }}
-          options={top100Films}
-          getOptionLabel={(option) => option.title}
-          size="small"
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="카페명, 메뉴명 검색"
-              margin="normal"
-            />
-          )}
-          renderOption={(props, option, { inputValue }) => {
-            const matches = match(option.title, inputValue, {
-              insideWords: true,
-            });
-            const parts = parse(option.title, matches);
-
-            return (
-              <li {...props}>
-                <div>
-                  {parts.map((part, index) => (
-                    <span
-                      key={index}
-                      style={{
-                        fontWeight: part.highlight ? 700 : 400,
-                      }}
-                    >
-                      {part.text}
-                    </span>
-                  ))}
-                </div>
-              </li>
-            );
-          }}
-        />
-        <Paper variant="outlined" sx={{ backgroundColor: "#fff3e0" }}>
-          <Typography
-            level="body4"
-            fontWeight="xl"
-            sx={{ letterSpacing: "0.15rem" }}
-          >
-            나의 기록
-          </Typography>
-          <List
-            aria-labelledby="ellipsis-list-demo"
-            sx={{ "--List-decorator-size": "56px" }}
-          >
-            <ReviewListItem />
-            <ReviewListItem />
-            <ReviewListItem />
-            <ReviewListItem />
-            <ReviewListItem />
-            <ReviewListItem />
-            <ReviewListItem />
-            <ReviewListItem />
-            <ReviewListItem />
-          </List>
-        </Paper>
-      </Box>
-    </Paper>
-  );
+      <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
+        <Box sx={{ backgroundColor: "#F9F6F2", paddingY: 0 }}>
+          <AutocompleteSearchBar label="메뉴, 카페명 검색" data={top100Films} />
+        </Box>
+      </div>
+      <Paper variant="outlined" sx={{ backgroundColor: "#fff3e0" }}>
+        <Typography
+          level="body4"
+          fontWeight="xl"
+          sx={{ letterSpacing: "0.15rem" }}
+        >
+          나의 기록
+        </Typography>
+        <List
+          aria-labelledby="ellipsis-list-demo"
+          sx={{ "--List-decorator-size": "56px" }}
+        >
+          <ReviewListItem />
+          <ReviewListItem />
+          <ReviewListItem />
+          <ReviewListItem />
+          <ReviewListItem />
+          <ReviewListItem />
+          <ReviewListItem />
+          <ReviewListItem />
+          <ReviewListItem />
+        </List>
+      </Paper>
+    </body>
+  )
 }
 
-export default MyPage;
+export default MyPage
+
+const data = [
+  {
+    name: "카페인",
+    consumption: 2400,
+    change: 4000,
+  },
+  {
+    name: "당",
+    consumption: 1398,
+    change: 3000,
+  },
+]
+
+const dailyData = [
+  {
+    calorie: 4000,
+    money: 2400,
+  },
+]
 
 const top100Films = [
   { title: "아이스 아메리카노", year: 1994 },
@@ -255,4 +246,4 @@ const top100Films = [
   { title: "Snatch", year: 2000 },
   { title: "3 Idiots", year: 2009 },
   { title: "Monty Python and the Holy Grail", year: 1975 },
-];
+]

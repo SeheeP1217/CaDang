@@ -1,24 +1,23 @@
 // import * as React from "react";
-import React, { useState, useEffect } from "react";
-import MapContainer from "../components/MapContainer";
-import CategorySearch from "../components/CategorySearch";
-import MapSearchList from "../components/MapSearchList";
-import { MapMarker, Map } from "react-kakao-maps-sdk";
+import React, { useState, useEffect } from "react"
+import MapContainer from "../../components/MapContainer"
+import CategorySearch from "../../components/CategorySearch"
+import MapSearchList from "../../components/MapSearchList"
+import { MapMarker, Map } from "react-kakao-maps-sdk"
 
-export default function SearchCafePage() {
-
-  const [inputText, setInputText] = useState("");
-  const [place, setPlace] = useState("");
+export default function CafeMapPage() {
+  const [inputText, setInputText] = useState("")
+  const [place, setPlace] = useState("")
 
   const onChange = (e) => {
-    setInputText(e.target.value);
-  };
+    setInputText(e.target.value)
+  }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    setPlace(inputText);
-    setInputText("");
-  };
+    e.preventDefault()
+    setPlace(inputText)
+    setInputText("")
+  }
 
   const [state, setState] = useState({
     center: {
@@ -27,11 +26,9 @@ export default function SearchCafePage() {
     },
     errMsg: null,
     isLoading: true,
-  });
+  })
 
   useEffect(() => {
-
-
     // if (navigator.geolocation) {
     //   // GeoLocation을 이용해서 접속 위치를 얻어옵니다
     //   navigator.geolocation.getCurrentPosition(
@@ -61,8 +58,7 @@ export default function SearchCafePage() {
     //     isLoading: false,
     //   }))
     // }
-  }, [state]);
-
+  }, [state])
 
   return (
     <>
@@ -91,10 +87,10 @@ export default function SearchCafePage() {
           </MapMarker>
         )}
       </Map> */}
-      
+
       {/* <MapContainer searchPlace={place} /> */}
-      <CategorySearch/>
+      <CategorySearch />
       {/* <MapSearchList/> */}
     </>
-  );
-};
+  )
+}

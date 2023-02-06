@@ -1,6 +1,6 @@
 import React from "react"
 import Carousel from "react-material-ui-carousel"
-import { Paper } from "@mui/material"
+import { Paper, Card, Grid } from "@mui/material"
 import "./MonthRank.css"
 import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded"
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded"
@@ -26,37 +26,37 @@ const items = [
   },
 ]
 function MonthRank(props) {
-
-
   return (
-    <Carousel
-      className="carousel"
-      NextIcon={<KeyboardArrowRightRoundedIcon />}
-      PrevIcon={<KeyboardArrowLeftRoundedIcon />}
-      navButtonsProps={{
-        // 실제 버튼의 색상과 반경을 변경합니다. THIS STYLES BOTH BUTTONS
-        style: {
-          backgroundColor: "transparent",
-          borderRadius: 0,
-          color: "cornflowerblue",
-
-        },
-      }}
-      navButtonsAlwaysVisible={true}
-      animation="slide"
-      cycleNavigation={false}
-      autoPlay={false}
-      next={() => {
-        /* Do stuff */
-      }}
-      prev={() => {
-        /* Do other stuff */
-      }}
-    >
-      {items.map((item, i) => (
-        <Item key={i} item={item} />
-      ))}
-    </Carousel>
+    <Paper>
+      <Carousel
+        className="carousel"
+        NextIcon={<KeyboardArrowRightRoundedIcon />}
+        PrevIcon={<KeyboardArrowLeftRoundedIcon />}
+        navButtonsProps={{
+          // 실제 버튼의 색상과 반경을 변경합니다. THIS STYLES BOTH BUTTONS
+          style: {
+            backgroundColor: "transparent",
+            borderRadius: 0,
+            color: "cornflowerblue",
+            zIndex: 0,
+          },
+        }}
+        navButtonsAlwaysVisible={true}
+        animation="slide"
+        cycleNavigation={false}
+        autoPlay={false}
+        next={() => {
+          /* Do stuff */
+        }}
+        prev={() => {
+          /* Do other stuff */
+        }}
+      >
+        {items.map((item, i) => (
+          <Item key={i} item={item} />
+        ))}
+      </Carousel>
+    </Paper>
   )
 }
 
