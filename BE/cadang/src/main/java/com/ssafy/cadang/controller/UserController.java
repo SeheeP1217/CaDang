@@ -1,6 +1,7 @@
 package com.ssafy.cadang.controller;
 
 
+import com.ssafy.cadang.domain.User;
 import com.ssafy.cadang.dto.UserDto;
 
 
@@ -28,7 +29,7 @@ public class UserController {
 
     //회원가입
     @PostMapping("/user/join")
-    public ResponseEntity<String> join(@Valid @ModelAttribute UserDto userDto) throws IOException {
+    public ResponseEntity<String> join(@Valid @RequestBody UserDto userDto) throws IOException {
 
         userService.join(userDto);
         return new ResponseEntity<>("success", HttpStatus.OK);
@@ -53,7 +54,7 @@ public class UserController {
         return key_check;
 
     }
-
+    // 아이디 중복 검증
     @PostMapping("/user/id/verify")
     public boolean idVerify(@RequestParam("id") String id) {
         boolean id_check;
@@ -65,7 +66,7 @@ public class UserController {
     }
 
 
-//    @PostMapping("/signup")
+//    @PostMapping("/user/signup")
 //    public ResponseEntity<User> signup(
 //            @Valid @RequestBody UserDto userDto
 //    ) {

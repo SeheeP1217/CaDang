@@ -32,7 +32,7 @@ public class RecordController {
                                                @RequestParam int size,
                                                @RequestParam(required = false) String keyword) {
 
-        return recordService.searchByKeyword(userId, keyword, page, size);
+        return recordService.searchByKeyword(userId, keyword, page-1, size);
     }
 
     @GetMapping("/{recordId}")

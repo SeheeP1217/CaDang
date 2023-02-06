@@ -15,9 +15,12 @@ public class DayDataDto {
     private long sugarGoal;
     private int caffeDaily;
     private int sugarDaily;
+    private int calDaily;
+    private int moneyDaily;
 
     private boolean caffeSuccess;
     private boolean sugarSuccess;
+
 
     public DayDataDto(Data data) {
         id = data.getId();
@@ -29,5 +32,7 @@ public class DayDataDto {
         sugarDaily = data.getSugarDaily();
         caffeSuccess = data.isCaffeSuccess();
         sugarSuccess = data.isSugarSuccess();
+        moneyDaily = data.getMoneyDaily();
+        calDaily = data.getMoneyDaily();
     }
 }

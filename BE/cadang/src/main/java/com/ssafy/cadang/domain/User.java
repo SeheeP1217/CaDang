@@ -5,6 +5,10 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -41,7 +45,21 @@ public class User {
 
     private String refreshToken;
 
-    private String authorityName;
+    private String authorities; // USER, ADMIN
+
+    public List<String> getAuthorityList(){
+        if (this.authorities.length() > 0) {
+            return Arrays.asList(this.authorities.split(","));
+        }
+        return new ArrayList<>();
+    }
+
+
+//    @ManyToMany
+//    @JoinTable(name = "user_authority",
+//    joinColumns = {@JoinColumn(name = "user_id",referencedColumnName = "user_id")},
+//    inverseJoinColumns = {@JoinColumn(name = "authority_name",referencedColumnName = "authority_name")})
+//    private Set<Authority> authorities;
 
 
 

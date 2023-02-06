@@ -12,6 +12,7 @@ import com.ssafy.cadang.repository.RecordReposiotry;
 import com.ssafy.cadang.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -35,8 +35,8 @@ public class RecordService {
     private final DrinkRepository drinkRepository;
     private static OrderStatus[] recordStatus = {OrderStatus.RECORD, OrderStatus.PICKUP};
 
-    @Value("${USER_PROFILE_PATH}")
-    private String UserProfileImgPath;
+    @Value("${EC2_FILE_PATH}")
+    private String RecordUploadPath;
 
     @Transactional
     public Long saveRecordDirectly(RecordSaveRequestDto recordDto) throws IOException {
@@ -49,7 +49,8 @@ public class RecordService {
             regDate = LocalDate.parse(recordDto.getRegDate()).atStartOfDay();
         }
         // 파일 업로드
-        String imgUrl = uploadImage(recordDto.getImage());
+        // TODO 날짜 형식 프론트와 통일하기
+        String imgUrl = uploadImage(recordDto.getImage(), recordDto.getRegDate());
         if (imgUrl == null)
             imgUrl = recordDto.getImage_url();
 
@@ -91,10 +92,9 @@ public class RecordService {
 //    }
 
     public RecordDetailDto getOrderByRecordId(Long recordId) {
-
         Optional<Order> order = recordReposiotry.findById(recordId);
         if (order.isEmpty())
-            throw new IllegalStateException("기록이 존재하지 않습니다.");
+            throw new CustomException(ExceptionEnum.RECORD_NOT_FOUND);
         return toRecordDetailDto(order.get());
 
     }
@@ -103,16 +103,15 @@ public class RecordService {
     public Long deleteOrderById(Long recordId) {
         Optional<Order> order = recordReposiotry.findById(recordId);
         if (order.isEmpty())
-            throw new IllegalStateException("기록이 존재하지 않습니다.");
+            throw new CustomException(ExceptionEnum.RECORD_NOT_FOUND);
         recordReposiotry.delete(order.get());
         return recordId;
     }
 
     public MyPageRecordListDto searchByKeyword(Long userId, String keyword, int page, int size) {
-
         // pagination
         PageRequest pageRequest = PageRequest.of(page, size);
-        Slice<Order> orders;
+        Page<Order> orders;
         if (keyword == null) // keyword가 null면 전체 조회
             orders = recordReposiotry.findAllByPage(userId, recordStatus, pageRequest);
         else {
@@ -123,7 +122,9 @@ public class RecordService {
         List<MyPageRecordDto> recordDtos = toMyPageRecordDtos(orders);
         return MyPageRecordListDto.builder()
                 .recordList(recordDtos)
+                .hasPrevious(orders.hasPrevious())
                 .hasNext(orders.hasNext())
+                .totalPage(orders.getTotalPages())
                 .build();
 
     }
@@ -131,12 +132,12 @@ public class RecordService {
     @Transactional
     public Long updateRecord(RecordUpdateDto updateDto) throws IOException {
         Order findRecord = recordReposiotry.findById(updateDto.getId())
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new CustomException(ExceptionEnum.RECORD_NOT_FOUND));
         if (findRecord.getOrderStatus() == OrderStatus.PICKUP && updateDto.getRegDate() != null) {
-            throw new IllegalStateException("주문 상품은 등록 날짜를 수정할 수 없습니다.");
+            throw new CustomException(ExceptionEnum.RECORD_NOT_ALLOWED_MODIFY);
         }
         if (updateDto.getRegDate() != null) {
-            LocalDateTime localDateTime = LocalDate.parse(updateDto.getRegDate()).atStartOfDay();
+            LocalDateTime localDateTime = LocalDateTime.parse(updateDto.getRegDate());
             findRecord.setRegDate(localDateTime);
         }
         if (updateDto.getMemo() != null)
@@ -144,8 +145,10 @@ public class RecordService {
         if (updateDto.getIsPublic() != null)
             findRecord.setPublic(updateDto.getIsPublic());
 
+
         // 파일 업로드
-        String imgUrl = uploadImage(updateDto.getImage());
+        // TODO 날짜 형식 프론트와 통일하기
+        String imgUrl = uploadImage(updateDto.getImage(), updateDto.getRegDate());
         if (imgUrl != null) {
             findRecord.setPhoto(imgUrl);
         }
@@ -200,12 +203,12 @@ public class RecordService {
     }
 
 
-    private String uploadImage(MultipartFile image) throws IOException {
+    private String uploadImage(MultipartFile image, String regDate) throws IOException {
         if (!image.isEmpty()) {
             MultipartFile file = image;
             String uuid = UUID.randomUUID().toString();
             String originalFilename = file.getOriginalFilename();
-            String fullPath = UserProfileImgPath + uuid + "_" + originalFilename;
+            String fullPath = RecordUploadPath + regDate + "/" + uuid + "_" + originalFilename;
             file.transferTo(new File(fullPath));
             return fullPath;
         }
