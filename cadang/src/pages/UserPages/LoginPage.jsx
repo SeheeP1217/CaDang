@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { useHistory } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import axios from "axios"
 import {
   Button,
@@ -131,7 +131,6 @@ const LoginPage = () => {
                 <Grid item xs={12}>
                   <TextField
                     required
-                    autoFocus
                     fullWidth
                     type="email"
                     id="email"
@@ -165,8 +164,19 @@ const LoginPage = () => {
               >
                 LOGIN
               </Button>
-              
-              <h4>아이디 찾기 | 비밀번호 찾기 | 회원가입 추가예정</h4>
+              <Grid>
+                <Button component={Link} to="/search-id" variant="text">
+                  아이디 찾기
+                </Button>
+                |
+                <Button component={Link} to="/search-pw" variant="text">
+                  비밀번호 찾기
+                </Button>
+                |
+                <Button component={Link} to="/sign-up" variant="text">
+                  회원가입
+                </Button>
+              </Grid>
             </FormControl>
             <FormHelperTexts>{loginError}</FormHelperTexts>
           </Boxs>
