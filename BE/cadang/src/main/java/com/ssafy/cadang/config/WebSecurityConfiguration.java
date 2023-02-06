@@ -27,7 +27,7 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final CorsFilter corsFilter;
+    //private final CorsFilter corsFilter;
 
 
 
@@ -52,7 +52,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilter(corsFilter) //@CrossOrigin(인증X일 때), 인증(O) => 시큐리티 필터에 등록해야함
+                //.addFilter(corsFilter) //@CrossOrigin(인증X일 때), 인증(O) => 시큐리티 필터에 등록해야함
                 .formLogin().disable() // form 태그로 로그인을 하지 않는다
                 .httpBasic().disable() // basic 사용하지 않고 토큰을 사용하겠다.
                 //.addFilter(new JwtAuthenticationFilter(authenticationManager(),"${JWT_SECRET}",Long.parseLong("${JWT_EXPIRE_TIME}"))) // AuthenticationManager
