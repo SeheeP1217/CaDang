@@ -2,8 +2,7 @@ import introImg from "../../assets/introImg.png"
 import Button from "@mui/material-next/Button"
 import Stack from "@mui/material/Stack"
 import { Link } from "react-router-dom"
-import styled from "styled-components"
-import netmarbleM from "../../assets/fonts/netmarble/netmarbleM.ttf"
+
 
 function FirstPage() {
   return (

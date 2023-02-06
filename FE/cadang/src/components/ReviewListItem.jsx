@@ -6,7 +6,6 @@ import { Paper } from "@mui/material"
 import IconButton from "@mui/material/IconButton"
 import { Link } from "react-router-dom"
 
-import drink from "../assets/drink.png"
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined"
 import DeleteIcon from "@mui/icons-material/Delete"
 

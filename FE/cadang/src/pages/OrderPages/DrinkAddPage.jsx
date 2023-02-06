@@ -2,8 +2,7 @@ import * as React from "react";
 import ItemFiltering from "../../components/util/ItemFiltering";
 import { Link } from "react-router-dom";
 
-import styled from "styled-components";
-import { Divider, Box, Grid, Card } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import FabButton from "../../components/util/FabButton";
 
@@ -12,11 +11,6 @@ import TextField from "@mui/material/TextField";
 import AutocompleteSearchBar from "../../components/util/AutocompleteSearchBar";
 
 function DrinkAddPage() {
-  const titleTypography = styled(Typography)(() => ({
-    level: "h3",
-    fontSize: "xl",
-    fontWeight: "xl",
-  }));
 
   return (
     <div>
@@ -63,11 +57,6 @@ function DrinkAddPage() {
   );
 }
 
-const fabStyle = {
-  position: "fixed",
-  bottom: 70,
-  right: 16,
-};
 
 const menuData = [
   { pk: 1, name: "카페라떼", caffeine: 300, sugar: 10, cal: 350, price: 2500 },

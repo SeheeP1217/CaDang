@@ -1,6 +1,6 @@
 import React from "react"
 import Carousel from "react-material-ui-carousel"
-import { Paper, Card, Grid } from "@mui/material"
+import { Card } from "@mui/material"
 import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded"
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded"
 import styled from "styled-components"

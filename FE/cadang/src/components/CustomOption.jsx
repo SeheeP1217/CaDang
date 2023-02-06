@@ -3,7 +3,7 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import IconButton from "@mui/material/IconButton";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import { Card, Box, Grid, Divider } from "@mui/material";
+import { Card, Grid, Divider } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 
 function CustomOption() {
