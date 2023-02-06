@@ -6,6 +6,8 @@ import coffeebean from "../assets/coffeebean.png"
 import coffeebeansugar from "../assets/coffeebeansugar.png"
 import sugar from "../assets/sugar.png"
 import "./MyCalendar.css"
+import { Grid } from "@mui/material"
+
 
 class MyCalendar extends Component {
   render() {
@@ -18,7 +20,7 @@ class MyCalendar extends Component {
       )
     }
     return (
-      <div className="maincontainer">
+      <Grid className="maincontainer">
         <FullCalendar
           plugins={[dayGridPlugin, interactionPlugin]}
           // 월 단위 표시
@@ -50,7 +52,7 @@ class MyCalendar extends Component {
             },
           ]}
         />
-      </div>
+      </Grid>
     )
   }
 }
