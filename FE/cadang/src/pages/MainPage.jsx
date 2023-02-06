@@ -8,6 +8,8 @@ import { Card } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 
 export default function MainPage() {
+  
+
   return (
     <Box>
       <Typography level="h3" fontSize="xl" fontWeight="xl">
