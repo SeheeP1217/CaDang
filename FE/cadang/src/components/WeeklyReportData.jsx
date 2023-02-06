@@ -4,19 +4,14 @@ import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 // import { useTheme } from '@mui/material/styles';
-import styled from "styled-components";
-import { Paper, Card, CardHeader, Grid } from "@mui/material";
+import { Paper, Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import sugar from "../assets/sugar.png";
 import caffeine from "../assets/caffeine.png";
 
 // 정보 박스
-import List from "@mui/joy/List";
-import ListItem from "@mui/joy/ListItem";
 import ListItemDecorator from "@mui/joy/ListItemDecorator";
-import Divider from "@mui/material/Divider";
-
 import WeeklyReportChart from "./WeeklyReportChart";
 
 function TabPanel(props) {
