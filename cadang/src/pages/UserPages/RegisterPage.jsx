@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { useHistory } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import axios from "axios"
 import {
   Button,
@@ -260,12 +260,11 @@ const RegisterPage = () => {
                     onChange={onChangePasswordState}
                   />
                 </Grid>
-                <FormHelperTexts>{passwordStateError}</FormHelperTexts>c
+                <FormHelperTexts>{passwordStateError}</FormHelperTexts>
                 <Grid container xs={12} spacing={2}>
                   <Grid item xs={9}>
                     <TextField
                       required
-                      autoFocus
                       fullWidth
                       type="email"
                       id="email"
@@ -311,6 +310,9 @@ const RegisterPage = () => {
               </Button>
             </FormControl>
             <FormHelperTexts>{registerError}</FormHelperTexts>
+            <Button component={Link} to="/sign-in" variant="text">
+              이미 회원이라면? 로그인 하러 가기
+            </Button>
           </Boxs>
         </Box>
       </Container>
