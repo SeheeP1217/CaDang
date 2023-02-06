@@ -78,7 +78,7 @@ public class UserService {
                     .nickname(userDto.getNickname())
                     .caffeGoal(defaultCaffeineGoal)
                     .sugarGoal(defaultSugarGoal)
-                    .imgUrl(storedPath)
+                    .imgUrl(storeFilename)
                     .authorities("ROLE_USER")
                     .build();
         // 프로필 이미지를 설정하지 않은 경우
