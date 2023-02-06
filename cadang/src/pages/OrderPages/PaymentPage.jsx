@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Paper, Box, Grid, Card } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import DrinkMenuItem from "../components/util/DrinkMenuItem";
-import Typography from "@mui/joy/Typography";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import kakaopay from "../assets/payment_icon_yellow_large.png";
-import Button from "@mui/material-next/Button";
+import React, { useEffect, useState } from "react"
+import { Paper, Box, Grid, Card } from "@mui/material"
+import { styled } from "@mui/material/styles"
+import DrinkMenuItem from "../../components/util/DrinkMenuItem"
+import Typography from "@mui/joy/Typography"
+import CardContent from "@mui/material/CardContent"
+import CardMedia from "@mui/material/CardMedia"
+import kakaopay from "../../assets/payment_icon_yellow_large.png"
+import Button from "@mui/material-next/Button"
 
 export default function PaymentPage() {
   const Item = styled(Paper)(({ theme }) => ({
@@ -15,11 +15,18 @@ export default function PaymentPage() {
     padding: theme.spacing(1),
     textAlign: "center",
     color: "000000",
-  }));
-  const addMenu = [{ cafe: "스타벅스" }];
+  }))
+  const addMenu = [{ cafe: "스타벅스" }]
   const menuData = [
-    { pk: 1, name: "아이스 아메리카노", caffeine: 250, sugar: 30, cal: 350, price: 2500 },
-  ];
+    {
+      pk: 1,
+      name: "아이스 아메리카노",
+      caffeine: 250,
+      sugar: 30,
+      cal: 350,
+      price: 2500,
+    },
+  ]
 
   return (
     <div style={{ padding: "3%", marginTop: "3%" }}>
@@ -47,7 +54,11 @@ export default function PaymentPage() {
       </Box>
       <Card sx={{ mt: "3%", p: 1 }}>
         <Grid container>
-          <Grid item xs={8} sx={{ display: "flex", justifyContent: "flex-start" }}>
+          <Grid
+            item
+            xs={8}
+            sx={{ display: "flex", justifyContent: "flex-start" }}
+          >
             <Typography
               sx={{
                 fontWeight: "700",
@@ -58,7 +69,11 @@ export default function PaymentPage() {
               아이스 아메리카노
             </Typography>
           </Grid>
-          <Grid item xs={4} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}>
+          <Grid
+            item
+            xs={4}
+            sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}
+          >
             <Typography
               sx={{
                 fontWeight: "700",
@@ -70,7 +85,11 @@ export default function PaymentPage() {
             </Typography>
           </Grid>
 
-          <Grid item xs={8} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-start" }}>
+          <Grid
+            item
+            xs={8}
+            sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-start" }}
+          >
             <Typography
               sx={{
                 fontWeight: "700",
@@ -81,7 +100,11 @@ export default function PaymentPage() {
               샷 추가
             </Typography>
           </Grid>
-          <Grid item xs={4} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}>
+          <Grid
+            item
+            xs={4}
+            sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}
+          >
             <Typography
               sx={{
                 display: "inline",
@@ -93,7 +116,11 @@ export default function PaymentPage() {
             </Typography>
           </Grid>
 
-          <Grid item xs={8} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-start" }}>
+          <Grid
+            item
+            xs={8}
+            sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-start" }}
+          >
             <Typography
               sx={{
                 display: "inline",
@@ -104,7 +131,11 @@ export default function PaymentPage() {
               헤이즐넛 시럽
             </Typography>
           </Grid>
-          <Grid item xs={4} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}>
+          <Grid
+            item
+            xs={4}
+            sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}
+          >
             <Typography
               sx={{
                 display: "inline",
@@ -119,7 +150,11 @@ export default function PaymentPage() {
       </Card>
       <Card style={{ background: "#ffffff" }} sx={{ p: 1, mt: "3%" }}>
         <Grid container>
-          <Grid item xs={8} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-start" }}>
+          <Grid
+            item
+            xs={8}
+            sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-start" }}
+          >
             <Typography
               sx={{
                 display: "inline",
@@ -130,7 +165,11 @@ export default function PaymentPage() {
               총 주문 금액
             </Typography>
           </Grid>
-          <Grid item xs={4} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}>
+          <Grid
+            item
+            xs={4}
+            sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}
+          >
             <Typography
               sx={{
                 display: "inline",
@@ -151,7 +190,12 @@ export default function PaymentPage() {
         결제 수단
       </Box>
       <Card sx={{ display: "flex", p: 1, mt: 1 }}>
-        <CardMedia component="img" sx={{ width: 100 }} image={kakaopay} alt="kakaopay" />
+        <CardMedia
+          component="img"
+          sx={{ width: 100 }}
+          image={kakaopay}
+          alt="kakaopay"
+        />
         <Typography
           sx={{
             fontSize: 18,
@@ -179,5 +223,5 @@ export default function PaymentPage() {
         </Button>
       </Grid>
     </div>
-  );
+  )
 }

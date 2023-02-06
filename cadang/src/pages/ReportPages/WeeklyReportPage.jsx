@@ -1,15 +1,15 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import Box from "@mui/material/Box";
-import Typography from "@mui/joy/Typography";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import { Paper } from "@mui/material";
+import * as React from "react"
+import PropTypes from "prop-types"
+import Box from "@mui/material/Box"
+import Typography from "@mui/joy/Typography"
+import Tabs from "@mui/material/Tabs"
+import Tab from "@mui/material/Tab"
+import { Paper } from "@mui/material"
 
-import WeeklyReportData from "../components/WeeklyReportData";
+import WeeklyReportData from "../../components/WeeklyReportData"
 
 function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+  const { children, value, index, ...other } = props
 
   return (
     <div
@@ -25,28 +25,28 @@ function TabPanel(props) {
         </Box>
       )}
     </div>
-  );
+  )
 }
 
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
-};
+}
 
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
-  };
+  }
 }
 
 function WeeklyReportPage() {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(0)
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+    setValue(newValue)
+  }
 
   return (
     <Paper width="85%" margin="auto" sx={{ backgroundColor: "#EFF5F5" }}>
@@ -68,6 +68,6 @@ function WeeklyReportPage() {
         월간리포트 컴포넌트로 추가
       </TabPanel>
     </Paper>
-  );
+  )
 }
-export default WeeklyReportPage;
+export default WeeklyReportPage

@@ -1,90 +1,119 @@
-import * as React from "react";
-import ItemFiltering from "../components/util/ItemFiltering";
+import * as React from "react"
+import Button from "@mui/material-next/Button"
+// import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack"
+import ContentPasteSearchIcon from "@mui/icons-material/ContentPasteSearch"
+import AssessmentIcon from "@mui/icons-material/Assessment"
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos"
+import Typography from "@mui/joy/Typography"
+import Avatar from "@mui/joy/Avatar"
+import Grid from "@mui/material/Grid"
+import { Card } from "@mui/material"
 
-import styled from "styled-components";
-import { Divider, Box, Grid, Card } from "@mui/material";
-import Typography from "@mui/joy/Typography";
-import FabButton from "../components/util/FabButton";
+// 검색바 import
+import AutocompleteSearchBar from "../../components/util/AutocompleteSearchBar"
 
-// 검색바
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import parse from "autosuggest-highlight/parse";
-import match from "autosuggest-highlight/match";
-import MenuListItem from "../components/util/MenuListItem";
-import AutocompleteSearchBar from "../components/util/AutocompleteSearchBar";
+// 기록 리스트
+import List from "@mui/joy/List"
+import Paper from "@mui/material/Paper"
 
-function TextSearchPage() {
-  const titleTypography = styled(Typography)(() => ({
-    level: "h3",
-    fontSize: "xl",
-    fontWeight: "xl",
-  }));
+import DailyConsumptionGraph from "../../components/util/DailyConsumptionGraph"
+import DailyOtherInfo from "../../components/DailyOtherInfo"
+import ReviewListItem from "../../components/ReviewListItem"
+import { Box } from "@mui/system"
 
+function MyPage() {
   return (
-    <div>
-      <Typography level="h3" fontSize="xl" fontWeight="xl">
-        메뉴검색
-      </Typography>
+    <body>
+      <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
+        <Box sx={{ backgroundColor: "#F9F6F2", paddingY: 0 }}>
+          <Typography level="h3" fontSize="xl" fontWeight="xl">
+            MyPage
+          </Typography>
+        </Box>
+      </div>
+      <Card sx={{ marginBottom: 2 }}>
+        <Grid container textAlign="center">
+          <Grid item xs={2} margin="auto">
+            <Avatar src="/static/images/avatar/1.jpg" />
+            <Typography>김싸퓌</Typography>
+          </Grid>
+          <Grid item xs={10}>
+            <DailyConsumptionGraph data={data} />
+            <DailyOtherInfo data={dailyData} />
+          </Grid>
+        </Grid>
+      </Card>
+      <Stack spacing={1}>
+        <Button
+          variant="filledTonal"
+          startIcon={<ContentPasteSearchIcon />}
+          endIcon={<ArrowForwardIosIcon />}
+        >
+          주문 내역
+        </Button>
+        <Button
+          variant="filledTonal"
+          startIcon={<AssessmentIcon />}
+          endIcon={<ArrowForwardIosIcon />}
+        >
+          내 리포트 보러가기
+        </Button>
+      </Stack>
 
-      <Grid container alignItems="center" textAlign="center">
-        <Grid item xs={2}>
-          카페
-        </Grid>
-        <Grid item xs={4}>
-          <AutocompleteSearchBar label="카페 검색" data={top100Films} />
-        </Grid>
-        <Grid item xs={2}>
-          <Typography>지점</Typography>
-        </Grid>
-        <Grid item xs={4}>
-          {/* padding 0으로 바꾸기 */}
-          <TextField
-            id="outlined-basic"
-            label="지점 입력"
-            variant="outlined"
-            size="small"
-          />
-        </Grid>
-
-        <Grid item xs={2}>
-          <Typography>메뉴</Typography>
-        </Grid>
-        <Grid item xs={10}>
-          <AutocompleteSearchBar label="메뉴 검색" data={top100Films} />
-        </Grid>
-      </Grid>
-      <ItemFiltering data={menuData} />
-      <FabButton/>
-    </div>
-  );
+      <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
+        <Box sx={{ backgroundColor: "#F9F6F2", paddingY: 0 }}>
+          <AutocompleteSearchBar label="메뉴, 카페명 검색" data={top100Films} />
+        </Box>
+      </div>
+      <Paper variant="outlined" sx={{ backgroundColor: "#fff3e0" }}>
+        <Typography
+          level="body4"
+          fontWeight="xl"
+          sx={{ letterSpacing: "0.15rem" }}
+        >
+          나의 기록
+        </Typography>
+        <List
+          aria-labelledby="ellipsis-list-demo"
+          sx={{ "--List-decorator-size": "56px" }}
+        >
+          <ReviewListItem />
+          <ReviewListItem />
+          <ReviewListItem />
+          <ReviewListItem />
+          <ReviewListItem />
+          <ReviewListItem />
+          <ReviewListItem />
+          <ReviewListItem />
+          <ReviewListItem />
+        </List>
+      </Paper>
+    </body>
+  )
 }
 
-const fabStyle = {
-  position: "fixed",
-  bottom: 70,
-  right: 16,
-};
+export default MyPage
 
-const menuData = [
-  { pk: 1, name: "카페라떼", caffeine: 300, sugar: 10, cal: 350, price: 2500 },
+const data = [
   {
-    pk: 2,
-    name: "바닐라 라떼",
-    caffeine: 200,
-    sugar: 20,
-    cal: 400,
-    price: 5000,
+    name: "카페인",
+    consumption: 2400,
+    change: 4000,
   },
   {
-    pk: 3,
-    name: "아이스 아메리카노",
-    caffeine: 100,
-    sugar: 30,
-    cal: 300,
-    price: 3500,
+    name: "당",
+    consumption: 1398,
+    change: 3000,
   },
-];
+]
+
+const dailyData = [
+  {
+    calorie: 4000,
+    money: 2400,
+  },
+]
 
 const top100Films = [
   { title: "아이스 아메리카노", year: 1994 },
@@ -212,6 +241,4 @@ const top100Films = [
   { title: "Snatch", year: 2000 },
   { title: "3 Idiots", year: 2009 },
   { title: "Monty Python and the Holy Grail", year: 1975 },
-];
-
-export default TextSearchPage;
+]

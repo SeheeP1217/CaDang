@@ -1,4 +1,4 @@
-import introImg from "../assets/introImg.png";
+import introImg from "../../assets/introImg.png";
 import Button from "@mui/material-next/Button";
 import Stack from "@mui/material/Stack";
 

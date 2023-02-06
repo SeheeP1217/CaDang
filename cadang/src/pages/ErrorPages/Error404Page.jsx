@@ -3,7 +3,7 @@ import { Paper, Box, Grid, Card } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material-next/Button";
-import errorImg from "../assets/404error.png";
+import errorImg from "../../assets/404error.png";
 
 export default function Error404Page() {
   return (
