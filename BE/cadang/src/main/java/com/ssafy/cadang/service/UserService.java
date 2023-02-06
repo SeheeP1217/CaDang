@@ -29,7 +29,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${USER_PROFILE_PATH}")
+    @Value("${EC2_PROFILE_PATH}")
     private String UserProfileImgPath;
     @Value("${DEFAULT_PROFILE_PATH}")
     private String DefaultProfileImgPath;

@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -35,8 +34,8 @@ public class RecordService {
     private final DrinkRepository drinkRepository;
     private static OrderStatus[] recordStatus = {OrderStatus.RECORD, OrderStatus.PICKUP};
 
-    @Value("${USER_PROFILE_PATH}")
-    private String UserProfileImgPath;
+    @Value("${EC2_FILE_PATH}")
+    private String RecordUploadPath;
 
     @Transactional
     public Long saveRecordDirectly(RecordSaveRequestDto recordDto) throws IOException {
@@ -49,7 +48,8 @@ public class RecordService {
             regDate = LocalDate.parse(recordDto.getRegDate()).atStartOfDay();
         }
         // 파일 업로드
-        String imgUrl = uploadImage(recordDto.getImage());
+        // TODO 날짜 형식 프론트와 통일하기
+        String imgUrl = uploadImage(recordDto.getImage(), recordDto.getRegDate());
         if (imgUrl == null)
             imgUrl = recordDto.getImage_url();
 
@@ -134,7 +134,7 @@ public class RecordService {
             throw new CustomException(ExceptionEnum.RECORD_NOT_ALLOWED_MODIFY);
         }
         if (updateDto.getRegDate() != null) {
-            LocalDateTime localDateTime = LocalDate.parse(updateDto.getRegDate()).atStartOfDay();
+            LocalDateTime localDateTime = LocalDateTime.parse(updateDto.getRegDate());
             findRecord.setRegDate(localDateTime);
         }
         if (updateDto.getMemo() != null)
@@ -142,8 +142,10 @@ public class RecordService {
         if (updateDto.getIsPublic() != null)
             findRecord.setPublic(updateDto.getIsPublic());
 
+
         // 파일 업로드
-        String imgUrl = uploadImage(updateDto.getImage());
+        // TODO 날짜 형식 프론트와 통일하기
+        String imgUrl = uploadImage(updateDto.getImage(), updateDto.getRegDate());
         if (imgUrl != null) {
             findRecord.setPhoto(imgUrl);
         }
@@ -198,12 +200,12 @@ public class RecordService {
     }
 
 
-    private String uploadImage(MultipartFile image) throws IOException {
+    private String uploadImage(MultipartFile image, String regDate) throws IOException {
         if (!image.isEmpty()) {
             MultipartFile file = image;
             String uuid = UUID.randomUUID().toString();
             String originalFilename = file.getOriginalFilename();
-            String fullPath = UserProfileImgPath + uuid + "_" + originalFilename;
+            String fullPath = RecordUploadPath + regDate + "/" + uuid + "_" + originalFilename;
             file.transferTo(new File(fullPath));
             return fullPath;
         }
