@@ -1,10 +1,37 @@
 import { Button, Card, Typography, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import drink from "../assets/drink.png";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+
+const { kakao } = window;
 
 function DrinkRecommendation() {
+  const [list, setList] = useState([]);
+  const [loc, setLoc] = useState([]);
+
   const onChange = (event) => {
     console.log("위치 업데이트!!!!!!!");
+
+    // Get the user's current location
+    //     navigator.geolocation.getCurrentPosition(position => {
+    //     setLocation({
+    //       lat: position.coords.latitude,
+    //       lng: position.coords.longitude
+    //     });
+    //   });
+
+    axios
+      .get(
+        `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=CE7&page=1&size=15&sort=accuracy&x=127.03983097807087&y=37.50153289264357&radius=300`,
+        {
+          headers: { Authorization: "KakaoAK {process.env.REACT_APP_REST_API_KEY}" },
+        }
+      )
+      .then((res) => {
+        const data = res.data;
+        console.log(data);
+      });
   };
 
   return (
