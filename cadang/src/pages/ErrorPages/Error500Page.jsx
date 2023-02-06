@@ -3,7 +3,7 @@ import { Paper, Box, Grid, Card } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material-next/Button";
-import errImg from "../assets/500error.png";
+import errImg from "../../assets/500error.png";
 
 export default function Error500Page() {
   return (

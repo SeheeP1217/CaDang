@@ -5,7 +5,7 @@ import DrinkMenuItem from "../../components/util/DrinkMenuItem"
 import Typography from "@mui/joy/Typography"
 import CardContent from "@mui/material/CardContent"
 import CardMedia from "@mui/material/CardMedia"
-import kakaopay from "../assets/payment_icon_yellow_large.png"
+import kakaopay from "../../assets/payment_icon_yellow_large.png"
 import Button from "@mui/material-next/Button"
 
 export default function PaymentPage() {

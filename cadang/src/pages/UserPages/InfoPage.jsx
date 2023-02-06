@@ -9,12 +9,12 @@ import Stack from "@mui/material/Stack"
 import styled from "styled-components"
 import GoalSettingItem from "../../components/util/goalSettingItem"
 
-import ade from "../assets/menus/ade.png"
-import americano from "../assets/menus/americano.png"
-import coke from "../assets/menus/coke.png"
-import frappe from "../assets/menus/frappe.png"
-import juice from "../assets/menus/juice.png"
-import latte from "../assets/menus/latte.png"
+import ade from "../../assets/menus/ade.png"
+import americano from "../../assets/menus/americano.png"
+import coke from "../../assets/menus/coke.png"
+import frappe from "../../assets/menus/frappe.png"
+import juice from "../../assets/menus/juice.png"
+import latte from "../../assets/menus/latte.png"
 
 function InfoPage() {
   return (
