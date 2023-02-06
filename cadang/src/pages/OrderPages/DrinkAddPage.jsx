@@ -1,70 +1,73 @@
-import * as React from "react"
-import ItemFiltering from "../../components/util/ItemFiltering"
+import * as React from "react";
+import ItemFiltering from "../../components/util/ItemFiltering";
+import { Link } from "react-router-dom";
 
-import styled from "styled-components"
-import { Divider, Box, Grid, Card } from "@mui/material"
-import Typography from "@mui/joy/Typography"
-import FabButton from "../../components/util/FabButton"
+import styled from "styled-components";
+import { Divider, Box, Grid, Card } from "@mui/material";
+import Typography from "@mui/joy/Typography";
+import FabButton from "../../components/util/FabButton";
 
 // 검색바
-import TextField from "@mui/material/TextField"
-import Autocomplete from "@mui/material/Autocomplete"
-import parse from "autosuggest-highlight/parse"
-import match from "autosuggest-highlight/match"
-import MenuListItem from "../../components/util/MenuListItem"
-import AutocompleteSearchBar from "../../components/util/AutocompleteSearchBar"
+import TextField from "@mui/material/TextField";
+import AutocompleteSearchBar from "../../components/util/AutocompleteSearchBar";
 
 function DrinkAddPage() {
   const titleTypography = styled(Typography)(() => ({
     level: "h3",
     fontSize: "xl",
     fontWeight: "xl",
-  }))
+  }));
 
   return (
     <div>
-      <Typography level="h3" fontSize="xl" fontWeight="xl">
-        메뉴검색
-      </Typography>
+      <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
+        <Box sx={{ backgroundColor: "#F9F6F2", paddingY: 0.3 }}>
+          <Typography level="h3" fontSize="xl" fontWeight="xl">
+            메뉴검색
+          </Typography>
 
-      <Grid container alignItems="center" textAlign="center">
-        <Grid item xs={2}>
-          카페
-        </Grid>
-        <Grid item xs={4}>
-          <AutocompleteSearchBar label="카페 검색" data={top100Films} />
-        </Grid>
-        <Grid item xs={2}>
-          <Typography>지점</Typography>
-        </Grid>
-        <Grid item xs={4}>
-          {/* padding 0으로 바꾸기 */}
-          <TextField
-            id="outlined-basic"
-            label="지점 입력"
-            variant="outlined"
-            size="small"
-          />
-        </Grid>
+          <Grid container alignItems="center" textAlign="center">
+            <Grid item xs={2}>
+              카페
+            </Grid>
+            <Grid item xs={4}>
+              <AutocompleteSearchBar label="카페 검색" data={top100Films} />
+            </Grid>
+            <Grid item xs={2}>
+              <Typography>지점</Typography>
+            </Grid>
+            <Grid item xs={4}>
+              {/* padding 0으로 바꾸기 */}
+              <TextField
+                id="outlined-basic"
+                label="지점 입력"
+                variant="outlined"
+                size="small"
+              />
+            </Grid>
 
-        <Grid item xs={2}>
-          <Typography>메뉴</Typography>
-        </Grid>
-        <Grid item xs={10}>
-          <AutocompleteSearchBar label="메뉴 검색" data={top100Films} />
-        </Grid>
-      </Grid>
+            <Grid item xs={2}>
+              <Typography>메뉴</Typography>
+            </Grid>
+            <Grid item xs={10}>
+              <AutocompleteSearchBar label="메뉴 검색" data={top100Films} />
+            </Grid>
+          </Grid>
+        </Box>
+      </div>
       <ItemFiltering data={menuData} />
-      <FabButton />
+      <Link to="/custom">
+        <FabButton />
+      </Link>
     </div>
-  )
+  );
 }
 
 const fabStyle = {
   position: "fixed",
   bottom: 70,
   right: 16,
-}
+};
 
 const menuData = [
   { pk: 1, name: "카페라떼", caffeine: 300, sugar: 10, cal: 350, price: 2500 },
@@ -84,7 +87,7 @@ const menuData = [
     cal: 300,
     price: 3500,
   },
-]
+];
 
 const top100Films = [
   { title: "아이스 아메리카노", year: 1994 },
@@ -212,6 +215,6 @@ const top100Films = [
   { title: "Snatch", year: 2000 },
   { title: "3 Idiots", year: 2009 },
   { title: "Monty Python and the Holy Grail", year: 1975 },
-]
+];
 
-export default DrinkAddPage
+export default DrinkAddPage;
