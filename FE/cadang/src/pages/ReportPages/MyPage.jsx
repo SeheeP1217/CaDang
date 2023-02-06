@@ -1,4 +1,5 @@
 import * as React from "react"
+import { useMemo, useState } from "react"
 import Button from "@mui/material-next/Button"
 // import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack"
@@ -23,7 +24,43 @@ import DailyOtherInfo from "../../components/DailyOtherInfo"
 import ReviewListItem from "../../components/ReviewListItem"
 import { Box } from "@mui/system"
 
+// api
+import { userReview } from '../../api/report' 
+
+
+
 function MyPage() {
+  const userId = 2
+  const pageIndex = 1
+  const [review, setReview] = useState({ recordList: [{
+    id: -1,
+    storeName: "",
+    drinkName: "",
+    regDate: "",
+    caffeine: 0,
+    sugar: 0,
+    cal: 0,
+    price: 0,
+    memo: null,
+    photo: "",
+    public: true,
+
+  }]})
+
+  useMemo(() => {
+    const getReviews = async () => {
+      await userReview(
+        userId,
+        pageIndex,
+        (res) => {return res.data},
+        (err) => console.log(err),
+        )
+        .then((data) => setReview(data))
+    }
+    getReviews()
+    console.log(review)
+  }, [])
+
   return (
     <body>
       <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
@@ -57,7 +94,7 @@ function MyPage() {
         </Button>
         <Button
           component={Link}
-          to="/weekly-report"
+          to="/report"
           variant="filledTonal"
           startIcon={<AssessmentIcon />}
           endIcon={<ArrowForwardIosIcon />}
@@ -83,15 +120,7 @@ function MyPage() {
           aria-labelledby="ellipsis-list-demo"
           sx={{ "--List-decorator-size": "56px" }}
         >
-          <ReviewListItem />
-          <ReviewListItem />
-          <ReviewListItem />
-          <ReviewListItem />
-          <ReviewListItem />
-          <ReviewListItem />
-          <ReviewListItem />
-          <ReviewListItem />
-          <ReviewListItem />
+          <ReviewListItem reviews={review}/>
         </List>
       </Paper>
     </body>
