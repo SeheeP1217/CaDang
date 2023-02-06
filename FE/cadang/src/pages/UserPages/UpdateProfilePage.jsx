@@ -16,22 +16,9 @@ import {
 } from "@mui/material/"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import styled from "styled-components"
-import "./RegisterPage.css"
 import ImageUploader from "../../components/util/imageuploader"
 import default_image from "../../assets/default_image.png"
 import GoalSettingItem from "../../components/util/goalSettingItem"
-
-// mui의 css 우선순위가 높기때문에 important를 설정 - 실무하다 보면 종종 발생 우선순위 문제
-const FormHelperTexts = styled(FormHelperText)`
-  width: 100%;
-  padding-left: 16px;
-  font-weight: 700 !important;
-  color: #d32f2f !important;
-`
-
-const Boxs = styled(Box)`
-  padding-bottom: 10px !important;
-`
 
 const UpdateProfilePage = () => {
   const theme = createTheme()
@@ -301,5 +288,14 @@ const UpdateProfilePage = () => {
 const SendButton = styled.button`
   background-color: #ffffff;
 `
+const FormHelperTexts = styled(FormHelperText)`
+  width: 100%;
+  padding-left: 16px;
+  font-weight: 700 !important;
+  color: #d32f2f !important;
+`
 
+const Boxs = styled(Box)`
+  padding-bottom: 10px !important;
+`
 export default UpdateProfilePage
