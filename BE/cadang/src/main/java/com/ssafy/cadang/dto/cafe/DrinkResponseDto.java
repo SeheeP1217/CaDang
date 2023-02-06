@@ -12,15 +12,11 @@ public class DrinkResponseDto {
 
     Long drinkId;
     String drinkName;
-    String size;
-    Integer vol;
     String img;
     Integer caffeine;
     Integer sugar;
     Integer cal;
     Integer price;
-    Integer shot;
-    Boolean whip;
 
     Long franchiseId;
     String storeName;
@@ -32,46 +28,25 @@ public class DrinkResponseDto {
         drinkId = drink.getId();
         franchiseId = drink.getFranchise().getId();
         drinkName = drink.getDrinkName();
-        size = drink.getSize();
-        vol = drink.getVol();
         img = drink.getImage();
         caffeine = drink.getCaffeine();
         sugar = drink.getSugar();
         cal = drink.getCal();
         price = drink.getPrice();
-        shot = drink.getShot();
-        whip = drink.getWhip();
-    }
 
-    public DrinkResponseDto(Drink drink, String storeName){
-
-        drinkId = drink.getId();
-        franchiseId = drink.getFranchise().getId();
-        drinkName = drink.getDrinkName();
-        size = drink.getSize();
-        vol = drink.getVol();
-        img = drink.getImage();
-        caffeine = drink.getCaffeine();
-        sugar = drink.getSugar();
-        cal = drink.getCal();
-        price = drink.getPrice();
-        shot = drink.getShot();
-        whip = drink.getWhip();
-        this.storeName = storeName;
     }
 
     public DrinkResponseDto(DrinkInterface drinkInterface){
 
         drinkId = drinkInterface.getId();
         drinkName = drinkInterface.getDrinkName();
-        size = drinkInterface.getSize();
-        vol = drinkInterface.getVol();
         img = drinkInterface.getImage();
         caffeine = drinkInterface.getCaffeine();
         sugar = drinkInterface.getSugar();
         cal = drinkInterface.getCal();
         price = drinkInterface.getPrice();
-        shot = drinkInterface.getShot();
-        whip = drinkInterface.getWhip();
+        storeName = drinkInterface.getStoreName();
+        franchiseId = drinkInterface.getFranchiseId();
+
     }
 }

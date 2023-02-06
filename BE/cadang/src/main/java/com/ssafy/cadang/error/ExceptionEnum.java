@@ -16,6 +16,7 @@ public enum ExceptionEnum {
     DATA_NOT_FOUND(HttpStatus.NOT_FOUND, "DATA-001", "데이터를 찾을 수 없습니다."),
     DRINK_NOT_FOUND(HttpStatus.NOT_FOUND, "DRINK-001", "음료를 찾을 수 없습니다."),
     RECORD_NOT_FOUND(HttpStatus.NOT_FOUND, "RECORD-001", "기록을 찾을 수 없습니다."),
+    STORE_NOT_FOUND(HttpStatus.NOT_FOUND, "STORE-001", "가게를 찾을 수 없습니다."),
     RECORD_NOT_ALLOWED_MODIFY(HttpStatus.BAD_REQUEST, "RECORD-002", "주문 음료는 등록 날짜를 수정할 수 없습니다.");
 
 

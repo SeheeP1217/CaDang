@@ -4,6 +4,8 @@ import com.ssafy.cadang.domain.*;
 import com.ssafy.cadang.dto.order.CustomerOrderDto;
 import com.ssafy.cadang.dto.order.OrderDto;
 import com.ssafy.cadang.dto.order.StoreOrderDto;
+import com.ssafy.cadang.error.CustomException;
+import com.ssafy.cadang.error.ExceptionEnum;
 import com.ssafy.cadang.repository.DrinkRepository;
 import com.ssafy.cadang.repository.OrderRepository;
 import com.ssafy.cadang.repository.StoreRepository;
@@ -34,18 +36,14 @@ public class OrderService {
 
     public Long saveOrder(OrderDto orderDto) {
 
-        /**
-         *  예외처리 사용자 정의로 만들어야 할까요?
-         *  Dto to Entity 빠르게 하는 방법 없나요?
-         */
         User user = userRepository.findById(orderDto.getUserId())
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
 
         Drink drink = drinkRepository.findById(orderDto.getDrinkId())
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new CustomException(ExceptionEnum.DRINK_NOT_FOUND));
 
         Store store = storeRepository.findById(orderDto.getStoreId())
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new CustomException(ExceptionEnum.STORE_NOT_FOUND));
 
         /**
          *  nullable 한 칼럼 중 값이 들어온다는 보장이 없는 것들 null일 때 처리 해야합니다.
@@ -89,7 +87,7 @@ public class OrderService {
 
     public List<StoreOrderDto> getStoreOrderById(Long storeId) {
 
-        List<Order> orders = orderRepository.findAllByStoreid(storeId);
+        List<Order> orders = orderRepository.findAllByStoreid(storeId, Arrays.asList(orderStatusList));
 
         List<StoreOrderDto> storeOrderDtoList = orders.stream()
                 .map(o -> new StoreOrderDto(o))
@@ -126,7 +124,6 @@ public class OrderService {
                 .orElseThrow( () -> new NoSuchElementException("유효하지 않은 주문입니다"));
 
         findOrder.setOrderStatus(orderDto.getOrderStatus());
-
 
         return findOrder.getId();
     }

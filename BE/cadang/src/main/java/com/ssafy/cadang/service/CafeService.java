@@ -49,7 +49,7 @@ public class CafeService {
         Long franchiseId = drinkNumCheckDtos.get(0).getFranchiseId();
         Long storeId = drinkNumCheckDtos.get(0).getStoreId();
 
-        List<DrinkInterface> findDrinks = drinkRepository.getDrinksByRestVolumeAndStoreName(caffeRest, sugarRest, storeName);
+        List<DrinkInterface> findDrinks = drinkRepository.getDrinksByStoreName(storeName);
 
         List<DrinkResponseDto> drinkResponseDtos = findDrinks.stream()
                             .map(o -> new DrinkResponseDto(o))
@@ -63,7 +63,22 @@ public class CafeService {
             }
         }
 
-        drinksForCafeDto = new DrinksForCafeDto(drinkResponseDtos, dayDataDto, franchiseId, storeId, storeName);
+        // for문 돌리면서 마실 수 있는 것 없는 것 필터링해서 리스트 2개 만들기
+
+        List<DrinkResponseDto> drinkableDrinks = new ArrayList<>();
+        List<DrinkResponseDto> nonDrinkableDrinks = new ArrayList<>();
+
+        for(DrinkResponseDto drinkResponseDto: drinkResponseDtos ){
+            if(drinkResponseDto.getCaffeine() <= caffeRest && drinkResponseDto.getSugar() <= sugarRest){
+                drinkableDrinks.add(drinkResponseDto);
+            }else{
+                nonDrinkableDrinks.add(drinkResponseDto);
+            }
+        }
+
+
+        drinksForCafeDto = new DrinksForCafeDto(drinkableDrinks, nonDrinkableDrinks,
+                                                dayDataDto, franchiseId, storeId, storeName);
 
         return drinksForCafeDto;
     }
@@ -114,10 +129,16 @@ public class CafeService {
         long caffeRest = (long)data.getCaffeGoal() - data.getCaffeDaily();
         long sugarRest = (long)data.getSugarGoal() - data.getCaffeDaily();
 
-        drinkRepository.getRecommendDrinksByRestVolumeAndFranchiseIds(caffeRest, sugarRest, franchiseIds);
-        
+        List<DrinkInterface> drinkInterfaces = drinkRepository.getRecommendDrinksByRestVolumeAndFranchiseIds(caffeRest, sugarRest, franchiseIds);
 
-        return null;
+        System.out.println(drinkInterfaces.get(0).getDrinkName());
+
+        List<DrinkResponseDto> drinkResponseDtos = drinkInterfaces.stream()
+                        .map((o) -> new DrinkResponseDto(o))
+                        .collect(Collectors.toList());
+
+
+        return drinkResponseDtos;
     }
 
     public List<FranchiseDto> findAllFranchises() {

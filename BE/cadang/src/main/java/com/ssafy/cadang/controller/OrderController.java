@@ -56,7 +56,7 @@ public class OrderController {
     }
 
     @GetMapping("/store-list/{storeId}")
-    @Operation(summary = "주문 내역 조회(가게)", description = "가게의 전체 주문 내역을 조회합니다.")
+    @Operation(summary = "주문 내역 조회(가게)", description = "가게의 진행 중인 주문 내역을 조회합니다.")
     public ResponseEntity<List<StoreOrderDto>> getStoreOrderList(@PathVariable Long storeId){
 
         List<StoreOrderDto> StoreOrderDtoList = orderService.getStoreOrderById(storeId);
@@ -83,7 +83,7 @@ public class OrderController {
         Long customerId = orderDto.getUserId();
         Map<String, Long> orderAndCustomerId = new HashMap<>();
         orderAndCustomerId.put("orderId", orderId);
-        orderAndCustomerId.put("custoemrId", customerId);
+        orderAndCustomerId.put("customerId", customerId);
 
         return new ResponseEntity<Map<String, Long>>(orderAndCustomerId, HttpStatus.ACCEPTED);
     }
