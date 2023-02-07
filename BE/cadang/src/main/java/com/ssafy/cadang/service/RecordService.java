@@ -34,7 +34,7 @@ public class RecordService {
     private final UserRepository userRepository;
     private final DrinkRepository drinkRepository;
     private static OrderStatus[] recordStatus = {OrderStatus.RECORD, OrderStatus.PICKUP};
-
+    private final DataService dataService;
     @Value("${EC2_FILE_PATH}")
     private String RecordUploadPath;
 
@@ -74,6 +74,7 @@ public class RecordService {
                 .storeName(recordDto.getStoreName())
                 .orderStatus(OrderStatus.RECORD)
                 .build();
+        dataService.updateData(record);
         Order saveRecord = recordReposiotry.save(record);
         return saveRecord.getId();
     }
