@@ -29,6 +29,7 @@ public class OrderService {
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
     private final DrinkRepository drinkRepository;
+    private final DataService dataService;
 
     private static OrderStatus[] orderStatusList = {OrderStatus.RECORD, OrderStatus.PICKUP, OrderStatus.CANCEL};
 
@@ -43,25 +44,25 @@ public class OrderService {
         Store store = storeRepository.findById(orderSaveDto.getStoreId())
                 .orElseThrow(() -> new CustomException(ExceptionEnum.STORE_NOT_FOUND));
 
-         Order order = Order.builder().user(user).
-                          drink(drink).
-                          store(store).
-                          caffeine(orderSaveDto.getCaffeine()).
-                          sugar(orderSaveDto.getSugar()).
-                          cal(orderSaveDto.getCal()).
-                          price(orderSaveDto.getPrice()).
-                          shot(orderSaveDto.getShot()).
-                          whip(orderSaveDto.getWhip()).
-                          sugarContent(orderSaveDto.getSugarContent()).
-                          syrup(orderSaveDto.getSyrup()).
-                          vanilla(orderSaveDto.getVanilla()).
-                          hazelnut(orderSaveDto.getHazelnut()).
-                          caramel(orderSaveDto.getCaramel()).
-                          photo(orderSaveDto.getPhoto()).
-                          storeName(orderSaveDto.getStoreName()).
-                          orderStatus(OrderStatus.REQUEST).
-                          regDate(LocalDateTime.now()).
-                          isPublic((true)).build();
+        Order order = Order.builder().user(user).
+                drink(drink).
+                store(store).
+                caffeine(orderSaveDto.getCaffeine()).
+                sugar(orderSaveDto.getSugar()).
+                cal(orderSaveDto.getCal()).
+                price(orderSaveDto.getPrice()).
+                shot(orderSaveDto.getShot()).
+                whip(orderSaveDto.getWhip()).
+                sugarContent(orderSaveDto.getSugarContent()).
+                syrup(orderSaveDto.getSyrup()).
+                vanilla(orderSaveDto.getVanilla()).
+                hazelnut(orderSaveDto.getHazelnut()).
+                caramel(orderSaveDto.getCaramel()).
+                photo(orderSaveDto.getPhoto()).
+                storeName(orderSaveDto.getStoreName()).
+                orderStatus(OrderStatus.REQUEST).
+                regDate(LocalDateTime.now()).
+                isPublic((true)).build();
 
         Long orderId = orderRepository.save(order).getId();
 
@@ -115,9 +116,12 @@ public class OrderService {
     public Long updateOrderByOrderIdAndOrderStatus(OrderUpdateDto orderUpdateDto) {
 
         Order findOrder = orderRepository.findById(orderUpdateDto.getOrderId())
-                .orElseThrow( () -> new CustomException(ExceptionEnum.ORDER_NOT_FOUND));
+                .orElseThrow(() -> new CustomException(ExceptionEnum.ORDER_NOT_FOUND));
 
         findOrder.setOrderStatus(orderUpdateDto.getOrderStatus());
+        if (orderUpdateDto.getOrderStatus() == OrderStatus.PICKUP) {
+            dataService.updateData(findOrder);
+        }
 
         return findOrder.getId();
     }
