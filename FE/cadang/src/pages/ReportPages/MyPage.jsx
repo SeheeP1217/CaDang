@@ -32,6 +32,13 @@ import { userReview } from '../../api/report'
 function MyPage() {
   const userId = 2
   const pageIndex = 1
+
+  const [selectIndex, setSelectIndex] = useState(-1)
+
+  const getModifyReviewIndex = (selectIndexId) => {
+    setSelectIndex(selectIndexId)
+  }
+
   const [review, setReview] = useState({ recordList: [{
     id: -1,
     storeName: "",
@@ -62,7 +69,7 @@ function MyPage() {
   }, [])
 
   return (
-    <body>
+    <>
       <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
         <Box sx={{ backgroundColor: "#F9F6F2", paddingY: 0 }}>
           <Typography level="h3" fontSize="xl" fontWeight="xl">
@@ -120,10 +127,10 @@ function MyPage() {
           aria-labelledby="ellipsis-list-demo"
           sx={{ "--List-decorator-size": "56px" }}
         >
-          <ReviewListItem reviews={review}/>
+          <ReviewListItem reviews={review} selectIndex={selectIndex} onClick={getModifyReviewIndex}/>
         </List>
       </Paper>
-    </body>
+    </>
   )
 }
 
