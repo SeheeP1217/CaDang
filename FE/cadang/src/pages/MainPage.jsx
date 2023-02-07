@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Box from "@mui/material/Box";
 import OrderStatus from "../components/OrderStatus";
 import DrinkRecommendation from "../components/DrinkRecommendation";
@@ -8,7 +8,6 @@ import { Card } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userId, todayDate } from "../recoil/atom/user.jsx";
-import MapCategory from "../components/MapCategory.jsx";
 
 export default function MainPage() {
 
@@ -18,7 +17,7 @@ export default function MainPage() {
   // 로그인 한 사용자 아이디
   const id = useRecoilValue(userId);
   console.log(today);
-
+  
   //Get the user's current location
   // navigator.geolocation.getCurrentPosition((position) => {
   //   setLocation({
@@ -34,6 +33,13 @@ export default function MainPage() {
 
   // 현재 날짜 string으로 변환
   const dateString = year + "-" + month + "-" + day;
+
+  // 첫 화면이 랜더링 되기 전
+  useMemo(() => {
+
+    // 1. 현재 날짜 세팅
+    
+  }, [])
 
   useEffect(() => {
     console.log("화면 랜더링");
