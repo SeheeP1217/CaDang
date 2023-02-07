@@ -89,9 +89,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                             .map(SimpleGrantedAuthority::new)
                             .collect(Collectors.toList());
 
-            User principal = new User(claims.getSubject(), (String) claims.get("id"), authorities);
 
-            String username = principal.getUsername();
+
+            String username = claims.getSubject();
+
 
             // 서명이 정상적으로 됨
             if (username != null) {
