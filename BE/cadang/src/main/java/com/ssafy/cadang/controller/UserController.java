@@ -44,7 +44,7 @@ public class UserController {
 
     //이메일 인증 번호 검증
     //Todo: 검증 성공시 성공했다는 반환값을 프론트로 보내줘야 함
-    @PostMapping("/user/email/verify")
+    @GetMapping("/user/email/verify")
     public boolean emailVerify(@RequestParam("key") String key, @RequestParam("email") String email) {
         boolean key_check;
 
@@ -54,7 +54,7 @@ public class UserController {
 
     }
     // 아이디 중복 검증
-    @PostMapping("/user/id/verify")
+    @GetMapping("/user/id/verify")
     public boolean idVerify(@RequestParam("id") String id) {
         boolean id_check;
 

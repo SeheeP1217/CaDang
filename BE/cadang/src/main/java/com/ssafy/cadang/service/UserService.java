@@ -51,7 +51,7 @@ public class UserService {
     //회원가입
     //Todo: @ModelAttribute을 UserDto 앞에 붙여야 되나?
     //Todo: IOException 대신 사용할 만한 Exception?
-    @Transactional
+    @Transactional(readOnly = false)
     public void join(UserDto userDto) throws IOException {
         MultipartFile multipartFile;
 
