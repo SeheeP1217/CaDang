@@ -35,17 +35,27 @@ import java.util.Arrays;
 @Configuration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final CorsFilter corsFilter;
+//    private final CorsFilter corsFilter;
     private final UserRepository userRepository;
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
 
-    public WebSecurityConfiguration(CorsFilter corsFilter, UserRepository userRepository,
+//    public WebSecurityConfiguration(CorsFilter corsFilter, UserRepository userRepository,
+//                                    JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+//                                    JwtAccessDeniedHandler jwtAccessDeniedHandler) {
+//        this.corsFilter = corsFilter;
+//        this.userRepository = userRepository;
+//        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+//        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+//
+//    }
+
+    public WebSecurityConfiguration(UserRepository userRepository,
                                     JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
                                     JwtAccessDeniedHandler jwtAccessDeniedHandler) {
-        this.corsFilter = corsFilter;
+//        this.corsFilter = corsFilter;
         this.userRepository = userRepository;
         this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
@@ -73,7 +83,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션을 사용하지 않겠다.
                 .and()
-                .addFilter(corsFilter) //@CrossOrigin(인증X일 때), 인증(O) => 시큐리티 필터에 등록해야함
+//                .addFilter(corsFilter) //@CrossOrigin(인증X일 때), 인증(O) => 시큐리티 필터에 등록해야함
                 .formLogin().disable() // form 태그로 로그인을 하지 않는다
                 .httpBasic().disable() // basic 사용하지 않고 토큰을 사용하겠다.
                 .authorizeRequests()
