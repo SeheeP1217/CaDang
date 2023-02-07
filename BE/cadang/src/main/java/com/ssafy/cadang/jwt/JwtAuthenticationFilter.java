@@ -117,17 +117,21 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         System.out.println(principalDetails.getUsername() + " " + authorities + " " + principalDetails.getUser().getPassword());
         afterPropertiesSet();
         System.out.println(this.key);
+
+
         String jwtToken = Jwts.builder()
                 .setSubject(principalDetails.getUsername())
-                .claim(AUTHORITIES_KEY, authorities)
-                .claim("pw",principalDetails.getUser().getPassword())
+                .claim("id",principalDetails.getUser().getId())
                 .signWith(this.key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
                 .compact();
+
+
         System.out.println("토큰: " + jwtToken);
 
         response.addHeader("Authorization", "Bearer " + jwtToken);
+        System.out.println("토큰 발급 성공");
 
-        super.successfulAuthentication(request, response, chain, authResult);
+
     }
 }
