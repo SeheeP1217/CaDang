@@ -4,7 +4,7 @@ package com.ssafy.cadang.service;
 
 import com.ssafy.cadang.domain.User;
 
-import com.ssafy.cadang.dto.UserDto;
+import com.ssafy.cadang.dto.user.UserDto;
 import com.ssafy.cadang.error.CustomException;
 import com.ssafy.cadang.error.ExceptionEnum;
 import com.ssafy.cadang.repository.UserRepository;
@@ -56,8 +56,6 @@ public class UserService {
         MultipartFile multipartFile;
 
         User user;
-
-        //TODO: builder() 할 때 activated 필드를 만들어야 되나?
 
 
         // 프로필 이미지를 설정한 경우

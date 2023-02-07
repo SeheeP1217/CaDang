@@ -2,14 +2,12 @@ package com.ssafy.cadang.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.cadang.auth.PrincipalDetails;
-import com.ssafy.cadang.domain.User;
-import com.ssafy.cadang.dto.LoginDto;
+import com.ssafy.cadang.dto.user.LoginDto;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,7 +19,6 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.security.Key;
 import java.util.Date;
@@ -122,6 +119,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String jwtToken = Jwts.builder()
                 .setSubject(principalDetails.getUsername())
                 .claim("id",principalDetails.getUser().getId())
+                .claim(AUTHORITIES_KEY, authorities)
                 .signWith(this.key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
                 .compact();

@@ -1,4 +1,4 @@
-package com.ssafy.cadang.dto;
+package com.ssafy.cadang.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
