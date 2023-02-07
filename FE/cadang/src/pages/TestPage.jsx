@@ -1,9 +1,9 @@
-import DrinkRecommendation from "../components/DrinkRecommendation";
+import DatePickerComponent from "../components/DatePickerComponent";
 
 function TestPage() {
   return (
     <div>
-      <DrinkRecommendation />
+      <DatePickerComponent />
     </div>
       
   )
