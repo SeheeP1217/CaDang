@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -73,6 +74,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //.antMatchers("/")
                 //.permitAll()
+                .antMatchers(HttpMethod.POST,"login").permitAll()
                 .antMatchers("/user2/**").hasRole("USER") // 유저 권한을 가진 클라이언트만 접근이 가능하다.
                 .antMatchers("/admin/**").hasRole("ADMIN") // 어드민 권한을 가진 클라이언트만 접근이 가능하다.
                 .anyRequest().permitAll()
