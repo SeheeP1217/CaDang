@@ -1,6 +1,6 @@
 import * as React from "react"
-import { useEffect } from "react"
-import { useLocation } from "react-router-dom"
+import { useEffect, Fragment } from "react"
+import { useParams, Route, useLocation } from "react-router-dom"
 import { Grid, Card } from "@mui/material"
 import Typography from "@mui/joy/Typography"
 import TextField from "@mui/material/TextField"
@@ -10,17 +10,15 @@ import ModifyReviewInfo from "../../components/ModifyReviewInfo"
 import CustomOption from "../../components/CustomOption"
 
 
-function ReviewPage(props) {
+const ReviewPage = (props) => {
+  const params = useParams()
   const location = useLocation()
- 
-  useEffect(() => {
-    console.log(location)
-  }, [location])
+  const data = props.state
 
   return (
-    <div>
+    <Fragment>
       <Typography level="h3" fontSize="xl" fontWeight="xl">
-        Review
+        Review {params.reviewId} {data}
       </Typography>
       {/* <ModifyReviewInfo />
       <Card sx={{ marginTop: 2, height: 110 }}>
@@ -37,7 +35,7 @@ function ReviewPage(props) {
       <Grid item>
         <Button fullWidth={true}>저장하기</Button>
       </Grid> */}
-    </div>
+    </Fragment>
   )
 }
 

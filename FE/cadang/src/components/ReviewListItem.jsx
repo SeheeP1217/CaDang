@@ -64,14 +64,9 @@ function ReviewListItem(props) {
                   alignItems="center"
                 >
                   <Typography variant="subtitle1">{review.regDate}</Typography>
-                  <IconButton component={Link} to={`/review/${review.id}`} state={ review } style={{ padding: 0 }} >
+                  <IconButton component={Link} to={{pathname: `/review/${review.id}`, state: {review}}} style={{ padding: 0 }} >
                       <EditOutlinedIcon />
                   </IconButton>
-                  {/* <IconButton onClick={onModifyClickHandler} id={review.id} style={{ padding: 0 }} >
-                    <Link to={`/record/${props.selectIndex}`}>
-                      <EditOutlinedIcon />
-                    </Link>
-                  </IconButton> */}
                   <IconButton>
                     <DeleteIcon />
                   </IconButton>
