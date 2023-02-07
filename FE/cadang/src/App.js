@@ -62,7 +62,7 @@ function App() {
           <Route exact path="/payment" component={PaymentPage} />
           <Route exact path="/test" component={TestPage} />
           <Route exact path="/selectmenu" component={SelectMenuPage} />
-          <Route exact path="/review/:review.id" component={ReviewPage} />
+          <Route exact path="/review/:reviewId" component={ReviewPage} />
           <Route exact path="/update-profile" component={UpdateProfilePage} />
         </Switch>
       </PageLayout>
