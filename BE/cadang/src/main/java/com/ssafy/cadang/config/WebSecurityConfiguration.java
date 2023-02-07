@@ -29,13 +29,13 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 
-@EnableWebSecurity
+//@EnableWebSecurity
 //@EnableMethodSecurity(prePostEnabled = true)
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-//    private final CorsFilter corsFilter;
+    //    private final CorsFilter corsFilter;
     private final UserRepository userRepository;
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -52,7 +52,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 //
 //    }
 
-    public WebSecurityConfiguration(UserRepository userRepository,
+        public WebSecurityConfiguration(UserRepository userRepository,
                                     JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
                                     JwtAccessDeniedHandler jwtAccessDeniedHandler) {
 //        this.corsFilter = corsFilter;
@@ -61,6 +61,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
 
     }
+//    public WebSecurityConfiguration(UserRepository userRepository
+//    ) {
+////        this.corsFilter = corsFilter;
+//        this.userRepository = userRepository;
+//
+//    }
 
 
     @Override
@@ -71,11 +77,34 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         );
     }
 
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.csrf().disable();
+//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                .formLogin().disable()
+//                .httpBasic().disable()
+//
+//                .authorizeRequests()
+//                .anyRequest().permitAll()
+//
+//                .and()
+//                .addFilter(new JwtAuthenticationFilter(authenticationManager(), passwordEncoder(), userRepository)) // AuthenticationManager  // 로그인을 하면 클라이언트에게 토큰을 발급해주는 필터
+//                .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
+//                .exceptionHandling()
+//                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+//                .and()
+//                .cors().configurationSource(corsConfigurationSource());
+//
+//
+//    }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+            http.csrf().disable();
         http
-                .cors().and().csrf().disable()
+                .cors().configurationSource(corsConfigurationSource()).and()
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
@@ -87,9 +116,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin().disable() // form 태그로 로그인을 하지 않는다
                 .httpBasic().disable() // basic 사용하지 않고 토큰을 사용하겠다.
                 .authorizeRequests()
-                //.antMatchers("/")
-                //.permitAll()
-                .antMatchers(HttpMethod.POST,"login").permitAll()
+        .antMatchers("/")
+        .permitAll()
+                .antMatchers(HttpMethod.POST, "login").permitAll()
                 .antMatchers("/user2/**").hasRole("USER") // 유저 권한을 가진 클라이언트만 접근이 가능하다.
                 .antMatchers("/admin/**").hasRole("ADMIN") // 어드민 권한을 가진 클라이언트만 접근이 가능하다.
                 .anyRequest().permitAll()
@@ -97,28 +126,28 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(), passwordEncoder(), userRepository)) // AuthenticationManager  // 로그인을 하면 클라이언트에게 토큰을 발급해주는 필터
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository));
 
-    // 사용자가 요청을 보낼 때마다 토큰을 검증하는 필터
+        // 사용자가 요청을 보낼 때마다 토큰을 검증하는 필터
 
 
     }
 
     // CORS 허용 적용
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-
-//        configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.addAllowedOriginPattern("*");
-        configuration.addAllowedHeader("*");
-        configuration.addAllowedMethod("*");
-        configuration.setAllowCredentials(true);
+    public CorsConfigurationSource corsConfigurationSource(){
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);       // 서버의 json 응답을 JS로 처리가능하게 함
+        config.addAllowedOriginPattern("*");    // springboot cors 설정 시, allowCredentials(true)와 allowedOrigin("*") 같이 사용 불가하게 업뎃
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
         return source;
     }
 
+//    @Bean
+
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
