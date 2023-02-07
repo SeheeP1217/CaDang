@@ -16,6 +16,8 @@ public enum ExceptionEnum {
     MAIL_VERIFY_FAIL(HttpStatus.BAD_REQUEST, "USER-005", "이메일 인증번호가 만료되었거나 다릅니다"),
     MAIL_VERIFY_EMPTY(HttpStatus.BAD_REQUEST, "USER-006", "인증번호를 입력해주세요."),
 
+    ID_OR_PW_NOT_FOUND(HttpStatus.NOT_FOUND, "USER-007", "아이디 또는 비밀번호를 잘못 입력하셨습니다"),
+
     // Data
     DATA_NOT_FOUND(HttpStatus.NOT_FOUND, "DATA-001", "데이터를 찾을 수 없습니다."),
 
