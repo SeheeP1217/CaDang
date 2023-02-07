@@ -73,8 +73,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //.antMatchers("/")
                 //.permitAll()
-                //.antMatchers("/login","/join")// 로그인과 회원가입은 권한 상관없이 모두 승인한다.
-                //.permitAll()
                 .antMatchers("/user2/**").hasRole("USER") // 유저 권한을 가진 클라이언트만 접근이 가능하다.
                 .antMatchers("/admin/**").hasRole("ADMIN") // 어드민 권한을 가진 클라이언트만 접근이 가능하다.
                 .anyRequest().permitAll()
