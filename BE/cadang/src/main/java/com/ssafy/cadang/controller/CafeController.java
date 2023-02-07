@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/cafe")
 @RequiredArgsConstructor
+@CrossOrigin(origins={"*"}, allowedHeaders = {"*"})
 public class CafeController {
 
     private final CafeService cafeService;
