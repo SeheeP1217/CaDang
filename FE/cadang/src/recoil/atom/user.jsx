@@ -10,4 +10,9 @@ const todayDate = atom({
   default: "",
 });
 
-export { userId, todayDate };
+const location = atom({
+  key: "location",
+  default: ""
+});
+
+export { userId, todayDate, location };
