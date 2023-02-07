@@ -43,4 +43,5 @@ public class DataController {
         return dataService.getMonthData(date, userId);
     }
 
+
 }

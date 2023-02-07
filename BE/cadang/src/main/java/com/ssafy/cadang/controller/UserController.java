@@ -2,7 +2,7 @@ package com.ssafy.cadang.controller;
 
 
 import com.ssafy.cadang.domain.User;
-import com.ssafy.cadang.dto.user.UserDto;
+import com.ssafy.cadang.dto.UserDto;
 
 
 import com.ssafy.cadang.service.EmailServiceImpl;

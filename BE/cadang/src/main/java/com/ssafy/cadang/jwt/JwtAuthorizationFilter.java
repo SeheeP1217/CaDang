@@ -74,44 +74,42 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         //Todo: 토큰 유효성 검사 만들기
         // Todo: 권한이 없으면 에러 띄우기
 
-        afterPropertiesSet();
+        if (validateToken(token)) {
 
-        Claims claims = Jwts
-                .parserBuilder()
-                .setSigningKey(this.key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+            afterPropertiesSet();
 
-        Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
+            Claims claims = Jwts
+                    .parserBuilder()
+                    .setSigningKey(this.key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            Collection<? extends GrantedAuthority> authorities =
+                    Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                            .map(SimpleGrantedAuthority::new)
+                            .collect(Collectors.toList());
+
+            User principal = new User(claims.getSubject(), (String) claims.get("id"), authorities);
+
+            String username = principal.getUsername();
+
+            // 서명이 정상적으로 됨
+            if (username != null) {
+                com.ssafy.cadang.domain.User userEntity = userRepository.findByMemberId(username);
+
+                PrincipalDetails principalDetails = new PrincipalDetails(userEntity);
+                // JWT 토큰 서명을 통해서 서명이 정상이면 Authentication 객체를 만들어준다.
+                Authentication authentication =
+                        new UsernamePasswordAuthenticationToken(principalDetails, principalDetails.getUser().getPassword(),principalDetails.getAuthorities());
+
+                // 강제로 시큐리티의 세션에 접근하여 Authentication 객체를 저장
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                System.out.println("인증이 정상적으로 됨");
 
 
-        String username = claims.getSubject();
-        System.out.println("claim, username : " + username);
-
-        // 서명이 정상적으로 됨
-        if (username != null) {
-            com.ssafy.cadang.domain.User userEntity = userRepository.findByMemberId(username);
-
-            PrincipalDetails principalDetails = new PrincipalDetails(userEntity);
-            // JWT 토큰 서명을 통해서 서명이 정상이면 Authentication 객체를 만들어준다.
-            Authentication authentication =
-                    new UsernamePasswordAuthenticationToken(principalDetails, principalDetails.getUser().getPassword(),principalDetails.getAuthorities());
-
-            // 강제로 시큐리티의 세션에 접근하여 Authentication 객체를 저장
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            System.out.println("인증이 정상적으로 됨");
-
+            }
         }
-
         chain.doFilter(request, response);
-
-
-
-
      }
 
 
