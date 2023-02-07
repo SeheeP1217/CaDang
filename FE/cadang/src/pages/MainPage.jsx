@@ -9,18 +9,15 @@ import { Card } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userId, todayDate } from "../recoil/atom/user.jsx";
-
 import { recommendDrinks } from "../api/main";
 
 export default function MainPage() {
-
   const [today, setToday] = useRecoilState(todayDate);
   const [location, setLocation] = useState({});
 
   // 로그인 한 사용자 아이디
-  const id = useRecoilValue(userId);
-  console.log(today);
-  
+  // const id = useRecoilValue(userId);
+
   //Get the user's current location
   // navigator.geolocation.getCurrentPosition((position) => {
   //   setLocation({
@@ -37,11 +34,8 @@ export default function MainPage() {
   // 현재 날짜 string으로 변환
   const dateString = year + "-" + month + "-" + day;
 
-  const [list, setList] = useState([
-  ]);
-  const [cafe, setCafe] = useState([
-    ""
-  ]);
+  const [list, setList] = useState([]);
+  const [cafe, setCafe] = useState([""]);
   const container = [];
 
   const [drink, setDrink] = useState({
@@ -50,19 +44,17 @@ export default function MainPage() {
     drinkName: "",
     img: "",
     caffeine: 0,
-    sugar:0,
+    sugar: 0,
     cal: 0,
     price: 0,
-    storeName: ""
+    storeName: "",
   });
   // 첫 화면이 랜더링 되기 전
   useMemo(() => {
-
     // 1. 현재 날짜 세팅
     setToday(dateString);
-    
-    console.log(today);
 
+    console.log(today);
 
     axios
       .get(
@@ -77,55 +69,65 @@ export default function MainPage() {
         setList([...list, cafe]);
       });
 
-      
-      console.log(list);
-      console.log("---------------");
-
-
-      
-
-  }, []);
-
-  useEffect(() => {
-
-    function settingCafe() {
-      const temp = list[0];
-      console.log(temp);
-      if (temp !== undefined)
-        temp.map((element, i) => console.log(temp[i].place_name));
-
-        if (temp !== undefined)
-          temp.map((element, i) => container.push(element.place_name));
-
-          setCafe([...container]);
-      // if (temp !== undefined)
-      //   temp.map((element, i) => setCafe([...cafe, temp[i].place_name]));
-    }
-    
-    settingCafe();
-    
-    
-  },[list]);
-
-  useEffect(() => {
-    console.log(cafe);
+    console.log(list);
+    console.log("---------------");
 
     // 음료 추천 통신 api 사용
 
     const getDrinks = async () => {
       await recommendDrinks(
         cafe,
-        today,
+        dateString,
         2,
-        (res) => {return res.data},
-        (err) => console.log(err),
-      )
-      .then((data) => setDrink(data))
-    }
+        (res) => {
+          console.log(res.data);
+          return res.data;
+        },
+        (err) => console.log(err)
+      ).then((data) => setDrink(data));
+    };
 
     getDrinks();
     console.log(drink);
-  },[cafe]);
+  }, []);
+
+  useEffect(() => {
+    function settingCafe() {
+      const temp = list[0];
+      console.log(temp);
+      if (temp !== undefined) temp.map((element, i) => console.log(temp[i].place_name));
+
+      if (temp !== undefined) temp.map((element, i) => container.push(element.place_name));
+
+      setCafe([...container]);
+      // if (temp !== undefined)
+      //   temp.map((element, i) => setCafe([...cafe, temp[i].place_name]));
+    }
+
+    settingCafe();
+  }, [list]);
+
+  useEffect(() => {
+    console.log(dateString);
+
+    // 음료 추천 통신 api 사용
+
+    const getDrinks = async () => {
+      await recommendDrinks(
+        cafe,
+        dateString,
+        2,
+        (res) => {
+          console.log(res.data);
+          return res.data;
+        },
+        (err) => console.log(err)
+      ).then((data) => setDrink(data));
+    };
+
+    getDrinks();
+    console.log(drink);
+  }, [cafe]);
 
   useEffect(() => {
     console.log("화면 랜더링");
