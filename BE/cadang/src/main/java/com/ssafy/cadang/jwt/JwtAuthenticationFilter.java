@@ -3,7 +3,8 @@ package com.ssafy.cadang.jwt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.cadang.auth.PrincipalDetails;
 import com.ssafy.cadang.domain.User;
-import com.ssafy.cadang.dto.LoginDto;
+
+import com.ssafy.cadang.dto.user.LoginDto;
 import com.ssafy.cadang.error.CustomException;
 import com.ssafy.cadang.error.ExceptionEnum;
 import com.ssafy.cadang.repository.UserRepository;
