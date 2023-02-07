@@ -79,8 +79,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasRole("ADMIN") // 어드민 권한을 가진 클라이언트만 접근이 가능하다.
                 .anyRequest().permitAll()
                 .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager())) // AuthenticationManager  // 로그인을 하면 클라이언트에게 토큰을 발급해주는 필터
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(),userRepository));
+                .addFilter(new JwtAuthenticationFilter(authenticationManager(), passwordEncoder(), userRepository)) // AuthenticationManager  // 로그인을 하면 클라이언트에게 토큰을 발급해주는 필터
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository));
 
     // 사용자가 요청을 보낼 때마다 토큰을 검증하는 필터
 
