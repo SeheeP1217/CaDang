@@ -35,12 +35,19 @@ import java.util.stream.Collectors;
 // 스프링 시큐리티에서 UsernamePasswordAuthenticationFilter 가 있음.
 // /login 요청해서 id, pw 를 전송하면(post)
 // UsernamePasswordAuthenticationFilter 동작을 함
-@RequiredArgsConstructor
+
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private final AuthenticationManager authenticationManager;
+
+   private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private UserRepository userRepository;
+
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+    }
 
     private static final String AUTHORITIES_KEY = "auth";
     private Key key;
@@ -62,23 +69,20 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         System.out.println("로그인 시도");
         // 1. id, pw 를 받아서
         try {
-//            BufferedReader br = request.getReader();
-//
-//            String input = null;
+
             ObjectMapper om = new ObjectMapper();
             LoginDto loginDto = om.readValue(request.getInputStream(), LoginDto.class);
 
 
-            // 아이디, 패스워드 검사
-            if (userRepository.existsByMemberId(loginDto.getMemberId())) {
+            // 아이디 검사
+            if (!userRepository.existsByMemberId(loginDto.getMemberId())) {
                 throw new CustomException(ExceptionEnum.ID_OR_PW_NOT_FOUND);
             }
             User user = userRepository.findByMemberId(loginDto.getMemberId());
-
-            if(!passwordEncoder.matches())
-
-
-
+            // 패스워드 검사
+            if (!passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
+                throw new CustomException(ExceptionEnum.ID_OR_PW_NOT_FOUND);
+            }
 
 
             UsernamePasswordAuthenticationToken authenticationToken =
