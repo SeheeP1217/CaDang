@@ -13,11 +13,12 @@ function DatePickerComponent() {
     <div>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <MobileDatePicker
+          label="For mobile"
           value={value}
           onChange={(newValue) => {
             setValue(newValue);
           }}
-          renderInput={(params) => <TextField  {...params} />}
+          renderInput={(params) => <TextField {...params} />}
         />
       </LocalizationProvider>
     </div>

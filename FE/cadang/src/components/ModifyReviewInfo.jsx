@@ -4,7 +4,6 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { Card } from "@mui/material";
 import Badge from "@mui/material/Badge";
-import DatePickerComponent from "./DatePickerComponent";
 
 import drink from "../assets/drink.png";
 
@@ -46,7 +45,7 @@ function ModifyReviewInfo() {
               50mg / 24g / 240Kcal / 5,100원
             </Typography>
             <Typography variant="body2" color="text.secondary">
-            <DatePickerComponent/>
+              2023년 2월 1일
             </Typography>
           </Grid>
           <Grid></Grid>
