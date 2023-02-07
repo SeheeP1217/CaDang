@@ -4,10 +4,15 @@ import drink from "../assets/drink.png";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-function DrinkRecommendation() {
-  const [list, setList] = useState([]);
-  // const [loc, setLoc] = useState([]);
 
+function DrinkRecommendation() {
+  const [list, setList] = useState([
+  ]);
+  const [cafe, setCafe] = useState([
+    ""
+  ]);
+  const container = [];
+  // const [loc, setLoc] = useState([]);
 
   const onChange = (event) => {
     console.log("위치 업데이트!!!!!!!");
@@ -28,17 +33,39 @@ function DrinkRecommendation() {
       )
       .then((res) => {
         const cafe = res.data.documents;
-        console.log(cafe[0]);
+        // console.log(cafe);
         setList([...list, cafe]);
       });
 
       
-      // console.log(list);
+      console.log(list);
   };
 
+
   useEffect(() => {
-    console.log(list);
+
+    function settingCafe() {
+      const temp = list[0];
+      console.log(temp);
+      if (temp !== undefined)
+        temp.map((element, i) => console.log(temp[i].place_name));
+
+        if (temp !== undefined)
+          temp.map((element, i) => container.push(element.place_name));
+
+          setCafe([...container]);
+      // if (temp !== undefined)
+      //   temp.map((element, i) => setCafe([...cafe, temp[i].place_name]));
+    }
+    
+    settingCafe();
+    
+    
   },[list]);
+
+  useEffect(() => {
+    console.log(cafe);
+  },[cafe]);
 
   return (
     <div>
