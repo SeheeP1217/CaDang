@@ -7,7 +7,7 @@ import NativeSelect from "@mui/material/NativeSelect";
 import { Paper, Grid, Divider, Card, List } from "@mui/material";
 
 function ItemFiltering(props) {
-  const rawData = props.data;
+  const rawData = props.data; 
   const [data, setData] = useState([]);
   const [sortType, setSortType] = useState("caffeine");
 
