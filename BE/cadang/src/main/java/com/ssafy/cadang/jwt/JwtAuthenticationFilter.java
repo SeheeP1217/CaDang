@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.cadang.auth.PrincipalDetails;
 import com.ssafy.cadang.domain.User;
 import com.ssafy.cadang.dto.LoginDto;
+import com.ssafy.cadang.error.CustomException;
+import com.ssafy.cadang.error.ExceptionEnum;
+import com.ssafy.cadang.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -15,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -35,6 +39,8 @@ import java.util.stream.Collectors;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+    private UserRepository userRepository;
 
     private static final String AUTHORITIES_KEY = "auth";
     private Key key;
@@ -61,6 +67,19 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 //            String input = null;
             ObjectMapper om = new ObjectMapper();
             LoginDto loginDto = om.readValue(request.getInputStream(), LoginDto.class);
+
+
+            // 아이디, 패스워드 검사
+            if (userRepository.existsByMemberId(loginDto.getMemberId())) {
+                throw new CustomException(ExceptionEnum.ID_OR_PW_NOT_FOUND);
+            }
+            User user = userRepository.findByMemberId(loginDto.getMemberId());
+
+            if(!passwordEncoder.matches())
+
+
+
+
 
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(loginDto.getMemberId(), loginDto.getPassword());
@@ -122,6 +141,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String jwtToken = Jwts.builder()
                 .setSubject(principalDetails.getUsername())
                 .claim("id",principalDetails.getUser().getId())
+                .claim(AUTHORITIES_KEY,authorities)
                 .signWith(this.key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
                 .compact();
