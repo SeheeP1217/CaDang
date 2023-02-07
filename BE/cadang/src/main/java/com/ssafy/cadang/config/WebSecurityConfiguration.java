@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -21,7 +22,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
+import java.util.Arrays;
 
 @EnableWebSecurity
 //@EnableMethodSecurity(prePostEnabled = true)
@@ -29,17 +35,27 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final CorsFilter corsFilter;
+//    private final CorsFilter corsFilter;
     private final UserRepository userRepository;
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
 
-    public WebSecurityConfiguration(CorsFilter corsFilter, UserRepository userRepository,
+//    public WebSecurityConfiguration(CorsFilter corsFilter, UserRepository userRepository,
+//                                    JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+//                                    JwtAccessDeniedHandler jwtAccessDeniedHandler) {
+//        this.corsFilter = corsFilter;
+//        this.userRepository = userRepository;
+//        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+//        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+//
+//    }
+
+    public WebSecurityConfiguration(UserRepository userRepository,
                                     JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
                                     JwtAccessDeniedHandler jwtAccessDeniedHandler) {
-        this.corsFilter = corsFilter;
+//        this.corsFilter = corsFilter;
         this.userRepository = userRepository;
         this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
@@ -67,12 +83,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션을 사용하지 않겠다.
                 .and()
-                .addFilter(corsFilter) //@CrossOrigin(인증X일 때), 인증(O) => 시큐리티 필터에 등록해야함
+//                .addFilter(corsFilter) //@CrossOrigin(인증X일 때), 인증(O) => 시큐리티 필터에 등록해야함
                 .formLogin().disable() // form 태그로 로그인을 하지 않는다
                 .httpBasic().disable() // basic 사용하지 않고 토큰을 사용하겠다.
                 .authorizeRequests()
                 //.antMatchers("/")
                 //.permitAll()
+                .antMatchers(HttpMethod.POST,"login").permitAll()
                 .antMatchers("/user2/**").hasRole("USER") // 유저 권한을 가진 클라이언트만 접근이 가능하다.
                 .antMatchers("/admin/**").hasRole("ADMIN") // 어드민 권한을 가진 클라이언트만 접근이 가능하다.
                 .anyRequest().permitAll()
@@ -83,9 +100,22 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     // 사용자가 요청을 보낼 때마다 토큰을 검증하는 필터
 
 
+    }
 
+    // CORS 허용 적용
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
 
-
+//        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedOrigin("http://i8a808.p.ssafy.io");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Bean
