@@ -43,4 +43,9 @@ public class DataController {
         return dataService.getMonthData(date, userId);
     }
 
+    @GetMapping("/test")
+    public void test() {
+        
+    }
+
 }
