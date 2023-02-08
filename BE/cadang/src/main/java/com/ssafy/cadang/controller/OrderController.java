@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,27 +32,33 @@ public class OrderController {
 
     @PostMapping
     @Operation(summary = "주문 등록", description = "신규 주문을 등록합니다.")
-    public ResponseEntity<Long> saveOrder(@RequestBody OrderSaveDto orderSaveDto){
+    public ResponseEntity<Long> saveOrder(HttpServletRequest request, @RequestBody OrderSaveDto orderSaveDto){
 
         logger.info("saveOrder - 호출 {} ", orderSaveDto);
+
+        Long userId = Long.valueOf(request.getAttribute("userId").toString());
+        orderSaveDto.setUserId(userId);
+
         Long orderId = orderService.saveOrder(orderSaveDto);
 
         return new ResponseEntity<Long>(orderId, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping
     @Operation(summary = "주문 현황 조회(고객)", description = "현재 진행 중인 주문을 조회합니다.")
-    public ResponseEntity<List<CustomerOrderDto>> getCustomerNowOrderList(@PathVariable Long userId){
+    public ResponseEntity<List<CustomerOrderDto>> getCustomerNowOrderList(HttpServletRequest request){
 
+        Long userId = Long.valueOf(request.getAttribute("userId").toString());
         List<CustomerOrderDto> CustomerOrderDtoList = orderService.getCustomerNowOrderById(userId);
 
         return new ResponseEntity<List<CustomerOrderDto>>(CustomerOrderDtoList, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/list/{userId}")
+    @GetMapping("/list")
     @Operation(summary = "주문 내역 조회(고객)", description = "고객의 전체 주문 내역을 조회합니다.")
-    public ResponseEntity<List<CustomerOrderDto>> getCustomerOrderList(@PathVariable Long userId){
+    public ResponseEntity<List<CustomerOrderDto>> getCustomerOrderList(HttpServletRequest request){
 
+        Long userId = Long.valueOf(request.getAttribute("userId").toString());
         List<CustomerOrderDto> CustomerOrderDtoList = orderService.getCustomerOrderById(userId);
 
         return new ResponseEntity<List<CustomerOrderDto>>(CustomerOrderDtoList, HttpStatus.ACCEPTED);

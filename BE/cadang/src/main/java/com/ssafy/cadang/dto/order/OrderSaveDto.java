@@ -8,6 +8,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Getter
+@Setter
 @ToString
 @RequiredArgsConstructor
 public class OrderSaveDto {
