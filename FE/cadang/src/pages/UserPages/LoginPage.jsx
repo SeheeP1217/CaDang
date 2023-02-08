@@ -63,17 +63,28 @@ const LoginPage = () => {
   const history = useHistory()
 
   const onhandlePost = async (data) => {
-    const { memberId, passwords } = data
-    const postData = { memberId, passwords }
+    const { memberId, password } = data
+    const postData = { memberId, password }
 
     await axios
-      .post("/login", postData)
+      .post("http://i8a808.p.ssafy.io:8080/login", postData, {
+        withCredentials: true,
+      })
       .then(function (response) {
-        console.log(response, "성공")
-        history.push("/info")
+        console.log("//////////////")
+        console.log(response.headers)
+        console.log("//////////////")
+
+        let headers = response.headers.authorization
+        localStorage.setItem("token", headers)
+
+        console.log(localStorage)
+        history.push("/main")
       })
       .catch(function (err) {
         console.log(err)
+        console.log("로그인 안됨")
+        console.log(postData)
         setLoginError("로그인에 실패하였습니다. 다시 한 번 확인해 주세요")
       })
   }
@@ -97,13 +108,13 @@ const LoginPage = () => {
     const data = new FormData(e.currentTarget)
     const joinData = {
       memberId: data.get("memberId"),
-      passwords: data.get("password"),
+      password: data.get("password"),
     }
-    const { memberId, passwords } = joinData
+    const { memberId, password } = joinData
 
     if (
       idRegex.test(memberId) &&
-      passwordRegex.test(passwords)
+      passwordRegex.test(password)
       // checked
     ) {
       onhandlePost(joinData)
@@ -157,7 +168,7 @@ const LoginPage = () => {
                     onChange={onChangePassword}
                   />
                 </Grid>
-                <FormHelperTexts>{setPassword}</FormHelperTexts>
+                {/* <FormHelperTexts>{setPasswordError}</FormHelperTexts> */}
               </Grid>
 
               <Button
