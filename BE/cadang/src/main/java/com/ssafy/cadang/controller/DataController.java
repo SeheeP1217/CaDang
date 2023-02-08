@@ -26,7 +26,8 @@ public class DataController {
     private final DataService dataService;
 
     @GetMapping("/day")
-    public DayDataDto dayDataByUserIdAndDate(@RequestParam Long userId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    public DayDataDto dayDataByUserIdAndDate(HttpServletRequest request, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        Long userId = Long.valueOf(request.getAttribute("userId").toString());
         return dataService.getOneByDate(date, userId);
     }
 
@@ -34,16 +35,18 @@ public class DataController {
     public WeekDataDto weekDataByUserIdAndDate(HttpServletRequest request,
                                                @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         Long userId = Long.valueOf(request.getAttribute("userId").toString());
-        return dataService.getDataByWeek(date, 2L);
+        return dataService.getDataByWeek(date, userId);
     }
 
     @GetMapping("/week/graph")
-    public WeekGraphDto weekGraph(@RequestParam Long userId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    public WeekGraphDto weekGraph(HttpServletRequest request,@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        Long userId = Long.valueOf(request.getAttribute("userId").toString());
         return dataService.getWeekGraphDto(date, userId);
     }
 
     @GetMapping("/month")
-    public MonthDataDto datagraph(@RequestParam Long userId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    public MonthDataDto datagraph(HttpServletRequest request,  @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        Long userId = Long.valueOf(request.getAttribute("userId").toString());
         return dataService.getMonthData(date, userId);
     }
 

@@ -80,20 +80,25 @@ public class RecordService {
     }
 
 
-    public RecordDetailDto getOrderByRecordId(Long recordId) {
-        Optional<Order> order = recordReposiotry.findById(recordId);
-        if (order.isEmpty())
-            throw new CustomException(ExceptionEnum.RECORD_NOT_FOUND);
-        return toRecordDetailDto(order.get());
+    public RecordDetailDto getOrderByRecordId(Long userId, Long recordId) {
+        Order order = recordReposiotry.findById(recordId)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.RECORD_NOT_FOUND));
+        if (!Objects.equals(order.getUser().getId(), userId)) {
+            throw new CustomException(ExceptionEnum.USER_NOT_SAME);
+        }
+
+        return toRecordDetailDto(order);
 
     }
 
     @Transactional
-    public Long deleteOrderById(Long recordId) {
-        Optional<Order> order = recordReposiotry.findById(recordId);
-        if (order.isEmpty())
-            throw new CustomException(ExceptionEnum.RECORD_NOT_FOUND);
-        recordReposiotry.delete(order.get());
+    public Long deleteOrderById(Long userId, Long recordId) {
+        Order findRecord = recordReposiotry.findById(recordId)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.RECORD_NOT_FOUND));
+        if (!Objects.equals(findRecord.getUser().getId(), userId)) {
+            throw new CustomException(ExceptionEnum.USER_NOT_SAME);
+        }
+        recordReposiotry.delete(findRecord);
         return recordId;
     }
 
@@ -121,9 +126,12 @@ public class RecordService {
     }
 
     @Transactional
-    public Long updateRecord(RecordUpdateDto updateDto) throws IOException {
+    public Long updateRecord(Long userId, RecordUpdateDto updateDto) throws IOException {
         Order findRecord = recordReposiotry.findById(updateDto.getId())
                 .orElseThrow(() -> new CustomException(ExceptionEnum.RECORD_NOT_FOUND));
+        if (!Objects.equals(findRecord.getUser().getId(), userId)) {
+            throw new CustomException(ExceptionEnum.USER_NOT_SAME);
+        }
         if (findRecord.getOrderStatus() == OrderStatus.PICKUP && updateDto.getRegDate() != null) {
             throw new CustomException(ExceptionEnum.RECORD_NOT_ALLOWED_MODIFY);
         }

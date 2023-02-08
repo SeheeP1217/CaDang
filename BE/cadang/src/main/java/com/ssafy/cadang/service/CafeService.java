@@ -135,6 +135,9 @@ public class CafeService {
         long caffeRest = (long)data.getCaffeGoal() - data.getCaffeDaily();
         long sugarRest = (long)data.getSugarGoal() - data.getCaffeDaily();
 
+        if(caffeRest < 0L) caffeRest = 0L;
+        if(sugarRest < 0L) sugarRest = 0L;
+
         List<DrinkInterface> drinkInterfaces = drinkRepository.getRecommendDrinksByRestVolumeAndFranchiseIds(caffeRest, sugarRest, franchiseIds);
 
         drinkResponseDtos = drinkInterfaces.stream()
