@@ -51,7 +51,7 @@ public class EmailServiceImpl implements EmailService{
             // 유효시간(5분) 동안 {email,authKey} 저장
             // key: 이메일, value: 인증번호
             // 5L: 만료시간 5분
-            redisUtil.setDataExpire(email, authKey, 60 * 5L);
+            redisUtil.setDataExpire(email, authKey, 60 * 1440L);
             javaMailSender.send(mimeMessage);
 
         } catch (MessagingException e) {
