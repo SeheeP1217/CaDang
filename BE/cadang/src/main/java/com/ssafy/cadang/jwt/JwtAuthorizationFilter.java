@@ -2,6 +2,8 @@ package com.ssafy.cadang.jwt;
 
 
 import com.ssafy.cadang.auth.PrincipalDetails;
+import com.ssafy.cadang.error.CustomException;
+import com.ssafy.cadang.error.ExceptionEnum;
 import com.ssafy.cadang.repository.UserRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -12,7 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -90,13 +91,14 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                             .collect(Collectors.toList());
 
 
-
-            String username = claims.getSubject();
+            Long userId =  Long.valueOf(claims.get("id").toString());
+            System.out.println("userId" + (Long)userId);
 
 
             // 서명이 정상적으로 됨
-            if (username != null) {
-                com.ssafy.cadang.domain.User userEntity = userRepository.findByMemberId(username);
+            if (userId != null) {
+                com.ssafy.cadang.domain.User userEntity = userRepository.findById(userId)
+                        .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
 
                 PrincipalDetails principalDetails = new PrincipalDetails(userEntity);
                 // JWT 토큰 서명을 통해서 서명이 정상이면 Authentication 객체를 만들어준다.
@@ -109,7 +111,11 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
 
             }
+            request.setAttribute("userId", userId);
         }
+
+
+
         chain.doFilter(request, response);
      }
 
