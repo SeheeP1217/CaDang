@@ -76,6 +76,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //.permitAll()
                 .antMatchers(HttpMethod.POST,"login").permitAll()
                 .antMatchers("/main").permitAll()
+                .antMatchers("/user/**")
+                .permitAll()
                 .antMatchers("/user2/**").hasRole("USER") // 유저 권한을 가진 클라이언트만 접근이 가능하다.
                 .antMatchers("/admin/**").hasRole("ADMIN") // 어드민 권한을 가진 클라이언트만 접근이 가능하다.
                 .anyRequest().permitAll()
