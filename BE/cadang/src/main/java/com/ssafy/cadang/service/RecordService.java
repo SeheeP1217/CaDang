@@ -34,7 +34,7 @@ public class RecordService {
     private final UserRepository userRepository;
     private final DrinkRepository drinkRepository;
     private static OrderStatus[] recordStatus = {OrderStatus.RECORD, OrderStatus.PICKUP};
-
+    private final DataService dataService;
     @Value("${EC2_FILE_PATH}")
     private String RecordUploadPath;
 
@@ -74,22 +74,11 @@ public class RecordService {
                 .storeName(recordDto.getStoreName())
                 .orderStatus(OrderStatus.RECORD)
                 .build();
+        dataService.updateData(record);
         Order saveRecord = recordReposiotry.save(record);
         return saveRecord.getId();
     }
 
-
-//    public MyPageRecordListDto getOrderBySlice(Long lastUpdateId, Long userId, int size) {
-//        PageRequest pageRequest = PageRequest.of(0, size);
-//        Order lastRecord = recordReposiotry.findById(lastUpdateId).orElseThrow(() -> new NoSuchElementException());
-//
-//        Slice<Order> orders = recordReposiotry.findByIdLessThanAndUserIdAndOrderStatusIn(lastRecord.getRegDate(), userId, recordStatus, pageRequest);
-//        List<MyPageRecordDto> recordDtos = toMyPageRecordDtos(orders);
-//        return MyPageRecordListDto.builder()
-//                .recordList(recordDtos)
-//                .hasNext(orders.hasNext())
-//                .build();
-//    }
 
     public RecordDetailDto getOrderByRecordId(Long recordId) {
         Optional<Order> order = recordReposiotry.findById(recordId);
@@ -119,6 +108,8 @@ public class RecordService {
             keyword = "%" + keyword + "%";
             orders = recordReposiotry.findBySearchKeyword(userId, keyword, recordStatus, pageRequest);
         }
+        //
+
         List<MyPageRecordDto> recordDtos = toMyPageRecordDtos(orders);
         return MyPageRecordListDto.builder()
                 .recordList(recordDtos)
@@ -210,7 +201,7 @@ public class RecordService {
             String originalFilename = file.getOriginalFilename();
             String fullPath = RecordUploadPath + regDate + "/" + uuid + "_" + originalFilename;
             file.transferTo(new File(fullPath));
-            return fullPath;
+            return regDate + "/" + uuid + "_" + originalFilename;
         }
         return null;
     }

@@ -1,6 +1,7 @@
 package com.ssafy.cadang.service;
 
 import com.ssafy.cadang.domain.Data;
+import com.ssafy.cadang.domain.Order;
 import com.ssafy.cadang.domain.User;
 import com.ssafy.cadang.dto.data.*;
 import com.ssafy.cadang.dto.record.query.MostRankingDto;
@@ -212,6 +213,17 @@ public class DataService {
                 .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
         todayData.setCaffeGoal(user.getCaffeGoal());
         todayData.setSugarGoal(user.getSugarGoal());
+
+    }
+
+    @Transactional
+    public void updateData(Order findOrder) {
+        Data updateData = dataRepository.findByUserAndDate(findOrder.getRegDate().toLocalDate(), findOrder.getUser().getId())
+                .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
+        updateData.setCaffeDaily(updateData.getCaffeDaily() + findOrder.getCaffeine());
+        updateData.setSugarDaily(updateData.getSugarDaily() + findOrder.getSugar());
+        updateData.setCalDaily(updateData.getCalDaily() + findOrder.getCal());
+        updateData.setMoneyDaily(updateData.getMoneyDaily() + findOrder.getPrice());
 
     }
 
