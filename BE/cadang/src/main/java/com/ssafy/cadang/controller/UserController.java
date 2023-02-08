@@ -36,12 +36,12 @@ public class UserController {
     }
 
 
-    // 이메일 인증 번호 발송 및 재발송
+    // 회원가입 이메일 인증 번호 발송 및 재발송
     @PostMapping("/user/email")
     public ResponseEntity<String> sendEmailCode(@RequestParam("email") String email) throws Exception {
         // 이메일 중복 검사
         userService.verifyEmail(email);
-        emailService.sendMessage(email);
+        emailService.sendSignupMessage(email);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
@@ -68,11 +68,12 @@ public class UserController {
 
     }
 
+    // 비밀번호 찾아서 변경하는 이메일 보내기
     @PostMapping("/user/email/findpw ")
     public ResponseEntity<Boolean> findPw(@RequestParam String email, @RequestParam String memberId) throws Exception {
         // 이메일 중복 검사
         if (userService.verifyId(email, memberId))
-            emailService.sendMessage(email);
+            emailService.sendChangePassMessage(email);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 

@@ -37,7 +37,7 @@ public class UserService {
     @Value("${DEFAULT_PROFILE_PATH}")
     private String DefaultProfileImgPath;
 
-    public String getFullPath(String imgPath, String filename) {
+    private String getFullPath(String imgPath, String filename) {
         return imgPath + filename;
     }
 
