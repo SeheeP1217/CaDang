@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react"
-import { Button } from "@mui/material"
 // import axios from "axios"
 import default_image from "../../assets/default_image.png"
 import styled from "styled-components"
 
-const ImageUploader = ({getImg}) => {
+const ImageModifier = ({getImg, beforeModifyImage}) => {
   const [imagestatus, setImageStatus] = useState({
     image_file: "",
-    preview_URL: default_image
+    preview_URL: beforeModifyImage
   })
 
   let inputRef
@@ -79,13 +78,13 @@ const ImageUploader = ({getImg}) => {
           variant="contained"
           onClick={() => inputRef.click()}
         >
-          사진 선택하기
+          사진 선택
         </SelectButton>
         <DeleteButton color="error" variant="contained" onClick={deleteImage}>
-          사진 삭제하기
+          사진 삭제
         </DeleteButton>
         <SaveButton color="success" variant="contained" onClick={sendImageToServer}>
-          사진 저장하기
+          사진 저장
         </SaveButton>
       </div>
     </UploaderWrapper>
@@ -116,4 +115,4 @@ const SaveButton = styled.button`
 
 `
 
-export default ImageUploader
+export default ImageModifier

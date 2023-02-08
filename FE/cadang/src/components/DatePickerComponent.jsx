@@ -9,12 +9,12 @@ import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 
 function DatePickerComponent() {
   const location = useLocation()
-  const recordDate = location.state.review.resDate
+  const recordDate = location.state.review.regDate
   // const rawDate = Date(location.state.review.regDate)
   // const options = {month: '2-digit', day: '2-digit'}
   // const defaultDate = rawDate.tolocalDateString('en-US', options)
   // console.log(defaultDate)
-  const [value, setValue] = React.useState(dayjs("2022-04-07"))
+  const [value, setValue] = React.useState(dayjs(recordDate))
   return (
     <div>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
