@@ -57,6 +57,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         String jwtHeader = request.getHeader(JwtProperties.HEADER_STRING);
 
+
         // header 가 있는지 확인
 
         if (jwtHeader == null || !jwtHeader.startsWith("Bearer")) {
