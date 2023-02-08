@@ -11,16 +11,20 @@ import CustomOption from "../../components/CustomOption"
 
 
 const ReviewPage = (props) => {
-  const params = useParams()
+  // const data = props.states
+  // console.log(data)
   const location = useLocation()
-  const data = props.state
+  console.log(location)
+  // 받아온 리뷰데이터 
+  const reviewData = JSON.stringify(location.state)
+  console.log(location)
 
   return (
     <Fragment>
       <Typography level="h3" fontSize="xl" fontWeight="xl">
-        Review {params.reviewId} {data}
+        Review 
       </Typography>
-      {/* <ModifyReviewInfo />
+      <ModifyReviewInfo/>
       <Card sx={{ marginTop: 2, height: 110 }}>
         <TextField
           fullWidth
@@ -28,13 +32,12 @@ const ReviewPage = (props) => {
           label='리뷰를 작성하세요'
           multiline
           rows={4}
-          maxRows={5}
           variant="standard"/>
       </Card>
       <CustomOption />
       <Grid item>
         <Button fullWidth={true}>저장하기</Button>
-      </Grid> */}
+      </Grid>
     </Fragment>
   )
 }
