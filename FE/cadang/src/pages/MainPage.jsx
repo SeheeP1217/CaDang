@@ -9,12 +9,23 @@ import { Card } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userId, todayDate } from "../recoil/atom/user.jsx";
-import { recommendDrinks } from "../api/main";
+import { todayDashboard } from "../api/main";
 
 export default function MainPage() {
   const [load, setLoad] = useState(false);
   const [today, setToday] = useRecoilState(todayDate);
-  const [location, setLocation] = useState({});
+  const [dashboard, setDashboard] = useState({
+    userId: 0,
+    date: "",
+    caffeGoal: 0,
+    sugarGoal: 0,
+    caffeDaily: 0,
+    sugarDaily: 0,
+    calDaily: 0,
+    moneyDaily: 0,
+    caffeSuccess: true,
+    sugarSuccess: true,
+  });
 
   // 로그인 한 사용자 아이디
   // const id = useRecoilValue(userId);
@@ -35,12 +46,25 @@ export default function MainPage() {
   // 현재 날짜 string으로 변환
   const dateString = year + "-" + month + "-" + day;
 
-  const [list, setList] = useState([]);
-  const [cafe, setCafe] = useState([""]);
-  const container = [];
-
   // 첫 화면이 랜더링 되기 전
-  useMemo(() => {}, []);
+  useMemo(() => {
+    const getDashboard = async () => {
+      await todayDashboard(
+        dateString,
+        2,
+        (res) => {
+          console.log(res.data);
+          return res.data;
+        },
+        (err) => console.log(err)
+      ).then((data) => setDashboard(data));
+    };
+    getDashboard();
+  }, []);
+
+  useEffect(() => {
+    console.log(dashboard);
+  }, [dashboard]);
 
   useEffect(() => {
     console.log("화면 랜더링");
@@ -55,7 +79,7 @@ export default function MainPage() {
       </Typography>
       <Card>
         <DailyConsumptionGraph data={data} />
-        <DailyOtherInfo data={dailyData} />
+        <DailyOtherInfo money={dashboard.moneyDaily} kcal={dashboard.calDaily} />
       </Card>
       <OrderStatus />
       <Box sx={{ mt: 2 }}>
