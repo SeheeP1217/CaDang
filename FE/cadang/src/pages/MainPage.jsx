@@ -12,6 +12,7 @@ import { userId, todayDate } from "../recoil/atom/user.jsx";
 import { recommendDrinks } from "../api/main";
 
 export default function MainPage() {
+  const [load, setLoad] = useState(false);
   const [today, setToday] = useRecoilState(todayDate);
   const [location, setLocation] = useState({});
 
@@ -37,8 +38,7 @@ export default function MainPage() {
   const [list, setList] = useState([]);
   const [cafe, setCafe] = useState([""]);
   const container = [];
-
-  const [drink, setDrink] = useState({
+  const [drinkList, setDrinkList] = useState({ drink: [{
     drinkId: 0,
     franchiseId: "",
     drinkName: "",
@@ -48,12 +48,79 @@ export default function MainPage() {
     cal: 0,
     price: 0,
     storeName: "",
-  });
+  }]});
+
+  const [drink, setDrink] = useState({ 
+    drinkId: 0,
+    franchiseId: "",
+    drinkName: "",
+    img: "",
+    caffeine: 0,
+    sugar: 0,
+    cal: 0,
+    price: 0,
+    shot: null,
+    size: null,
+    vol:null,
+    whip:null,
+    storeName: "",
+  })
+
+  const getRandomIndex = function(length) {
+    const idx = parseInt(Math.random() * length);
+    return drinkList[idx];
+  };
+
   // 첫 화면이 랜더링 되기 전
   useMemo(() => {
+    // // 1. 현재 날짜 세팅
+    // setToday(dateString);
+
+    // console.log(today);
+
+    // axios
+    //   .get(
+    //     `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=CE7&page=1&size=15&sort=accuracy&x=127.03983097807087&y=37.50153289264357&radius=300`,
+    //     {
+    //       headers: { Authorization: `KakaoAK ${process.env.REACT_APP_REST_API_KEY}` },
+    //     }
+    //   )
+    //   .then((res) => {
+    //     const cafe = res.data.documents;
+    //     // console.log(cafe);
+    //     setList([...list, cafe]);
+    //   });
+
+    // console.log(list);
+    // console.log("---------------");
+
+    // // 음료 추천 통신 api 사용
+
+    // const getDrinks = async () => {
+    //   await recommendDrinks(
+    //     cafe,
+    //     dateString,
+    //     2,
+    //     (res) => {
+    //       console.log(res.data);
+    //       return res.data;
+    //     },
+    //     (err) => console.log(err)
+    //   ).then((data) => setDrinkList(data));
+    // };
+
+    // getDrinks();
+    // console.log(drinkList);
+    // const item = getRandomIndex(drinkList.length);
+    // console.log(item);
+    // setDrink(item);
+
+
+  }, []);
+
+  useEffect(() => {
     // 1. 현재 날짜 세팅
     setToday(dateString);
-
     console.log(today);
 
     axios
@@ -84,12 +151,17 @@ export default function MainPage() {
           return res.data;
         },
         (err) => console.log(err)
-      ).then((data) => setDrink(data));
+      ).then((data) => setDrinkList(data));
     };
 
     getDrinks();
-    console.log(drink);
-  }, []);
+    console.log(drinkList);
+    const item = getRandomIndex(drinkList.length);
+    console.log(item);
+    setDrink(item);
+    setLoad(true);
+    setToday(dateString);
+  },[]);
 
   useEffect(() => {
     function settingCafe() {
@@ -118,19 +190,33 @@ export default function MainPage() {
         dateString,
         2,
         (res) => {
-          console.log(res.data);
-          return res.data;
+          if(res.data !== undefined) {
+            console.log(res.data);
+            // setDrinkList(data);
+            // res.data.map((element,i) => drinkList.push(element));
+          }
+          return res.data
         },
         (err) => console.log(err)
-      ).then((data) => setDrink(data));
+      ).then((data) => setDrinkList(data));
     };
 
     getDrinks();
-    console.log(drink);
+    
   }, [cafe]);
 
   useEffect(() => {
+    console.log(drinkList);
+    // 음료 추천 : 서버로부터 받은 20개의 리스트 랜덤하게 1개의 데이터
+    // 뽑아서 사용
+    const item = getRandomIndex(drinkList.length);
+    console.log(item);
+    setDrink(item);
+  }, [drinkList]);
+
+  useEffect(() => {
     console.log("화면 랜더링");
+    setLoad(true);
     setToday(dateString);
   }, []);
 
@@ -149,9 +235,11 @@ export default function MainPage() {
           음료 추천
         </Typography>
       </Box>
+      { drink !== undefined &&
       <Box sx={{ mt: 1 }}>
-        <DrinkRecommendation />
+        <DrinkRecommendation drink={drink} />
       </Box>
+}
     </Box>
   );
 }

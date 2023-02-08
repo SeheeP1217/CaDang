@@ -3,7 +3,6 @@ import axios from "axios"
 const api = axios.create({
   baseURL: "http://i8a808.p.ssafy.io:8080",
   headers: {
-    
     "Content-Type": "application/json",
   },
 })

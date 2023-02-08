@@ -4,11 +4,18 @@ import drink from "../assets/drink.png";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-function DrinkRecommendation() {
+function DrinkRecommendation(props) {
   const [list, setList] = useState([]);
   const [cafe, setCafe] = useState([""]);
+  const [load, setLoad] = useState(false);
   const container = [];
+  const drinkItem = props.drink;
+  console.log(drinkItem);
   // const [loc, setLoc] = useState([]);
+
+  const getRandomIndex = function(length) {
+    return parseInt(Math.random() * length)
+  };
 
   const onChange = (event) => {
     console.log("위치 업데이트!!!!!!!");
@@ -37,6 +44,11 @@ function DrinkRecommendation() {
   };
 
   useEffect(() => {
+    setLoad(true);
+  },[]);
+
+  useEffect(() => {
+
     function settingCafe() {
       const temp = list[0];
 
@@ -80,19 +92,22 @@ function DrinkRecommendation() {
           }}
         >
           <Grid item>
-            <Typography>오늘은 스타벅스 아이스아메리카노 어떨까요?</Typography>
+            <Typography>{drinkItem.storeName}</Typography>
+          </Grid>
+          <Grid item>
+            <Typography>오늘은 {drinkItem.drinkName} 어떨까요?</Typography>
           </Grid>
 
           <Grid item xs={4}>
             <Button>
-              <img alt="menuImg" src={drink} width="100%" />
+              <img alt="menuImg" src={drinkItem.img} width="100%" />
             </Button>
           </Grid>
           <Grid item xs={4}>
-            <Typography>150mg</Typography>
-            <Typography>0g</Typography>
-            <Typography>20Kcal</Typography>
-            <Typography>4500원</Typography>
+            <Typography>{drinkItem.caffeine}mg</Typography>
+            <Typography>{drinkItem.sugar}g</Typography>
+            <Typography>{drinkItem.cal}Kcal</Typography>
+            <Typography>{drinkItem.price}원</Typography>
           </Grid>
         </Grid>
         <Grid
