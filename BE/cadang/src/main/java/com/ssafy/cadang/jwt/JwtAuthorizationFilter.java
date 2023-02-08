@@ -31,7 +31,6 @@ import java.util.stream.Collectors;
 // 만약에 권한이 인증이 필요한 주소가 아니라면 이 필터를 안 탄다.
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-
     private UserRepository userRepository;
     private Key key;
     private static final String AUTHORITIES_KEY = "auth";
@@ -57,6 +56,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         System.out.println(request.getHeader("Authorization"));
 
         String jwtHeader = request.getHeader(JwtProperties.HEADER_STRING);
+
 
         // header 가 있는지 확인
 

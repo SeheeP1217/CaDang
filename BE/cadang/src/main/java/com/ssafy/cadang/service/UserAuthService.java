@@ -26,18 +26,18 @@ public class UserAuthService {
     }
 
     // 아이디 찾기
-    public String findId(String username, String email) {
-
-
-        if (!userRepository.existsUserByMemberIdAndEmail(username,email)) {
-            throw new CustomException(ExceptionEnum.USER_NOT_FOUND);
-        }
-
-        User user = userRepository.findByMemberIdAndEmail(username, email);
-
-        return user.getMemberId();
-
-    }
+//    public String findId(String username, String email) {
+//
+//
+//        if (!userRepository.existsUserByMemberIdAndEmail(username,email)) {
+//            throw new CustomException(ExceptionEnum.USER_NOT_FOUND);
+//        }
+//
+//        User user = userRepository.findByMemberIdAndEmail(username, email);
+//
+//        return user.getMemberId();
+//
+//    }
 
 
 
