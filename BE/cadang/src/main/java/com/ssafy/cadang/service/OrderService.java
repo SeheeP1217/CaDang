@@ -113,10 +113,14 @@ public class OrderService {
         return customerNowOrderDtoList;
     }
 
-    public Long updateOrderByOrderIdAndOrderStatus(OrderUpdateDto orderUpdateDto) {
+    public Long updateOrderByOrderIdAndOrderStatus(OrderUpdateDto orderUpdateDto, Long storeId) {
 
         Order findOrder = orderRepository.findById(orderUpdateDto.getOrderId())
                 .orElseThrow(() -> new CustomException(ExceptionEnum.ORDER_NOT_FOUND));
+
+        if(findOrder.getUser().getId() != storeId) {
+            throw new CustomException(ExceptionEnum.ORDER_NOT_SAME);
+        }
 
         findOrder.setOrderStatus(orderUpdateDto.getOrderStatus());
         if (orderUpdateDto.getOrderStatus() == OrderStatus.PICKUP) {
