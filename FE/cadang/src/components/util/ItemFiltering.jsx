@@ -13,7 +13,7 @@ function ItemFiltering(props) {
   const menuDatas = props.menus.drinkList[0]
   console.log('>>>>>>>>>>props 받아오는 거>>>',menuDatas)
   // const props.menus
-  const rawData = props.data
+  // const rawData = props.data
   // const [data, setData] = useState([])
   const [menu, setMenu] = useState([])
   const [sortType, setSortType] = useState("caffeine")
