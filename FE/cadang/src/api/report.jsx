@@ -4,6 +4,7 @@ const api = axios.create({
     baseURL: 'http://i8a808.p.ssafy.io:8080',
     headers: {
         "Content-Type": "application/json",
+        // "Authorization" : 'Bearer' + eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjoxOSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NTgzMTEzNH0.-afHFW52HQ70yY0WSDVeXUMGGpj5CL8TYZ1II_MpRvIDxg78L5iWGJbR4x0VLI--efBEsKbYSPofkq6YHesXRg,
     },
 })
 
