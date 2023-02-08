@@ -34,7 +34,8 @@ public enum ExceptionEnum {
     STORE_NOT_FOUND(HttpStatus.NOT_FOUND, "STORE-001", "가게를 찾을 수 없습니다."),
 
     // Order
-    ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "ORDER-001", "주문을 찾을 수 없습니다.");
+    ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "ORDER-001", "주문을 찾을 수 없습니다."),
+    ORDER_NOT_SAME(HttpStatus.BAD_REQUEST, "ORDER-002", "주문정보와 사용자정보가 일치하지 않습니다.");
 
 
 
