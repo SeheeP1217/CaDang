@@ -9,12 +9,23 @@ import { Card } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userId, todayDate } from "../recoil/atom/user.jsx";
-import { recommendDrinks } from "../api/main";
+import { todayDashboard } from "../api/main";
 
 export default function MainPage() {
   const [load, setLoad] = useState(false);
   const [today, setToday] = useRecoilState(todayDate);
-  const [location, setLocation] = useState({});
+  const [dashboard, setDashboard] = useState({
+    userId: 0,
+    date: "",
+    caffeGoal: 0,
+    sugarGoal: 0,
+    caffeDaily: 0,
+    sugarDaily: 0,
+    calDaily: 0,
+    moneyDaily: 0,
+    caffeSuccess: true,
+    sugarSuccess: true,
+  });
 
   // 로그인 한 사용자 아이디
   // const id = useRecoilValue(userId);
@@ -35,115 +46,10 @@ export default function MainPage() {
   // 현재 날짜 string으로 변환
   const dateString = year + "-" + month + "-" + day;
 
-  const [list, setList] = useState([]);
-  const [cafe, setCafe] = useState([""]);
-  const container = [];
-  const [drinkList, setDrinkList] = useState({ drink: [{
-    drinkId: 0,
-    franchiseId: "",
-    drinkName: "",
-    img: "",
-    caffeine: 0,
-    sugar: 0,
-    cal: 0,
-    price: 0,
-    storeName: "",
-  }]});
-
-  const [drink, setDrink] = useState({ 
-    drinkId: 0,
-    franchiseId: "",
-    drinkName: "",
-    img: "",
-    caffeine: 0,
-    sugar: 0,
-    cal: 0,
-    price: 0,
-    shot: null,
-    size: null,
-    vol:null,
-    whip:null,
-    storeName: "",
-  })
-
-  const getRandomIndex = function(length) {
-    const idx = parseInt(Math.random() * length);
-    return drinkList[idx];
-  };
-
   // 첫 화면이 랜더링 되기 전
   useMemo(() => {
-    // // 1. 현재 날짜 세팅
-    // setToday(dateString);
-
-    // console.log(today);
-
-    // axios
-    //   .get(
-    //     `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=CE7&page=1&size=15&sort=accuracy&x=127.03983097807087&y=37.50153289264357&radius=300`,
-    //     {
-    //       headers: { Authorization: `KakaoAK ${process.env.REACT_APP_REST_API_KEY}` },
-    //     }
-    //   )
-    //   .then((res) => {
-    //     const cafe = res.data.documents;
-    //     // console.log(cafe);
-    //     setList([...list, cafe]);
-    //   });
-
-    // console.log(list);
-    // console.log("---------------");
-
-    // // 음료 추천 통신 api 사용
-
-    // const getDrinks = async () => {
-    //   await recommendDrinks(
-    //     cafe,
-    //     dateString,
-    //     2,
-    //     (res) => {
-    //       console.log(res.data);
-    //       return res.data;
-    //     },
-    //     (err) => console.log(err)
-    //   ).then((data) => setDrinkList(data));
-    // };
-
-    // getDrinks();
-    // console.log(drinkList);
-    // const item = getRandomIndex(drinkList.length);
-    // console.log(item);
-    // setDrink(item);
-
-
-  }, []);
-
-  useEffect(() => {
-    // 1. 현재 날짜 세팅
-    setToday(dateString);
-    console.log(today);
-
-    axios
-      .get(
-        `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=CE7&page=1&size=15&sort=accuracy&x=127.03983097807087&y=37.50153289264357&radius=300`,
-        {
-          headers: { Authorization: `KakaoAK ${process.env.REACT_APP_REST_API_KEY}` },
-        }
-      )
-      .then((res) => {
-        const cafe = res.data.documents;
-        // console.log(cafe);
-        setList([...list, cafe]);
-      });
-
-    console.log(list);
-    console.log("---------------");
-
-    // 음료 추천 통신 api 사용
-
-    const getDrinks = async () => {
-      await recommendDrinks(
-        cafe,
+    const getDashboard = async () => {
+      await todayDashboard(
         dateString,
         2,
         (res) => {
@@ -151,68 +57,14 @@ export default function MainPage() {
           return res.data;
         },
         (err) => console.log(err)
-      ).then((data) => setDrinkList(data));
+      ).then((data) => setDashboard(data));
     };
-
-    getDrinks();
-    console.log(drinkList);
-    const item = getRandomIndex(drinkList.length);
-    console.log(item);
-    setDrink(item);
-    setLoad(true);
-    setToday(dateString);
-  },[]);
+    getDashboard();
+  }, []);
 
   useEffect(() => {
-    function settingCafe() {
-      const temp = list[0];
-      console.log(temp);
-      if (temp !== undefined) temp.map((element, i) => console.log(temp[i].place_name));
-
-      if (temp !== undefined) temp.map((element, i) => container.push(element.place_name));
-
-      setCafe([...container]);
-      // if (temp !== undefined)
-      //   temp.map((element, i) => setCafe([...cafe, temp[i].place_name]));
-    }
-
-    settingCafe();
-  }, [list]);
-
-  useEffect(() => {
-    console.log(dateString);
-
-    // 음료 추천 통신 api 사용
-
-    const getDrinks = async () => {
-      await recommendDrinks(
-        cafe,
-        dateString,
-        2,
-        (res) => {
-          if(res.data !== undefined) {
-            console.log(res.data);
-            // setDrinkList(data);
-            // res.data.map((element,i) => drinkList.push(element));
-          }
-          return res.data
-        },
-        (err) => console.log(err)
-      ).then((data) => setDrinkList(data));
-    };
-
-    getDrinks();
-    
-  }, [cafe]);
-
-  useEffect(() => {
-    console.log(drinkList);
-    // 음료 추천 : 서버로부터 받은 20개의 리스트 랜덤하게 1개의 데이터
-    // 뽑아서 사용
-    const item = getRandomIndex(drinkList.length);
-    console.log(item);
-    setDrink(item);
-  }, [drinkList]);
+    console.log(dashboard);
+  }, [dashboard]);
 
   useEffect(() => {
     console.log("화면 랜더링");
@@ -227,7 +79,7 @@ export default function MainPage() {
       </Typography>
       <Card>
         <DailyConsumptionGraph data={data} />
-        <DailyOtherInfo data={dailyData} />
+        <DailyOtherInfo money={dashboard.moneyDaily} kcal={dashboard.calDaily} />
       </Card>
       <OrderStatus />
       <Box sx={{ mt: 2 }}>
@@ -235,11 +87,10 @@ export default function MainPage() {
           음료 추천
         </Typography>
       </Box>
-      { drink !== undefined &&
+
       <Box sx={{ mt: 1 }}>
-        <DrinkRecommendation drink={drink} />
+        <DrinkRecommendation />
       </Box>
-}
     </Box>
   );
 }
