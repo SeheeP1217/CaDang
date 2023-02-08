@@ -133,7 +133,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         long now = (new Date()).getTime();
         Date validity = new Date(now + JwtProperties.EXPIRATION_TIME);
-        System.out.println(validity);
+        System.out.println("발급날짜: " + new Date(now));
+        System.out.println("만료날짜: " + validity);
 
         // RSA 방식은 아니고 Hash 암호방식
         // claim을 통해 넣고 싶은 정보들을 집어넣는다.
