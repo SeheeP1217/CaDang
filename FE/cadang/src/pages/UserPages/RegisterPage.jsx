@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Link, useHistory } from "react-router-dom"
 import axios from "axios"
 import {
@@ -38,7 +38,7 @@ const RegisterPage = () => {
   const [registerError, setRegisterError] = useState("")
   const history = useHistory()
 
-  const [checkId, setCheckId] = useState("")
+  const [checkId, setCheckId] = useState(false)
   const [checkEmail, setCheckEmail] = useState("")
 
   // const handleAgree = (event) => {
@@ -75,7 +75,7 @@ const RegisterPage = () => {
       })
       .then(function (response) {
         console.log(response, "성공")
-        history.push("/main")
+        history.push("/info")
       })
       .catch(function (err) {
         console.log(err)
@@ -146,54 +146,74 @@ const RegisterPage = () => {
     setNickname(e.target.value)
   }
 
-  // // 아이디 중복 확인
-  // const idCheck = async (data) => {
-  //   const memberId = data
-  //   const postData = { memberId }
-  //   console.log("////////////////", memberId)
-  //   await axios
-  //     .post("http://i8a808.p.ssafy.io:8080/user/id/verify", postData)
-  //     .then(function (response) {
-  //       console.log(response, "성공")
-  //       alert("사용할 수 있는 아이디입니다.")
-  //       setCheckId(true)
-  //     })
-  //     .catch(function (err) {
-  //       console.log(err)
-  //       setCheckId(false)
-  //       alert("이미 사용 중인 아이디입니다.")
-  //     })
-  // }
+  // useEffect(() => {
 
-  // const handleId = (e) => {
-  //   e.preventDefault()
+  // })
+  let checkIdDone = false
+  // 아이디 중복 확인
+  const idCheck = async (data) => {
+    data = memberId
+    // console.log(data)
+    await axios
+      .get("http://i8a808.p.ssafy.io:8080/user/id/verify", {
+        params: { id: data },
+      })
+      .then(function (response) {
+        console.log(response, "성공")
+        alert("사용할 수 있는 아이디입니다.")
+        console.log(data)
+        checkIdDone = true
+        console.log(">>>>>>>>>>>", checkIdDone)
+      })
+      .catch(function (err) {
+        console.log(err)
+        console.log(checkIdDone)
+        alert("이미 사용 중인 아이디입니다.")
+      })
+  }
 
-  //   const data = new FormData(e.currentTarget)
-  //   const joinData = {
-  //     memberId: data.get("memberId"),
-  //   }
-  //   idCheck(joinData)
-  // }
+  const handleId = (e) => {
+    e.preventDefault()
 
-  // // 이메일 중복 확인
-  // const emailCheck = async (e) => {
-  //   e.preventDefault()
-  //   const postData = {
-  //     memberId: memberId,
-  //   }
-  //   await axios
-  //     .post("http://i8a808.p.ssafy.io:8080/user/id/verify", postData)
-  //     .then(function (response) {
-  //       console.log(response, "성공")
-  //       alert("사용할 수 있는 아이디입니다.")
-  //       setCheckId(true)
-  //     })
-  //     .catch(function (err) {
-  //       console.log(err)
-  //       setCheckId(false)
-  //       alert("이미 사용 중인 아이디입니다.")
-  //     })
-  // }
+    const data = new FormData(e.currentTarget[0])
+    const joinData = {
+      memberId: data.get("memberId"),
+    }
+    idCheck(joinData)
+  }
+
+  let checkEmailDone = false
+
+  // 이메일 중복 확인 & 인증번호 받기
+  const emailCheck = async (data) => {
+    data = email
+    console.log(data)
+    await axios
+      .post("http://i8a808.p.ssafy.io:8080/user/email", {
+        params: { email: data }},{headers: {Authorization: ``}
+      })
+      .then(function (response) {
+        console.log(response, "성공")
+        alert("메일로 인증번호가 발송되었습니다.")
+        checkEmailDone = true
+        console.log(">>>>>>>>>>>", checkEmailDone)
+      })
+      .catch(function (err) {
+        console.log(err)
+        console.log(checkEmailDone)
+        alert("이미 계정이 있습니다.")
+      })
+  }
+
+  const handleEmail = (e) => {
+    e.preventDefault()
+
+    const data = new FormData(e.currentTarget[0])
+    const joinData = {
+      email: data.get("email"),
+    }
+    emailCheck(joinData)
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -219,8 +239,8 @@ const RegisterPage = () => {
       passwordRegex.test(password) &&
       password === passwordState &&
       usernameRegex.test(username) &&
-      nicknameRegex.test(nickname)
-      // checkId == true
+      nicknameRegex.test(nickname) &&
+      checkIdDone == true
       // checked
     ) {
       onhandlePost(joinData)
@@ -277,7 +297,7 @@ const RegisterPage = () => {
                 <Grid item xs={3}>
                   <Button
                     type="click"
-                    // onClick={handleId}
+                    onClick={handleId}
                     fullWidth
                     variant="contained"
                     size="small"
@@ -312,7 +332,7 @@ const RegisterPage = () => {
                   />
                 </Grid>
                 <FormHelperTexts>{passwordStateError}</FormHelperTexts>
-                <Grid item xs={9}>
+                <Grid item xs={8.5}>
                   <TextField
                     required
                     fullWidth
@@ -323,11 +343,11 @@ const RegisterPage = () => {
                     onChange={onChangeEmail}
                   />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={3.5}>
                   <Button
                     noValidate
                     type="click"
-                    // onClick={emailCheck}
+                    onClick={handleEmail}
                     fullWidth
                     variant="contained"
                     size="small"
@@ -336,6 +356,29 @@ const RegisterPage = () => {
                   </Button>
                 </Grid>
                 <FormHelperTexts>{emailError}</FormHelperTexts>
+                {/* <Grid item xs={8.5}>
+                  <TextField
+                    required
+                    fullWidth
+                    type="emailkey"
+                    id="emailkey"
+                    name="email"
+                    label="인증번호"
+                    onChange={onChangeEmail}
+                  />
+                </Grid>
+                <Grid item xs={3.5}>
+                  <Button
+                    noValidate
+                    type="click"
+                    onClick={handleEmail}
+                    fullWidth
+                    variant="contained"
+                    size="medium"
+                  >
+                    확인
+                  </Button>
+                </Grid> */}
                 <Grid item xs={12}>
                   <TextField
                     required

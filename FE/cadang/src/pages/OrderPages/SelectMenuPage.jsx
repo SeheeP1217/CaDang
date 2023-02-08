@@ -48,7 +48,7 @@ function SelectMenuPage() {
       ).then((data) => setMenu(data))
     }
     getMenus()
-    console.log(menu)
+    console.log('//////////////////',menu)
   })
 
   return (
@@ -69,7 +69,7 @@ function SelectMenuPage() {
           </Card>
         </Box>
       </div>
-      <ItemFiltering data={menuData} />
+      <ItemFiltering menus={menu} />
       <Link to="/custom">
         <FabButton />
       </Link>
