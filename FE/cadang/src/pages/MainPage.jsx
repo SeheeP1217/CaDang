@@ -147,6 +147,7 @@ export default function MainPage() {
         dateString,
         2,
         (res) => {
+          console.log("=======!!!!!!!!!!!!!!=========");
           console.log(res.data);
           return res.data;
         },
@@ -155,7 +156,7 @@ export default function MainPage() {
     };
 
     getDrinks();
-    console.log(drinkList);
+    console.log("drinkList"+drinkList);
     const item = getRandomIndex(drinkList.length);
     console.log(item);
     setDrink(item);

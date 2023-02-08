@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import drink from "../assets/drink.png";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { userId, todayDate } from "../recoil/atom/user.jsx";
+import { recommendDrinks } from "../api/main";
 
 function DrinkRecommendation(props) {
   const [list, setList] = useState([]);
@@ -11,7 +14,8 @@ function DrinkRecommendation(props) {
   const container = [];
   const [drinkItem, setDrinkItem] = useState(props.drink);
   console.log(drinkItem);
-  const drinkList = props.drinkList;
+  const [drinkList, setDrinkList] = useState(props.drinkList);
+  const dateString = useRecoilValue(todayDate);
   // const [loc, setLoc] = useState([]);
 
   const getRandomIndex = function(length) {
@@ -47,14 +51,36 @@ function DrinkRecommendation(props) {
         const cafe = res.data.documents;
         // console.log(cafe);
         setList([...list, cafe]);
+
       });
 
     console.log(list);
-  };
+    console.log("---------------");
 
-  useEffect(() => {
+    // 음료 추천 통신 api 사용
+
+    const getDrinks = async () => {
+      await recommendDrinks(
+        cafe,
+        dateString,
+        2,
+        (res) => {
+          console.log("=======!!!!!!!!!!!!!!=========");
+          console.log(res.data);
+          return res.data;
+        },
+        (err) => console.log(err)
+      ).then((data) => setDrinkList(data));
+    };
+
+    getDrinks();
+    console.log("drinkList"+drinkList);
+    const item = getRandomIndex(drinkList.length);
+    console.log(item);
+    setDrinkItem(item);
     setLoad(true);
-  },[]);
+    console.log(dateString);
+  };
 
   useEffect(() => {
 
@@ -71,11 +97,37 @@ function DrinkRecommendation(props) {
     }
 
     settingCafe();
+    console.log(list);
   }, [list]);
 
   useEffect(() => {
     console.log(cafe);
+    
+    const getDrinks = async () => {
+      await recommendDrinks(
+        cafe,
+        dateString,
+        2,
+        (res) => {
+          if(res.data !== undefined) {
+            console.log(res.data);
+            // setDrinkList(data);
+            // res.data.map((element,i) => drinkList.push(element));
+          }
+          return res.data
+        },
+        (err) => console.log(err)
+      ).then((data) => setDrinkList(data));
+    };
+
+    getDrinks();
+
+    
   }, [cafe]);
+
+  useEffect(() => {
+    console.log("===drinkList: "+drinkList);
+  },[drinkList]);
 
   return (
     <div>
@@ -88,7 +140,7 @@ function DrinkRecommendation(props) {
             textAlign: "center",
           }}
         >
-          <Button size="small" onClick={onChange}>
+          <Button width="150" size="small" onClick={onChange}>
             위치 업데이트
           </Button>
         </Grid>
@@ -113,7 +165,7 @@ function DrinkRecommendation(props) {
           <Grid item xs={4}>
           {drinkItem !== undefined &&
             <Button onClick={onChangeDrink}>
-              <img alt="menuImg" src={drinkItem.img} width="100%" />
+              <img alt="menuImg" src={drinkItem.img} style={{objectFit:"fill"}} width="100" />
             </Button>
             }
           </Grid>
