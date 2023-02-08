@@ -1,6 +1,6 @@
 import * as React from "react"
-import { useEffect, Fragment } from "react"
-import { useParams, Route, useLocation } from "react-router-dom"
+import { Fragment, useState } from "react"
+import { useLocation } from "react-router-dom"
 import { Grid, Card } from "@mui/material"
 import Typography from "@mui/joy/Typography"
 import TextField from "@mui/material/TextField"
@@ -16,8 +16,15 @@ const ReviewPage = (props) => {
   const location = useLocation()
   console.log(location)
   // 받아온 리뷰데이터 
-  const reviewData = JSON.stringify(location.state)
+  // const reviewData = JSON.stringify(location.state)
   console.log(location)
+
+  const [image, setImage] = useState()
+
+  const getImg = (image_file, preview_URL) => {
+    const newImage = { image_file, preview_URL }
+    setImage(newImage)
+  }
 
   return (
     <Fragment>
@@ -25,7 +32,7 @@ const ReviewPage = (props) => {
         Review 
       </Typography>
       <ModifyReviewInfo/>
-      <Card sx={{ marginTop: 2, height: 110 }}>
+      <Card sx={{ marginTop: 2, height: 110 }} >
         <TextField
           fullWidth
           id="standard-multiline-static"

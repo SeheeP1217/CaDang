@@ -1,4 +1,5 @@
 import * as React from "react";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
@@ -60,7 +61,7 @@ function ReviewListItem(props) {
               </Grid>
               <Grid>
                 <Grid justifyContent="space-between" alignItems="center">
-                  <Typography variant="subtitle1">{review.regDate}</Typography>
+                  <Typography variant="subtitle1">{dayjs(review.regDate).format("YY/MM/DD")}</Typography>
                   {/* <Link to={`/review/${review.id}`} state={review}> */}
                   <Link to={{ pathname: `/review/${review.id}`, state:{review} }}>
                   <IconButton
