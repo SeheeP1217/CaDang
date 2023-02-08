@@ -7,18 +7,47 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { userId, todayDate } from "../recoil/atom/user.jsx";
 import { recommendDrinks } from "../api/main";
 
-function DrinkRecommendation(props) {
+function DrinkRecommendation() {
   const [list, setList] = useState([]);
   const [cafe, setCafe] = useState([""]);
   const [load, setLoad] = useState(false);
   const container = [];
-  const [drinkItem, setDrinkItem] = useState(props.drink);
+  const [today, setToday] = useRecoilState(todayDate);
+  const [drinkItem, setDrinkItem] = useState({
+    drinkId: 0,
+    franchiseId: "",
+    drinkName: "",
+    img: "",
+    caffeine: 0,
+    sugar: 0,
+    cal: 0,
+    price: 0,
+    shot: null,
+    size: null,
+    vol: null,
+    whip: null,
+    storeName: "",
+  });
   console.log(drinkItem);
-  const [drinkList, setDrinkList] = useState(props.drinkList);
+  const [drinkList, setDrinkList] = useState({
+    drink: [
+      {
+        drinkId: 0,
+        franchiseId: "",
+        drinkName: "",
+        img: "",
+        caffeine: 0,
+        sugar: 0,
+        cal: 0,
+        price: 0,
+        storeName: "",
+      },
+    ],
+  });
   const dateString = useRecoilValue(todayDate);
   // const [loc, setLoc] = useState([]);
 
-  const getRandomIndex = function(length) {
+  const getRandomIndex = function (length) {
     const idx = parseInt(Math.random() * length);
     return drinkList[idx];
   };
@@ -51,7 +80,6 @@ function DrinkRecommendation(props) {
         const cafe = res.data.documents;
         // console.log(cafe);
         setList([...list, cafe]);
-
       });
 
     console.log(list);
@@ -74,7 +102,7 @@ function DrinkRecommendation(props) {
     };
 
     getDrinks();
-    console.log("drinkList"+drinkList);
+    console.log("drinkList" + drinkList);
     const item = getRandomIndex(drinkList.length);
     console.log(item);
     setDrinkItem(item);
@@ -83,7 +111,52 @@ function DrinkRecommendation(props) {
   };
 
   useEffect(() => {
+    // 1. 현재 날짜 세팅
+    setToday(dateString);
+    console.log(today);
 
+    axios
+      .get(
+        `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=CE7&page=1&size=15&sort=accuracy&x=127.03983097807087&y=37.50153289264357&radius=300`,
+        {
+          headers: { Authorization: `KakaoAK ${process.env.REACT_APP_REST_API_KEY}` },
+        }
+      )
+      .then((res) => {
+        const cafe = res.data.documents;
+        // console.log(cafe);
+        setList([...list, cafe]);
+      });
+
+    console.log(list);
+    console.log("---------------");
+
+    // 음료 추천 통신 api 사용
+
+    const getDrinks = async () => {
+      await recommendDrinks(
+        cafe,
+        dateString,
+        2,
+        (res) => {
+          console.log("=======!!!!!!!!!!!!!!=========");
+          console.log(res.data);
+          return res.data;
+        },
+        (err) => console.log(err)
+      ).then((data) => setDrinkList(data));
+    };
+
+    getDrinks();
+    console.log("drinkList" + drinkList);
+    const item = getRandomIndex(drinkList.length);
+    console.log(item);
+    setDrinkItem(item);
+    setLoad(true);
+    setToday(dateString);
+  }, []);
+
+  useEffect(() => {
     function settingCafe() {
       const temp = list[0];
 
@@ -102,32 +175,34 @@ function DrinkRecommendation(props) {
 
   useEffect(() => {
     console.log(cafe);
-    
+
     const getDrinks = async () => {
       await recommendDrinks(
         cafe,
         dateString,
         2,
         (res) => {
-          if(res.data !== undefined) {
+          if (res.data !== undefined) {
             console.log(res.data);
             // setDrinkList(data);
             // res.data.map((element,i) => drinkList.push(element));
           }
-          return res.data
+          return res.data;
         },
         (err) => console.log(err)
       ).then((data) => setDrinkList(data));
     };
 
     getDrinks();
-
-    
   }, [cafe]);
 
   useEffect(() => {
-    console.log("===drinkList: "+drinkList);
-  },[drinkList]);
+    console.log("===drinkList: " + drinkList);
+
+    const item = getRandomIndex(drinkList.length);
+    console.log(item);
+    setDrinkItem(item);
+  }, [drinkList]);
 
   return (
     <div>
@@ -153,37 +228,26 @@ function DrinkRecommendation(props) {
           }}
         >
           <Grid item>
-          {drinkItem !== undefined &&
-            <Typography>{drinkItem.storeName}</Typography>
-          }
+            {drinkItem !== undefined && <Typography>{drinkItem.storeName}</Typography>}
           </Grid>
           <Grid item>
-            {drinkItem !== undefined &&
-            <Typography>오늘은 {drinkItem.drinkName} 어떨까요?</Typography>
-            }
+            {drinkItem !== undefined && (
+              <Typography>오늘은 {drinkItem.drinkName} 어떨까요?</Typography>
+            )}
           </Grid>
           <Grid item xs={4}>
-          {drinkItem !== undefined &&
-            <Button onClick={onChangeDrink}>
-              <img alt="menuImg" src={drinkItem.img} style={{objectFit:"fill"}} width="100" />
-            </Button>
-            }
+            {drinkItem !== undefined && (
+              <Button onClick={onChangeDrink}>
+                <img alt="menuImg" src={drinkItem.img} style={{ objectFit: "fill" }} width="100" />
+              </Button>
+            )}
           </Grid>
           <Grid item xs={4}>
-          {drinkItem !== undefined &&
-            <Typography>{drinkItem.caffeine}mg</Typography>
-          }
-          {drinkItem !== undefined &&
-            <Typography>{drinkItem.sugar}g</Typography>
-          }
-          {drinkItem !== undefined &&
-            <Typography>{drinkItem.cal}Kcal</Typography>
-          }
-          {drinkItem !== undefined &&
-            <Typography>{drinkItem.price}원</Typography>
-          }
+            {drinkItem !== undefined && <Typography>{drinkItem.caffeine}mg</Typography>}
+            {drinkItem !== undefined && <Typography>{drinkItem.sugar}g</Typography>}
+            {drinkItem !== undefined && <Typography>{drinkItem.cal}Kcal</Typography>}
+            {drinkItem !== undefined && <Typography>{drinkItem.price}원</Typography>}
           </Grid>
-
         </Grid>
         <Grid
           container

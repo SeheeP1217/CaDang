@@ -1,45 +1,45 @@
-import { useEffect, useState } from "react"
-import { Button } from "@mui/material"
+import { useEffect, useState } from "react";
+import { Button } from "@mui/material";
 // import axios from "axios"
-import default_image from "../../assets/default_image.png"
-import styled from "styled-components"
+import default_image from "../../assets/default_image.png";
+import styled from "styled-components";
 
-const ImageUploader = ({getImg}) => {
+const ImageUploader = ({ getImg }) => {
   const [imagestatus, setImageStatus] = useState({
     image_file: "",
-    preview_URL: default_image
-  })
+    preview_URL: default_image,
+  });
 
-  let inputRef
+  let inputRef;
 
   const saveImage = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (e.target.files[0]) {
       // 새로운 이미지를 올리면 createObjectURL()을 통해 생성한 기존 URL을 폐기
-      URL.revokeObjectURL(imagestatus.preview_URL)
-      const preview_URL = URL.createObjectURL(e.target.files[0])
+      URL.revokeObjectURL(imagestatus.preview_URL);
+      const preview_URL = URL.createObjectURL(e.target.files[0]);
       setImageStatus(() => ({
         image_file: e.target.files[0],
         preview_URL: preview_URL,
-      }))
+      }));
     }
-  }
+  };
 
   const deleteImage = () => {
     // createObjectURL()을 통해 생성한 기존 URL을 폐기
-    URL.revokeObjectURL(imagestatus.preview_URL)
+    URL.revokeObjectURL(imagestatus.preview_URL);
     setImageStatus({
       image_file: "",
       preview_URL: default_image,
-    })
-  }
+    });
+  };
 
   useEffect(() => {
     // 컴포넌트가 언마운트되면 createObjectURL()을 통해 생성한 기존 URL을 폐기
     return () => {
-      URL.revokeObjectURL(imagestatus.preview_URL)
-    }
-  }, [])
+      URL.revokeObjectURL(imagestatus.preview_URL);
+    };
+  }, []);
 
   const sendImageToServer = async () => {
     if (imagestatus.image_file) {
@@ -47,16 +47,16 @@ const ImageUploader = ({getImg}) => {
       // formData.append("file", imagestatus.image_file)
       // await axios.post("/api/image/upload", formData)
       // console.log(imagestatus.image_file)
-      getImg(imagestatus.image_file, imagestatus.preview_URL)
-      alert("서버에 등록이 완료되었습니다!")
+      getImg(imagestatus.image_file, imagestatus.preview_URL);
+      alert("서버에 등록이 완료되었습니다!");
       // setImageStatus({
       //   image_file: "",
       //   preview_URL: default_image,
       // })
     } else {
-      alert("사진을 등록하세요!")
+      alert("사진을 등록하세요!");
     }
-  }
+  };
 
   return (
     <UploaderWrapper className="uploader-wrapper">
@@ -71,14 +71,11 @@ const ImageUploader = ({getImg}) => {
         style={{ display: "none" }}
       />
       <ImgWrapper className="img-wrapper">
-        <ImgSpace src={imagestatus.preview_URL} alt="img"/>
+        <ImgSpace src={imagestatus.preview_URL} alt="img" />
       </ImgWrapper>
 
       <div className="upload-button">
-        <SelectButton
-          variant="contained"
-          onClick={() => inputRef.click()}
-        >
+        <SelectButton variant="contained" onClick={() => inputRef.click()}>
           사진 선택하기
         </SelectButton>
         <DeleteButton color="error" variant="contained" onClick={deleteImage}>
@@ -89,31 +86,30 @@ const ImageUploader = ({getImg}) => {
         </SaveButton>
       </div>
     </UploaderWrapper>
-  )
-}
+  );
+};
 
 const UploaderWrapper = styled.div`
   margin-top: 20px;
   display: grid;
   grid-template-columns: 0.5fr 2fr 3fr 0.5fr;
   grid-gap: 30px;
-`
+`;
 const ImgWrapper = styled.div`
   width: 100px;
   grid-column: 2;
-`
+`;
 const ImgSpace = styled.img`
   width: 100%;
-`
+`;
 const SelectButton = styled.button`
   grid-column: 3;
-`
+`;
 const DeleteButton = styled.button`
   grid-column: 3;
-`
+`;
 const SaveButton = styled.button`
   grid-column: 3;
+`;
 
-`
-
-export default ImageUploader
+export default ImageUploader;
