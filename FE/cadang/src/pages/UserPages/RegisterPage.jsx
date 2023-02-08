@@ -190,7 +190,7 @@ const RegisterPage = () => {
     console.log(data)
     await axios
       .post("http://i8a808.p.ssafy.io:8080/user/email", {
-        params: { email: data },
+        params: { email: data }},{headers: {Authorization: ``}
       })
       .then(function (response) {
         console.log(response, "성공")
@@ -332,7 +332,7 @@ const RegisterPage = () => {
                   />
                 </Grid>
                 <FormHelperTexts>{passwordStateError}</FormHelperTexts>
-                <Grid item xs={9}>
+                <Grid item xs={8.5}>
                   <TextField
                     required
                     fullWidth
@@ -343,7 +343,7 @@ const RegisterPage = () => {
                     onChange={onChangeEmail}
                   />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={3.5}>
                   <Button
                     noValidate
                     type="click"
@@ -356,6 +356,29 @@ const RegisterPage = () => {
                   </Button>
                 </Grid>
                 <FormHelperTexts>{emailError}</FormHelperTexts>
+                {/* <Grid item xs={8.5}>
+                  <TextField
+                    required
+                    fullWidth
+                    type="emailkey"
+                    id="emailkey"
+                    name="email"
+                    label="인증번호"
+                    onChange={onChangeEmail}
+                  />
+                </Grid>
+                <Grid item xs={3.5}>
+                  <Button
+                    noValidate
+                    type="click"
+                    onClick={handleEmail}
+                    fullWidth
+                    variant="contained"
+                    size="medium"
+                  >
+                    확인
+                  </Button>
+                </Grid> */}
                 <Grid item xs={12}>
                   <TextField
                     required

@@ -10,8 +10,8 @@ import Typography from "@mui/material/Typography"
 function ItemFiltering(props) {
   // console.log(props)
   // console.log(">>>>>>>>>>>>", props.menus.drinkList[0])
-  const menuDatas = props.menus.drinkList[0]
-  console.log('>>>>>>>>>>props 받아오는 거>>>',menuDatas)
+  const menuDatas = props.menus.drinkList
+  console.log(">>>>>>>>>>props 받아오는 거>>>", menuDatas)
   // const props.menus
   // const rawData = props.data
   // const [data, setData] = useState([])
@@ -67,7 +67,7 @@ function ItemFiltering(props) {
             </NativeSelect>
           </FormControl>
         </Grid>
-        {menuDatas.map(menu => {
+        {menuDatas.map((menu) => {
           return (
             <Grid item>
               <Typography>
