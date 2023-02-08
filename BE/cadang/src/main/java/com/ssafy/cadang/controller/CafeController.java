@@ -53,6 +53,11 @@ public class CafeController {
     public ResponseEntity<List<DrinkResponseDto>> getRecommendDrinkList(@RequestBody DrinkRequestDto drinkRequestDto) {
 
         List<DrinkResponseDto> drinkResponseDtos = cafeService.findRecommendDrinksByStoreName(drinkRequestDto);
+
+        for (DrinkResponseDto drinkResponseDto: drinkResponseDtos){
+            System.out.println(drinkResponseDto.toString());
+        }
+
         return new ResponseEntity<List<DrinkResponseDto>>(drinkResponseDtos,HttpStatus.ACCEPTED) ;
     }
 
