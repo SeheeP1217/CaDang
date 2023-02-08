@@ -29,10 +29,11 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 
-//@EnableWebSecurity
+@EnableWebSecurity
 //@EnableMethodSecurity(prePostEnabled = true)
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
+
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     //    private final CorsFilter corsFilter;
@@ -52,7 +53,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 //
 //    }
 
-        public WebSecurityConfiguration(UserRepository userRepository,
+    public WebSecurityConfiguration(UserRepository userRepository,
                                     JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
                                     JwtAccessDeniedHandler jwtAccessDeniedHandler) {
 //        this.corsFilter = corsFilter;
@@ -102,7 +103,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-            http.csrf().disable();
+        http.csrf().disable();
         http
                 .cors().configurationSource(corsConfigurationSource()).and()
                 .exceptionHandling()
@@ -116,15 +117,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin().disable() // form 태그로 로그인을 하지 않는다
                 .httpBasic().disable() // basic 사용하지 않고 토큰을 사용하겠다.
                 .authorizeRequests()
-        .antMatchers("/")
-        .permitAll()
-                .antMatchers(HttpMethod.POST, "login").permitAll()
+                //.antMatchers("/")
+                //.permitAll()
+                .antMatchers(HttpMethod.POST,"login").permitAll()
+//                .antMatchers("/main").permitAll()
+                .antMatchers("/user/**")
+                .permitAll()
                 .antMatchers("/user2/**").hasRole("USER") // 유저 권한을 가진 클라이언트만 접근이 가능하다.
                 .antMatchers("/admin/**").hasRole("ADMIN") // 어드민 권한을 가진 클라이언트만 접근이 가능하다.
                 .anyRequest().permitAll()
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(), passwordEncoder(), userRepository)) // AuthenticationManager  // 로그인을 하면 클라이언트에게 토큰을 발급해주는 필터
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository));
+
 
         // 사용자가 요청을 보낼 때마다 토큰을 검증하는 필터
 
