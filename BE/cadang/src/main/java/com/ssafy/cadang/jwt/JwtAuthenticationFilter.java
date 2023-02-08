@@ -3,7 +3,11 @@ package com.ssafy.cadang.jwt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.cadang.auth.PrincipalDetails;
 import com.ssafy.cadang.domain.User;
-import com.ssafy.cadang.dto.LoginDto;
+
+import com.ssafy.cadang.dto.user.LoginDto;
+import com.ssafy.cadang.error.CustomException;
+import com.ssafy.cadang.error.ExceptionEnum;
+import com.ssafy.cadang.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -15,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -31,10 +36,19 @@ import java.util.stream.Collectors;
 // 스프링 시큐리티에서 UsernamePasswordAuthenticationFilter 가 있음.
 // /login 요청해서 id, pw 를 전송하면(post)
 // UsernamePasswordAuthenticationFilter 동작을 함
-@RequiredArgsConstructor
+
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private final AuthenticationManager authenticationManager;
+
+   private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+    private UserRepository userRepository;
+
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+    }
 
     private static final String AUTHORITIES_KEY = "auth";
     private Key key;
@@ -56,11 +70,21 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         System.out.println("로그인 시도");
         // 1. id, pw 를 받아서
         try {
-//            BufferedReader br = request.getReader();
-//
-//            String input = null;
+
             ObjectMapper om = new ObjectMapper();
             LoginDto loginDto = om.readValue(request.getInputStream(), LoginDto.class);
+
+
+            // 아이디 검사
+            if (!userRepository.existsByMemberId(loginDto.getMemberId())) {
+                throw new CustomException(ExceptionEnum.ID_OR_PW_NOT_FOUND);
+            }
+            User user = userRepository.findByMemberId(loginDto.getMemberId());
+            // 패스워드 검사
+            if (!passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
+                throw new CustomException(ExceptionEnum.ID_OR_PW_NOT_FOUND);
+            }
+
 
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(loginDto.getMemberId(), loginDto.getPassword());
@@ -109,7 +133,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         long now = (new Date()).getTime();
         Date validity = new Date(now + JwtProperties.EXPIRATION_TIME);
-        System.out.println(validity);
+        System.out.println("발급날짜: " + new Date(now));
+        System.out.println("만료날짜: " + validity);
 
         // RSA 방식은 아니고 Hash 암호방식
         // claim을 통해 넣고 싶은 정보들을 집어넣는다.
@@ -122,6 +147,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String jwtToken = Jwts.builder()
                 .setSubject(principalDetails.getUsername())
                 .claim("id",principalDetails.getUser().getId())
+                .claim(AUTHORITIES_KEY,authorities)
                 .signWith(this.key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
                 .compact();
@@ -131,7 +157,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         response.addHeader("Authorization", "Bearer " + jwtToken);
         System.out.println("토큰 발급 성공");
-
 
     }
 }

@@ -34,7 +34,7 @@ public class RecordService {
     private final UserRepository userRepository;
     private final DrinkRepository drinkRepository;
     private static OrderStatus[] recordStatus = {OrderStatus.RECORD, OrderStatus.PICKUP};
-
+    private final DataService dataService;
     @Value("${EC2_FILE_PATH}")
     private String RecordUploadPath;
 
@@ -74,37 +74,35 @@ public class RecordService {
                 .storeName(recordDto.getStoreName())
                 .orderStatus(OrderStatus.RECORD)
                 .build();
+        dataService.updateData(record);
         Order saveRecord = recordReposiotry.save(record);
         return saveRecord.getId();
     }
 
 
-//    public MyPageRecordListDto getOrderBySlice(Long lastUpdateId, Long userId, int size) {
-//        PageRequest pageRequest = PageRequest.of(0, size);
-//        Order lastRecord = recordReposiotry.findById(lastUpdateId).orElseThrow(() -> new NoSuchElementException());
-//
-//        Slice<Order> orders = recordReposiotry.findByIdLessThanAndUserIdAndOrderStatusIn(lastRecord.getRegDate(), userId, recordStatus, pageRequest);
-//        List<MyPageRecordDto> recordDtos = toMyPageRecordDtos(orders);
-//        return MyPageRecordListDto.builder()
-//                .recordList(recordDtos)
-//                .hasNext(orders.hasNext())
-//                .build();
-//    }
+//    public RecordDetailDto getOrderByRecordId(Long userId, Long recordId) {
+        public RecordDetailDto getOrderByRecordId(Long recordId) {
+        Order order = recordReposiotry.findById(recordId)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.RECORD_NOT_FOUND));
+//        if (!Objects.equals(order.getUser().getId(), userId)) {
+//            throw new CustomException(ExceptionEnum.USER_NOT_SAME);
+//        }
+        String image = order.getDrink().getImage();
 
-    public RecordDetailDto getOrderByRecordId(Long recordId) {
-        Optional<Order> order = recordReposiotry.findById(recordId);
-        if (order.isEmpty())
-            throw new CustomException(ExceptionEnum.RECORD_NOT_FOUND);
-        return toRecordDetailDto(order.get());
+
+        return toRecordDetailDto(order, image);
 
     }
 
     @Transactional
-    public Long deleteOrderById(Long recordId) {
-        Optional<Order> order = recordReposiotry.findById(recordId);
-        if (order.isEmpty())
-            throw new CustomException(ExceptionEnum.RECORD_NOT_FOUND);
-        recordReposiotry.delete(order.get());
+//    public Long deleteOrderById(Long userId, Long recordId) {
+        public Long deleteOrderById( Long recordId) {
+        Order findRecord = recordReposiotry.findById(recordId)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.RECORD_NOT_FOUND));
+//        if (!Objects.equals(findRecord.getUser().getId(), userId)) {
+//            throw new CustomException(ExceptionEnum.USER_NOT_SAME);
+//        }
+        recordReposiotry.delete(findRecord);
         return recordId;
     }
 
@@ -119,6 +117,8 @@ public class RecordService {
             keyword = "%" + keyword + "%";
             orders = recordReposiotry.findBySearchKeyword(userId, keyword, recordStatus, pageRequest);
         }
+        //
+
         List<MyPageRecordDto> recordDtos = toMyPageRecordDtos(orders);
         return MyPageRecordListDto.builder()
                 .recordList(recordDtos)
@@ -130,28 +130,32 @@ public class RecordService {
     }
 
     @Transactional
-    public Long updateRecord(RecordUpdateDto updateDto) throws IOException {
+//    public Long updateRecord(Long userId, RecordUpdateDto updateDto) throws IOException {
+        public Long updateRecord(RecordUpdateDto updateDto) throws IOException {
         Order findRecord = recordReposiotry.findById(updateDto.getId())
                 .orElseThrow(() -> new CustomException(ExceptionEnum.RECORD_NOT_FOUND));
+//        if (!Objects.equals(findRecord.getUser().getId(), userId)) {
+//            throw new CustomException(ExceptionEnum.USER_NOT_SAME);
+//        }
         if (findRecord.getOrderStatus() == OrderStatus.PICKUP && updateDto.getRegDate() != null) {
             throw new CustomException(ExceptionEnum.RECORD_NOT_ALLOWED_MODIFY);
         }
-        if (updateDto.getRegDate() != null) {
-            LocalDateTime localDateTime = LocalDateTime.parse(updateDto.getRegDate());
-            findRecord.setRegDate(localDateTime);
-        }
-        if (updateDto.getMemo() != null)
-            findRecord.setMemo(updateDto.getMemo());
-        if (updateDto.getIsPublic() != null)
-            findRecord.setPublic(updateDto.getIsPublic());
 
+        LocalDateTime localDateTime = LocalDateTime.parse(updateDto.getRegDate());
+        findRecord.setRegDate(localDateTime);
 
         // 파일 업로드
         // TODO 날짜 형식 프론트와 통일하기
-        String imgUrl = uploadImage(updateDto.getImage(), updateDto.getRegDate());
-        if (imgUrl != null) {
+        findRecord.setMemo(updateDto.getMemo());
+        findRecord.setPublic(updateDto.getIsPublic());
+        if (updateDto.getIsModified() == 1) {
+            String imgUrl = uploadImage(updateDto.getImage(), updateDto.getRegDate());
+            findRecord.setPhoto(imgUrl);
+        } else if (updateDto.getIsModified() == 2) {
+            String imgUrl = findRecord.getDrink().getImage();
             findRecord.setPhoto(imgUrl);
         }
+
 
         return findRecord.getId();
 
@@ -182,12 +186,15 @@ public class RecordService {
                 .collect(Collectors.toList());
     }
 
-    private RecordDetailDto toRecordDetailDto(Order order) {
+    private RecordDetailDto toRecordDetailDto(Order order, String defaultUrl) {
         return RecordDetailDto.builder()
                 .id(order.getId())
                 .photo(order.getPhoto())
                 .drinkName(order.getDrink().getDrinkName())
-                .isPublic(order.isPublic())
+                .caffeine(order.getCaffeine())
+                .sugar(order.getSugar())
+                .price(order.getPrice())
+                .cal(order.getCal())
                 .regDate(order.getRegDate())
                 .memo(order.getMemo())
                 .size(order.getDrink().getSize())
@@ -199,18 +206,19 @@ public class RecordService {
                 .caramel(order.getCaramel())
                 .hazelnut(order.getHazelnut())
                 .orderStatus(order.getOrderStatus())
+                .defaultUrl(defaultUrl)
                 .build();
     }
 
 
     private String uploadImage(MultipartFile image, String regDate) throws IOException {
-        if (!image.isEmpty()) {
+        if (image != null) {
             MultipartFile file = image;
             String uuid = UUID.randomUUID().toString();
             String originalFilename = file.getOriginalFilename();
             String fullPath = RecordUploadPath + regDate + "/" + uuid + "_" + originalFilename;
             file.transferTo(new File(fullPath));
-            return fullPath;
+            return regDate + "/" + uuid + "_" + originalFilename;
         }
         return null;
     }

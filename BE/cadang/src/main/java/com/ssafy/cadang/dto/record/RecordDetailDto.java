@@ -14,7 +14,10 @@ public class RecordDetailDto {
     private Long id;
     private String photo;
     private String drinkName;
-    private boolean isPublic;
+    private int caffeine;
+    private int sugar;
+    private int cal;
+    private int price;
     private LocalDateTime regDate;
     private String memo;
     private String size;
@@ -26,5 +29,6 @@ public class RecordDetailDto {
     private Integer caramel;
     private Integer hazelnut;
     private OrderStatus orderStatus;
+    private String defaultUrl;
 
 }

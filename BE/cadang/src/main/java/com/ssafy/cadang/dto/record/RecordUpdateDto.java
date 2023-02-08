@@ -19,6 +19,7 @@ public class RecordUpdateDto {
     private Boolean isPublic;
     private String memo;
     private MultipartFile image;
+    private int isModified;
 
     public RecordUpdateDto() {
     }
