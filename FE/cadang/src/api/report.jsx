@@ -10,7 +10,9 @@ const api = axios.create({
   },
 })
 
-// camelCase로 함수 선언, ()
+// camelCase로 함수 선언
+
+//리뷰 리스트 조회
 async function userReview(userId, pageIndex, success, fail) {
   const res = await api
     .get(`/record`, { params: { userId: userId, page: pageIndex, size: 10 } })
@@ -19,6 +21,7 @@ async function userReview(userId, pageIndex, success, fail) {
   return res
 }
 
+//리뷰별 디테일 조회
 async function userReviewDetail(reviewId, success, fail) {
   const res = await api
     .get(`/record/${reviewId}`, { params: { recordId: reviewId } })
@@ -27,4 +30,22 @@ async function userReviewDetail(reviewId, success, fail) {
   return res
 }
 
-export { userReview, userReviewDetail, }
+//리뷰별 디테일 조회
+async function modifyReviewDetail(modifyData, success, fail) {
+  const res = await api
+    .put(`/record/`, modifyData)
+    .then(success)
+    .catch(fail)
+  return res
+}
+
+//리뷰 삭제
+async function deleteReview(reviewId, success, fail) {
+  const res = await api
+    .delete(`/record/${reviewId}`)
+    .then(success)
+    .catch(fail)
+  return res
+}
+
+export { userReview, userReviewDetail, modifyReviewDetail, deleteReview, }
