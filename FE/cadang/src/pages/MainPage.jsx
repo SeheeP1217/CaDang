@@ -237,7 +237,7 @@ export default function MainPage() {
       </Box>
       { drink !== undefined &&
       <Box sx={{ mt: 1 }}>
-        <DrinkRecommendation drink={drink} />
+        <DrinkRecommendation drink={drink} drinkList={drinkList} />
       </Box>
 }
     </Box>

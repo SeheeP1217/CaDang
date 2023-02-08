@@ -9,12 +9,21 @@ function DrinkRecommendation(props) {
   const [cafe, setCafe] = useState([""]);
   const [load, setLoad] = useState(false);
   const container = [];
-  const drinkItem = props.drink;
+  const [drinkItem, setDrinkItem] = useState(props.drink);
   console.log(drinkItem);
+  const drinkList = props.drinkList;
   // const [loc, setLoc] = useState([]);
 
   const getRandomIndex = function(length) {
-    return parseInt(Math.random() * length)
+    const idx = parseInt(Math.random() * length);
+    return drinkList[idx];
+  };
+
+  const onChangeDrink = (event) => {
+    console.log("음료 새로 추천 !!!!!!!!!");
+    const item = getRandomIndex(drinkList.length);
+    console.log(item);
+    setDrinkItem(item);
   };
 
   const onChange = (event) => {
@@ -92,23 +101,37 @@ function DrinkRecommendation(props) {
           }}
         >
           <Grid item>
+          {drinkItem !== undefined &&
             <Typography>{drinkItem.storeName}</Typography>
+          }
           </Grid>
           <Grid item>
+            {drinkItem !== undefined &&
             <Typography>오늘은 {drinkItem.drinkName} 어떨까요?</Typography>
+            }
           </Grid>
-
           <Grid item xs={4}>
-            <Button>
+          {drinkItem !== undefined &&
+            <Button onClick={onChangeDrink}>
               <img alt="menuImg" src={drinkItem.img} width="100%" />
             </Button>
+            }
           </Grid>
           <Grid item xs={4}>
+          {drinkItem !== undefined &&
             <Typography>{drinkItem.caffeine}mg</Typography>
+          }
+          {drinkItem !== undefined &&
             <Typography>{drinkItem.sugar}g</Typography>
+          }
+          {drinkItem !== undefined &&
             <Typography>{drinkItem.cal}Kcal</Typography>
+          }
+          {drinkItem !== undefined &&
             <Typography>{drinkItem.price}원</Typography>
+          }
           </Grid>
+
         </Grid>
         <Grid
           container
