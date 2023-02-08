@@ -79,7 +79,7 @@ public class OrderController {
         return new ResponseEntity<List<CustomerOrderDto>>(CustomerOrderDtoList, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/store-list/{storeId}")
+    @GetMapping("/store-list")
     @Operation(summary = "주문 내역 조회(가게)", description = "가게의 진행 중인 주문 내역을 조회합니다.")
     public ResponseEntity<List<StoreOrderDto>> getStoreOrderList(HttpServletRequest request){
 
@@ -95,7 +95,7 @@ public class OrderController {
         return new ResponseEntity<List<StoreOrderDto>>(StoreOrderDtoList, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/store-new/{storeId}")
+    @GetMapping("/store-new")
     @Operation(summary = "신규 주문 조회(가게)", description = "가게의 주문 내역 중 상태가 REQUEST인 신규 주문을 조회합니다.")
     public ResponseEntity<List<StoreOrderDto>> getStoreNewOrderList(HttpServletRequest request){
 
