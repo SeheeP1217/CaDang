@@ -1,17 +1,26 @@
 import axios from "axios"
 
+const token = localStorage.getItem("token")
+
 const api = axios.create({
   baseURL: "http://i8a808.p.ssafy.io:8080",
   headers: {
-    
+    Authorization: `Token ${token}`,
     "Content-Type": "application/json",
   },
 })
 
 // camelCase로 함수 선언, ()
-async function recommendDrinks(storeNames,date,userId,success, fail) {
-  const res = await api.post(`/cafe/recommend`, {storeNames: storeNames, date: date, userId: userId}).then(success).catch(fail)
+async function recommendDrinks(storeNames, date, userId, success, fail) {
+  const res = await api
+    .post(`/cafe/recommend`, {
+      storeNames: storeNames,
+      date: date,
+      userId: userId,
+    })
+    .then(success)
+    .catch(fail)
   return res
 }
 
-export { recommendDrinks, }
+export { recommendDrinks }
