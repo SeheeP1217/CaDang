@@ -30,7 +30,7 @@ public class EmailServiceImpl implements EmailService{
 
 //    public static final String ePw = createKey();
 
-    private void sendCodeMessage(String email, String authKey) throws Exception{
+    private void sendSignupCodeMessage(String email, String authKey) throws Exception{
 
         // 이전에 전송을 눌러서 키가 남아있는 경우
         // 이전 키를 삭제해준다.
@@ -62,6 +62,38 @@ public class EmailServiceImpl implements EmailService{
 
     }
 
+    private void sendChangePassCodeMessage(String email, String authKey) throws Exception{
+
+        // 이전에 전송을 눌러서 키가 남아있는 경우
+        // 이전 키를 삭제해준다.
+        if (redisUtil.getData(email) != null) {
+            redisUtil.deleteData(email);
+        }
+
+        String title = "카당 비밀번호 변경을 위한 인증번호가 발송되었습니다.";
+        String text = "비밀번호 변경을 위한 인증번호는 " + authKey + " 입니다. <br/>";
+        System.out.println(email + " " + authKey);
+        try {
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
+            helper.setTo(email); // 보내는 대상
+            helper.setSubject(title); // 제목
+            helper.setText(text, true); // 내용
+            helper.setFrom(new InternetAddress("drinkornot808@gmail.com","admin")); // 보내는 사람
+            // 유효시간(5분) 동안 {email,authKey} 저장
+            // key: 이메일, value: 인증번호
+            // 5L: 만료시간 5분
+            redisUtil.setDataExpire(email, authKey, 60 * 5L);
+            javaMailSender.send(mimeMessage);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
+
 
     public static String createKey(){
         Random random = new Random();
@@ -71,11 +103,16 @@ public class EmailServiceImpl implements EmailService{
     }
 
     @Override
-    public void sendMessage(String to) throws Exception {
+    public void sendSignupMessage(String to) throws Exception {
         // 수신자이메일과 키를 같이 보낸다.
         // 동시에 redis에 키,데이터가 저장이된다
-        sendCodeMessage(to,createKey());
+        sendSignupCodeMessage(to,createKey());
 
+    }
+
+    @Override
+    public void sendChangePassMessage(String to) throws Exception {
+        sendChangePassCodeMessage(to, createKey());
     }
 
     public Boolean verifyEmail(String email, String input){
