@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
     // @EntityGraph은 쿼리가 수행이 될때 Lazy 조회가 아니고 Eager
     // 조회로 authorities 정보를 같이 가져오게 된다.
@@ -24,13 +24,18 @@ public interface UserRepository extends JpaRepository<User,Long> {
     Optional<User> findOneWithAuthoritiesByMemberId(String memberId);
 
     boolean existsByMemberId(String memberId);
+
     boolean existsByEmail(String email);
 
-    boolean existsUserByMemberIdAndEmail(String memberId, String email);
+    boolean existsByUserNameAndEmail(String username, String email);
 
-    public User findByMemberId(String memberId);
+    boolean existsByMemberIdAndEmail(String memberId, String email);
 
-    public User findByMemberIdAndEmail(String memeberId, String email);
+    User findByMemberId(String memberId);
+
+    Optional<User> findByUserNameAndEmail(String username, String email);
+    Optional<User> findByEmail(String Email);
+
 
 
 
