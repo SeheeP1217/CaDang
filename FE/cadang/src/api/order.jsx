@@ -36,6 +36,7 @@ async function cafeDrinkList(userId, date, storeName, success, fail) {
     })
     .then(success)
     .catch(fail)
+  return res
 }
 
 export { cafeDrinkData, cafeDrinkList }

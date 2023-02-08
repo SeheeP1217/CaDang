@@ -48,7 +48,7 @@ function SelectMenuPage() {
       ).then((data) => setMenu(data))
     }
     getMenus()
-    // console.log(menu)
+    console.log('//////////////////',menu)
   })
 
   return (
