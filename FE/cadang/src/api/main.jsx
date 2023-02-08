@@ -5,7 +5,7 @@ const token = localStorage.getItem("token")
 const api = axios.create({
   baseURL: "http://i8a808.p.ssafy.io:8080",
   headers: {
-    Authorization: `Token ${token}`,
+    Authorization: "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjoxOSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NTg0NTUyOH0.XWZ70Gf5gAjVZahqh4FnLzhVnXBUFrpI3FDAG6gNRChyk3v4Oshkw_jtwJWi-bDSooMvavz7YFl3wiJEvwlG5w",
     "Content-Type": "application/json",
   },
 })
