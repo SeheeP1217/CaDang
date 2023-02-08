@@ -86,8 +86,10 @@ public class RecordService {
         if (!Objects.equals(order.getUser().getId(), userId)) {
             throw new CustomException(ExceptionEnum.USER_NOT_SAME);
         }
+        String image = order.getDrink().getImage();
 
-        return toRecordDetailDto(order);
+
+        return toRecordDetailDto(order, image);
 
     }
 
@@ -135,22 +137,22 @@ public class RecordService {
         if (findRecord.getOrderStatus() == OrderStatus.PICKUP && updateDto.getRegDate() != null) {
             throw new CustomException(ExceptionEnum.RECORD_NOT_ALLOWED_MODIFY);
         }
-        if (updateDto.getRegDate() != null) {
-            LocalDateTime localDateTime = LocalDateTime.parse(updateDto.getRegDate());
-            findRecord.setRegDate(localDateTime);
-        }
-        if (updateDto.getMemo() != null)
-            findRecord.setMemo(updateDto.getMemo());
-        if (updateDto.getIsPublic() != null)
-            findRecord.setPublic(updateDto.getIsPublic());
 
+        LocalDateTime localDateTime = LocalDateTime.parse(updateDto.getRegDate());
+        findRecord.setRegDate(localDateTime);
 
         // 파일 업로드
         // TODO 날짜 형식 프론트와 통일하기
-        String imgUrl = uploadImage(updateDto.getImage(), updateDto.getRegDate());
-        if (imgUrl != null) {
+        findRecord.setMemo(updateDto.getMemo());
+        findRecord.setPublic(updateDto.getIsPublic());
+        if (updateDto.getIsModified() == 1) {
+            String imgUrl = uploadImage(updateDto.getImage(), updateDto.getRegDate());
+            findRecord.setPhoto(imgUrl);
+        } else if (updateDto.getIsModified() == 2) {
+            String imgUrl = findRecord.getDrink().getImage();
             findRecord.setPhoto(imgUrl);
         }
+
 
         return findRecord.getId();
 
@@ -181,12 +183,15 @@ public class RecordService {
                 .collect(Collectors.toList());
     }
 
-    private RecordDetailDto toRecordDetailDto(Order order) {
+    private RecordDetailDto toRecordDetailDto(Order order, String defaultUrl) {
         return RecordDetailDto.builder()
                 .id(order.getId())
                 .photo(order.getPhoto())
                 .drinkName(order.getDrink().getDrinkName())
-                .isPublic(order.isPublic())
+                .caffeine(order.getCaffeine())
+                .sugar(order.getSugar())
+                .price(order.getPrice())
+                .cal(order.getCal())
                 .regDate(order.getRegDate())
                 .memo(order.getMemo())
                 .size(order.getDrink().getSize())
@@ -198,6 +203,7 @@ public class RecordService {
                 .caramel(order.getCaramel())
                 .hazelnut(order.getHazelnut())
                 .orderStatus(order.getOrderStatus())
+                .defaultUrl(defaultUrl)
                 .build();
     }
 
