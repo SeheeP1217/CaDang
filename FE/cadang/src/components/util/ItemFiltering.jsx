@@ -1,15 +1,22 @@
-import React, { useState, useEffect } from "react";
-import MenuListItem from "./MenuListItem";
-import Switch from "@mui/material/Switch";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import NativeSelect from "@mui/material/NativeSelect";
-import { Paper, Grid, Divider, Card, List } from "@mui/material";
+import React, { useState, useEffect } from "react"
+import MenuListItem from "./MenuListItem"
+import Switch from "@mui/material/Switch"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import FormControl from "@mui/material/FormControl"
+import NativeSelect from "@mui/material/NativeSelect"
+import { Paper, Grid, Divider, Card, List } from "@mui/material"
+import Typography from "@mui/material/Typography"
 
 function ItemFiltering(props) {
-  const rawData = props.data; 
-  const [data, setData] = useState([]);
-  const [sortType, setSortType] = useState("caffeine");
+  // console.log(props)
+  // console.log(">>>>>>>>>>>>", props.menus.drinkList[0])
+  const menuDatas = props.menus.drinkList[0]
+  console.log('>>>>>>>>>>props 받아오는 거>>>',menuDatas)
+  // const props.menus
+  const rawData = props.data
+  // const [data, setData] = useState([])
+  const [menu, setMenu] = useState([])
+  const [sortType, setSortType] = useState("caffeine")
 
   useEffect(() => {
     const sortArray = (type) => {
@@ -18,17 +25,17 @@ function ItemFiltering(props) {
         sugar: "sugar",
         cal: "cal",
         price: "price",
-      };
-      const sortProperty = types[type];
-      const sorted = [...rawData].sort(
+      }
+      const sortProperty = types[type]
+      const sorted = [...menuDatas].sort(
         (a, b) => a[sortProperty] - b[sortProperty]
-      );
-      console.log(sorted);
-      setData(sorted);
-    };
+      )
+      // console.log(sorted)
+      setMenu(sorted)
+    }
 
-    sortArray(sortType);
-  }, [sortType]);
+    sortArray(sortType)
+  }, [sortType])
 
   return (
     <Card>
@@ -42,8 +49,8 @@ function ItemFiltering(props) {
           <FormControlLabel
             control={<Switch defaultChecked />}
             label="되는 음료만 보기"
-            labelPlacement='end'
-            margin='0'
+            labelPlacement="end"
+            margin="0"
           />
 
           <FormControl size="small" sx={{ paddingTop: 1 }}>
@@ -60,16 +67,28 @@ function ItemFiltering(props) {
             </NativeSelect>
           </FormControl>
         </Grid>
-        <Grid item>
-          <MenuListItem data={data} />
-          <MenuListItem data={data} />
-          <MenuListItem data={data} />
-          <MenuListItem data={data} />
-          <MenuListItem data={data} />
-        </Grid>
+        {menuDatas.map(menu => {
+          return (
+            <Grid item>
+              <Typography>
+                {menu.name}
+                {menu.caffeine}
+                {menu.sugar}
+                {menu.cal}
+                {menu.price}
+              </Typography>
+              {/* 
+              <MenuListItem data={data} />
+              <MenuListItem data={data} />
+              <MenuListItem data={data} />
+              <MenuListItem data={data} />
+              <MenuListItem data={data} /> */}
+            </Grid>
+          )
+        })}
       </Grid>
     </Card>
-  );
+  )
 }
 
 const menuData = [
@@ -90,6 +109,6 @@ const menuData = [
     cal: 100,
     price: 4500,
   },
-];
+]
 
-export default ItemFiltering;
+export default ItemFiltering
