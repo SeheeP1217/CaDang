@@ -19,7 +19,11 @@ public enum ExceptionEnum {
     PASSWORD_NOT_VALID(HttpStatus.BAD_REQUEST, "USER-008", "비밀번호 형식이 유효하지 않습니다."),
     MAIL_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "USER-009", "사용중인 이메일입니다."),
 
-    USER_NOT_SAME(HttpStatus.BAD_REQUEST, "USER-010", "사용자 정보가 일치하지 않습니다."),
+    PASSWORD_INCORRECT(HttpStatus.BAD_REQUEST, "USER-010", "비밀번호가 틀렸습니다"),
+
+    NEWPASSWORD_DIFFERENT(HttpStatus.BAD_REQUEST, "USER-011", "새 비밀번호를 다시 확인해주세요"),
+
+    USER_NOT_SAME(HttpStatus.BAD_REQUEST, "USER-012", "사용자 정보가 일치하지 않습니다."),
     // Data
     DATA_NOT_FOUND(HttpStatus.NOT_FOUND, "DATA-001", "데이터를 찾을 수 없습니다."),
 

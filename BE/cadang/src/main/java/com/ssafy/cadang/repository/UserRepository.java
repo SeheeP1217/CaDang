@@ -3,14 +3,10 @@ package com.ssafy.cadang.repository;
 
 import com.ssafy.cadang.domain.User;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -32,6 +28,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByMemberIdAndEmail(String memberId, String email);
 
     User findByMemberId(String memberId);
+
+    Optional<User> findById(Long id);
 
     Optional<User> findByUserNameAndEmail(String username, String email);
     Optional<User> findByEmail(String Email);
