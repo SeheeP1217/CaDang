@@ -3,7 +3,12 @@ import { useEffect, useState } from "react"
 // import axios from "axios"
 import styled from "styled-components"
 
-const ImageModifier = ({getImg, changeImg, deleteImg, beforeModifyImage}) => {
+const ImageModifier = (props) => {
+  const getImg = props.getImg
+  const changeImg = props.changeImg
+  const deleteImg = props.deleteImg
+  const beforeModifyImage = props.beforeModifyImage
+
   const [imagestatus, setImageStatus] = useState({
     image_file: "",
     preview_URL: beforeModifyImage
