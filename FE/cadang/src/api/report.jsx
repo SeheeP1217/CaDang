@@ -5,7 +5,7 @@ const token = localStorage.getItem("token")
 const api = axios.create({
   baseURL: "http://i8a808.p.ssafy.io:8080",
   headers: {
-    Authorization: "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjoxOSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NTg0Njc3N30.dDqU2_55_N-XNPy4e199ufyR48qsJNat1YTpu_nSPhkKK_jXsRYr5l_dC2b938AOhXSSrICvA-lfGrLpMtw6IA",
+    Authorization: "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjoxOSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NTk0NDgxMn0.0wKt87MoJnFpoIuwQZeBnj8e1v3LOGpBDEY2duER05ruO-G_D-Ub3TmKGiD0QkS7O1jJBaXzYHYmfF3ceb6ANg",
     "Content-Type": "application/json",
   },
 })
@@ -19,4 +19,12 @@ async function userReview(userId, pageIndex, success, fail) {
   return res
 }
 
-export { userReview }
+async function userReviewDetail(reviewId, success, fail) {
+  const res = await api
+    .get(`/record/${reviewId}`, { params: { recordId: reviewId } })
+    .then(success)
+    .catch(fail)
+  return res
+}
+
+export { userReview, userReviewDetail, }

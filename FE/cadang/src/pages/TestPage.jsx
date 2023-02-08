@@ -1,9 +1,11 @@
-import DatePickerComponent from "../components/DatePickerComponent";
+import OptionButtonGroup from "../components/util/OptionButtonGroup";
+import OptionCountGroup from "../components/util/OptionCountGroup copy";
 
 function TestPage() {
   return (
     <div>
-      <DatePickerComponent />
+      <OptionButtonGroup />
+      <OptionCountGroup />
     </div>
       
   )

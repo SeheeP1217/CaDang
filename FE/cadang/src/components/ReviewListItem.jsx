@@ -47,12 +47,12 @@ function ReviewListItem(props) {
             <Grid item xs={10} sm container margin="auto">
               <Grid item xs container spacing={2}>
                 <Grid item xs>
-                  <Typography gutterBottom variant="subtitle1" component="div">
+                  <Typography variant="subtitle1" component="div">
                     {review.drinkName}
                   </Typography>
-                  <Typography variant="body2" gutterBottom>
-                    {review.caffeine} / {review.sugar} / {review.cal} /{" "}
-                    {review.price}
+                  <Typography variant="body2">
+                    {review.caffeine} / {review.sugar} / {review.cal} /
+                    {review.price} 
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     {review.memo}
@@ -62,7 +62,7 @@ function ReviewListItem(props) {
               <Grid>
                 <Grid justifyContent="space-between" alignItems="center">
                   <Typography variant="subtitle1">{dayjs(review.regDate).format("YY/MM/DD")}</Typography>
-                  {/* <Link to={`/review/${review.id}`} state={review}> */}
+                  {/* <Link to={{ pathname: `/review/${review.id}`, state:{review} }}> */}
                   <Link to={{ pathname: `/review/${review.id}`, state:{review} }}>
                   <IconButton
                     // component={Link}

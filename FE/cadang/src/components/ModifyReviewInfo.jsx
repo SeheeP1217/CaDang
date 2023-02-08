@@ -1,41 +1,46 @@
 import * as React from "react";
 import { useState } from "react"
-import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { Card } from "@mui/material";
 import Badge from "@mui/material/Badge";
-import { useLocation } from "react-router-dom"
+// import { useLocation } from "react-router-dom"
 import DatePickerComponent from "./DatePickerComponent";
 
-import drink from "../assets/drink.png";
 import ImageModifier from "./util/ImageModifier";
 
-const Img = styled("img")({
-  margin: "15",
-  display: "block",
-  width: "75%",
-});
 
-function ModifyReviewInfo() {
-  const location = useLocation()
-  console.log(location)
-
-  const [image, setImage] = useState(location.state.review.image)
+function ModifyReviewInfo(props) {
+  // const location = useLocation()
+  // console.log(location)
+  console.log(props.data)
+  const detail = props.data
+  const [image, setImage] = useState(detail.photo)
+  const [isModified, setIsModified] = useState(0)
 
   const getImg = (image_file, preview_URL) => {
     const newImage = { image_file, preview_URL }
     setImage(newImage)
   }
 
-  if (location.state.review !== undefined) {
-    const review = location.state.review
+  const changeImg = () => {
+    setIsModified(1)
+    console.log(isModified)
+  }
+  
+  const deleteImg = () => {
+    setIsModified(2)
+    console.log(isModified)
+  }
+
+  // if (location.state.review !== undefined) {
+  //   const review = location.state.review
 
 
     return (
       <Card>
         <Grid container sx={{display: 'flex'}}>
-          <Grid item margin="auto">z
+          <Grid item margin="auto">
             {/* <Badge
               badgeContent="변경"
               color="primary"
@@ -44,7 +49,7 @@ function ModifyReviewInfo() {
                 horizontal: "right",
               }}
             > */}
-              <ImageModifier getImg={getImg} beforeModifyImage={review.image}>
+              <ImageModifier getImg={getImg} changeImg={changeImg} deleteImg={deleteImg} beforeModifyImage={image}>
               </ImageModifier>
               {/* <Img
                 alt="no Image"
@@ -56,13 +61,13 @@ function ModifyReviewInfo() {
           <Grid item margin="auto">
             <Grid item xs>
               <Typography variant="subtitle1" component="div">
-                {review.storeName}
+                {detail.storeName}
               </Typography>
               <Typography variant="subtitle1" component="div">
-                {review.drinkName}
+                {detail.drinkName}
               </Typography>
               <Typography variant="body2">
-                {review.caffeine}mg / {review.sugar}g / {review.cal}Kcal / {review.price}원
+                {detail.caffeine}mg / {detail.sugar}g / {detail.cal}Kcal / {detail.price}원
               </Typography>
               <DatePickerComponent/>
             </Grid>
@@ -72,6 +77,6 @@ function ModifyReviewInfo() {
       </Card>
     );
   }
-}
+// }
 
 export default ModifyReviewInfo;

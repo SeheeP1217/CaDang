@@ -1,9 +1,9 @@
+import { margin, width } from "@mui/system"
 import { useEffect, useState } from "react"
 // import axios from "axios"
-import default_image from "../../assets/default_image.png"
 import styled from "styled-components"
 
-const ImageModifier = ({getImg, beforeModifyImage}) => {
+const ImageModifier = ({getImg, changeImg, deleteImg, beforeModifyImage}) => {
   const [imagestatus, setImageStatus] = useState({
     image_file: "",
     preview_URL: beforeModifyImage
@@ -29,8 +29,9 @@ const ImageModifier = ({getImg, beforeModifyImage}) => {
     URL.revokeObjectURL(imagestatus.preview_URL)
     setImageStatus({
       image_file: "",
-      preview_URL: default_image,
+      preview_URL: beforeModifyImage,
     })
+    deleteImg()
   }
 
   useEffect(() => {
@@ -47,6 +48,7 @@ const ImageModifier = ({getImg, beforeModifyImage}) => {
       // await axios.post("/api/image/upload", formData)
       // console.log(imagestatus.image_file)
       getImg(imagestatus.image_file, imagestatus.preview_URL)
+      changeImg()
       alert("서버에 등록이 완료되었습니다!")
       // setImageStatus({
       //   image_file: "",
@@ -78,13 +80,13 @@ const ImageModifier = ({getImg, beforeModifyImage}) => {
           variant="contained"
           onClick={() => inputRef.click()}
         >
-          사진 선택
+          교체
         </SelectButton>
         <DeleteButton color="error" variant="contained" onClick={deleteImage}>
-          사진 삭제
+          삭제
         </DeleteButton>
         <SaveButton color="success" variant="contained" onClick={sendImageToServer}>
-          사진 저장
+          저장
         </SaveButton>
       </div>
     </UploaderWrapper>
@@ -92,26 +94,24 @@ const ImageModifier = ({getImg, beforeModifyImage}) => {
 }
 
 const UploaderWrapper = styled.div`
-  margin-top: 20px;
-  display: grid;
-  grid-template-columns: 0.5fr 2fr 3fr 0.5fr;
-  grid-gap: 30px;
+  margin: auto;
+  display: card;
 `
 const ImgWrapper = styled.div`
   width: 100px;
-  grid-column: 2;
+  margin: auto;
 `
 const ImgSpace = styled.img`
   width: 100%;
 `
 const SelectButton = styled.button`
-  grid-column: 3;
+
 `
 const DeleteButton = styled.button`
-  grid-column: 3;
+
 `
 const SaveButton = styled.button`
-  grid-column: 3;
+
 
 `
 
