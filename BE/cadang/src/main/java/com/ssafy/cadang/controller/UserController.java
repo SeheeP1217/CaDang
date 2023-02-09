@@ -109,9 +109,7 @@ public class UserController {
 
     @PutMapping("/user/newpass")
     public boolean updatePassword(@RequestParam Long memberId, @RequestParam String password) {
-
         userService.updatePasswordByMemberId(memberId, password);
-
         return true;
     }
 
