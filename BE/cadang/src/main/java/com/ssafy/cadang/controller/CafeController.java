@@ -74,13 +74,13 @@ public class CafeController {
     @Operation(summary = "추천 음료 조회", description = "위치 기반으로 받은 카페 정보를 토대로 음료 정보를 조회합니다.")
     public ResponseEntity<List<DrinkResponseDto>> getRecommendDrinkList(HttpServletRequest request, @RequestBody DrinkRequestDto drinkRequestDto) {
 
-        logger.info("getRecommendDrinkList - 호출 {drinkRequestDto} ", drinkRequestDto.toString());
+        logger.info("getRecommendDrinkList - 호출 {} ", drinkRequestDto.toString());
 
         logger.info(" 요청 시간 - {}", LocalDateTime.now());
 
         Long userId = Long.valueOf(request.getAttribute("userId").toString());
 
-        logger.info((" 유저 id - {}, userId"));
+        logger.info((" 유저 id - {}", userId));
 
         drinkRequestDto.setUserId(userId);
         List<DrinkResponseDto> drinkResponseDtos = cafeService.findRecommendDrinksByStoreName(drinkRequestDto);
