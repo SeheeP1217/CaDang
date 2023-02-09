@@ -3,15 +3,20 @@ package com.ssafy.cadang.controller;
 
 import com.ssafy.cadang.dto.user.UserDto;
 import com.ssafy.cadang.dto.user.UserGoalDto;
+import com.ssafy.cadang.dto.user.UserModifyDto;
 import com.ssafy.cadang.dto.user.UserPassChangeDto;
 import com.ssafy.cadang.service.DataService;
 import com.ssafy.cadang.service.UserAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +28,15 @@ public class UserAuthController {
 
     // 초기 카페인, 당목표량 설정
     @PutMapping("/goalSet")
-    public ResponseEntity<String> goalSet(HttpServletRequest request, UserGoalDto userGoalDto) throws Exception {
+    public ResponseEntity<?> goalSet(HttpServletRequest request, @Valid UserGoalDto userGoalDto, BindingResult bindingResult) throws Exception {
+
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            bindingResult.getFieldErrors().forEach(fieldError ->
+                    errors.put(fieldError.getField(), fieldError.getDefaultMessage())
+            );
+            return ResponseEntity.badRequest().body(errors);
+        }
         Long id = Long.valueOf(request.getAttribute("userId").toString());
 
         userAuthService.setGoal(userGoalDto,id);
@@ -35,10 +48,21 @@ public class UserAuthController {
 
     //유저 프로필 수정
     @PutMapping("/modify")
-    public ResponseEntity<String> modify(HttpServletRequest request, UserDto userDto) {
+    public ResponseEntity<?> modify(HttpServletRequest request, @Valid UserModifyDto userModifyDto, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            bindingResult.getFieldErrors().forEach(fieldError ->
+                    errors.put(fieldError.getField(), fieldError.getDefaultMessage())
+            );
+            return ResponseEntity.badRequest().body(errors);
+        }
+
         Long id = Long.valueOf(request.getAttribute("userId").toString());
 
-        userAuthService.modifyUserInfo(userDto, id);
+
+
+        userAuthService.modifyUserInfo(userModifyDto, id);
         dataService.updateGoal(id);
 
 
@@ -51,8 +75,20 @@ public class UserAuthController {
 
     //로그인 이후 비밀번호 재설정
     @PutMapping("/newpass")
-    public ResponseEntity<String> newpass(HttpServletRequest request, UserPassChangeDto userPassChangeDto) {
+    public ResponseEntity<?> newpass(HttpServletRequest request, @Valid UserPassChangeDto userPassChangeDto, BindingResult bindingResult) {
+
+
+
+
         Long id = Long.valueOf(request.getAttribute("userId").toString());
+
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            bindingResult.getFieldErrors().forEach(fieldError ->
+                    errors.put(fieldError.getField(), fieldError.getDefaultMessage())
+            );
+            return ResponseEntity.badRequest().body(errors);
+        }
 
         userAuthService.newpass(userPassChangeDto, id);
 
@@ -61,9 +97,9 @@ public class UserAuthController {
 
 
     // 회원 탈퇴하기
-    //Todo: 토큰 삭제하기
     @DeleteMapping("/deleteAccount")
-    public ResponseEntity<String> deleteAccount(HttpServletRequest request,String password) {
+    public ResponseEntity<?> deleteAccount(HttpServletRequest request,String password) {
+
         Long id = Long.valueOf(request.getAttribute("userId").toString());
 
         userAuthService.deleteUser(id, password);

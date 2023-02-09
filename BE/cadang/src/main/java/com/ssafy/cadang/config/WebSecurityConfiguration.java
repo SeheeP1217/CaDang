@@ -3,6 +3,7 @@ package com.ssafy.cadang.config;
 
 import com.ssafy.cadang.jwt.*;
 import com.ssafy.cadang.repository.UserRepository;
+import com.ssafy.cadang.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +39,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     //    private final CorsFilter corsFilter;
     private final UserRepository userRepository;
+
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
