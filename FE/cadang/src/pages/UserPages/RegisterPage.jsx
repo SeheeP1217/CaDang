@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { Link, useHistory } from "react-router-dom"
 import axios from "axios"
 import {
@@ -40,12 +40,7 @@ const RegisterPage = () => {
   const [registerError, setRegisterError] = useState("")
   const history = useHistory()
 
-  // var checkIdDone = "no"
-  // var checkEmailDone = "no"
-  // var checkEmailNumberDone = "no"
-  // const handleAgree = (event) => {
-  //   setChecked(event.target.checked)
-  // }
+
   const [checkIdDone, setCheckIdDone] = useState(false)
   const [checkEmailDone, setCheckEmailDone] = useState(false)
   const [checkEmailNumberDone, setCheckEmailNumberDone] = useState(false)
@@ -159,13 +154,9 @@ const RegisterPage = () => {
     setNickname(e.target.value)
   }
 
-  // useEffect(() => {
-
-  // })
   // 아이디 중복 확인
   const idCheck = async (data) => {
     data = memberId
-    // console.log(data)
     await axios
       .get("http://i8a808.p.ssafy.io:8080/user/id/verify", {
         params: { id: data },
@@ -175,15 +166,9 @@ const RegisterPage = () => {
         alert("사용할 수 있는 아이디입니다.")
         console.log(data)
         setCheckIdDone(() => true)
-        // console.log("아이디인증현황", checkIdDone)
-        // console.log("이메일인증현황", checkEmailDone)
-        // console.log("이메일인증숫자확인", checkEmailNumberDone)
       })
       .catch(function (err) {
         console.log(err)
-        // console.log("아이디인증현황", checkIdDone)
-        // console.log("이메일인증현황", checkEmailDone)
-        // console.log("이메일인증숫자확인", checkEmailNumberDone)
         alert("이미 사용 중인 아이디입니다.")
       })
   }
@@ -214,15 +199,9 @@ const RegisterPage = () => {
         alert("메일로 인증번호가 발송되었습니다.")
         const checkEmailDone = "yes"
         setCheckEmailDone(() => true)
-        // console.log("아이디인증현황", checkIdDone)
-        // console.log("이메일인증현황", checkEmailDone)
-        // console.log("이메일인증숫자확인", checkEmailNumberDone)
       })
       .catch(function (err) {
         console.log(err)
-        // console.log("아이디인증현황", checkIdDone)
-        // console.log("이메일인증현황", checkEmailDone)
-        // console.log("이메일인증숫자확인", checkEmailNumberDone)
         alert("이미 계정이 있습니다.")
       })
   }
@@ -247,20 +226,13 @@ const RegisterPage = () => {
       .then(function (response) {
         console.log(response, "성공")
         alert("인증이 완료되었습니다.")
-        console.log(">>>>>>>>>>>>>>>>>>", key, email, data)
 
         const checkEmailNumberDone = "yes"
         setCheckEmailNumberDone(() => true)
 
-        // console.log("아이디인증현황", checkIdDone)
-        // console.log("이메일인증현황", checkEmailDone)
-        // console.log("이메일인증숫자확인", checkEmailNumberDone)
       })
       .catch(function (err) {
         console.log(err)
-        // console.log("아이디인증현황", checkIdDone)
-        // console.log("이메일인증현황", checkEmailDone)
-        // console.log("이메일인증숫자확인", checkEmailNumberDone)
         alert("인증번호가 틀렸습니다.")
       })
   }
@@ -275,10 +247,6 @@ const RegisterPage = () => {
     }
     emailNumberCheck(joinData)
   }
-  // useEffect(() => {
-
-  // }, [setCheckIdDone, setCheckEmailDone, setCheckEmailNumberDone])
-
   const handleSubmit = (e) => {
     e.preventDefault()
 
@@ -318,25 +286,6 @@ const RegisterPage = () => {
       })
     }
   }
-  // useEffect(() => {
-  //    {
-      
-  //   }
-  // }, [
-  //   idRegex,
-  //   emailRegex,
-  //   passwordRegex,
-  //   username,
-  //   memberId,
-  //   password,
-  //   passwordState,
-  //   email,
-  //   nickname,
-  //   checkEmailDone,
-  //   checkEmailNumberDone,
-  //   checkIdDone,
-  //   nicknameRegex, usernameRegex, onhandlePost
-  // ])
 
   return (
     <ThemeProvider theme={theme}>

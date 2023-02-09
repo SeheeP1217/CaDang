@@ -8,6 +8,8 @@ import ListItemButton from "@mui/material/ListItemButton";
 
 function MenuListItem(props) {
   const [selectedIndex, setSelectedIndex] = React.useState();
+  const menuDatas = props.menus.drinkList
+  console.log('MenuListItem에서 menuDatas 콘솔 찍는 중', menuDatas)
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
@@ -15,7 +17,7 @@ function MenuListItem(props) {
 
   return (
     <List>
-      {props.data.map((menu, index) => {
+      {menuDatas.map((menu, index) => {
         return (
           <Grid
             container

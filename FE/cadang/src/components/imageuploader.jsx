@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 import default_image from "../../assets/default_image.png";
 import styled from "styled-components";
 
-const ProfileImageUploader = ({ getImg }) => {
+const ImageUploader = ({ getImg }) => {
   const [imagestatus, setImageStatus] = useState({
     image_file: "",
     preview_URL: default_image,
@@ -114,4 +114,4 @@ const SaveButton = styled.button`
   grid-column: 3;
 `;
 
-export default ProfileImageUploader;
+export default ImageUploader;
