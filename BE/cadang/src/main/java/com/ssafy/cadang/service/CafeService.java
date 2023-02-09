@@ -37,6 +37,10 @@ public class CafeService {
         Store findStore = storeRepository.findStoreByStoreName(storeName)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.STORE_NOT_FOUND));
 
+        // 프론트에서 다음 로직을 위해 사용할 데이터(가게id, 프랜차이즈id) 초기화
+        Long franchiseId = findStore.getFranchise().getId();
+        Long storeId = findStore.getId();
+
         Data data = dataRepository.findByUserAndDate(date, userId)     // 목표량 충족 리스트 만들기 위해 오늘 data 받아옴
                 .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
 
@@ -50,16 +54,8 @@ public class CafeService {
 
         System.out.println("caffeRest : "+caffeRest + " sugarRest :" + sugarRest);
 
-        List<DrinkNumCheckDto> drinkNumCheckDtos    // 유저가 주문해서 마신 음료의 마신 회수 & 리턴을 위해 프랜차이즈 id까지 함꼐 조회해서 담는 객체
+        List<DrinkNumCheckDto> drinkNumCheckDtos    // 유저가 주문해서 마신 음료의 마신 회수 조회
                 = drinkRepository.findByUserIdAndStoreNameAndOrderStatus(userId, storeName, OrderStatus.CANCEL);
-
-        System.out.println(drinkNumCheckDtos);
-
-        // 프론트에서 다음 로직을 위해 사용할 데이터(가게id, 프랜차이즈id) 초기화
-        Long franchiseId = drinkNumCheckDtos.get(0).getFranchiseId(); 
-        Long storeId = drinkNumCheckDtos.get(0).getStoreId();
-
-
 
         List<DrinkInterface> findDrinks = drinkRepository.getDrinksByStoreName(storeName);   // 음료 이름으로 통일해서 제일 작은 사이즈 정보만 가져옴
 
@@ -92,15 +88,17 @@ public class CafeService {
 
     public DrinkDetailDto getDrinkInfoByCafeIdAndDrinkName(Long franchiseId, String drinkName, String storeName) {
 
-
         Franchise franchiseIdCheck = franchiseRepository.findById(franchiseId)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.FRANCHISE_NOT_FOUND));
+
+        Store storeCheck = storeRepository.findStoreByStoreName(storeName)
+                .orElseThrow(() ->new CustomException(ExceptionEnum.STORE_NOT_FOUND));
 
         List<Drink> findDrinks = drinkRepository.getDrinkByFranchiseIdAndDrinkName(franchiseId, drinkName);
         List<DrinkResponseDto> drinkResponseDtos = findDrinks.stream()
                 .map((o) -> new DrinkResponseDto(o)).collect(Collectors.toList());
 
-        return new DrinkDetailDto(storeName, drinkResponseDtos);
+        return new DrinkDetailDto(storeCheck.getId(), storeName, drinkResponseDtos);
     }
 
     public List<OptionDto> findOptionsByFranchiseId(Long franchiseId){
