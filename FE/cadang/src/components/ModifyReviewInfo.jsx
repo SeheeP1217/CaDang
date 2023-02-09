@@ -16,6 +16,7 @@ function ModifyReviewInfo(props) {
   //console.log(props.data)
   const detail = props.data
   const image = props.image
+  console.log("현재 이미지", image)
 
   // if (location.state.review !== undefined) {
   //   const review = location.state.review
