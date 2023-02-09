@@ -54,6 +54,7 @@ public class UserController {
             bindingResult.getFieldErrors().forEach(fieldError ->
                     errors.put(fieldError.getField(), fieldError.getDefaultMessage())
             );
+            System.out.println(errors);
             return ResponseEntity.badRequest().body(errors);
         }
         // 이메일 중복 검사
