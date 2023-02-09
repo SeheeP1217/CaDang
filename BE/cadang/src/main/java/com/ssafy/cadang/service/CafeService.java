@@ -84,6 +84,7 @@ public class CafeService {
 
     public DrinkDetailDto getDrinkInfoByCafeIdAndDrinkName(Long franchiseId, String drinkName, String storeName) {
 
+        
         List<Drink> findDrinks = drinkRepository.getDrinkByFranchiseIdAndDrinkName(franchiseId, drinkName);
         List<DrinkResponseDto> drinkResponseDtos = findDrinks.stream()
                 .map((o) -> new DrinkResponseDto(o)).collect(Collectors.toList());
@@ -92,6 +93,8 @@ public class CafeService {
     }
 
     public List<OptionDto> findOptionsByFranchiseId(Long franchiseId){
+
+
 
         List<Option> findOptions = optionRepository.FindOptionsByFranchiseId(franchiseId);
 
@@ -157,4 +160,5 @@ public class CafeService {
 
         return franchiseDtos;
     }
+
 }
