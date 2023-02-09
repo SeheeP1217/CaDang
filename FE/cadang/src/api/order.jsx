@@ -6,7 +6,7 @@ const api = axios.create({
   baseURL: "http://i8a808.p.ssafy.io:8080",
   headers: {
     Authorization:
-      "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjoxOSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NTg0NTUyOH0.XWZ70Gf5gAjVZahqh4FnLzhVnXBUFrpI3FDAG6gNRChyk3v4Oshkw_jtwJWi-bDSooMvavz7YFl3wiJEvwlG5w",
+      "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwYXJrNjkzOCIsImlkIjo0OCwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjAyNjU2Nn0.-H4CaYC4mHQVbEHf29dQYoPUeBGjfqSjYUDTDoUl7EdeJvMuR0wrIsNEACrc6sDehioQZm0pAer168RRfy_cDg",
 
     // Authorization: `Token ${token}`,
     "Content-Type": "application/json",
@@ -28,11 +28,10 @@ async function cafeDrinkData(franchiseId, drinkName, storeName, success, fail) {
   return res
 }
 
-async function cafeDrinkList(userId, date, storeName, success, fail) {
+async function cafeDrinkList(date, storeName, success, fail) {
   const res = await api
     .get(`/cafe/drinklist`, {
       params: {
-        userId: userId,
         date: date,
         storeName: storeName,
       },

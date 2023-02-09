@@ -14,6 +14,10 @@ const ProfileImageUploader = ({ getImg }) => {
 
   let inputRef;
 
+  useEffect(function() {
+    getImg(imagestatus.image_file, imagestatus.preview_URL)
+  }, [imagestatus])
+
   const saveImage = (e) => {
     e.preventDefault();
     if (e.target.files[0]) {
