@@ -1,41 +1,36 @@
 import * as React from "react";
+import ItemFiltering from "../../components/util/ItemFiltering";
 import { Link } from "react-router-dom";
 
-import { Box, Grid, Button } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import FabButton from "../../components/util/FabButton";
 
 // 검색바
 import TextField from "@mui/material/TextField";
 import AutocompleteSearchBar from "../../components/util/AutocompleteSearchBar";
-import MenuListItem from "../../components/util/MenuListItem"
-
-// onclick 검색 버튼에 달아서 검색한 결과 리스트 메뉴리스트에 뿌려주기
 
 function DrinkAddPage() {
 
   return (
     <div>
       <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
-        <Box sx={{ backgroundColor: "#F9F6F2", paddingY: 0.3}}>
+        <Box sx={{ backgroundColor: "#F9F6F2", paddingY: 0.3 }}>
           <Typography level="h3" fontSize="xl" fontWeight="xl">
             메뉴검색
           </Typography>
 
-          <Grid container alignItems="center" textAlign="center" sx={{display: 'flex'}}>
+          <Grid container alignItems="center" textAlign="center">
             <Grid item xs={2}>
               카페
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <AutocompleteSearchBar label="카페 검색" data={top100Films} />
-            </Grid>
-            <Grid item xs={2}>
-              <Button style={{padding: 0, margin: 0}}>검색</Button>
             </Grid>
             <Grid item xs={2}>
               <Typography>지점</Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               {/* padding 0으로 바꾸기 */}
               <TextField
                 id="outlined-basic"
@@ -48,16 +43,13 @@ function DrinkAddPage() {
             <Grid item xs={2}>
               <Typography>메뉴</Typography>
             </Grid>
-            <Grid item xs={6}>
-              <AutocompleteSearchBar label="메뉴 검색" data={top100Films}/>
-            </Grid>
-            <Grid item xs={1}>
-                <Button style={{padding: 0, margin: 0}}>검색</Button>
+            <Grid item xs={10}>
+              <AutocompleteSearchBar label="메뉴 검색" data={top100Films} />
             </Grid>
           </Grid>
         </Box>
       </div>
-      <MenuListItem/>
+      <ItemFiltering data={menuData} />
       <Link to="/custom">
         <FabButton />
       </Link>
