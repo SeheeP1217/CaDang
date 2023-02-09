@@ -1,5 +1,6 @@
 package com.ssafy.cadang.error;
 
+import com.ssafy.cadang.domain.Franchise;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -42,7 +43,8 @@ public enum ExceptionEnum {
     ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "ORDER-001", "주문을 찾을 수 없습니다."),
     ORDER_NOT_SAME(HttpStatus.BAD_REQUEST, "ORDER-002", "주문정보와 사용자정보가 일치하지 않습니다."),
 
-    FRANCHISE_NOT_FOUND(HttpStatus.NOT_FOUND, "FRANCHISE-001", "프랜차이즈를 찾을 수 없습니다.");
+    FRANCHISE_NOT_FOUND(HttpStatus.NOT_FOUND, "FRANCHISE-001", "프랜차이즈를 찾을 수 없습니다."),
+    FRANCHISE_NOT_IN_DATABASE(HttpStatus.NOT_FOUND, "FRANCHISE-002", "DB에 요청하신 가게와 맞는 프랜차이즈가 없습니다." );
 
 
 
