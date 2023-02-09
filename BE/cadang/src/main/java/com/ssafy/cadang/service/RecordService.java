@@ -80,29 +80,28 @@ public class RecordService {
     }
 
 
-//    public RecordDetailDto getOrderByRecordId(Long userId, Long recordId) {
-        public RecordDetailDto getOrderByRecordId(Long recordId) {
+    public RecordDetailDto getOrderByRecordId(Long userId, Long recordId) {
         Order order = recordReposiotry.findById(recordId)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.RECORD_NOT_FOUND));
-//        if (!Objects.equals(order.getUser().getId(), userId)) {
-//            throw new CustomException(ExceptionEnum.USER_NOT_SAME);
-//        }
+        if (!Objects.equals(order.getUser().getId(), userId)) {
+            throw new CustomException(ExceptionEnum.USER_NOT_SAME);
+        }
         String image = order.getDrink().getImage();
 
-
         return toRecordDetailDto(order, image);
+
 
     }
 
     @Transactional
-//    public Long deleteOrderById(Long userId, Long recordId) {
-        public Long deleteOrderById( Long recordId) {
+    public Long deleteOrderById(Long userId, Long recordId) {
         Order findRecord = recordReposiotry.findById(recordId)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.RECORD_NOT_FOUND));
-//        if (!Objects.equals(findRecord.getUser().getId(), userId)) {
-//            throw new CustomException(ExceptionEnum.USER_NOT_SAME);
-//        }
+        if (!Objects.equals(findRecord.getUser().getId(), userId)) {
+            throw new CustomException(ExceptionEnum.USER_NOT_SAME);
+        }
         recordReposiotry.delete(findRecord);
+
         return recordId;
     }
 
@@ -130,22 +129,21 @@ public class RecordService {
     }
 
     @Transactional
-//    public Long updateRecord(Long userId, RecordUpdateDto updateDto) throws IOException {
-        public Long updateRecord(RecordUpdateDto updateDto) throws IOException {
+    public Long updateRecord(Long userId, RecordUpdateDto updateDto) throws IOException {
         Order findRecord = recordReposiotry.findById(updateDto.getId())
                 .orElseThrow(() -> new CustomException(ExceptionEnum.RECORD_NOT_FOUND));
-//        if (!Objects.equals(findRecord.getUser().getId(), userId)) {
-//            throw new CustomException(ExceptionEnum.USER_NOT_SAME);
-//        }
+        if (!Objects.equals(findRecord.getUser().getId(), userId)) {
+            throw new CustomException(ExceptionEnum.USER_NOT_SAME);
+        }
         if (findRecord.getOrderStatus() == OrderStatus.PICKUP && updateDto.getRegDate() != null) {
             throw new CustomException(ExceptionEnum.RECORD_NOT_ALLOWED_MODIFY);
         }
-
+        // 파일 업로드
+        // TODO 날짜 형식 프론트와 통일하기
         LocalDateTime localDateTime = LocalDateTime.parse(updateDto.getRegDate());
         findRecord.setRegDate(localDateTime);
 
-        // 파일 업로드
-        // TODO 날짜 형식 프론트와 통일하기
+
         findRecord.setMemo(updateDto.getMemo());
         findRecord.setPublic(updateDto.getIsPublic());
         if (updateDto.getIsModified() == 1) {
@@ -155,8 +153,6 @@ public class RecordService {
             String imgUrl = findRecord.getDrink().getImage();
             findRecord.setPhoto(imgUrl);
         }
-
-
         return findRecord.getId();
 
     }
