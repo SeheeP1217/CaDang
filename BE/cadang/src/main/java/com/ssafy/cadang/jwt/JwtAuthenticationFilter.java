@@ -29,6 +29,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.security.Key;
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -102,6 +104,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             // authentication 객체가 session 영역에 저장을 해야하고 그 방법이 return 해주면 됨.
             // 리턴의 이유는 권한 권리를 security가 대신 해주기 때문에 편하려고 하는 것임
             // 근데 굳이 JWT 토큰을 사용하면서 세션을 만들 이유가 없음. 단지 권한 처리 때문에 session에 넣어준다.
+            SecureRandom secureRandom = new SecureRandom();
+            System.out.println("secureRandom : " + secureRandom);
 
             System.out.println("로그인 정상");
 
@@ -151,6 +155,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .signWith(this.key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
                 .compact();
+        //String
 
 
         System.out.println("토큰: " + jwtToken);
@@ -159,4 +164,26 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         System.out.println("토큰 발급 성공");
 
     }
+
+
+    private String generateRefreshToken(PrincipalDetails principalDetails){
+        byte[] keyBytes = Decoders.BASE64.decode(JwtProperties.REFRESH_SECRET);
+        this.key = Keys.hmacShaKeyFor(keyBytes);
+        long now = (new Date()).getTime();
+        Date validity = new Date(now + JwtProperties.EXPIRATION_TIME);
+        System.out.println("refresh token 발급날짜: " + new Date(now));
+        System.out.println("refresh token 만료날짜: " + validity);
+
+        return Jwts.builder()
+                .setSubject(principalDetails.getUsername())
+                .claim("id", principalDetails.getUser().getId())
+                .signWith(this.key, SignatureAlgorithm.HS512)
+                .setExpiration(validity)
+                .compact();
+
+    }
+
+
+
+
 }

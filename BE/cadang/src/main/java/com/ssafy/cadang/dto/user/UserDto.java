@@ -32,7 +32,7 @@ public class UserDto {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull
     @NotEmpty(message = "패스워드는 필수입니다.")
-    @Size(min = 3, max = 100)
+    @Size(min = 8, max = 20)
     private String password;
 
     @NotNull
@@ -42,7 +42,7 @@ public class UserDto {
 
     @NotNull
     @NotEmpty(message = "닉네임은 필수입니다.")
-    @Size(min = 3, max = 50)
+    @Size(min = 1, max = 8)
     private String nickname;
 
 
