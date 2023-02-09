@@ -36,6 +36,7 @@ public enum ExceptionEnum {
 
     // Store
     STORE_NOT_FOUND(HttpStatus.NOT_FOUND, "STORE-001", "가게를 찾을 수 없습니다."),
+    STORE_NO_INPUT(HttpStatus.BAD_REQUEST, "STORE-002", "들어온 가게 리스트가 없습니다"),
 
     // Order
     ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "ORDER-001", "주문을 찾을 수 없습니다."),
