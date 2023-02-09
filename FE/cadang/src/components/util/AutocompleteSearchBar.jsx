@@ -1,45 +1,35 @@
+import * as React from "react";
 import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
 import Autocomplete from "@mui/material/Autocomplete";
-import parse from "autosuggest-highlight/parse";
-import match from "autosuggest-highlight/match";
-import { margin } from "@mui/system";
 
-function AutocompleteSearchBar (props) {
-    return (
-        <Autocomplete
-              id="highlights-demo"
-              sx={{ width: "100%", margin: 0}}
-              options={props.data}
-              getOptionLabel={(option) => option.title}
-              size="small"
-              renderInput={(params) => (
-                <TextField {...params} label={props.label} margin="normal" />
-              )}
-              renderOption={(props, option, { inputValue }) => {
-                const matches = match(option.title, inputValue, {
-                  insideWords: true,
-                });
-                const parts = parse(option.title, matches);
+function AutocompleteSearchBar(props) {
+  return (
+    <div>
+    <Autocomplete
+      freeSolo
+      id="free-solo-2-demo"
+      disableClearable
+      options={props.data.map((option) => option.title)}
+      renderInput={(params) => (
+        <TextField
+        {...params}
+        label="Search input"
+        InputProps={{
+          ...params.InputProps,
+          type: "search",
+        }}
+        />
+        )}
+        size="small"
+        popupIcon
+        >
 
-                return (
-                  <li {...props}>
-                    <div>
-                      {parts.map((part, index) => (
-                        <span
-                          key={index}
-                          style={{
-                            fontWeight: part.highlight ? 700 : 400,
-                          }}
-                        >
-                          {part.text}
-                        </span>
-                      ))}
-                    </div>
-                  </li>
-                );
-              }}
-            />
-    )
+    </Autocomplete>
+      <button>검색</button>
+    
+      </div>
+  );
 }
 
 export default AutocompleteSearchBar;

@@ -32,7 +32,7 @@ async function userReview(userId, pageIndex, success, fail) {
 //리뷰별 디테일 조회
 async function userReviewDetail(reviewId, success, fail) {
   const res = await api
-    .get(`/record/${reviewId}`, { params: { recordId: reviewId } })
+    .get(`/record/${reviewId}`)
     .then(success)
     .catch(fail)
   return res
@@ -50,7 +50,7 @@ async function userReviewDetail(reviewId, success, fail) {
 //리뷰 삭제
 async function deleteReview(reviewId, success, fail) {
   const res = await api
-    .delete(`/record/${reviewId}`)
+    .delete(`/record/${reviewId}`, { params: { recordId: reviewId } })
     .then(success)
     .catch(fail)
   return res
