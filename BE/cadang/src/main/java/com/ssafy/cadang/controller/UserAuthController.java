@@ -4,6 +4,7 @@ package com.ssafy.cadang.controller;
 import com.ssafy.cadang.dto.user.UserDto;
 import com.ssafy.cadang.dto.user.UserGoalDto;
 import com.ssafy.cadang.dto.user.UserPassChangeDto;
+import com.ssafy.cadang.service.DataService;
 import com.ssafy.cadang.service.UserAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/user2")
 public class UserAuthController {
 
-    UserAuthService userAuthService;
+    private final UserAuthService userAuthService;
+    private final DataService dataService;
 
     // 초기 카페인, 당목표량 설정
     @PutMapping("/goalSet")
@@ -37,6 +39,8 @@ public class UserAuthController {
         Long id = Long.valueOf(request.getAttribute("userId").toString());
 
         userAuthService.modifyUserInfo(userDto, id);
+        dataService.updateGoal(id);
+
 
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
