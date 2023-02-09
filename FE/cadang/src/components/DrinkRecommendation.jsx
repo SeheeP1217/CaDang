@@ -91,7 +91,6 @@ function DrinkRecommendation() {
       await recommendDrinks(
         cafe,
         dateString,
-        2,
         (res) => {
           console.log("=======!!!!!!!!!!!!!!=========");
           console.log(res.data);
@@ -137,7 +136,6 @@ function DrinkRecommendation() {
       await recommendDrinks(
         cafe,
         dateString,
-        2,
         (res) => {
           console.log("=======!!!!!!!!!!!!!!=========");
           console.log(res.data);
@@ -174,13 +172,12 @@ function DrinkRecommendation() {
   }, [list]);
 
   useEffect(() => {
-    console.log(cafe);
+    console.log("**************서버로 보내는 카페 리스트 : "+cafe);
 
     const getDrinks = async () => {
       await recommendDrinks(
         cafe,
         dateString,
-        2,
         (res) => {
           if (res.data !== undefined) {
             console.log(res.data);

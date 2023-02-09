@@ -3,7 +3,7 @@ import axios from "axios";
 import Box from "@mui/material/Box";
 import OrderStatus from "../components/OrderStatus";
 import DrinkRecommendation from "../components/DrinkRecommendation";
-import DailyConsumptionGraph from "../components/util/DailyConsumptionGraph";
+import MainDailyConsumptionGraph from "../components/util/MainDailyConsumptionGraph";
 import DailyOtherInfo from "../components/DailyOtherInfo";
 import { Card } from "@mui/material";
 import Typography from "@mui/joy/Typography";
@@ -48,12 +48,12 @@ export default function MainPage() {
 
   // 첫 화면이 랜더링 되기 전
   useMemo(() => {
+    
     const getDashboard = async () => {
       await todayDashboard(
         dateString,
-        2,
         (res) => {
-          console.log(res.data);
+          console.log("!!!!===== "+res.data);
           return res.data;
         },
         (err) => console.log(err)
@@ -68,8 +68,9 @@ export default function MainPage() {
 
   useEffect(() => {
     console.log("화면 랜더링");
+    console.log(today);
     setLoad(true);
-    setToday(dateString);
+    // setToday(dateString);
   }, []);
 
   return (
@@ -78,7 +79,7 @@ export default function MainPage() {
         오늘의 현황
       </Typography>
       <Card>
-        <DailyConsumptionGraph data={data} />
+        <MainDailyConsumptionGraph data={data} />
         <DailyOtherInfo money={dashboard.moneyDaily} kcal={dashboard.calDaily} />
       </Card>
       <OrderStatus />
