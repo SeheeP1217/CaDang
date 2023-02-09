@@ -7,10 +7,12 @@ import java.util.List;
 @Getter
 public class DrinkDetailDto {
 
+    Long storeId;
     String storeName;
     List<DrinkResponseDto> drinkResponseDtos;
 
-    public DrinkDetailDto(String storeName, List<DrinkResponseDto> drinkResponseDtos){
+    public DrinkDetailDto(Long storeId, String storeName, List<DrinkResponseDto> drinkResponseDtos){
+        this.storeId = storeId;
         this.storeName = storeName;
         this.drinkResponseDtos = drinkResponseDtos;
     }

@@ -9,13 +9,14 @@ import java.util.List;
 @Data
 public class DrinksForCafeDto {
 
-    List<DrinkResponseDto> drinkableDrinks;
-    List<DrinkResponseDto> allDrinks;
-
     DayDataDto dayDataDto;
     Long franchiseId;
     Long storeId;
     String storeName;
+    List<DrinkResponseDto> drinkableDrinks;
+    List<DrinkResponseDto> allDrinks;
+
+
 
     public DrinksForCafeDto(List<DrinkResponseDto> drinkableDrinks, List<DrinkResponseDto> allDrinks,
                             DayDataDto dayDataDto, Long franchiseId, Long storeId, String storeName){
