@@ -18,7 +18,8 @@ function DatePickerComponent(props) {
           value={value}
           onChange={(newValue) => {
             setValue(newValue)
-            props.getRecordDate(newValue)
+            props.getRecordDate(dayjs(newValue.$d).format('YYYY-MM-DD'))
+            console.log(dayjs(newValue.$d).format('YYYY-MM-DD'))
           }}
           renderInput={(params) => <TextField {...params}/>}
         />
