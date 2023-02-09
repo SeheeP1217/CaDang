@@ -103,7 +103,7 @@ public class UserController {
 
 
     @GetMapping("/user/findid")
-    public String findid(@RequestParam("name") String name, @RequestParam("email") String email) {
+    public String findid(@RequestParam("username") String name, @RequestParam("email") String email) {
         return userService.findId(name, email);
     }
 
