@@ -11,15 +11,13 @@ import com.ssafy.cadang.error.ExceptionEnum;
 import com.ssafy.cadang.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.UUID;
 
 @Service
@@ -63,14 +61,23 @@ public class UserAuthService {
 
 
     @Transactional
-    public void modifyUserInfo(UserModifyDto userModifyDto, Long id) {
+    public void modifyUserInfo(UserModifyDto userModifyDto, Long id) throws IOException {
 
+        MultipartFile multipartFile;
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
+
+        multipartFile = userModifyDto.getImg();
+        String originalFilename = multipartFile.getOriginalFilename();
+        String storeFilename = createStoreFileName(originalFilename);
+        String storedPath = getFullPath(UserProfileImgPath, storeFilename);
+        multipartFile.transferTo(new File(storedPath));
+
         user.setNickname(userModifyDto.getNickname());
         user.setCaffeGoal(userModifyDto.getCaffeGoal());
         user.setSugarGoal(userModifyDto.getSugarGoal());
+        user.setImgUrl(storeFilename);
 
     }
 
