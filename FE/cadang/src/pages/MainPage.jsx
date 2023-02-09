@@ -10,6 +10,7 @@ import Typography from "@mui/joy/Typography";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userId, todayDate } from "../recoil/atom/user.jsx";
 import { todayDashboard } from "../api/main";
+import TodayChart from "../components/TodayChart"
 
 export default function MainPage() {
   const [load, setLoad] = useState(false);
@@ -26,6 +27,17 @@ export default function MainPage() {
     caffeSuccess: true,
     sugarSuccess: true,
   });
+
+  const data = [
+    {
+      name: "카페인",
+      consumption: 2400,
+    },
+    {
+      name: "당",
+      consumption: 1398,
+    },
+  ];
 
   // 로그인 한 사용자 아이디
   // const id = useRecoilValue(userId);
@@ -79,6 +91,7 @@ export default function MainPage() {
         오늘의 현황
       </Typography>
       <Card>
+        {/* <TodayChart/> */}
         <MainDailyConsumptionGraph data={data} />
         <DailyOtherInfo money={dashboard.moneyDaily} kcal={dashboard.calDaily} />
       </Card>
@@ -88,7 +101,6 @@ export default function MainPage() {
           음료 추천
         </Typography>
       </Box>
-
       <Box sx={{ mt: 1 }}>
         <DrinkRecommendation />
       </Box>
@@ -96,22 +108,3 @@ export default function MainPage() {
   );
 }
 
-const data = [
-  {
-    name: "카페인",
-    consumption: 2400,
-    change: 0,
-  },
-  {
-    name: "당",
-    consumption: 1398,
-    change: 0,
-  },
-];
-
-const dailyData = [
-  {
-    calorie: 4000,
-    money: 2400,
-  },
-];
