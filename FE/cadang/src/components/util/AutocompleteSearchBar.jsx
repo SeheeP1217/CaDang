@@ -22,12 +22,8 @@ function AutocompleteSearchBar(props) {
         />
         )}
         size="small"
-        popupIcon
         >
-
     </Autocomplete>
-      <button>검색</button>
-    
       </div>
   );
 }
