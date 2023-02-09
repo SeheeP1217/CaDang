@@ -1,6 +1,7 @@
 package com.ssafy.cadang.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ssafy.cadang.valid.ValidPassword;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +22,7 @@ public class UserDto {
 
     @NotNull
     @NotEmpty(message = "회원 이름은 필수입니다.")
-    @Size(min = 3, max = 50)
+    @Size(min = 1, max = 8, message = "이름은 1~8자만 가능합니다.")
     private String username;
 
 
@@ -32,7 +33,7 @@ public class UserDto {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull
     @NotEmpty(message = "패스워드는 필수입니다.")
-    @Size(min = 8, max = 20)
+    @ValidPassword
     private String password;
 
     @NotNull
@@ -42,7 +43,7 @@ public class UserDto {
 
     @NotNull
     @NotEmpty(message = "닉네임은 필수입니다.")
-    @Size(min = 1, max = 8)
+    @Size(min = 1, max = 8, message = "닉네임은 1~8자만 가능합니다.")
     private String nickname;
 
 
