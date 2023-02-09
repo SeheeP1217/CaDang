@@ -1,9 +1,6 @@
 package com.ssafy.cadang.service;
 
-import com.ssafy.cadang.domain.Data;
-import com.ssafy.cadang.domain.Drink;
-import com.ssafy.cadang.domain.Franchise;
-import com.ssafy.cadang.domain.OrderStatus;
+import com.ssafy.cadang.domain.*;
 import com.ssafy.cadang.domain.custom.Option;
 import com.ssafy.cadang.dto.cafe.*;
 import com.ssafy.cadang.dto.cafe.query.DrinkInterface;
@@ -30,10 +27,14 @@ public class CafeService {
     private final DataRepository dataRepository;
     private final FranchiseRepository franchiseRepository;
     private final OptionRepository optionRepository;
+    private final StoreRepository storeRepository;
 
     public DrinksForCafeDto getDrinkByStoreName(Long userId, LocalDate date, String storeName) {
 
         DrinksForCafeDto drinksForCafeDto;    // 카페 별 음료 목록 담을 객체
+
+        Store findStore = storeRepository.findStoreByStoreName(storeName)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.STORE_NOT_FOUND));
 
         Data data = dataRepository.findByUserAndDate(date, userId)     // 목표량 충족 리스트 만들기 위해 오늘 data 받아옴
                 .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
@@ -84,7 +85,10 @@ public class CafeService {
 
     public DrinkDetailDto getDrinkInfoByCafeIdAndDrinkName(Long franchiseId, String drinkName, String storeName) {
 
-        
+
+        Franchise franchiseIdCheck = franchiseRepository.findById(franchiseId)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.FRANCHISE_NOT_FOUND));
+
         List<Drink> findDrinks = drinkRepository.getDrinkByFranchiseIdAndDrinkName(franchiseId, drinkName);
         List<DrinkResponseDto> drinkResponseDtos = findDrinks.stream()
                 .map((o) -> new DrinkResponseDto(o)).collect(Collectors.toList());
@@ -94,7 +98,8 @@ public class CafeService {
 
     public List<OptionDto> findOptionsByFranchiseId(Long franchiseId){
 
-
+        Franchise franchiseIdCheck = franchiseRepository.findById(franchiseId)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.FRANCHISE_NOT_FOUND));
 
         List<Option> findOptions = optionRepository.FindOptionsByFranchiseId(franchiseId);
 
@@ -111,7 +116,7 @@ public class CafeService {
 
         List<String> storeNameList = drinkRequestDto.getStoreNames(); // 프랜차이즈명 + 지점명 리스트 받음 
 
-        if(storeNameList.size() == 0) return drinkResponseDtos; // 들어온 값이 없으면 size 0인 리스트 리턴
+        if(storeNameList.size() == 0) throw new CustomException(ExceptionEnum.STORE_NO_INPUT); // 들어온 값이 없으면 size 0인 리스트 리턴
 
         List<Franchise> findAllFranchises = franchiseRepository.findAllByFranchiseNameAsc(); // DB의 프랜차이즈 목록 받아옴
         List<Long> franchiseIds = new ArrayList<>();  // 받아온 리스트 중 DB에 있는 것들만 franchiseId를 넣을 리스트 선언
@@ -127,7 +132,7 @@ public class CafeService {
             }
         }
         
-        if(franchiseIds.size() == 0) return drinkResponseDtos; // DB에 있는 프랜차이즈가 받아온 리스트에 없으면 size가 0인 리스트 리턴
+        if(franchiseIds.size() == 0) throw new CustomException(ExceptionEnum.FRANCHISE_NOT_IN_DATABASE); // 받아온 리스트에 DB에 있는 프랜차이즈가 없으면 size가 0인 리스트 리턴
 
         LocalDate date = drinkRequestDto.getDate();
         Long userId = drinkRequestDto.getUserId();
@@ -160,5 +165,4 @@ public class CafeService {
 
         return franchiseDtos;
     }
-
 }
