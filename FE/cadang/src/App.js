@@ -49,7 +49,6 @@ function App() {
 
   // NavBar 필요한 페이지 정의
   const DefaultContainer = () => (
-    <div>
       <PageLayout>
         <Switch>
           <Route exact path="/main" component={MainPage} />
@@ -63,17 +62,15 @@ function App() {
           <Route exact path="/payment" component={PaymentPage} />
           <Route exact path="/test" component={TestPage} />
           <Route exact path="/selectmenu" component={SelectMenuPage} />
-          <Route exact path="/review" component={ReviewPage} />
+          <Route exact path="/review/:reviewId" component={ReviewPage} />
           <Route exact path="/update-profile" component={UpdateProfilePage} />
         </Switch>
       </PageLayout>
-    </div>
   )
 
   // Intro 페이지는 Nav 없는곳으로 렌더링
   return (
     <BrowserRouter>
-      <div>
         <Switch>
           <Route exact path="/" component={IntroContainer} />
           <Route exact path="/sign-in" component={IntroContainer} />
@@ -92,7 +89,6 @@ function App() {
           <Route exact path="/selectmenu" component={DefaultContainer} />
           <Route exact path="/review" component={DefaultContainer} />
         </Switch>
-      </div>
     </BrowserRouter>
   )
 }
