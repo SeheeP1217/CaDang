@@ -18,10 +18,8 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function CategorySearch() {
-  // const [map, setMap] = useState()
   const [list, setList] = useState([]);
 
-  // const [plus, setPlus] = useState([]);
   // const [location, setLocation] = useState();
 
   useEffect(() => {
@@ -391,8 +389,7 @@ export default function CategorySearch() {
 
     // 카테고리를 클릭했을 때 호출되는 함수입니다
     function onClickCategory() {
-      let id = this.id,
-        className = this.className;
+      let className = this.className;
 
       placeOverlay.setMap(null);
 
@@ -422,6 +419,19 @@ export default function CategorySearch() {
     //   }
     // }
   }, []);
+
+  useEffect(() => {
+    console.log("====== list 변수 : ======")
+    console.log(list[0]);
+
+    const cafeNames = list.map((element, idx) => {
+      console.log("cafe name: "+element.place_name);
+      console.log("cafe address: " + element.address_name);
+    })
+
+
+
+  }, [list]);
 
   return (
     <>
