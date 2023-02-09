@@ -10,6 +10,8 @@ const ImageUploader = ({ getImg }) => {
     preview_URL: default_image,
   });
 
+  //컴포넌트 이름 바꾸기
+
   let inputRef;
 
   const saveImage = (e) => {
