@@ -22,7 +22,6 @@ function CustomOption() {
           <Grid
             item
             xs={9}
-            justifyContent="center"
             alignItems="center"
             padding="auto"
           >
@@ -36,11 +35,10 @@ function CustomOption() {
           <Grid item xs={3} textAlign="center" margin="auto">
             샷
           </Grid>
-          <Grid item xs={9} justifyContent="center" alignItems="center">
+          <Grid item xs={9} alignItems="center">
             <ButtonGroup
               variant="outlined"
               aria-label="shot button group"
-              justifyContent="center"
               size="small"
             >
               <IconButton color="secondary" aria-label="add an alarm">
@@ -57,7 +55,7 @@ function CustomOption() {
           <Grid item xs={3} textAlign="center" margin="auto">
             휘핑
           </Grid>
-          <Grid item xs={9} justifyContent="center" alignItems="center">
+          <Grid item xs={9} alignItems="center">
             <ButtonGroup variant="outlined" aria-label="shot button group" size="small">
               <Button>X</Button>
               <Button>O</Button>
@@ -66,7 +64,7 @@ function CustomOption() {
           <Grid item xs={3} textAlign="center" margin="auto">
             당도
           </Grid>
-          <Grid item xs={9} justifyContent="center" alignItems="center">
+          <Grid item xs={9} alignItems="center">
             <ButtonGroup variant="outlined" aria-label="size button group" size="small">
               <Button>덜달게</Button>
               <Button>기본</Button>

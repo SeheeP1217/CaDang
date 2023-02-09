@@ -2,15 +2,14 @@ import Typography from "@mui/joy/Typography";
 import { List } from "@mui/material";
 
 function DailyOtherInfo(props) {
+  console.log(props.money);
   return (
     <List>
-      {props.data.map((info, index) => {
-        return (
-          <Typography textAlign='center' key={index} alignItems="center">
-            💰 {info.money} | 🍔 {info.calorie}
-          </Typography>
-        );
-      })}
+      {props !== undefined && (
+        <Typography textAlign="center" alignItems="center">
+          💰 {props.money} | 🍔 {props.kcal}
+        </Typography>
+      )}
     </List>
   );
 }
