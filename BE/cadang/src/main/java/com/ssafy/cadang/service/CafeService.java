@@ -43,7 +43,7 @@ public class CafeService {
 
         long caffeRest = (long)data.getCaffeGoal() - data.getCaffeDaily();    // 카페인 잔여량 계산
         if(caffeRest < 0L) caffeRest = 0L;
-        long sugarRest = (long)data.getSugarGoal() - data.getCaffeDaily();    // 당 잔여량 계산
+        long sugarRest = (long)data.getSugarGoal() - data.getSugarDaily();    // 당 잔여량 계산
         if(sugarRest < 0L) sugarRest = 0L;
 
         List<DrinkNumCheckDto> drinkNumCheckDtos    // 유저가 주문해서 마신 음료의 마신 회수 & 리턴을 위해 프랜차이즈 id까지 함꼐 조회해서 담는 객체
