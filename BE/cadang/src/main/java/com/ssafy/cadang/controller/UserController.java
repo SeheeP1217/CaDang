@@ -48,7 +48,14 @@ public class UserController {
 
     // 회원가입 이메일 인증 번호 발송 및 재발송
     @PostMapping("/user/email")
-    public ResponseEntity<String> sendEmailCode(@RequestParam("email") String email) throws Exception {
+    public ResponseEntity<?> sendEmailCode(@RequestParam("email") String email, BindingResult bindingResult) throws Exception {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            bindingResult.getFieldErrors().forEach(fieldError ->
+                    errors.put(fieldError.getField(), fieldError.getDefaultMessage())
+            );
+            return ResponseEntity.badRequest().body(errors);
+        }
         // 이메일 중복 검사
         userService.verifyEmail(email);
         emailService.sendSignupMessage(email);
@@ -79,7 +86,7 @@ public class UserController {
     }
 
     // 비밀번호 찾아서 변경하는 이메일 보내기
-    @PostMapping("/user/email/findpw ")
+    @PostMapping("/user/email/findpw")
     public ResponseEntity<Boolean> findPw(@RequestParam String email, @RequestParam String memberId) throws Exception {
         // 이메일 중복 검사
         if (userService.verifyId(email, memberId))
