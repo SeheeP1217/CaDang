@@ -7,13 +7,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 // import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 
-function DatePickerComponent() {
+function DatePickerComponent(props) {
   const location = useLocation()
   const recordDate = location.state.review.regDate
-  // const rawDate = Date(location.state.review.regDate)
-  // const options = {month: '2-digit', day: '2-digit'}
-  // const defaultDate = rawDate.tolocalDateString('en-US', options)
-  // console.log(defaultDate)
   const [value, setValue] = React.useState(dayjs(recordDate))
   return (
     <div>
@@ -21,7 +17,8 @@ function DatePickerComponent() {
         <MobileDatePicker
           value={value}
           onChange={(newValue) => {
-            setValue(newValue);
+            setValue(newValue)
+            props.getRecordDate(newValue)
           }}
           renderInput={(params) => <TextField {...params}/>}
         />

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { Card } from "@mui/material";
@@ -13,25 +13,9 @@ import ImageModifier from "./util/ImageModifier";
 function ModifyReviewInfo(props) {
   // const location = useLocation()
   // console.log(location)
-  console.log(props.data)
+  //console.log(props.data)
   const detail = props.data
-  const [image, setImage] = useState(detail.photo)
-  const [isModified, setIsModified] = useState(0)
-
-  const getImg = (image_file, preview_URL) => {
-    const newImage = { image_file, preview_URL }
-    setImage(newImage)
-  }
-
-  const changeImg = () => {
-    setIsModified(1)
-    console.log(isModified)
-  }
-  
-  const deleteImg = () => {
-    setIsModified(2)
-    console.log(isModified)
-  }
+  const image = props.image
 
   // if (location.state.review !== undefined) {
   //   const review = location.state.review
@@ -49,7 +33,11 @@ function ModifyReviewInfo(props) {
                 horizontal: "right",
               }}
             > */}
-              <ImageModifier getImg={getImg} changeImg={changeImg} deleteImg={deleteImg} beforeModifyImage={image}>
+              <ImageModifier 
+              getImg={props.getImg} 
+              changeImg={props.changeImg} 
+              deleteImg={props.deleteImg} 
+              beforeModifyImage={image}>
               </ImageModifier>
               {/* <Img
                 alt="no Image"
@@ -69,7 +57,7 @@ function ModifyReviewInfo(props) {
               <Typography variant="body2">
                 {detail.caffeine}mg / {detail.sugar}g / {detail.cal}Kcal / {detail.price}원
               </Typography>
-              <DatePickerComponent/>
+              <DatePickerComponent getRecordDate={props.getRecordDate}/>
             </Grid>
             <Grid></Grid>
           </Grid>

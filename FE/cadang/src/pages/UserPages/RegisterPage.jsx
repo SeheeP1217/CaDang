@@ -16,7 +16,8 @@ import {
 } from "@mui/material/"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import styled from "styled-components"
-import ImageUploader from "../../components/util/ImageUploader"
+
+import ProfileImageUploader from "../../components/util/ProfileImageUploader"
 import default_image from "../../assets/default_image.png"
 
 const RegisterPage = () => {
@@ -302,7 +303,7 @@ const RegisterPage = () => {
           <Typography component="h1" variant="h5">
             회원가입
           </Typography>
-          <ImageUploader getImg={getImg}></ImageUploader>
+          <ProfileImageUploader getImg={getImg}></ProfileImageUploader>
           <Boxs
             component="form"
             noValidate
