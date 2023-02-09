@@ -80,7 +80,7 @@ public class CafeController {
 
         Long userId = Long.valueOf(request.getAttribute("userId").toString());
 
-        logger.info((" 유저 id - {}", userId));
+        logger.info(" 유저 id - {}", userId);
 
         drinkRequestDto.setUserId(userId);
         List<DrinkResponseDto> drinkResponseDtos = cafeService.findRecommendDrinksByStoreName(drinkRequestDto);
