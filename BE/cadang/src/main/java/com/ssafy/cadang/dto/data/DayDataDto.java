@@ -33,6 +33,6 @@ public class DayDataDto {
         caffeSuccess = data.isCaffeSuccess();
         sugarSuccess = data.isSugarSuccess();
         moneyDaily = data.getMoneyDaily();
-        calDaily = data.getMoneyDaily();
+        calDaily = data.getCalDaily();
     }
 }

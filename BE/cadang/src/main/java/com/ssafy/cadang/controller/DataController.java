@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 
 @Tag(name = "데이터", description = "날짜별 데이터 관련 api 입니다.")
@@ -24,24 +25,30 @@ public class DataController {
     private final DataService dataService;
 
     @GetMapping("/day")
-    public DayDataDto dayDataByUserIdAndDate(@RequestParam Long userId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    public DayDataDto dayDataByUserIdAndDate(HttpServletRequest request, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        Long userId = Long.valueOf(request.getAttribute("userId").toString());
         return dataService.getOneByDate(date, userId);
     }
 
     @GetMapping("/week")
-    public WeekDataDto weekDataByUserIdAndDate(@RequestParam Long userId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    public WeekDataDto weekDataByUserIdAndDate(HttpServletRequest request, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        Long userId = Long.valueOf(request.getAttribute("userId").toString());
         return dataService.getDataByWeek(date, userId);
     }
 
     @GetMapping("/week/graph")
-    public WeekGraphDto weekGraph(@RequestParam Long userId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    public WeekGraphDto weekGraph(HttpServletRequest request,@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        Long userId = Long.valueOf(request.getAttribute("userId").toString());
+
         return dataService.getWeekGraphDto(date, userId);
     }
 
     @GetMapping("/month")
-    public MonthDataDto dataraph(@RequestParam Long userId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    public MonthDataDto datagraph(HttpServletRequest request,  @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        Long userId = Long.valueOf(request.getAttribute("userId").toString());
+
         return dataService.getMonthData(date, userId);
     }
 
-
 }
+
