@@ -17,12 +17,5 @@ public class DrinkNumCheckDto {
         this.cnt = cnt;
 
     }
-    public DrinkNumCheckDto(String drinkName, Long franchiseId, long cnt, Long storeId){
 
-        this.drinkName = drinkName;
-        this.franchiseId = franchiseId;
-        this.cnt = cnt;
-        this.storeId = storeId;
-
-    }
 }
