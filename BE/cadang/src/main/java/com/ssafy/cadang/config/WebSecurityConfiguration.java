@@ -128,8 +128,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers("/v3/api-docs/**").permitAll()
                 .antMatchers("/favicon.ico").permitAll()
-//                .anyRequest().authenticated()
-                .anyRequest().permitAll()
+                .antMatchers("/api-docs/**").permitAll()
+                .anyRequest().authenticated()
+//                .anyRequest().permitAll()
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(), passwordEncoder(), userRepository)) // AuthenticationManager  // 로그인을 하면 클라이언트에게 토큰을 발급해주는 필터
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository));
