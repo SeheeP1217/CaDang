@@ -55,13 +55,13 @@ public class CafeService {
 
         List<DrinkInterface> findDrinks = drinkRepository.getDrinksByStoreName(storeName);   // 음료 이름으로 통일해서 제일 작은 사이즈 정보만 가져옴
 
-        List<DrinkResponseDto> drinkResponseDtos = findDrinks.stream()
+        List<DrinkResponseDto> allDrinks = findDrinks.stream()
                             .map(o -> new DrinkResponseDto(o))
                             .collect(Collectors.toList());
 
         // 마신 기록이 있는 음료들과 이름으로 비교하여 마신 횟수 초기화
         for(DrinkNumCheckDto drinkNumCheckDto: drinkNumCheckDtos) {
-            for(DrinkResponseDto drinkResponseDto: drinkResponseDtos) {
+            for(DrinkResponseDto drinkResponseDto: allDrinks) {
                 if(drinkNumCheckDto.getDrinkName().equals(drinkResponseDto.getDrinkName())) {
                     drinkResponseDto.setCnt(drinkNumCheckDto.getCnt());
                 }
@@ -69,17 +69,14 @@ public class CafeService {
         }
         
         List<DrinkResponseDto> drinkableDrinks = new ArrayList<>();       // 목표량 초과하지 않는 음료 리스트 담을 객체
-        List<DrinkResponseDto> nonDrinkableDrinks = new ArrayList<>();    // 목표량 초과하는 음료 리스트 담을 객체
 
-        for(DrinkResponseDto drinkResponseDto: drinkResponseDtos ){
+        for(DrinkResponseDto drinkResponseDto: allDrinks ){
             if(drinkResponseDto.getCaffeine() <= caffeRest && drinkResponseDto.getSugar() <= sugarRest){
                 drinkableDrinks.add(drinkResponseDto);
-            }else{
-                nonDrinkableDrinks.add(drinkResponseDto);
             }
         }
 
-        drinksForCafeDto = new DrinksForCafeDto(drinkableDrinks, nonDrinkableDrinks,
+        drinksForCafeDto = new DrinksForCafeDto(drinkableDrinks, allDrinks,
                                                 dayDataDto, franchiseId, storeId, storeName);
 
         return drinksForCafeDto;
