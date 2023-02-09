@@ -54,7 +54,7 @@ public class Order {
 
     //----   기록
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
 
