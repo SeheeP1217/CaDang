@@ -4,6 +4,7 @@ package com.ssafy.cadang.service;
 import com.ssafy.cadang.domain.User;
 import com.ssafy.cadang.dto.user.UserDto;
 import com.ssafy.cadang.dto.user.UserGoalDto;
+import com.ssafy.cadang.dto.user.UserModifyDto;
 import com.ssafy.cadang.dto.user.UserPassChangeDto;
 import com.ssafy.cadang.error.CustomException;
 import com.ssafy.cadang.error.ExceptionEnum;
@@ -62,14 +63,14 @@ public class UserAuthService {
 
 
     @Transactional
-    public void modifyUserInfo(UserDto userDto, Long id) {
+    public void modifyUserInfo(UserModifyDto userModifyDto, Long id) {
 
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
-        user.setNickname(userDto.getNickname());
-        user.setCaffeGoal(userDto.getCaffeGoal());
-        user.setSugarGoal(user.getSugarGoal());
+        user.setNickname(userModifyDto.getNickname());
+        user.setCaffeGoal(userModifyDto.getCaffeGoal());
+        user.setSugarGoal(userModifyDto.getSugarGoal());
 
     }
 
