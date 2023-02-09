@@ -31,6 +31,7 @@ public class CafeService {
 
     public DrinksForCafeDto getDrinkByStoreName(Long userId, LocalDate date, String storeName) {
 
+        System.out.println("userId : " +userId + " storeName : "+storeName + " date : " +date);
         DrinksForCafeDto drinksForCafeDto;    // 카페 별 음료 목록 담을 객체
 
         Store findStore = storeRepository.findStoreByStoreName(storeName)
@@ -39,6 +40,7 @@ public class CafeService {
         Data data = dataRepository.findByUserAndDate(date, userId)     // 목표량 충족 리스트 만들기 위해 오늘 data 받아옴
                 .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
 
+
         DayDataDto dayDataDto = new DayDataDto(data);
 
         long caffeRest = (long)data.getCaffeGoal() - data.getCaffeDaily();    // 카페인 잔여량 계산
@@ -46,12 +48,18 @@ public class CafeService {
         long sugarRest = (long)data.getSugarGoal() - data.getSugarDaily();    // 당 잔여량 계산
         if(sugarRest < 0L) sugarRest = 0L;
 
+        System.out.println("caffeRest : "+caffeRest + " sugarRest :" + sugarRest);
+
         List<DrinkNumCheckDto> drinkNumCheckDtos    // 유저가 주문해서 마신 음료의 마신 회수 & 리턴을 위해 프랜차이즈 id까지 함꼐 조회해서 담는 객체
                 = drinkRepository.findByUserIdAndStoreNameAndOrderStatus(userId, storeName, OrderStatus.CANCEL);
+
+        System.out.println(drinkNumCheckDtos);
 
         // 프론트에서 다음 로직을 위해 사용할 데이터(가게id, 프랜차이즈id) 초기화
         Long franchiseId = drinkNumCheckDtos.get(0).getFranchiseId(); 
         Long storeId = drinkNumCheckDtos.get(0).getStoreId();
+
+
 
         List<DrinkInterface> findDrinks = drinkRepository.getDrinksByStoreName(storeName);   // 음료 이름으로 통일해서 제일 작은 사이즈 정보만 가져옴
 

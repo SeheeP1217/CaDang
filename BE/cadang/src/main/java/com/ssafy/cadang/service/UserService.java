@@ -59,6 +59,7 @@ public class UserService {
 
         User user;
 
+
         //TODO: builder() 할 때 activated 필드를 만들어야 되나?
 
 
@@ -151,7 +152,7 @@ public class UserService {
 
     public boolean verifyEmail(String email) {
         if (email.isEmpty()) {
-            // 아이디를 입력해주세요
+
             throw new CustomException(ExceptionEnum.MAIL_VERIFY_EMPTY);
         }
         if (userRepository.existsByEmail(email)) {

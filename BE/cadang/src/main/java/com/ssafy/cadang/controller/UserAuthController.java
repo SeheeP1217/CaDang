@@ -8,6 +8,7 @@ import com.ssafy.cadang.dto.user.UserPassChangeDto;
 import com.ssafy.cadang.service.DataService;
 import com.ssafy.cadang.service.UserAuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +50,7 @@ public class UserAuthController {
 
     //유저 프로필 수정
     @PutMapping("/modify")
-    public ResponseEntity<?> modify(HttpServletRequest request, @Valid UserModifyDto userModifyDto, BindingResult bindingResult) {
+    public ResponseEntity<?> modify(HttpServletRequest request, @Valid UserModifyDto userModifyDto, BindingResult bindingResult) throws IOException {
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
@@ -68,8 +70,6 @@ public class UserAuthController {
 
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
-
-    // 유저 프로필 사진
 
 
 
