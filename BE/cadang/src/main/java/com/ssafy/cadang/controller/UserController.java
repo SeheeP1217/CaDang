@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,7 +31,9 @@ public class UserController {
 
     //회원가입
     @PostMapping("/user/join")
-    public ResponseEntity<String> join(@Valid UserDto userDto) throws IOException {
+    public ResponseEntity<String> join(@Valid UserDto userDto, BindingResult bindingResult) throws IOException {
+        if (bindingResult.hasErrors())
+            log.info("valid 에러 + {}", bindingResult.getAllErrors());
         userService.join(userDto);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
