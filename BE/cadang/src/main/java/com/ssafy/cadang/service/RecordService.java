@@ -208,6 +208,7 @@ public class RecordService {
 
 
     private String uploadImage(MultipartFile image, String regDate) throws IOException {
+
         if (image != null) {
             MultipartFile file = image;
             String uuid = UUID.randomUUID().toString();

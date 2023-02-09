@@ -5,7 +5,7 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class IdConstraintValidator implements ConstraintValidator<ValidPassword, String> {
+public class IdConstraintValidator implements ConstraintValidator<ValidId, String> {
     @Override
     public boolean isValid(String password, ConstraintValidatorContext context) {
         Pattern pattern = Pattern.compile("^[a-zA-Z0-9]+$");
