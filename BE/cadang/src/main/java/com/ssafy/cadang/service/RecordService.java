@@ -140,16 +140,16 @@ public class RecordService {
         }
         // 파일 업로드
         // TODO 날짜 형식 프론트와 통일하기
-        LocalDateTime localDateTime = LocalDateTime.parse(updateDto.getRegDate());
+        LocalDateTime localDateTime = LocalDate.parse(updateDto.getRegDate()).atStartOfDay();
         findRecord.setRegDate(localDateTime);
-
-
         findRecord.setMemo(updateDto.getMemo());
         findRecord.setPublic(updateDto.getIsPublic());
-        if (updateDto.getIsModified() == 1) {
+        if (updateDto.getIsModified() == 1) { 
+            // 수정
             String imgUrl = uploadImage(updateDto.getImage(), updateDto.getRegDate());
             findRecord.setPhoto(imgUrl);
         } else if (updateDto.getIsModified() == 2) {
+            // 기본 이미지로
             String imgUrl = findRecord.getDrink().getImage();
             findRecord.setPhoto(imgUrl);
         }
