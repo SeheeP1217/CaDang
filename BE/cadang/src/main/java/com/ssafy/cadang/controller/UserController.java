@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -31,9 +33,14 @@ public class UserController {
 
     //회원가입
     @PostMapping("/user/join")
-    public ResponseEntity<String> join(@Valid UserDto userDto, BindingResult bindingResult) throws IOException {
-        if (bindingResult.hasErrors())
-            log.info("valid 에러 + {}", bindingResult.getAllErrors());
+    public ResponseEntity<?> join(@Valid UserDto userDto, BindingResult bindingResult) throws IOException {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            bindingResult.getFieldErrors().forEach(fieldError ->
+                    errors.put(fieldError.getField(), fieldError.getDefaultMessage())
+            );
+            return ResponseEntity.badRequest().body(errors);
+        }
         userService.join(userDto);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
