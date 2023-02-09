@@ -42,7 +42,9 @@ public class CafeService {
         DayDataDto dayDataDto = new DayDataDto(data);
 
         long caffeRest = (long)data.getCaffeGoal() - data.getCaffeDaily();    // 카페인 잔여량 계산
-        long sugarRest = (long)data.getSugarGoal() - data.getCaffeDaily();    // 당 잔여량 계산
+        if(caffeRest < 0L) caffeRest = 0L;
+        long sugarRest = (long)data.getSugarGoal() - data.getSugarDaily();    // 당 잔여량 계산
+        if(sugarRest < 0L) sugarRest = 0L;
 
         List<DrinkNumCheckDto> drinkNumCheckDtos    // 유저가 주문해서 마신 음료의 마신 회수 & 리턴을 위해 프랜차이즈 id까지 함꼐 조회해서 담는 객체
                 = drinkRepository.findByUserIdAndStoreNameAndOrderStatus(userId, storeName, OrderStatus.CANCEL);
@@ -116,7 +118,8 @@ public class CafeService {
 
         List<String> storeNameList = drinkRequestDto.getStoreNames(); // 프랜차이즈명 + 지점명 리스트 받음 
 
-        if(storeNameList.size() == 0) throw new CustomException(ExceptionEnum.STORE_NO_INPUT); // 들어온 값이 없으면 size 0인 리스트 리턴
+//        if(storeNameList.size() == 0) throw new CustomException(ExceptionEnum.STORE_NO_INPUT); // 들어온 값이 없으면 size 0인 리스트 리턴
+        if(storeNameList.size() == 0) return drinkResponseDtos;
 
         List<Franchise> findAllFranchises = franchiseRepository.findAllByFranchiseNameAsc(); // DB의 프랜차이즈 목록 받아옴
         List<Long> franchiseIds = new ArrayList<>();  // 받아온 리스트 중 DB에 있는 것들만 franchiseId를 넣을 리스트 선언
@@ -132,7 +135,8 @@ public class CafeService {
             }
         }
         
-        if(franchiseIds.size() == 0) throw new CustomException(ExceptionEnum.FRANCHISE_NOT_IN_DATABASE); // 받아온 리스트에 DB에 있는 프랜차이즈가 없으면 size가 0인 리스트 리턴
+//        if(franchiseIds.size() == 0) throw new CustomException(ExceptionEnum.FRANCHISE_NOT_IN_DATABASE); // 받아온 리스트에 DB에 있는 프랜차이즈가 없으면 size가 0인 리스트 리턴
+        if(storeNameList.size() == 0) return drinkResponseDtos;
 
         LocalDate date = drinkRequestDto.getDate();
         Long userId = drinkRequestDto.getUserId();
