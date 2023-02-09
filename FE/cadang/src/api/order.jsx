@@ -8,6 +8,7 @@ const api = axios.create({
     Authorization:
       "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjoxOSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjA0MjA3NX0.Rk9h_uPYbY1p8KTSICftS6yXNFwfTdb0leMM5I6__vCOWTtE6MxzkPfe9MHAgtCjB1sn0MlUhgQt767TtqO1rQ",
 
+
     // Authorization: `Token ${token}`,
     "Content-Type": "application/json",
   },
@@ -28,11 +29,10 @@ async function cafeDrinkData(franchiseId, drinkName, storeName, success, fail) {
   return res;
 }
 
-async function cafeDrinkList(userId, date, storeName, success, fail) {
+async function cafeDrinkList(date, storeName, success, fail) {
   const res = await api
     .get(`/cafe/drinklist`, {
       params: {
-        userId: userId,
         date: date,
         storeName: storeName,
       },
