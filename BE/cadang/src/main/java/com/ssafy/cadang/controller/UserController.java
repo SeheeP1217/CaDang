@@ -48,15 +48,7 @@ public class UserController {
 
     // 회원가입 이메일 인증 번호 발송 및 재발송
     @PostMapping("/user/email")
-    public ResponseEntity<?> sendEmailCode(@RequestParam("email") String email, BindingResult bindingResult) throws Exception {
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errors = new HashMap<>();
-            bindingResult.getFieldErrors().forEach(fieldError ->
-                    errors.put(fieldError.getField(), fieldError.getDefaultMessage())
-            );
-            System.out.println(errors);
-            return ResponseEntity.badRequest().body(errors);
-        }
+    public ResponseEntity<?> sendEmailCode(@RequestParam("email") String email) throws Exception {
         // 이메일 중복 검사
         userService.verifyEmail(email);
         emailService.sendSignupMessage(email);
