@@ -11,8 +11,8 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = PasswordConstraintValidator.class)
 @Target({ElementType.TYPE, ElementType.FIELD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidPassword {
-    String message() default "비밀번호 형식이 유효하지 않습니다.";
+public @interface ValidId {
+    String message() default "아이디 형식이 유효하지 않습니다.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
