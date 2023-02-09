@@ -37,7 +37,7 @@ public class CafeController {
         Long userId = Long.valueOf(request.getAttribute("userId").toString());
         DrinksForCafeDto drinksForCafeDto = cafeService.getDrinkByStoreName(userId, date, storeName);
 
-        logger.info("응답 결과 - {}", drinksForCafeDto.toString());
+        logger.info("응답 결과 사이즈- {}", drinksForCafeDto);
 
         return new ResponseEntity<DrinksForCafeDto>(drinksForCafeDto, HttpStatus.ACCEPTED);
     }
