@@ -46,7 +46,7 @@ public class RecordController {
     }
 
     @PutMapping
-    public Long updateRecord(HttpServletRequest request, @RequestBody RecordUpdateDto updateDto) throws IOException {
+    public Long updateRecord(HttpServletRequest request, RecordUpdateDto updateDto) throws IOException {
         Long userId = Long.valueOf(request.getAttribute("userId").toString());
         return recordService.updateRecord(userId, updateDto);
     }
