@@ -38,14 +38,12 @@ public class OrderController {
         logger.info("saveOrder - 호출 {} ", orderSaveDto);
         logger.info(" 요청 시간 - {}", LocalDateTime.now());
 
-        Long userId = Long.valueOf(request.getAttribute("userId").toString());
-        orderSaveDto.setUserId(userId);
+        Long customerId = Long.valueOf(request.getAttribute("userId").toString());
+        Long storeId = orderService.saveOrder(orderSaveDto, customerId);
 
-        Long orderId = orderService.saveOrder(orderSaveDto);
+        logger.info("응답 결과 - {}", storeId);
 
-        logger.info("응답 결과 - {}", orderId);
-
-        return new ResponseEntity<Long>(orderId, HttpStatus.ACCEPTED);
+        return new ResponseEntity<Long>(storeId, HttpStatus.ACCEPTED);
     }
 
     @GetMapping

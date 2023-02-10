@@ -13,7 +13,6 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 public class OrderSaveDto {
 
-    private Long userId;
     private Long drinkId;
 
     private int caffeine;
@@ -36,9 +35,6 @@ public class OrderSaveDto {
     // ---------- 기록 주문 공통
 
     private Long storeId;
-
-    @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
 
 
     // ------- 주문

@@ -31,7 +31,7 @@ public class UserAuthController {
 
     // 초기 카페인, 당목표량 설정
     @PutMapping("/goalSet")
-    public ResponseEntity<?> goalSet(HttpServletRequest request, @Valid UserGoalDto userGoalDto, BindingResult bindingResult) throws Exception {
+    public ResponseEntity<?> goalSet(HttpServletRequest request, @Valid @RequestBody UserGoalDto userGoalDto, BindingResult bindingResult) throws Exception {
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
@@ -42,7 +42,8 @@ public class UserAuthController {
         }
         Long id = Long.valueOf(request.getAttribute("userId").toString());
 
-        userAuthService.setGoal(userGoalDto,id);
+        userAuthService.setGoal(userGoalDto, id);
+        dataService.updateGoal(id);
 
         return new ResponseEntity<>("success", HttpStatus.OK);
 
@@ -51,7 +52,10 @@ public class UserAuthController {
 
     //유저 프로필 수정
     @PutMapping("/modify")
-    public ResponseEntity<?> modify(HttpServletRequest request, @Valid UserModifyDto userModifyDto, BindingResult bindingResult) throws IOException {
+    public ResponseEntity<?> modify( @Valid UserModifyDto userModifyDto, BindingResult bindingResult, HttpServletRequest request) throws IOException {
+        System.out.println(userModifyDto.getCaffeGoal());
+        System.out.println(userModifyDto.getSugarGoal());
+        System.out.println(userModifyDto.getNickname());
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
@@ -62,7 +66,6 @@ public class UserAuthController {
         }
 
         Long id = Long.valueOf(request.getAttribute("userId").toString());
-
 
 
         userAuthService.modifyUserInfo(userModifyDto, id);

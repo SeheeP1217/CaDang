@@ -28,14 +28,12 @@ public class UserAuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${EC2_FILE_PATH}")
-    private String RecordUploadPath;
+    @Value("${DEFAULT_PROFILE_FILE}")
+    private String DefaultProfileFile;
 
     @Value("${EC2_PROFILE_PATH}")
     private String UserProfileImgPath;
 
-    @Value("${DEFAULT_PROFILE_PATH}")
-    private String DefaultProfileImgPath;
 
     private String getFullPath(String imgPath, String filename) {
         return imgPath + filename;
@@ -68,16 +66,23 @@ public class UserAuthService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
 
-        multipartFile = userModifyDto.getImg();
-        String originalFilename = multipartFile.getOriginalFilename();
-        String storeFilename = createStoreFileName(originalFilename);
-        String storedPath = getFullPath(UserProfileImgPath, storeFilename);
-        multipartFile.transferTo(new File(storedPath));
+        if (userModifyDto.getIsModified() == 1) {
+            // 수정
+            multipartFile = userModifyDto.getImg();
+            String originalFilename = multipartFile.getOriginalFilename();
+            String storeFilename = createStoreFileName(originalFilename);
+            String storedPath = getFullPath(UserProfileImgPath, storeFilename);
+            multipartFile.transferTo(new File(storedPath));
+            user.setImgUrl(storeFilename);
+        } else if (userModifyDto.getIsModified() == 2) {
+            // 기본 이미지로
+            user.setImgUrl(DefaultProfileFile);
+        }
 
         user.setNickname(userModifyDto.getNickname());
         user.setCaffeGoal(userModifyDto.getCaffeGoal());
         user.setSugarGoal(userModifyDto.getSugarGoal());
-        user.setImgUrl(storeFilename);
+
 
     }
 
@@ -113,9 +118,6 @@ public class UserAuthService {
     }
 
 
-
-
-
     // 서버에 저장할 파일명을 만든다.
     private String createStoreFileName(String originalFilename) {
         String ext = extractExt(originalFilename);
@@ -129,9 +131,6 @@ public class UserAuthService {
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);
     }
-
-
-
 
 
 }

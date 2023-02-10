@@ -4,9 +4,11 @@ package com.ssafy.cadang.controller;
 
 import com.ssafy.cadang.dto.user.EmailVerifyDto;
 import com.ssafy.cadang.dto.user.UserDto;
+import com.ssafy.cadang.service.DataService;
 import com.ssafy.cadang.service.EmailServiceImpl;
 import com.ssafy.cadang.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -27,10 +29,12 @@ import java.util.Map;
 public class UserController {
     private final UserService userService;
     private final EmailServiceImpl emailService;
+    private final DataService dataService;
 
 
     //회원가입
     @PostMapping("/user/join")
+    @Operation(summary = "회원가입")
     public ResponseEntity<?> join(@Valid UserDto userDto, BindingResult bindingResult) throws IOException {
 
         System.out.println("userDto: " + userDto);
@@ -42,12 +46,14 @@ public class UserController {
             return ResponseEntity.badRequest().body(errors);
         }
         userService.join(userDto);
+
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
 
     // 회원가입 이메일 인증 번호 발송 및 재발송
     @PostMapping("/user/email")
+    @Operation(summary = "회원가입 시 이메일 인증번호 발송")
     public ResponseEntity<?> sendEmailCode(@RequestParam("email") String email) throws Exception {
         // 이메일 중복 검사
         userService.verifyEmail(email);
@@ -58,6 +64,7 @@ public class UserController {
     //이메일 인증 번호 검증
     //Todo: 검증 성공시 성공했다는 반환값을 프론트로 보내줘야 함
     @GetMapping("/user/email/verify")
+    @Operation(summary = "회원가입 시 이메일 인증번호 확인")
     public boolean emailVerify(@RequestParam("key") String key, @RequestParam("email") String email) {
         boolean key_check;
 
@@ -69,6 +76,7 @@ public class UserController {
 
     // 아이디 중복 검증
     @GetMapping("/user/id/verify")
+    @Operation(summary = "아이디 중복 확인")
     public boolean idVerify(@RequestParam("id") String id) {
         boolean id_check;
 
@@ -80,6 +88,7 @@ public class UserController {
 
     // 비밀번호 찾아서 변경하는 이메일 보내기
     @PostMapping("/user/email/findpw")
+    @Operation(summary = "비밀번호 찾기 시 이메일 인증번호 발송")
     public ResponseEntity<Boolean> findPw(@RequestParam String email, @RequestParam String memberId) throws Exception {
         // 이메일 중복 검사
         if (userService.verifyId(email, memberId))
@@ -88,6 +97,7 @@ public class UserController {
     }
 
     @GetMapping("/user/email/findpw")
+    @Operation(summary = "비밀번호 찾기 시 이메일 인증번호 확인")
     public ResponseEntity<?> verifyEmail(@RequestParam String key, @RequestParam String email) {
         if (emailService.verifyEmail(email, key)) {
             Long id = userService.findByEmail(email);
@@ -103,11 +113,13 @@ public class UserController {
 
 
     @GetMapping("/user/findid")
+    @Operation(summary = "아이디 찾기")
     public String findid(@RequestParam("username") String name, @RequestParam("email") String email) {
         return userService.findId(name, email);
     }
 
     @PutMapping("/user/newpass")
+    @Operation(summary = "비밀번호 찾기 - 이메일 인증 후 비밀번호 재설정")
     public boolean updatePassword(@RequestParam Long memberId, @RequestParam String password) {
         userService.updatePasswordByMemberId(memberId, password);
         return true;
