@@ -16,7 +16,8 @@ const item = {
   vanilla: 0,
   hazelnut: 0,
   caramel: 0,
-  photo: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[110563]_20210426095937808.jpg",
+  photo:
+    "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[110563]_20210426095937808.jpg",
   storeName: "스타벅스 역삼대로",
   storeId: 1,
 };
@@ -26,4 +27,4 @@ const orderItem = atom({
   default: item,
 });
 
-export {orderItem};
+export { orderItem };
