@@ -145,7 +145,7 @@ const RegisterPage = () => {
   }
 
   // 닉네임 유효성 검사
-  const nicknameRegex = /^[가-힣a-zA-Z0-9]+$/
+  const nicknameRegex = /^(([가-힣a-zA-Z0-9]).{1,20})+$/
   const onChangeNickname = (e) => {
     if (
       !e.target.value ||
@@ -153,7 +153,7 @@ const RegisterPage = () => {
       nickname.length < 1
     )
       setNicknameError(false)
-    else setNicknameError("한글, 영어, 숫자만 사용 가능합니다.")
+    else setNicknameError("한글, 영어, 숫자로 1~20자만 사용 가능합니다.")
     setNickname(e.target.value)
   }
 

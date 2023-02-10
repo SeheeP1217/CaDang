@@ -6,7 +6,8 @@ const api = axios.create({
   baseURL: "http://i8a808.p.ssafy.io:8080",
   headers: {
     Authorization:
-      "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjoxOSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjA3MzM2NX0.v7Wl5Q4_iLE7djrJ3OjkxO27lfticCWPPPQMSQLlzsxbI7517FR7FoISS68cG9lpOf5AULRZ7C985dtgelcMAw",
+      "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjo2OSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjA5ODMwOH0.sW7OaiNg0mOT0euRy1po_cguzTrPTJpqWcg2piKOIh9DKcEC1Ds_r4UAnDD8v1pLxHLl-KTOpij8ejwKdsPPag",
+    "Content-Type": "application/json",
   },
 })
 
@@ -14,7 +15,7 @@ const formApi = axios.create({
   baseURL: "http://i8a808.p.ssafy.io:8080",
   headers: {
     Authorization:
-      "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjoxOSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjA3MzM2NX0.v7Wl5Q4_iLE7djrJ3OjkxO27lfticCWPPPQMSQLlzsxbI7517FR7FoISS68cG9lpOf5AULRZ7C985dtgelcMAw",
+      "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjo2OSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjA5ODMwOH0.sW7OaiNg0mOT0euRy1po_cguzTrPTJpqWcg2piKOIh9DKcEC1Ds_r4UAnDD8v1pLxHLl-KTOpij8ejwKdsPPag",
     "Content-Type": "multipart/form-data",
   },
 })
@@ -54,4 +55,42 @@ async function deleteReview(reviewId, success, fail) {
   return res
 }
 
-export { userReview, userReviewDetail, deleteReview }
+// 당일 기준 레포트 데이터 조회
+async function getWeeklyData(Date, success, fail) {
+  const res = await api
+    .get(`/data/week`, { params: { date: Date } })
+    .then(success)
+    .catch(fail)
+  return res
+}
+
+// 이전 일자 레포트 데이터 조회
+async function getGraphData(Date, success, fail) {
+  const res = await api
+    .get(`/data/week/graph`, { params: { date: Date } })
+    .then(success)
+    .catch(fail)
+  return res
+}
+
+//캘린더
+async function dataMonth(date, success, fail) {
+  const res = await api
+    .get("/data/month", {
+      params: {
+        date: date,
+      },
+    })
+    .then(success)
+    .catch(fail)
+  return res
+}
+
+export {
+  userReview,
+  userReviewDetail,
+  deleteReview,
+  getWeeklyData,
+  getGraphData,
+  dataMonth,
+}

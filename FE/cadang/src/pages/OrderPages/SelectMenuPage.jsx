@@ -17,9 +17,9 @@ function SelectMenuPage() {
   const date = useRecoilValue(todayDate)
   const storeName = "스타벅스 역삼대로점"
 
-  const [possible, setPossible] = useState([])
-  const [impossible, setImpossible] = useState([])
-  const [all, setAll] = useState([])
+  // const [possible, setPossible] = useState([])
+  // const [impossible, setImpossible] = useState([])
+  // const [all, setAll] = useState([])
 
   const [menu, setMenu] = useState({
     drinkableDrinks: [
@@ -110,12 +110,12 @@ function SelectMenuPage() {
           </Typography>
           <Box sx={{ flexGrow: 1 }} textAlign="center">
             <Card>
-              스타벅스 강남점 / 320m
+              {storeName} / 320m
               <Button>상세 페이지</Button>
             </Card>
           </Box>
           <Card>
-            {/* <DailyConsumptionGraph/> */}
+            <DailyConsumptionGraph/>
           </Card>
           <Card sx={{ marginY: 2 }}>
             {/* <DailyConsumptionGraph data={afterSelectData} /> */}

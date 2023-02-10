@@ -11,7 +11,7 @@ export default function TopBar() {
   const ref = React.useRef(null);
 
   return (
-    <Box sx={{ pb: 7 }} ref={ref}>
+    <Box sx={{ pb: 7, zIndex: 5 }} ref={ref}>
       <CssBaseline />
       <AppBar className="appBar" position="static">
         <Toolbar>
