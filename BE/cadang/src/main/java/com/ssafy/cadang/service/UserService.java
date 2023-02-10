@@ -95,7 +95,7 @@ public class UserService {
                     .nickname(userDto.getNickname())
                     .caffeGoal(defaultCaffeineGoal)
                     .sugarGoal(defaultSugarGoal)
-                    .imgUrl(DefaultProfileImgPath)
+                    .imgUrl("default_image.png")
                     .authorities("ROLE_USER")
                     .build();
 
