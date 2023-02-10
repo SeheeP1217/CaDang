@@ -56,4 +56,14 @@ public class DrinkResponseDto {
         franchiseId = drinkInterface.getFranchiseId();
 
     }
+
+    public DrinkResponseDto(String drinkName, Integer caffeine, Integer sugar, Integer cal, Integer price, String image) {
+
+        this.drinkName = drinkName;
+        this.caffeine = caffeine;
+        this.sugar = sugar;
+        this.cal = cal;
+        this.price = price;
+
+    }
 }
