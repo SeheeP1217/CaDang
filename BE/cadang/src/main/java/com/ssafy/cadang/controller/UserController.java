@@ -1,8 +1,6 @@
 package com.ssafy.cadang.controller;
 
 
-import com.ssafy.cadang.domain.User;
-
 
 import com.ssafy.cadang.dto.user.EmailVerifyDto;
 import com.ssafy.cadang.dto.user.UserDto;
@@ -38,6 +36,8 @@ public class UserController {
     @PostMapping("/user/join")
     @Operation(summary = "회원가입")
     public ResponseEntity<?> join(@Valid UserDto userDto, BindingResult bindingResult) throws IOException {
+
+        System.out.println("userDto: " + userDto);
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             bindingResult.getFieldErrors().forEach(fieldError ->
