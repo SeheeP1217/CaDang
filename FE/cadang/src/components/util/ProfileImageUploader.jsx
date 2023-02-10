@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 import default_image from "../../assets/default_image.png";
 import styled from "styled-components";
 
-const ImageUploader = ({ getImg }) => {
+const ProfileImageUploader = ({ getImg }) => {
   const [imagestatus, setImageStatus] = useState({
     image_file: "",
     preview_URL: default_image,
@@ -13,6 +13,10 @@ const ImageUploader = ({ getImg }) => {
   //컴포넌트 이름 바꾸기
 
   let inputRef;
+
+  useEffect(function() {
+    getImg(imagestatus.image_file, imagestatus.preview_URL)
+  }, [imagestatus])
 
   const saveImage = (e) => {
     e.preventDefault();
@@ -114,4 +118,4 @@ const SaveButton = styled.button`
   grid-column: 3;
 `;
 
-export default ImageUploader;
+export default ProfileImageUploader;

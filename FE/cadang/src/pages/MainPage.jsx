@@ -3,13 +3,14 @@ import axios from "axios";
 import Box from "@mui/material/Box";
 import OrderStatus from "../components/OrderStatus";
 import DrinkRecommendation from "../components/DrinkRecommendation";
-import DailyConsumptionGraph from "../components/util/DailyConsumptionGraph";
+import MainDailyConsumptionGraph from "../components/util/MainDailyConsumptionGraph";
 import DailyOtherInfo from "../components/DailyOtherInfo";
 import { Card } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userId, todayDate } from "../recoil/atom/user.jsx";
 import { todayDashboard } from "../api/main";
+import TodayChart from "../components/TodayChart"
 
 export default function MainPage() {
   const [load, setLoad] = useState(false);
@@ -26,6 +27,17 @@ export default function MainPage() {
     caffeSuccess: true,
     sugarSuccess: true,
   });
+
+  const data = [
+    {
+      name: "카페인",
+      consumption: 2400,
+    },
+    {
+      name: "당",
+      consumption: 1398,
+    },
+  ];
 
   // 로그인 한 사용자 아이디
   // const id = useRecoilValue(userId);
@@ -48,12 +60,12 @@ export default function MainPage() {
 
   // 첫 화면이 랜더링 되기 전
   useMemo(() => {
+    
     const getDashboard = async () => {
       await todayDashboard(
         dateString,
-        2,
         (res) => {
-          console.log(res.data);
+          console.log("!!!!===== "+res.data);
           return res.data;
         },
         (err) => console.log(err)
@@ -68,8 +80,9 @@ export default function MainPage() {
 
   useEffect(() => {
     console.log("화면 랜더링");
+    console.log(today);
     setLoad(true);
-    setToday(dateString);
+    // setToday(dateString);
   }, []);
 
   return (
@@ -78,7 +91,8 @@ export default function MainPage() {
         오늘의 현황
       </Typography>
       <Card>
-        <DailyConsumptionGraph data={data} />
+        {/* <TodayChart/> */}
+        <MainDailyConsumptionGraph data={data} />
         <DailyOtherInfo money={dashboard.moneyDaily} kcal={dashboard.calDaily} />
       </Card>
       <OrderStatus />
@@ -87,7 +101,6 @@ export default function MainPage() {
           음료 추천
         </Typography>
       </Box>
-
       <Box sx={{ mt: 1 }}>
         <DrinkRecommendation />
       </Box>
@@ -95,22 +108,3 @@ export default function MainPage() {
   );
 }
 
-const data = [
-  {
-    name: "카페인",
-    consumption: 2400,
-    change: 0,
-  },
-  {
-    name: "당",
-    consumption: 1398,
-    change: 0,
-  },
-];
-
-const dailyData = [
-  {
-    calorie: 4000,
-    money: 2400,
-  },
-];

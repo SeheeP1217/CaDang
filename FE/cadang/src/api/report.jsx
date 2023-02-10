@@ -5,8 +5,16 @@ const token = localStorage.getItem("token")
 const api = axios.create({
   baseURL: "http://i8a808.p.ssafy.io:8080",
   headers: {
-    Authorization: "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjoxOSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NTk0NDgxMn0.0wKt87MoJnFpoIuwQZeBnj8e1v3LOGpBDEY2duER05ruO-G_D-Ub3TmKGiD0QkS7O1jJBaXzYHYmfF3ceb6ANg",
+    Authorization: "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjoxOSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjA0MjA3NX0.Rk9h_uPYbY1p8KTSICftS6yXNFwfTdb0leMM5I6__vCOWTtE6MxzkPfe9MHAgtCjB1sn0MlUhgQt767TtqO1rQ",
     "Content-Type": "application/json",
+  },
+})
+
+const formApi = axios.create({
+  baseURL: "http://i8a808.p.ssafy.io:8080",
+  headers: {
+    Authorization: "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjoxOSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjA0MjA3NX0.Rk9h_uPYbY1p8KTSICftS6yXNFwfTdb0leMM5I6__vCOWTtE6MxzkPfe9MHAgtCjB1sn0MlUhgQt767TtqO1rQ",
+    "Content-Type": "multipart/form-data",
   },
 })
 
@@ -24,28 +32,28 @@ async function userReview(userId, pageIndex, success, fail) {
 //리뷰별 디테일 조회
 async function userReviewDetail(reviewId, success, fail) {
   const res = await api
-    .get(`/record/${reviewId}`, { params: { recordId: reviewId } })
+    .get(`/record/${reviewId}`)
     .then(success)
     .catch(fail)
   return res
 }
 
-//리뷰별 디테일 조회
-async function modifyReviewDetail(modifyData, success, fail) {
-  const res = await api
-    .put(`/record/`, modifyData)
-    .then(success)
-    .catch(fail)
-  return res
-}
+//리뷰별 디테일 수정
+// async function modifyReviewDetail(modifyData, success, fail) {
+//   const res = await formApi
+//     .put(`/record/`, modifyData)
+//     .then(success)
+//     .catch(fail)
+//   return res
+// }
 
 //리뷰 삭제
 async function deleteReview(reviewId, success, fail) {
   const res = await api
-    .delete(`/record/${reviewId}`)
+    .delete(`/record/${reviewId}`, { params: { recordId: reviewId } })
     .then(success)
     .catch(fail)
   return res
 }
 
-export { userReview, userReviewDetail, modifyReviewDetail, deleteReview, }
+export { userReview, userReviewDetail, deleteReview, }

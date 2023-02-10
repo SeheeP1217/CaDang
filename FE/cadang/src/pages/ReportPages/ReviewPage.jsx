@@ -1,4 +1,6 @@
 import * as React from "react";
+import axios from "axios";
+import dayjs from "dayjs";
 import { Fragment, useState, useMemo, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Grid, Card } from "@mui/material";
@@ -6,7 +8,7 @@ import Typography from "@mui/joy/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-import { userReviewDetail, modifyReviewDetail } from "../../api/report";
+import { userReviewDetail } from "../../api/report";
 
 import ModifyReviewInfo from "../../components/ModifyReviewInfo";
 import ReadOnlyCustomOption from "../../components/ReadOnlyCustomOption";
@@ -14,6 +16,7 @@ import ReadOnlyCustomOption from "../../components/ReadOnlyCustomOption";
 const ReviewPage = () => {
   const location = useLocation();
   const reviewId = location.state.review.id;
+  const originImg = location.state.review.photo;
 
   const [reviewDetail, setreviewDetail] = useState({
     reviewDetail: [
@@ -40,13 +43,6 @@ const ReviewPage = () => {
       },
     ],
   });
-
-  const [modifyDate, setmodifyDate] = useState(reviewDetail.regDate);
-  const [modifyIsPublic, setmodifyIsPublic] = useState(true);
-  const [modifyMemo, setModifyMemo] = useState(reviewDetail.memo);
-  const [modifyImage, setImage] = useState(reviewDetail.photo);
-  const [isModified, setIsModified] = useState(0);
-
   useMemo(() => {
     const getReviewDetails = async () => {
       await userReviewDetail(
@@ -60,22 +56,33 @@ const ReviewPage = () => {
     getReviewDetails();
   }, [reviewId]);
 
+  const recordDate = dayjs(reviewDetail.regDate).format("YYYY-MM-DD");
+  const [modifyDate, setmodifyDate] = useState(recordDate);
+  const [modifyIsPublic, setmodifyIsPublic] = useState(true);
+  const [modifyMemo, setModifyMemo] = useState(reviewDetail.memo);
+  const [modifyImage, setImage] = useState({
+    image_file: "",
+    preview_URL: originImg,
+  });
+  console.log(reviewDetail);
+  console.log(originImg);
+  const [isModified, setIsModified] = useState(0);
+
   /////////날짜 변경 확인
-  const getRecordDate = (dateInfo) => {
-    const newDate = dateInfo;
-    setmodifyDate(newDate);
-    console.log(modifyDate);
+  const getRecordDate = (newValue) => {
+    setmodifyDate(newValue);
   };
 
-  useEffect(() => {
-    getRecordDate();
-  }, [modifyDate]);
+  // use
+  // useEffect(() => {
+  //   getRecordDate();
+  //   console.log(modifyDate)
+  // }, [modifyDate]);
 
   /////////이미지 변경 확인
   const getImg = (image_file, preview_URL) => {
     const newImage = { image_file, preview_URL };
     setImage(newImage);
-    console.log(modifyImage);
   };
 
   const changeImg = () => {
@@ -88,36 +95,66 @@ const ReviewPage = () => {
     console.log(isModified);
   };
 
-  useEffect(() => {
-    changeImg();
-    deleteImg();
-  }, [modifyImage]);
+  // useEffect(() => {
+  //   changeImg();
+  //   deleteImg();
+  //   console.log(modifyImage);
+  // }, [modifyImage]);
+
+  // useEffect(() => {
+  //   getImg();
+  //   console.log(modifyImage);
+  // }, [modifyImage]);
 
   //리뷰글 변경 확인
   const onChangeMemo = (e) => {
     setModifyMemo(e.target.value);
   };
 
-  const modifyReviewDetailRecord = async () => {
-    const modifyData = JSON.stringify({
-      id: reviewDetail.id,
-      regDate: modifyDate,
-      isPublic: true,
-      memo: modifyMemo,
-      image: modifyImage,
-      isModified: isModified,
-    })
-    await modifyReviewDetail(
-      modifyData,
-      (res) => console.log(res),
-      (err) => console.log(err),
-    ).then((res) => {
-      if (res.status === 200) {
-        window.location.reload()
-      }
-    });
+  const modifyData = {
+    id: reviewDetail.id,
+    regDate: modifyDate,
+    isPublic: true,
+    memo: modifyMemo,
+    isModified: isModified,
   };
 
+  const formData = new FormData();
+  formData.append("image", modifyImage.image_file);
+  formData.append("data", JSON.stringify(modifyData));
+
+  console.log(formData);
+  console.log(modifyData);
+
+  // const modifyReviewDetailRecord = async () => {
+  //   await modifyReviewDetail(
+  //     formData,
+  //     (res) => console.log(res),
+  //     (err) => console.log(err),
+  //   ).then((res) => {
+  //     if (res.status === 200) {
+  //       window.location.reload()
+  //     }
+  //   });
+  // };
+
+  const modifyReviewDetailRecord = async () => {
+    await axios
+      .put("http://i8a808.p.ssafy.io:8080/record", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization:
+          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjoxOSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjA0MjA3NX0.Rk9h_uPYbY1p8KTSICftS6yXNFwfTdb0leMM5I6__vCOWTtE6MxzkPfe9MHAgtCjB1sn0MlUhgQt767TtqO1rQ",
+        },
+        params: modifyData,
+      })
+      .then(function (response) {
+        console.log(response, "성공");
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  };
 
   return (
     <Fragment>
@@ -134,9 +171,8 @@ const ReviewPage = () => {
       />
       <Card sx={{ marginTop: 2, height: 110 }}>
         <TextField
+          defaultValue={reviewDetail.memo}
           fullWidth
-          id="standard-multiline-static"
-          placeholder={reviewDetail.memo}
           multiline
           rows={4}
           variant="standard"
@@ -145,7 +181,9 @@ const ReviewPage = () => {
       </Card>
       <ReadOnlyCustomOption data={reviewDetail} />
       <Grid item>
-        <Button fullWidth={true} onClick={modifyReviewDetailRecord}>저장하기</Button>
+        <Button fullWidth={true} onClick={modifyReviewDetailRecord}>
+          저장하기
+        </Button>
       </Grid>
     </Fragment>
   );

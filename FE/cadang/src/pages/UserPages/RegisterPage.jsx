@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { Link, useHistory } from "react-router-dom"
 import axios from "axios"
 import {
@@ -16,7 +16,8 @@ import {
 } from "@mui/material/"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import styled from "styled-components"
-import ImageUploader from "../../components/util/ImageUploader"
+
+import ProfileImageUploader from "../../components/util/ProfileImageUploader"
 import default_image from "../../assets/default_image.png"
 
 const RegisterPage = () => {
@@ -40,52 +41,50 @@ const RegisterPage = () => {
   const [registerError, setRegisterError] = useState("")
   const history = useHistory()
 
-  // var checkIdDone = "no"
-  // var checkEmailDone = "no"
-  // var checkEmailNumberDone = "no"
-  // const handleAgree = (event) => {
-  //   setChecked(event.target.checked)
-  // }
   const [checkIdDone, setCheckIdDone] = useState(false)
   const [checkEmailDone, setCheckEmailDone] = useState(false)
   const [checkEmailNumberDone, setCheckEmailNumberDone] = useState(false)
   const [image, setImage] = useState()
 
+  const [imgFile, setImgfile] = useState(null)
+  const [prevUrl, setPrevUrl] = useState("")
+
   const getImg = (image_file, preview_URL) => {
-    const newImage = { image_file, preview_URL }
-    setImage(newImage)
+    setImgfile(() => image_file)
+    setPrevUrl(() => preview_URL)
   }
 
-  const onhandlePost = async (data) => {
-    const { memberId, email, username, nickname, password } = data
+  // const onhandlePost = async (data) => {
+  //   const { memberId, email, username, nickname, password } = data
 
-    const postData = {
-      username: username,
-      memberId: memberId,
-      password: password,
-      email: email,
-      nickname: nickname,
-    }
+  //   const postData = {
+  //     username: username,
+  //     memberId: memberId,
+  //     password: password,
+  //     email: email,
+  //     nickname: nickname,
+  //   }
 
-    const formData = new FormData()
-    formData.append("img", image.image_file)
-    formData.append("data", JSON.stringify(postData))
+  //   const formData = new FormData()
+  //   formData.append("img", image.image_file)
+  //   formData.append("data", JSON.stringify(postData))
 
-    // post
-    await axios
-      .post("http://i8a808.p.ssafy.io:8080/user/join", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-        params: postData,
-      })
-      .then(function (response) {
-        console.log(response, "성공")
-        history.push("/info")
-      })
-      .catch(function (err) {
-        console.log(err)
-        setRegisterError("회원가입에 실패하였습니다. 다시 한 번 확인해 주세요.")
-      })
-  }
+  //   // post
+
+  //   axios
+  //     .post("http://i8a808.p.ssafy.io:8080/user/join", formData, {
+  //       headers: { "Content-Type": "multipart/form-data" },
+  //       params: postData,
+  //     })
+  //     .then(function (response) {
+  //       console.log(response, "성공")
+  //       history.push("/info")
+  //     })
+  //     .catch(function (err) {
+  //       console.log(err)
+  //       setRegisterError("회원가입에 실패하였습니다. 다시 한 번 확인해 주세요.")
+  //     })
+  // }
   // 이름 유효성 검사
   const usernameRegex = /^[가-힣a-zA-Z]+$/
   const onChangeUserName = (e) => {
@@ -159,14 +158,10 @@ const RegisterPage = () => {
     setNickname(e.target.value)
   }
 
-  // useEffect(() => {
-
-  // })
   // 아이디 중복 확인
   const idCheck = async (data) => {
     data = memberId
-    // console.log(data)
-    await axios
+    axios
       .get("http://i8a808.p.ssafy.io:8080/user/id/verify", {
         params: { id: data },
       })
@@ -175,15 +170,9 @@ const RegisterPage = () => {
         alert("사용할 수 있는 아이디입니다.")
         console.log(data)
         setCheckIdDone(() => true)
-        // console.log("아이디인증현황", checkIdDone)
-        // console.log("이메일인증현황", checkEmailDone)
-        // console.log("이메일인증숫자확인", checkEmailNumberDone)
       })
       .catch(function (err) {
         console.log(err)
-        // console.log("아이디인증현황", checkIdDone)
-        // console.log("이메일인증현황", checkEmailDone)
-        // console.log("이메일인증숫자확인", checkEmailNumberDone)
         alert("이미 사용 중인 아이디입니다.")
       })
   }
@@ -202,7 +191,7 @@ const RegisterPage = () => {
   const emailCheck = async (data) => {
     data = email
     console.log(email)
-    await axios
+    axios
       .post(
         "http://i8a808.p.ssafy.io:8080/user/email",
         null,
@@ -214,15 +203,9 @@ const RegisterPage = () => {
         alert("메일로 인증번호가 발송되었습니다.")
         const checkEmailDone = "yes"
         setCheckEmailDone(() => true)
-        // console.log("아이디인증현황", checkIdDone)
-        // console.log("이메일인증현황", checkEmailDone)
-        // console.log("이메일인증숫자확인", checkEmailNumberDone)
       })
       .catch(function (err) {
         console.log(err)
-        // console.log("아이디인증현황", checkIdDone)
-        // console.log("이메일인증현황", checkEmailDone)
-        // console.log("이메일인증숫자확인", checkEmailNumberDone)
         alert("이미 계정이 있습니다.")
       })
   }
@@ -240,27 +223,19 @@ const RegisterPage = () => {
   // 이메일 인증번호 확인하기
   const emailNumberCheck = async (data) => {
     data = { key, email }
-    await axios
+    axios
       .get("http://i8a808.p.ssafy.io:8080/user/email/verify", {
         params: { key: key, email: email },
       })
       .then(function (response) {
         console.log(response, "성공")
         alert("인증이 완료되었습니다.")
-        console.log(">>>>>>>>>>>>>>>>>>", key, email, data)
 
         const checkEmailNumberDone = "yes"
         setCheckEmailNumberDone(() => true)
-
-        // console.log("아이디인증현황", checkIdDone)
-        // console.log("이메일인증현황", checkEmailDone)
-        // console.log("이메일인증숫자확인", checkEmailNumberDone)
       })
       .catch(function (err) {
         console.log(err)
-        // console.log("아이디인증현황", checkIdDone)
-        // console.log("이메일인증현황", checkEmailDone)
-        // console.log("이메일인증숫자확인", checkEmailNumberDone)
         alert("인증번호가 틀렸습니다.")
       })
   }
@@ -275,24 +250,21 @@ const RegisterPage = () => {
     }
     emailNumberCheck(joinData)
   }
-  // useEffect(() => {
-
-  // }, [setCheckIdDone, setCheckEmailDone, setCheckEmailNumberDone])
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    const data = new FormData(e.currentTarget)
-    const joinData = {
-      username: data.get("username"),
-      memberId: data.get("memberId"),
-      password: data.get("password"),
-      passwordState: data.get("passwordState"),
-      email: data.get("email"),
-      nickname: data.get("nickname"),
-    }
-    const { username, memberId, password, passwordState, email, nickname } =
-      joinData
+    // const data = new FormData(e.currentTarget)
+    // const joinData = {
+    //   username: data.get("username"),
+    //   memberId: data.get("memberId"),
+    //   password: data.get("password"),
+    //   passwordState: data.get("passwordState"),
+    //   email: data.get("email"),
+    //   nickname: data.get("nickname"),
+    // }
+    // const { username, memberId, password, passwordState, email, nickname } =
+    //   joinData
 
     // 회원가입 동의 체크
     // if (!checked) alert("회원가입 약관에 동의해주세요.")
@@ -303,40 +275,37 @@ const RegisterPage = () => {
       password === passwordState &&
       usernameRegex.test(username) &&
       nicknameRegex.test(nickname) &&
-      checkEmailDone===true&&
-      checkIdDone===true &&
-      checkEmailNumberDone===true
+      checkEmailDone === true &&
+      checkIdDone === true &&
+      checkEmailNumberDone === true
       // checked
     ) {
-      onhandlePost({
-        username,
-        memberId,
-        password,
-        passwordState,
-        email,
-        nickname,
+      console.log(username, memberId, password, passwordState, email, nickname)
+      console.log(imgFile)
+      axios({
+        method: "post",
+        url: "http://i8a808.p.ssafy.io:8080/user/join",
+        headers: { "Content-Type": "multipart/form-data" },
+        data: {
+          img: imgFile || null,
+        },
+        params: {
+          username,
+          memberId,
+          password,
+          email,
+          nickname,
+        },
       })
+        .then((res) => {
+          console.log(res, "<<<")
+          history.push("/info")
+        })
+        .catch((err) => {
+          console.error(err)
+        })
     }
   }
-  // useEffect(() => {
-  //    {
-      
-  //   }
-  // }, [
-  //   idRegex,
-  //   emailRegex,
-  //   passwordRegex,
-  //   username,
-  //   memberId,
-  //   password,
-  //   passwordState,
-  //   email,
-  //   nickname,
-  //   checkEmailDone,
-  //   checkEmailNumberDone,
-  //   checkIdDone,
-  //   nicknameRegex, usernameRegex, onhandlePost
-  // ])
 
   return (
     <ThemeProvider theme={theme}>
@@ -353,7 +322,7 @@ const RegisterPage = () => {
           <Typography component="h1" variant="h5">
             회원가입
           </Typography>
-          <ImageUploader getImg={getImg}></ImageUploader>
+          <ProfileImageUploader getImg={getImg}></ProfileImageUploader>
           <Boxs
             component="form"
             noValidate
