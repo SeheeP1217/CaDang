@@ -33,19 +33,17 @@ public class OrderController {
 
     @PostMapping
     @Operation(summary = "주문 등록", description = "신규 주문을 등록합니다.")
-    public ResponseEntity<Map<String, Long>> saveOrder(HttpServletRequest request, @RequestBody OrderSaveDto orderSaveDto){
+    public ResponseEntity<Long> saveOrder(HttpServletRequest request, @RequestBody OrderSaveDto orderSaveDto){
 
         logger.info("saveOrder - 호출 {} ", orderSaveDto);
         logger.info(" 요청 시간 - {}", LocalDateTime.now());
 
         Long customerId = Long.valueOf(request.getAttribute("userId").toString());
-        orderSaveDto.setUserId(customerId);
+        Long storeId = orderService.saveOrder(orderSaveDto, customerId);
 
-        Map<String, Long> orderAndStoreId = orderService.saveOrder(orderSaveDto);
+        logger.info("응답 결과 - {}", storeId);
 
-        logger.info("응답 결과 - {}", orderAndStoreId.keySet().toString());
-
-        return new ResponseEntity<Map<String, Long>>(orderAndStoreId, HttpStatus.ACCEPTED);
+        return new ResponseEntity<Long>(storeId, HttpStatus.ACCEPTED);
     }
 
     @GetMapping
