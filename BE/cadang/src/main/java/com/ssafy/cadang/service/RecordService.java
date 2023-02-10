@@ -100,10 +100,13 @@ public class RecordService {
         if (!Objects.equals(findRecord.getUser().getId(), userId)) {
             throw new CustomException(ExceptionEnum.USER_NOT_SAME);
         }
+
         dataService.updateDataByDelete(findRecord);
         recordReposiotry.delete(findRecord);
-        
+
+
         return recordId;
+
     }
 
     public MyPageRecordListDto searchByKeyword(Long userId, String keyword, int page, int size) {
