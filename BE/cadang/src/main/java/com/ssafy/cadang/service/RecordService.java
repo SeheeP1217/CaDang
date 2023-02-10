@@ -162,8 +162,8 @@ public class RecordService {
     }
 
 
-    public int getSum(Long userId, int month) {
-        return recordReposiotry.findSumByUserAndMonth(userId, month);
+    public int getSum(Long userId, int month, int year) {
+        return recordReposiotry.findSumByUserAndMonth(userId, month, year, recordStatus);
     }
 
     private List<MyPageRecordDto> toMyPageRecordDtos(Slice<Order> orders) {
