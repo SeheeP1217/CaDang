@@ -16,23 +16,23 @@ function ItemFiltering(props) {
   const [showData, setShowData] = useState([])
   function onClickFilter() {
     if (filter === false) {
-      setShowData(()=>ListData.drinkableDrinks)
-      setFilter(()=>true)
+      setShowData(() => ListData.drinkableDrinks)
+      setFilter(() => true)
     } else if (filter === true) {
-      setShowData(()=>ListData.allDrinks)
-      setFilter(()=>false)
+      setShowData(() => ListData.allDrinks)
+      setFilter(() => false)
     }
   }
   /* eslint-disable */
   useEffect(() => {
     if (filter === false) {
-      setShowData(()=>ListData.drinkableDrinks)
-      setFilter(()=>true)
+      setShowData(() => ListData.drinkableDrinks)
+      setFilter(() => true)
     } else if (filter === true) {
-      setShowData(()=>ListData.allDrinks)
-      setFilter(()=>false)
+      setShowData(() => ListData.allDrinks)
+      setFilter(() => false)
     }
-  }, [])
+  }, [ListData.drinkableDrinks])
 
   useEffect(() => {
     const sortArray = (type) => {
@@ -85,10 +85,6 @@ function ItemFiltering(props) {
           </FormControl>
         </Grid>
         <Grid item>
-          <MenuListItem showData={showData} />
-          <MenuListItem showData={showData} />
-          <MenuListItem showData={showData} />
-          <MenuListItem showData={showData} />
           <MenuListItem showData={showData} />
         </Grid>
       </Grid>

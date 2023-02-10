@@ -11,9 +11,11 @@ import ItemFiltering from "../../components/util/ItemFiltering"
 import { cafeDrinkList } from "../../api/order"
 import { useRecoilValue } from "recoil"
 import { todayDate } from "../../recoil/atom/user"
+
+
 function SelectMenuPage() {
   const date = useRecoilValue(todayDate)
-  const storeName = "스타벅스 역삼점"
+  const storeName = "스타벅스 역삼대로점"
 
   const [possible, setPossible] = useState([])
   const [impossible, setImpossible] = useState([])
@@ -74,20 +76,21 @@ function SelectMenuPage() {
     storeName: "",
   })
 
-  useMemo(() => {
+  useEffect(() => {
     const getMenus = async () => {
       await cafeDrinkList(
         date,
         storeName,
         (res) => {
-          console.log("응답은 성공", res.data)
-          return res.data
+          console.log("Response was successful:", res.data)
+          setMenu(res.data)
         },
         (err) => {
           console.log(err)
         }
-      ).then((data) => setMenu(data))
+      )
     }
+
     getMenus()
   }, [])
   console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", menu)
@@ -111,6 +114,9 @@ function SelectMenuPage() {
               <Button>상세 페이지</Button>
             </Card>
           </Box>
+          <Card>
+            <DailyConsumptionGraph/>
+          </Card>
           <Card sx={{ marginY: 2 }}>
             {/* <DailyConsumptionGraph data={afterSelectData} /> */}
           </Card>
