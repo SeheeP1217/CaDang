@@ -7,8 +7,9 @@ import javax.validation.constraints.*;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserGoalDto {
-
 
 
     @NotNull

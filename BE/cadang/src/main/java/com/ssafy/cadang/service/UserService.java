@@ -36,8 +36,9 @@ public class UserService {
 
     @Value("${EC2_PROFILE_PATH}")
     private String UserProfileImgPath;
-    @Value("${DEFAULT_PROFILE_PATH}")
-    private String DefaultProfileImgPath;
+
+    @Value("${DEFAULT_PROFILE_FILE}")
+    private String DefaultProfileFile;
 
     private String getFullPath(String imgPath, String filename) {
         return imgPath + filename;
@@ -97,7 +98,7 @@ public class UserService {
                     .nickname(userDto.getNickname())
                     .caffeGoal(defaultCaffeineGoal)
                     .sugarGoal(defaultSugarGoal)
-                    .imgUrl("default_image.png")
+                    .imgUrl(DefaultProfileFile)
                     .authorities("ROLE_USER")
                     .build();
 
