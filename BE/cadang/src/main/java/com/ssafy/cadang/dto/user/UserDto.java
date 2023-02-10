@@ -6,6 +6,7 @@ import com.ssafy.cadang.valid.ValidPassword;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.util.annotation.Nullable;
 
 import javax.validation.constraints.*;
 
@@ -50,11 +51,13 @@ public class UserDto {
 
     @Min(value = 0,  message = "카페인 목표량은 최소 0 최대 1000 mg만 가능합니다.")
     @Max(value = 1000,  message = "카페인 목표량은 최소 0 최대 1000 mg만 가능합니다.")
+    @Nullable
     private Long caffeGoal;
 
 
     @Min(value = 0,  message = "당 목표량은 최소 0 최대 1000 mg만 가능합니다.")
     @Max(value = 500,  message = "당 목표량은 최소 0 최대 1000 mg만 가능합니다.")
+    @Nullable
     private Long sugarGoal;
 
     MultipartFile img;

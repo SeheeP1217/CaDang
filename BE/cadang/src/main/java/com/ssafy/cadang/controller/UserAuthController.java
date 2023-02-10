@@ -1,20 +1,19 @@
 package com.ssafy.cadang.controller;
 
 
-import com.ssafy.cadang.dto.user.UserDto;
 import com.ssafy.cadang.dto.user.UserGoalDto;
 import com.ssafy.cadang.dto.user.UserModifyDto;
 import com.ssafy.cadang.dto.user.UserPassChangeDto;
 import com.ssafy.cadang.service.DataService;
 import com.ssafy.cadang.service.UserAuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.HashMap;
@@ -27,6 +26,8 @@ public class UserAuthController {
 
     private final UserAuthService userAuthService;
     private final DataService dataService;
+
+
 
     // 초기 카페인, 당목표량 설정
     @PutMapping("/goalSet")
@@ -81,8 +82,6 @@ public class UserAuthController {
     public ResponseEntity<?> newpass(HttpServletRequest request, @Valid UserPassChangeDto userPassChangeDto, BindingResult bindingResult) {
 
 
-
-
         Long id = Long.valueOf(request.getAttribute("userId").toString());
 
         if (bindingResult.hasErrors()) {
@@ -97,6 +96,16 @@ public class UserAuthController {
 
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public ResponseEntity<String> logout(HttpServletResponse response) {
+
+        response.setHeader("Authorization","logout");
+
+        return new ResponseEntity<>("logout success", HttpStatus.OK);
+
+    }
+
 
 
     // 회원 탈퇴하기
