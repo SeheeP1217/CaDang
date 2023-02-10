@@ -34,8 +34,6 @@ public class UserAuthService {
     @Value("${EC2_PROFILE_PATH}")
     private String UserProfileImgPath;
 
-    @Value("${DEFAULT_PROFILE_PATH}")
-    private String DefaultProfileImgPath;
 
     private String getFullPath(String imgPath, String filename) {
         return imgPath + filename;

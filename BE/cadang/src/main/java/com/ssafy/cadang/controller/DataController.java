@@ -5,6 +5,7 @@ import com.ssafy.cadang.dto.data.MonthDataDto;
 import com.ssafy.cadang.dto.data.WeekDataDto;
 import com.ssafy.cadang.dto.data.WeekGraphDto;
 import com.ssafy.cadang.service.DataService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,18 +26,21 @@ public class DataController {
     private final DataService dataService;
 
     @GetMapping("/day")
+    @Operation(summary = "일간 데이터 (대시보드)")
     public DayDataDto dayDataByUserIdAndDate(HttpServletRequest request, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         Long userId = Long.valueOf(request.getAttribute("userId").toString());
         return dataService.getOneByDate(date, userId);
     }
 
     @GetMapping("/week")
+    @Operation(summary = "주간 데이터 (페이지)")
     public WeekDataDto weekDataByUserIdAndDate(HttpServletRequest request, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         Long userId = Long.valueOf(request.getAttribute("userId").toString());
         return dataService.getDataByWeek(date, userId);
     }
 
     @GetMapping("/week/graph")
+    @Operation(summary = "주간 그래프 (swipe)")
     public WeekGraphDto weekGraph(HttpServletRequest request,@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         Long userId = Long.valueOf(request.getAttribute("userId").toString());
 
@@ -44,6 +48,7 @@ public class DataController {
     }
 
     @GetMapping("/month")
+    @Operation(summary = "월간 데이터")
     public MonthDataDto datagraph(HttpServletRequest request,  @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         Long userId = Long.valueOf(request.getAttribute("userId").toString());
 
