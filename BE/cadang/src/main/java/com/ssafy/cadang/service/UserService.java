@@ -8,6 +8,7 @@ import com.ssafy.cadang.dto.user.UserDto;
 import com.ssafy.cadang.error.CustomException;
 import com.ssafy.cadang.error.ExceptionEnum;
 import com.ssafy.cadang.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,6 +32,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final DataService dataService;
 
     @Value("${EC2_PROFILE_PATH}")
     private String UserProfileImgPath;
@@ -45,10 +47,10 @@ public class UserService {
     private final Long defaultCaffeineGoal = 400L;
     private final Long defaultSugarGoal = 25L;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, DataService dataService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-
+        this.dataService = dataService;
     }
 
     //회원가입
@@ -101,7 +103,9 @@ public class UserService {
 
         }
 
-        userRepository.save(user);
+        User registerUser = userRepository.saveAndFlush(user);
+        dataService.createData(registerUser.getId());
+
 
     }
 
@@ -197,7 +201,6 @@ public class UserService {
 
         return true;
     }
-
 
 
 }

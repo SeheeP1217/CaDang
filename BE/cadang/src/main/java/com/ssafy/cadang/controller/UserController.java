@@ -6,6 +6,7 @@ import com.ssafy.cadang.domain.User;
 
 import com.ssafy.cadang.dto.user.EmailVerifyDto;
 import com.ssafy.cadang.dto.user.UserDto;
+import com.ssafy.cadang.service.DataService;
 import com.ssafy.cadang.service.EmailServiceImpl;
 import com.ssafy.cadang.service.UserService;
 
@@ -29,6 +30,7 @@ import java.util.Map;
 public class UserController {
     private final UserService userService;
     private final EmailServiceImpl emailService;
+    private final DataService dataService;
 
 
     //회원가입
@@ -42,6 +44,7 @@ public class UserController {
             return ResponseEntity.badRequest().body(errors);
         }
         userService.join(userDto);
+
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
