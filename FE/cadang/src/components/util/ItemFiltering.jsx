@@ -86,10 +86,6 @@ function ItemFiltering(props) {
         </Grid>
         <Grid item>
           <MenuListItem showData={showData} />
-          <MenuListItem showData={showData} />
-          <MenuListItem showData={showData} />
-          <MenuListItem showData={showData} />
-          <MenuListItem showData={showData} />
         </Grid>
       </Grid>
     </Card>

@@ -115,7 +115,7 @@ function SelectMenuPage() {
             </Card>
           </Box>
           <Card>
-            {/* <DailyConsumptionGraph/> */}
+            <DailyConsumptionGraph/>
           </Card>
           <Card sx={{ marginY: 2 }}>
             {/* <DailyConsumptionGraph data={afterSelectData} /> */}
