@@ -104,4 +104,13 @@ public class CafeController {
         return new ResponseEntity<List<FranchiseDto>>(franchiseDtos, HttpStatus.ACCEPTED);
     }
 
+    @GetMapping("/list-record")
+    @Operation(summary = "프랜차이즈 별 음료 목록 조회 FOR 기록", description = "프랜차이즈와 검색어(필수X)를 통해 음료 목록을 조회합니다")
+    public ResponseEntity<List<DrinkResponseDto>> getDrinksForRecord(Long franchiseId, @RequestParam(required = false) String keyword) {
+
+        List<DrinkResponseDto> drinkResponseDtos = cafeService.getDrinksForRecord(franchiseId, keyword);
+        return new ResponseEntity<List<DrinkResponseDto>>(drinkResponseDtos, HttpStatus.ACCEPTED);
+    }
+
+
 }

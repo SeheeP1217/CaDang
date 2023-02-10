@@ -172,4 +172,22 @@ public class CafeService {
 
         return franchiseDtos;
     }
+
+    public List<DrinkResponseDto> getDrinksForRecord(Long franchiseId, String keyword) {
+
+        Franchise findFranchise = franchiseRepository.findById(franchiseId)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.FRANCHISE_NOT_FOUND));
+
+        List<DrinkResponseDto> drinkResponseDtos;
+
+        if(keyword != null){
+            keyword = "%" + keyword + "%";
+            drinkResponseDtos = drinkRepository.getDrinksByFranchiseIdAndKeyword(franchiseId, keyword);
+        }else{
+            drinkResponseDtos = drinkRepository.getDrinksByFranchiseId(franchiseId);
+        }
+
+        return drinkResponseDtos;
+    }
+
 }
