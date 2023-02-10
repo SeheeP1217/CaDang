@@ -25,6 +25,8 @@ import SearchIdPage from "./pages/UserPages/SearchIdPage"
 import SearchPwPage from "./pages/UserPages/SearchPwPage"
 import PaymentReportPage from "./pages/ReportPages/PaymentReportPage"
 import LoadingPage from "./pages/LoadingPage"
+import PaySuccessPage from "./pages/OrderPages/PaySuccessPage"
+import PayFailPage from "./pages/OrderPages/PayFail"
 import DailyConsumptionGraph from "./components/util/DailyConsumptionGraph"
 
 function App() {
@@ -68,6 +70,8 @@ function App() {
         <Route exact path="/selectmenu" component={SelectMenuPage} />
         <Route exact path="/review/:reviewId" component={ReviewPage} />
         <Route exact path="/update-profile" component={UpdateProfilePage} />
+        <Route exact path="/pay-success" component={PaySuccessPage}/>
+        <Route exact path="/pay-fail" component={PayFailPage}/>
         <Route exact path="/daily-consumption-graph" component={DailyConsumptionGraph} />
       </Switch>
     </PageLayout>

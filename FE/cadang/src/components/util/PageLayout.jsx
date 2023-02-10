@@ -15,8 +15,8 @@ function PageLayout(props) {
   }))
 
   return (
-    <div>
-      <TopBar />
+    <div >
+      <TopBar/>
       <MainLayout style={{ marginTop: 15, marginBotton: 20 }}>
         {props.children}
       </MainLayout>
