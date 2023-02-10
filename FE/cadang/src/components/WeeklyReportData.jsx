@@ -104,47 +104,6 @@ function WeeklyReportData(props) {
     weekCaffeGap: 0,
     weekSugarGap: 0,
   });
-  // const [graphData, setgraphData] = useState({
-  //   weekDataList: [
-  //     {
-  //       date: "",
-  //       caffeine: 0,
-  //       sugar: 0,
-  //     },
-  //     {
-  //       date: "",
-  //       caffeine: 0,
-  //       sugar: 0,
-  //     },
-  //     {
-  //       date: "",
-  //       caffeine: 0,
-  //       sugar: 0,
-  //     },
-  //     {
-  //       date: "",
-  //       caffeine: 0,
-  //       sugar: 0,
-  //     },
-  //     {
-  //       date: "",
-  //       caffeine: 0,
-  //       sugar: 0,
-  //     },
-  //     {
-  //       date: "",
-  //       caffeine: 0,
-  //       sugar: 0,
-  //     },
-  //     {
-  //       date: "",
-  //       caffeine: 0,
-  //       sugar: 0,
-  //     },
-  //   ],
-  //   hasPrevious: true,
-  //   hasNext: false,
-  // });
   const graphData = weeklyData.thisWeekGraphDto
   const [graphOnlyData, setGraphOnlyData] = useState(graphData)
   const [changeDate, setChangeDate] = useState(today);
