@@ -17,7 +17,7 @@ public interface DrinkRepository extends JpaRepository<Drink, Long> {
     public List<Drink> getDrinkByFranchiseIdAndDrinkName(@Param("franchiseId") Long franchiseId,
                                                     @Param("drinkName") String drinkName);
 
-    @Query("SELECT new com.ssafy.cadang.dto.cafe.query.DrinkNumCheckDto(d.drinkName, MAX(d.franchise.id), count(d.drinkName), MAX(o.store.id)) " +
+    @Query("SELECT new com.ssafy.cadang.dto.cafe.query.DrinkNumCheckDto(d.drinkName, count(d.drinkName)) " +
             "FROM Order o " +
             "JOIN o.drink d " +
             "WHERE o.user.id = :userId " +
