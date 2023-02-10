@@ -7,6 +7,8 @@ import CardContent from "@mui/material/CardContent"
 import CardMedia from "@mui/material/CardMedia"
 import kakaopay from "../../assets/payment_icon_yellow_large.png"
 import Button from "@mui/material-next/Button"
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function PaymentPage() {
   const Item = styled(Paper)(({ theme }) => ({
@@ -16,6 +18,77 @@ export default function PaymentPage() {
     textAlign: "center",
     color: "000000",
   }))
+
+  const [payItem, setPayItem] = useState({
+    // 응답에서 가져올 값들
+    next_redirect_pc_url: "",
+    tid: "",
+    // 요청에 넘겨줄 매개변수들
+    params: {
+      cid: "TC0ONETIME",
+      partner_order_id: "partner_order_id",
+      partner_user_id: "partner_user_id",
+      item_name: "아이스 아메리카노",
+      quantity: 1,
+      total_amount: 4500,
+      vat_amount: 450,
+      tax_free_amount: 0,
+      approval_url: "http://localhost:3000/pay-success",
+      fail_url: "http://localhost:3000/",
+      cancel_url: "http://localhost:3000/",
+    },
+  });
+
+  const onClickKakaopay = (event) => {
+    console.log("카카오페이 결제하러 가기!!!!!!!!!!!!");
+    
+    const { params } = payItem;
+    console.log(params);
+
+    const url = "";
+
+    axios({
+      // 프록시에 카카오 도메인을 설정했으므로 결제 준비 url만 주자
+      url: "https://kapi.kakao.com/v1/payment/ready",
+      // 결제 준비 API는 POST 메소드라고 한다.
+      method: "POST",
+      headers: {
+        // 카카오 developers에 등록한 admin키를 헤더에 줘야 한다.
+        Authorization: "KakaoAK 31c2527be3690d20a307db4fc88f5524",
+        "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
+      },
+      // 설정한 매개변수들
+      params,
+    }).then((response) => {
+      console.log(response);
+      console.log(response.data.next_redirect_pc_url
+        );
+      // 응답에서 필요한 data만 뽑는다.
+      if(response.status == 200) {
+        window.open(response.data.next_redirect_pc_url, '_blank')
+      } else if(response.status == 404) {
+        <Link to="/error404">error 404</Link>
+      } else if(response.status == 500) {
+
+      }
+
+
+      // 응답 data로 state 갱신
+      // setPayItem({ next_redirect_pc_url, tid });
+    });
+  };
+
+  let [btnActive, setBtnActive] = useState(false);
+
+  const toggleActive = (e) => {
+    setBtnActive((prev) => {
+      return true;
+    });
+    
+    console.log(btnActive);
+  };
+
+
   const addMenu = [{ cafe: "스타벅스" }]
   const menuData = [
     {
@@ -189,7 +262,7 @@ export default function PaymentPage() {
       >
         결제 수단
       </Box>
-      <Card sx={{ display: "flex", p: 1, mt: 1 }}>
+      <Card className={"btn" + ( btnActive ? " active" : "")} onClick={toggleActive} sx={{ display: "flex", p: 1, mt: 1 }}>
         <CardMedia
           component="img"
           sx={{ width: 100 }}
@@ -209,6 +282,7 @@ export default function PaymentPage() {
       </Card>
       <Grid sx={{ display: "flex", justifyContent: "flex-end" }}>
         <Button
+        onMouseDown={onClickKakaopay}
           variant="contained"
           sx={{
             borderRadius: 2,
