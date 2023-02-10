@@ -1,15 +1,15 @@
-import React, { useEffect, useMemo, useState } from "react"
-import { Paper, Box, Grid, Card } from "@mui/material"
-import { styled } from "@mui/material/styles"
-import DrinkMenuItem from "../../components/util/DrinkMenuItem"
-import Typography from "@mui/joy/Typography"
-import CardMedia from "@mui/material/CardMedia"
-import kakaopay from "../../assets/payment_icon_yellow_large.png"
-import Button from "@mui/material-next/Button"
+import React, { useEffect, useMemo, useState } from "react";
+import { Paper, Box, Grid, Card } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import DrinkMenuItem from "../../components/util/DrinkMenuItem";
+import Typography from "@mui/joy/Typography";
+import CardMedia from "@mui/material/CardMedia";
+import kakaopay from "../../assets/payment_icon_yellow_large.png";
+import Button from "@mui/material-next/Button";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { orderItem } from "../../recoil/atom/paymentItem"
+import { orderItem } from "../../recoil/atom/paymentItem";
 
 export default function PaymentPage() {
   const Item = styled(Paper)(({ theme }) => ({
@@ -18,7 +18,7 @@ export default function PaymentPage() {
     padding: theme.spacing(1),
     textAlign: "center",
     color: "000000",
-  }))
+  }));
 
   // 이전 페이지에서 받아오 props 더미 데이터로 우선 세팅
   const drink = {
@@ -34,12 +34,12 @@ export default function PaymentPage() {
     vanilla: 0,
     hazelnut: 0,
     caramel: 0,
-    photo: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[110563]_20210426095937808.jpg",
+    photo:
+      "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[110563]_20210426095937808.jpg",
     storeName: "스타벅스 역삼대로",
     storeId: 1,
   };
-
-  const [order, setOrder] = useRecoilState(orderItem);
+  const setDrinkAtom = useSetRecoilState(orderItem);
 
   const [payItem, setPayItem] = useState({
     // 응답에서 가져올 값들
@@ -62,9 +62,8 @@ export default function PaymentPage() {
   });
 
   useEffect(() => {
-    console.log(order);
-    setOrder(drink);
-    console.log(order);
+    setDrinkAtom(drink);
+    console.log(drink);
   }, []);
 
   const onClickKakaopay = (event) => {
@@ -72,7 +71,6 @@ export default function PaymentPage() {
     const { params } = payItem;
     console.log(params);
 
-    console.log("============= : " + order);
     const url = "";
 
     axios({
@@ -89,17 +87,18 @@ export default function PaymentPage() {
       params,
     }).then((response) => {
       console.log(response);
-      console.log(response.data.next_redirect_pc_url
-        );
+      console.log(response.data.next_redirect_pc_url);
 
-      if(response.status == 200) { // 결제가 가능하다면 결제 페이지로 새로운 창 뜨게 함
-        
-        window.open(response.data.next_redirect_pc_url, '_blank');
+      if (response.status == 200) {
+        // 결제가 가능하다면 결제 페이지로 새로운 창 뜨게 함
 
-      } else if(response.status == 404) { // 404 에러라면
-        <Link to="/error404">error 404</Link>
-      } else if(response.status == 500) { // 500 에러라면 
-        <Link to="/error500">error500</Link>
+        window.open(response.data.next_redirect_pc_url);
+      } else if (response.status == 404) {
+        // 404 에러라면
+        <Link to="/error404">error 404</Link>;
+      } else if (response.status == 500) {
+        // 500 에러라면
+        <Link to="/error500">error500</Link>;
       }
 
       // 응답 data로 state 갱신
@@ -113,12 +112,11 @@ export default function PaymentPage() {
     setBtnActive((prev) => {
       return true;
     });
-    
+
     console.log(btnActive);
   };
 
-
-  const addMenu = [{ cafe: "스타벅스" }]
+  const addMenu = [{ cafe: "스타벅스" }];
   const menuData = [
     {
       pk: 1,
@@ -128,7 +126,7 @@ export default function PaymentPage() {
       cal: 350,
       price: 2500,
     },
-  ]
+  ];
 
   return (
     <div style={{ padding: "3%", marginTop: "3%" }}>
@@ -156,11 +154,7 @@ export default function PaymentPage() {
       </Box>
       <Card sx={{ mt: "3%", p: 1 }}>
         <Grid container>
-          <Grid
-            item
-            xs={8}
-            sx={{ display: "flex", justifyContent: "flex-start" }}
-          >
+          <Grid item xs={8} sx={{ display: "flex", justifyContent: "flex-start" }}>
             <Typography
               sx={{
                 fontWeight: "700",
@@ -171,11 +165,7 @@ export default function PaymentPage() {
               아이스 아메리카노
             </Typography>
           </Grid>
-          <Grid
-            item
-            xs={4}
-            sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}
-          >
+          <Grid item xs={4} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}>
             <Typography
               sx={{
                 fontWeight: "700",
@@ -187,11 +177,7 @@ export default function PaymentPage() {
             </Typography>
           </Grid>
 
-          <Grid
-            item
-            xs={8}
-            sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-start" }}
-          >
+          <Grid item xs={8} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-start" }}>
             <Typography
               sx={{
                 fontWeight: "700",
@@ -202,11 +188,7 @@ export default function PaymentPage() {
               샷 추가
             </Typography>
           </Grid>
-          <Grid
-            item
-            xs={4}
-            sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}
-          >
+          <Grid item xs={4} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}>
             <Typography
               sx={{
                 display: "inline",
@@ -218,11 +200,7 @@ export default function PaymentPage() {
             </Typography>
           </Grid>
 
-          <Grid
-            item
-            xs={8}
-            sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-start" }}
-          >
+          <Grid item xs={8} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-start" }}>
             <Typography
               sx={{
                 display: "inline",
@@ -233,11 +211,7 @@ export default function PaymentPage() {
               헤이즐넛 시럽
             </Typography>
           </Grid>
-          <Grid
-            item
-            xs={4}
-            sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}
-          >
+          <Grid item xs={4} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}>
             <Typography
               sx={{
                 display: "inline",
@@ -252,11 +226,7 @@ export default function PaymentPage() {
       </Card>
       <Card style={{ background: "#ffffff" }} sx={{ p: 1, mt: "3%" }}>
         <Grid container>
-          <Grid
-            item
-            xs={8}
-            sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-start" }}
-          >
+          <Grid item xs={8} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-start" }}>
             <Typography
               sx={{
                 display: "inline",
@@ -267,11 +237,7 @@ export default function PaymentPage() {
               총 주문 금액
             </Typography>
           </Grid>
-          <Grid
-            item
-            xs={4}
-            sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}
-          >
+          <Grid item xs={4} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}>
             <Typography
               sx={{
                 display: "inline",
@@ -291,13 +257,12 @@ export default function PaymentPage() {
       >
         결제 수단
       </Box>
-      <Card className={"btn" + ( btnActive ? " active" : "")} onClick={toggleActive} sx={{ display: "flex", p: 1, mt: 1 }}>
-        <CardMedia
-          component="img"
-          sx={{ width: 100 }}
-          image={kakaopay}
-          alt="kakaopay"
-        />
+      <Card
+        className={"btn" + (btnActive ? " active" : "")}
+        onClick={toggleActive}
+        sx={{ display: "flex", p: 1, mt: 1 }}
+      >
+        <CardMedia component="img" sx={{ width: 100 }} image={kakaopay} alt="kakaopay" />
         <Typography
           sx={{
             fontSize: 18,
@@ -311,7 +276,7 @@ export default function PaymentPage() {
       </Card>
       <Grid sx={{ display: "flex", justifyContent: "flex-end" }}>
         <Button
-        onMouseDown={onClickKakaopay}
+          onMouseDown={onClickKakaopay}
           variant="contained"
           sx={{
             borderRadius: 2,
@@ -326,5 +291,5 @@ export default function PaymentPage() {
         </Button>
       </Grid>
     </div>
-  )
+  );
 }
