@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ssafy.cadang.valid.ValidId;
 import com.ssafy.cadang.valid.ValidPassword;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
@@ -42,7 +43,7 @@ public class UserDto {
 
     @NotNull
     @NotEmpty(message = "닉네임은 필수입니다.")
-    @Size(min = 1, max = 8, message = "닉네임은 1~8자만 가능합니다.")
+    @Length(min = 1, max = 20, message = "닉네임은 1~20자만 가능합니다.")
     private String nickname;
 
 
