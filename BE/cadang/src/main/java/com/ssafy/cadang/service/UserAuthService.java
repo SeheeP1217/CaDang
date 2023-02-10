@@ -92,7 +92,7 @@ public class UserAuthService {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
-        if (!user.getPassword().equals(userPassChangeDto.getCurpass())) {
+        if (!passwordEncoder.matches(userPassChangeDto.getCurpass(), user.getPassword())) {
             throw new CustomException(ExceptionEnum.PASSWORD_INCORRECT);
         }
 
@@ -109,7 +109,8 @@ public class UserAuthService {
     public void deleteUser(Long id, String password) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
-        if (!user.getPassword().equals(password)) {
+
+        if (!passwordEncoder.matches(password,user.getPassword())) {
             throw new CustomException(ExceptionEnum.PASSWORD_INCORRECT);
         }
 

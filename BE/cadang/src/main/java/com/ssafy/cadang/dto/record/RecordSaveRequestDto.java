@@ -14,7 +14,6 @@ public class RecordSaveRequestDto {
     private Long userId;
     private Long drinkId;
     private String regDate;
-
     private int caffeine;
     private int sugar;
     private int cal;
