@@ -86,26 +86,6 @@ public class CafeService {
         return drinksForCafeDto;
     }
 
-    public DrinkDetailDto getDrinkDetailForOrder(Long franchiseId, String drinkName, String storeName) {
-
-        Franchise franchiseIdCheck = franchiseRepository.findById(franchiseId)
-                .orElseThrow(() -> new CustomException(ExceptionEnum.FRANCHISE_NOT_FOUND));
-
-        Store storeCheck = storeRepository.findStoreByStoreName(storeName)
-                .orElseThrow(() ->new CustomException(ExceptionEnum.STORE_NOT_FOUND));
-
-        List<Drink> findDrinks = drinkRepository.getDrinkByFranchiseIdAndDrinkName(franchiseId, drinkName);
-        List<DrinkResponseDto> drinkResponseDtos = findDrinks.stream()
-                .map((o) -> new DrinkResponseDto(o)).collect(Collectors.toList());
-
-        List<Option> findOptions = optionRepository.FindOptionsByFranchiseId(franchiseId);
-        List<OptionDto> optionDtos = findOptions.stream()
-                .map((o) -> new OptionDto(o))
-                .collect(Collectors.toList());
-
-        return new DrinkDetailDto(storeCheck.getId(), storeName, drinkResponseDtos, optionDtos);
-    }
-
     public List<OptionDto> findOptionsByFranchiseId(Long franchiseId){
 
         Franchise franchiseIdCheck = franchiseRepository.findById(franchiseId)
@@ -195,10 +175,40 @@ public class CafeService {
         return drinkResponseDtos;
     }
 
-    public DrinkDetailDto getDrinkDetailForRecord(Long franchiseId, String drinkName){
+    public DrinkDetailDto getDrinkDetailForOrder(Long userId, Long franchiseId, String drinkName, String storeName) {
 
         Franchise franchiseIdCheck = franchiseRepository.findById(franchiseId)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.FRANCHISE_NOT_FOUND));
+
+        Store storeCheck = storeRepository.findStoreByStoreName(storeName)
+                .orElseThrow(() ->new CustomException(ExceptionEnum.STORE_NOT_FOUND));
+
+        Data data = dataRepository.findByUserAndDate(LocalDate.now(), userId)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
+
+        DayDataDto dayDataDto = new DayDataDto(data);
+
+        List<Drink> findDrinks = drinkRepository.getDrinkByFranchiseIdAndDrinkName(franchiseId, drinkName);
+        List<DrinkResponseDto> drinkResponseDtos = findDrinks.stream()
+                .map((o) -> new DrinkResponseDto(o)).collect(Collectors.toList());
+
+        List<Option> findOptions = optionRepository.FindOptionsByFranchiseId(franchiseId);
+        List<OptionDto> optionDtos = findOptions.stream()
+                .map((o) -> new OptionDto(o))
+                .collect(Collectors.toList());
+
+        return new DrinkDetailDto(storeCheck.getId(), storeName, drinkResponseDtos, optionDtos, dayDataDto);
+    }
+
+    public DrinkDetailDto getDrinkDetailForRecord(Long userId, Long franchiseId, String drinkName){
+
+        Franchise franchiseIdCheck = franchiseRepository.findById(franchiseId)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.FRANCHISE_NOT_FOUND));
+
+        Data data = dataRepository.findByUserAndDate(LocalDate.now(), userId)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
+
+        DayDataDto dayDataDto = new DayDataDto(data);
 
         List<Drink> findDrinks = drinkRepository.getDrinkByFranchiseIdAndDrinkName(franchiseId, drinkName);
         List<DrinkResponseDto> drinkResponseDtos = findDrinks.stream()
@@ -210,7 +220,7 @@ public class CafeService {
                 .collect(Collectors.toList());
 
 
-        return new DrinkDetailDto(drinkResponseDtos, optionDtos);
+        return new DrinkDetailDto(drinkResponseDtos, optionDtos, dayDataDto);
     }
 
 }
