@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react"
+import React, { useMemo, useState, useEffect } from "react"
 import { Box, Card } from "@mui/material"
 import Button from "@mui/material-next/Button"
 import Typography from "@mui/joy/Typography"
@@ -9,13 +9,20 @@ import DailyConsumptionGraph from "../../components/util/DailyConsumptionGraph"
 import ItemFiltering from "../../components/util/ItemFiltering"
 
 import { cafeDrinkList } from "../../api/order"
+import { useRecoilValue } from "recoil"
+import { todayDate } from "../../recoil/atom/user"
+
 
 function SelectMenuPage() {
-  const userId = 2
-  const date = "2023-02-07"
-  const storeName = "스타벅스 역삼점"
+  const date = useRecoilValue(todayDate)
+  const storeName = "스타벅스 역삼대로점"
+
+  const [possible, setPossible] = useState([])
+  const [impossible, setImpossible] = useState([])
+  const [all, setAll] = useState([])
+
   const [menu, setMenu] = useState({
-    drinkList: [
+    drinkableDrinks: [
       {
         drinkId: 0,
         drinkName: "",
@@ -33,23 +40,66 @@ function SelectMenuPage() {
         cnt: 0,
       },
     ],
+    allDrinks: [
+      {
+        drinkId: 0,
+        drinkName: "",
+        size: "",
+        vol: 0,
+        img: "",
+        caffeine: 0,
+        sugar: 0,
+        cal: 0,
+        price: 0,
+        shot: 0,
+        whip: true,
+        franchiseId: 0,
+        storeName: "",
+        cnt: 0,
+      },
+    ],
+    dayDataDto: {
+      id: 0,
+      userId: 0,
+      date: "2023-02-09",
+      caffeGoal: 0,
+      sugarGoal: 0,
+      caffeDaily: 0,
+      sugarDaily: 0,
+      calDaily: 0,
+      moneyDaily: 0,
+      caffeSuccess: true,
+      sugarSuccess: true,
+    },
+    franchiseId: 0,
+    storeId: 0,
+    storeName: "",
   })
 
-  useMemo(() => {
+  useEffect(() => {
     const getMenus = async () => {
       await cafeDrinkList(
-        userId,
         date,
         storeName,
         (res) => {
-          return res.data
+          console.log("Response was successful:", res.data)
+          setMenu(res.data)
         },
-        (err) => console.log(err)
-      ).then((data) => setMenu(data))
+        (err) => {
+          console.log(err)
+        }
+      )
     }
+
     getMenus()
-    console.log('/////////-------/////////',menu)
-  })
+  }, [])
+  console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", menu)
+
+  useEffect(() => {
+    console.log(menu.drinkableDrinks)
+  }, [menu])
+
+  console.log("/////////-------/////////", menu)
 
   return (
     <body>
@@ -64,12 +114,17 @@ function SelectMenuPage() {
               <Button>상세 페이지</Button>
             </Card>
           </Box>
-          <Card sx={{ marginY: 2 }}>
-            <DailyConsumptionGraph data={afterSelectData} />
+          <Card>
+            {/* <DailyConsumptionGraph/> */}
           </Card>
+          <Card sx={{ marginY: 2 }}>
+            {/* <DailyConsumptionGraph data={afterSelectData} /> */}
+          </Card>
+          <ItemFiltering menu={menu} />
         </Box>
       </div>
-      <ItemFiltering menus={menu} />
+      {/* {drinkItem !== undefined && <Typography>{drinkItem.caffeine}mg</Typography>} */}
+
       <Link to="/custom">
         <FabButton />
       </Link>

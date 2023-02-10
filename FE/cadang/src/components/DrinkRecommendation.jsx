@@ -212,7 +212,7 @@ function DrinkRecommendation() {
             textAlign: "center",
           }}
         >
-          <Button width="150" size="small" onClick={onChange}>
+          <Button size="small" onClick={onChange}>
             위치 업데이트
           </Button>
         </Grid>
