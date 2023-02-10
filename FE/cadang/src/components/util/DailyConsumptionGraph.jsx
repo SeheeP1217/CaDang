@@ -11,6 +11,7 @@ import {
 } from "recharts"
 
 function DailyConsumptionGraph(props) {
+  // const chartData = props.data
   const chartData = data
 
   return (
