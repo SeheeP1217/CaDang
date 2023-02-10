@@ -35,9 +35,9 @@ public class OrderService {
 
     private static OrderStatus[] orderStatusList = {OrderStatus.RECORD, OrderStatus.PICKUP, OrderStatus.CANCEL};
 
-    public Map<String, Long> saveOrder(OrderSaveDto orderSaveDto) {
+    public Long saveOrder(OrderSaveDto orderSaveDto, Long customerId) {
 
-        User user = userRepository.findById(orderSaveDto.getUserId())
+        User user = userRepository.findById(customerId)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
 
         Drink drink = drinkRepository.findById(orderSaveDto.getDrinkId())
@@ -66,15 +66,11 @@ public class OrderService {
                 regDate(LocalDateTime.now()).
                 isPublic((true)).build();
 
-        Long orderId = orderRepository.save(order).getId();
+        orderRepository.save(order);
         Long storeId = store.getId();
-
-        Map<String, Long> orderAndStoreId = new HashMap<>();
-        orderAndStoreId.put("orderId", orderId);
-        orderAndStoreId.put("storeId", storeId);
-
-        return orderAndStoreId;
+        return storeId;
     }
+
 
     public List<CustomerOrderDto> getCustomerOrderById(Long userId) {
 
