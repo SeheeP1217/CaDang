@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { Paper, Box, Grid, Card } from "@mui/material"
 import { styled } from "@mui/material/styles"
 import DrinkMenuItem from "../../components/util/DrinkMenuItem"
 import Typography from "@mui/joy/Typography"
-import CardContent from "@mui/material/CardContent"
 import CardMedia from "@mui/material/CardMedia"
 import kakaopay from "../../assets/payment_icon_yellow_large.png"
 import Button from "@mui/material-next/Button"
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { orderItem } from "../../recoil/atom/paymentItem"
 
 export default function PaymentPage() {
   const Item = styled(Paper)(({ theme }) => ({
@@ -18,6 +19,27 @@ export default function PaymentPage() {
     textAlign: "center",
     color: "000000",
   }))
+
+  // 이전 페이지에서 받아오 props 더미 데이터로 우선 세팅
+  const drink = {
+    drinkId: 1275,
+    caffeine: 225,
+    sugar: 0,
+    cal: 0,
+    price: 5000,
+    shot: 3,
+    whip: false,
+    sugarContent: "BASIC",
+    syrup: 0,
+    vanilla: 0,
+    hazelnut: 0,
+    caramel: 0,
+    photo: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[110563]_20210426095937808.jpg",
+    storeName: "스타벅스 역삼대로",
+    storeId: 1,
+  };
+
+  const [order, setOrder] = useRecoilState(orderItem);
 
   const [payItem, setPayItem] = useState({
     // 응답에서 가져올 값들
@@ -30,21 +52,27 @@ export default function PaymentPage() {
       partner_user_id: "partner_user_id",
       item_name: "아이스 아메리카노",
       quantity: 1,
-      total_amount: 4500,
-      vat_amount: 450,
+      total_amount: 5000,
+      vat_amount: 500,
       tax_free_amount: 0,
       approval_url: "http://localhost:3000/pay-success",
-      fail_url: "http://localhost:3000/",
-      cancel_url: "http://localhost:3000/",
+      fail_url: "http://localhost:3000/pay-fail",
+      cancel_url: "http://localhost:3000/main",
     },
   });
 
+  useEffect(() => {
+    console.log(order);
+    setOrder(drink);
+    console.log(order);
+  }, []);
+
   const onClickKakaopay = (event) => {
     console.log("카카오페이 결제하러 가기!!!!!!!!!!!!");
-    
     const { params } = payItem;
     console.log(params);
 
+    console.log("============= : " + order);
     const url = "";
 
     axios({
@@ -63,15 +91,16 @@ export default function PaymentPage() {
       console.log(response);
       console.log(response.data.next_redirect_pc_url
         );
-      // 응답에서 필요한 data만 뽑는다.
-      if(response.status == 200) {
-        window.open(response.data.next_redirect_pc_url, '_blank')
-      } else if(response.status == 404) {
+
+      if(response.status == 200) { // 결제가 가능하다면 결제 페이지로 새로운 창 뜨게 함
+        
+        window.open(response.data.next_redirect_pc_url, '_blank');
+
+      } else if(response.status == 404) { // 404 에러라면
         <Link to="/error404">error 404</Link>
-      } else if(response.status == 500) {
-
+      } else if(response.status == 500) { // 500 에러라면 
+        <Link to="/error500">error500</Link>
       }
-
 
       // 응답 data로 state 갱신
       // setPayItem({ next_redirect_pc_url, tid });

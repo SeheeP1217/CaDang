@@ -3,8 +3,33 @@ import Typography from "@mui/joy/Typography";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material-next/Button";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState, useMemo } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { orderItem } from "../../recoil/atom/paymentItem"
+import { order } from "../../api/pay";
 
 export default function PaySuccessPage() {
+  const item = useRecoilValue(orderItem);
+  const [msg, setMsg] = useState("");
+  console.log(item);
+
+  const orderRegist = async () => {
+    await order(
+      item,
+      (res) => {
+        console.log("=======!!!!!!!!!!!!!!=========");
+        console.log(res.data);
+        return res.data;
+      },
+      (err) => console.log(err)
+    ).then((data) => setMsg(data));
+  };
+
+  useMemo(() => {
+    orderRegist();
+  },[]);
+
 
   return(
     <div>
