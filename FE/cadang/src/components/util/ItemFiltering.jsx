@@ -85,7 +85,7 @@ function ItemFiltering(props) {
           </FormControl>
         </Grid>
         <Grid item>
-          <MenuListItem showData={showData} />
+          <MenuListItem showData={showData} getSelectedDrink={props.getSelectedDrink} />
         </Grid>
       </Grid>
     </Card>
