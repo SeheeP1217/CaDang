@@ -49,7 +49,7 @@ function DrinkAddPage() {
           </Grid>
         </Box>
       </div>
-      {/* <ItemFiltering data={menuData} /> */}
+      <ItemFiltering data={menuData} />
       <Link to="/custom">
         <FabButton />
       </Link>

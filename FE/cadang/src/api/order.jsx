@@ -1,6 +1,6 @@
-import axios from "axios"
+import axios from "axios";
 
-const token = localStorage.getItem("token")
+const token = localStorage.getItem("token");
 
 const api = axios.create({
   baseURL: "http://i8a808.p.ssafy.io:8080",
@@ -11,7 +11,7 @@ const api = axios.create({
     // Authorization: `Token ${token}`,
     "Content-Type": "application/json",
   },
-})
+});
 
 // camelCase로 함수 선언, ()
 async function cafeDrinkData(franchiseId, drinkName, storeName, success, fail) {
@@ -24,8 +24,8 @@ async function cafeDrinkData(franchiseId, drinkName, storeName, success, fail) {
       },
     })
     .then(success)
-    .catch(fail)
-  return res
+    .catch(fail);
+  return res;
 }
 
 async function cafeDrinkList(date, storeName, success, fail) {
@@ -37,8 +37,13 @@ async function cafeDrinkList(date, storeName, success, fail) {
       },
     })
     .then(success)
-    .catch(fail)
-  return res
+    .catch(fail);
+  return res;
 }
 
-export { cafeDrinkData, cafeDrinkList }
+async function getCafeList(success, fail) {
+  const res = await api.get(`/cafe`).then(success).catch(fail);
+  return res;
+}
+
+export { cafeDrinkData, cafeDrinkList, getCafeList };

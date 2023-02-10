@@ -8,9 +8,8 @@ function AutocompleteSearchBar(props) {
     <div>
     <Autocomplete
       freeSolo
-      id="free-solo-2-demo"
       disableClearable
-      options={props.data.map((option) => option.title)}
+      options={props.data.map((option) => option.franchiseName)}
       renderInput={(params) => (
         <TextField
         {...params}
@@ -22,12 +21,8 @@ function AutocompleteSearchBar(props) {
         />
         )}
         size="small"
-        popupIcon
         >
-
     </Autocomplete>
-      <button>검색</button>
-    
       </div>
   );
 }
