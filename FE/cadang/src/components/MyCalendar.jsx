@@ -4,7 +4,7 @@ import dayGridPlugin from "@fullcalendar/daygrid"
 import interactionPlugin from "@fullcalendar/interaction"
 import coffeebean from "../assets/coffeebean.png"
 import coffeebeansugar from "../assets/coffeebeansugar.png"
-import sugar from "../assets/sugar.png"
+import sugar2 from "../assets/sugar2.png"
 import "./MyCalendar.css"
 import { Grid } from "@mui/material"
 
@@ -53,7 +53,7 @@ class MyCalendar extends React.Component {
             },
             {
               date: "2023-02-01",
-              url: sugar,
+              url: sugar2,
             },
           ]}
         />

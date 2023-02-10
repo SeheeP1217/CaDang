@@ -60,7 +60,7 @@
 }
 
 .fc-daygrid-day-frame {
-  height: 60px;
+  height: 55px;
   line-height: 10px;
 }
 
@@ -93,3 +93,7 @@
 /* .fc-toolbar-title {
   font-size: medium;
 } */
+
+.fc-toolbar-title {
+  font-size: 24px !important;
+}
