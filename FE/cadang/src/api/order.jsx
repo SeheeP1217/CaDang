@@ -42,9 +42,10 @@ async function cafeDrinkList(date, storeName, success, fail) {
   return res;
 }
 
-async function getCafeList(success, fail) {
+// 전체카페목록(이름만) 조회
+async function getAllCafeList(success, fail) {
   const res = await api.get(`/cafe`).then(success).catch(fail);
   return res;
 }
 
-export { cafeDrinkData, cafeDrinkList, getCafeList };
+export { cafeDrinkData, cafeDrinkList, getAllCafeList };

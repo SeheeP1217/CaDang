@@ -1,5 +1,4 @@
-import * as React from "react";
-import ItemFiltering from "../../components/util/ItemFiltering";
+import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 
 import { Box, Grid } from "@mui/material";
@@ -9,9 +8,26 @@ import FabButton from "../../components/util/FabButton";
 // 검색바
 import TextField from "@mui/material/TextField";
 import AutocompleteSearchBar from "../../components/util/AutocompleteSearchBar";
+import { getAllCafeList } from '../../api/order'
 
 function DrinkAddPage() {
+  // const [cafeList, setCafeList] = useState({
+  //   id: 0,
+  //   franchiseName: "string",
+  // });
 
+  // useMemo(() => {
+  //   const getcafeList = async () => {
+  //     await getAllCafeList(
+  //       (res) => {return res.data},
+  //       (err) => console.log(err),
+  //       )
+  //       .then((data) => setCafeList(data))
+  //   }
+  //   getcafeList()
+  // }, [])
+  
+  console.log(cafeList)
   return (
     <div>
       <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
@@ -25,7 +41,7 @@ function DrinkAddPage() {
               카페
             </Grid>
             <Grid item xs={4}>
-              <AutocompleteSearchBar label="카페 검색" data={top100Films} />
+              <AutocompleteSearchBar label="카페 검색" data={cafeList} />
             </Grid>
             <Grid item xs={2}>
               <Typography>지점</Typography>
@@ -44,12 +60,16 @@ function DrinkAddPage() {
               <Typography>메뉴</Typography>
             </Grid>
             <Grid item xs={10}>
-              <AutocompleteSearchBar label="메뉴 검색" data={top100Films} />
+            <TextField
+                id="outlined-basic"
+                label="지점 입력"
+                variant="outlined"
+                size="small"
+              />
             </Grid>
           </Grid>
         </Box>
       </div>
-      <ItemFiltering data={menuData} />
       <Link to="/custom">
         <FabButton />
       </Link>
@@ -57,6 +77,19 @@ function DrinkAddPage() {
   );
 }
 
+const cafeList = [
+{id: 10, franchiseName: '매머드커피'},
+{id: 7, franchiseName: '메가MGC커피'},
+{id: 5, franchiseName: '바나프레소'},
+{id: 4, franchiseName: '빽다방'},
+{id: 9, franchiseName: '스타벅스'},
+{id: 8, franchiseName: '이디야'},
+{id: 2, franchiseName: '컴포즈커피'},
+{id: 3, franchiseName: '투썸플레이스'},
+{id: 6, franchiseName: '파스쿠찌'},
+{id: 1, franchiseName: '폴바셋'},
+{id: 11, franchiseName: '할리스'},
+]
 
 const menuData = [
   { pk: 1, name: "카페라떼", caffeine: 300, sugar: 10, cal: 350, price: 2500 },

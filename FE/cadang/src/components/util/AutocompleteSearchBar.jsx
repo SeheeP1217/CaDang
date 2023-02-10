@@ -4,6 +4,7 @@ import Stack from "@mui/material/Stack";
 import Autocomplete from "@mui/material/Autocomplete";
 
 function AutocompleteSearchBar(props) {
+  console.log(props.data)
   return (
     <div>
     <Autocomplete
