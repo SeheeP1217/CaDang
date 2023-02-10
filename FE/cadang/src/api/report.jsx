@@ -54,4 +54,17 @@ async function deleteReview(reviewId, success, fail) {
   return res
 }
 
-export { userReview, userReviewDetail, deleteReview }
+//캘린더
+async function dataMonth(date, success, fail) {
+  const res = await api
+    .get("/data/month", {
+      params: {
+        date: date,
+      },
+    })
+    .then(success)
+    .catch(fail)
+  return res
+}
+
+export { userReview, userReviewDetail, deleteReview, dataMonth }

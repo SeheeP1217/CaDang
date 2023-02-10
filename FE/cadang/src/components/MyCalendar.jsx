@@ -10,6 +10,11 @@ import { Grid } from "@mui/material"
 
 class MyCalendar extends Component {
   render() {
+    function ShowMonthData(props) {
+      const monthDataList = props
+      console.log("monthDataList", monthDataList)
+    }
+
     // Event Render Function To Get Images and Titles
     function renderEventContent(eventInfo) {
       return (
@@ -55,6 +60,5 @@ class MyCalendar extends Component {
     )
   }
 }
-
 
 export default MyCalendar
