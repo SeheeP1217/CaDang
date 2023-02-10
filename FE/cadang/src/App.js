@@ -25,6 +25,7 @@ import SearchIdPage from "./pages/UserPages/SearchIdPage"
 import SearchPwPage from "./pages/UserPages/SearchPwPage"
 import PaymentReportPage from "./pages/ReportPages/PaymentReportPage"
 import LoadingPage from "./pages/LoadingPage"
+import DailyConsumptionGraph from "./components/util/DailyConsumptionGraph"
 
 function App() {
   // const [{ user }, dispatch] = useStateValue();
@@ -67,6 +68,7 @@ function App() {
         <Route exact path="/selectmenu" component={SelectMenuPage} />
         <Route exact path="/review/:reviewId" component={ReviewPage} />
         <Route exact path="/update-profile" component={UpdateProfilePage} />
+        <Route exact path="/daily-consumption-graph" component={DailyConsumptionGraph} />
       </Switch>
     </PageLayout>
   )
