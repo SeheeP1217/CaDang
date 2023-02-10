@@ -28,6 +28,7 @@ async function cafeDrinkData(franchiseId, drinkName, storeName, success, fail) {
   return res;
 }
 
+// 선택 카페 음료 목록 조회
 async function cafeDrinkList(date, storeName, success, fail) {
   const res = await api
     .get(`/cafe/drinklist`, {
