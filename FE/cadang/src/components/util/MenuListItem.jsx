@@ -8,28 +8,28 @@ import ListItemButton from "@mui/material/ListItemButton"
 function MenuListItem(props) {
   const drinkListData = props.showData
 
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  const [selectedCaffeine, setSelectedCaffeine] = useState(0)
-  const [selectedSugar, setSelectedSugar] = useState(0)
-  const [selectedCal, setSelectedCal] = useState(0)
-  const [selectedPrice, setSelectedPrice] = useState(0)
+  // const [selectedIndex, setSelectedIndex] = useState(0)
+  // const [selectedCaffeine, setSelectedCaffeine] = useState(0)
+  // const [selectedSugar, setSelectedSugar] = useState(0)
+  // const [selectedCal, setSelectedCal] = useState(0)
+  // const [selectedPrice, setSelectedPrice] = useState(0)
 
-  const handleListItemClick = (event, index) => {
-    setSelectedIndex((prevIndex) => {
-      // console.log(index)
-      for (var i = 0; i < drinkListData.length; i++) {
-        if (index === drinkListData[i].drinkId) {
-          setSelectedCaffeine(()=>drinkListData[i].caffeine)
-          setSelectedSugar(()=>drinkListData[i].sugar)
-          setSelectedCal(()=>drinkListData[i].cal)
-          setSelectedPrice(()=>drinkListData[i].price)
-          break
-        }
-      }
-      return index
-    })
-  }
-  console.log(selectedCaffeine,selectedSugar,selectedCal,selectedPrice)
+  // const handleListItemClick = (event, index) => {
+  //   setSelectedIndex((prevIndex) => {
+  //     // console.log(index)
+  //     for (var i = 0; i < drinkListData.length; i++) {
+  //       if (index === drinkListData[i].drinkId) {
+  //         setSelectedCaffeine(()=>drinkListData[i].caffeine)
+  //         setSelectedSugar(()=>drinkListData[i].sugar)
+  //         setSelectedCal(()=>drinkListData[i].cal)
+  //         setSelectedPrice(()=>drinkListData[i].price)
+  //         break
+  //       }
+  //     }
+  //     return index
+  //   })
+  // }
+  // console.log(selectedCaffeine,selectedSugar,selectedCal,selectedPrice)
 
   // console.log(selectedIndex)
   // console.log("drinkListData", drinkListData)
@@ -38,15 +38,10 @@ function MenuListItem(props) {
     <List>
       {drinkListData.map((menu, index) => {
         return (
-          <Grid
-            container
-            sx={{ display: "flex" }}
-            key={index}
-            alignItems="center"
-          >
             <ListItemButton
-              selected={selectedIndex === menu.id}
-              onClick={(event) => handleListItemClick(event, menu.drinkId)}
+              // selected={selectedIndex === menu.id}
+              onClick={() => props.getSelectedDrink(menu)}
+              key={index}
             >
               <Grid item xs={3} margin="auto">
                 <img alt="menuImg" src={menu.img} width="80%" />
@@ -61,7 +56,6 @@ function MenuListItem(props) {
                 </Card>
               </Grid>
             </ListItemButton>
-          </Grid>
         )
       })}
     </List>
