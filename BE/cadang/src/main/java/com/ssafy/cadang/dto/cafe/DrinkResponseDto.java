@@ -64,6 +64,7 @@ public class DrinkResponseDto {
         this.sugar = sugar;
         this.cal = cal;
         this.price = price;
+        this.img = image;
 
     }
 }

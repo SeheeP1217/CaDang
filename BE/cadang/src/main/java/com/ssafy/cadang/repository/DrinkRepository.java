@@ -8,7 +8,6 @@ import com.ssafy.cadang.dto.cafe.query.DrinkNumCheckDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ public interface DrinkRepository extends JpaRepository<Drink, Long> {
 
     @Query("select d from Drink d where d.franchise.id=:franchiseId and d.drinkName=:drinkName order by d.vol")
     public List<Drink> getDrinkByFranchiseIdAndDrinkName(@Param("franchiseId") Long franchiseId,
-                                                    @Param("drinkName") String drinkName);
+                                                         @Param("drinkName") String drinkName);
 
     @Query("SELECT new com.ssafy.cadang.dto.cafe.query.DrinkNumCheckDto(d.drinkName, count(d.drinkName)) " +
             "FROM Order o " +
@@ -67,7 +66,7 @@ public interface DrinkRepository extends JpaRepository<Drink, Long> {
             "from Drink d " +
             "where d.franchise.id = :franchiseId " +
             "group by d.drinkName")
-    List<DrinkResponseDto> getDrinksByFranchiseId(Long franchiseId);
+    List<DrinkResponseDto> getDrinksByFranchiseId(@Param("franchiseId") Long franchiseId);
 
 
 }

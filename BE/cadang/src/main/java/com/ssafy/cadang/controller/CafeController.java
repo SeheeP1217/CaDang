@@ -28,7 +28,7 @@ public class CafeController {
 
 
     @GetMapping("/drinklist")
-    @Operation(summary = "카페 별 음료목록 조회", description = "유저의 목표량/섭취량 및 선택한 카페의 음료 목록을 반환합니다.")
+    @Operation(summary = "프랜차이즈 별 음료목록 조회 FOR 주문", description = "유저의 목표량/섭취량 및 선택한 카페의 음료 목록을 반환합니다.")
     public ResponseEntity<DrinksForCafeDto> getDrinkByStoreName(HttpServletRequest request, @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, String storeName){
 
         logger.info("getDrinkByStoreName - 호출 {} ");
@@ -43,32 +43,19 @@ public class CafeController {
     }
 
     @GetMapping("/drink")
-    @Operation(summary = "음료 정보 조회", description = "조회 대상 음료의 사이즈별 정보를 사이즈 순서로 오름차순으로 반환합니다.")
+    @Operation(summary = "음료 + 옵션 정보 조회 FOR 주문", description = "조회 대상 음료의 사이즈별 정보를 사이즈 순서로 오름차순으로 반환합니다.")
     public ResponseEntity<DrinkDetailDto> getDrinkInfo(Long franchiseId, String drinkName, String storeName) {
 
         logger.info("getDrinkInfo - 호출 {} ");
         logger.info(" 요청 시간 - {}", LocalDateTime.now());
 
-        DrinkDetailDto drinkDetailDto = cafeService.getDrinkInfoByCafeIdAndDrinkName(franchiseId, drinkName, storeName);
+        DrinkDetailDto drinkDetailDto = cafeService.getDrinkDetailForOrder(franchiseId, drinkName, storeName);
 
         logger.info("응답 결과 - {}", drinkDetailDto.toString());
 
         return new ResponseEntity<DrinkDetailDto>(drinkDetailDto, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/option/{franchiseId}")
-    @Operation(summary = "옵션 정보 조회", description = "프렌차이즈별 각 옵션의 정보를 조회합니다.")
-    public ResponseEntity<List<OptionDto>> getOptionInfoByFranchiseId(@PathVariable Long franchiseId){
-
-        logger.info("getOptionInfoByFranchiseId - 호출 {} ");
-        logger.info(" 요청 시간 - {}", LocalDateTime.now());
-
-        List<OptionDto> optionDtos = cafeService.findOptionsByFranchiseId(franchiseId);
-
-        logger.info("응답 결과 - {}", optionDtos.toString());
-
-        return new ResponseEntity<List<OptionDto>>(optionDtos, HttpStatus.ACCEPTED);
-    }
 
     @PostMapping("/recommend")
     @Operation(summary = "추천 음료 조회", description = "위치 기반으로 받은 카페 정보를 토대로 음료 정보를 조회합니다.")
@@ -111,6 +98,31 @@ public class CafeController {
         List<DrinkResponseDto> drinkResponseDtos = cafeService.getDrinksForRecord(franchiseId, keyword);
         return new ResponseEntity<List<DrinkResponseDto>>(drinkResponseDtos, HttpStatus.ACCEPTED);
     }
+
+    @GetMapping("/drink-record")
+    @Operation(summary = "음료 + 옵션 정보 조회 FOR 기록", description = "조회 대상 음료의 사이즈별 정보를 사이즈 순서로 오름차순으로 반환합니다.")
+    public ResponseEntity<DrinkDetailDto> getDrinkDetailForRecord(Long franchiseId, String drinkName) {
+
+        DrinkDetailDto drinkDetailDto = cafeService.getDrinkDetailForRecord(franchiseId, drinkName);
+
+        return new ResponseEntity<DrinkDetailDto>(drinkDetailDto, HttpStatus.ACCEPTED);
+    }
+
+
+
+//    @GetMapping("/option/{franchiseId}")
+//    @Operation(summary = "옵션 정보 조회", description = "프렌차이즈별 각 옵션의 정보를 조회합니다.")
+//    public ResponseEntity<List<OptionDto>> getOptionInfoByFranchiseId(@PathVariable Long franchiseId){
+//
+//        logger.info("getOptionInfoByFranchiseId - 호출 {} ");
+//        logger.info(" 요청 시간 - {}", LocalDateTime.now());
+//
+//        List<OptionDto> optionDtos = cafeService.findOptionsByFranchiseId(franchiseId);
+//
+//        logger.info("응답 결과 - {}", optionDtos.toString());
+//
+//        return new ResponseEntity<List<OptionDto>>(optionDtos, HttpStatus.ACCEPTED);
+//    }
 
 
 }
