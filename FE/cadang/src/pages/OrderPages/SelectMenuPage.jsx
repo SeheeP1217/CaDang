@@ -1,25 +1,45 @@
-import React, { useMemo, useState, useEffect } from "react"
-import { Box, Card } from "@mui/material"
-import Button from "@mui/material-next/Button"
-import Typography from "@mui/joy/Typography"
-import FabButton from "../../components/util/FabButton"
-import { Link } from "react-router-dom"
+import React, { useMemo, useState, useEffect } from "react";
+import { Box, Card } from "@mui/material";
+import Button from "@mui/material-next/Button";
+import Typography from "@mui/joy/Typography";
+import FabButton from "../../components/util/FabButton";
+import { Link } from "react-router-dom";
 
-import DailyConsumptionGraph from "../../components/util/DailyConsumptionGraph"
-import ItemFiltering from "../../components/util/ItemFiltering"
+import DailyConsumptionGraph from "../../components/util/DailyConsumptionGraph";
+import ItemFiltering from "../../components/util/ItemFiltering";
 
-import { cafeDrinkList } from "../../api/order"
-import { useRecoilValue } from "recoil"
-import { todayDate } from "../../recoil/atom/user"
-
+import { cafeDrinkList } from "../../api/order";
+import { useRecoilValue } from "recoil";
+import { todayDate } from "../../recoil/atom/user";
 
 function SelectMenuPage() {
-  const date = useRecoilValue(todayDate)
-  const storeName = "스타벅스 역삼대로점"
+  const date = useRecoilValue(todayDate);
+  const storeName = "스타벅스 역삼대로점";
 
-  const [possible, setPossible] = useState([])
-  const [impossible, setImpossible] = useState([])
-  const [all, setAll] = useState([])
+  // const [possible, setPossible] = useState([])
+  // const [impossible, setImpossible] = useState([])
+  // const [all, setAll] = useState([])
+
+  const [selectDrinkInfo, setSelectDrinkInfo] = useState({
+    drinkId: -1,
+    drinkName: "",
+    size: null,
+    vol: null,
+    img: "",
+    caffeine: 0,
+    sugar: 0,
+    cal: 0,
+    price: 0,
+    shot: null,
+    whip: null,
+    franchiseId: -1,
+    storeName: null,
+    cnt: 0,
+  });
+
+  const getSelectedDrink = (selectDrink) => {
+    setSelectDrinkInfo(selectDrink);
+  };
 
   const [menu, setMenu] = useState({
     drinkableDrinks: [
@@ -74,32 +94,33 @@ function SelectMenuPage() {
     franchiseId: 0,
     storeId: 0,
     storeName: "",
-  })
-
-  useEffect(() => {
+  });
+  const consumptionInfo = menu.dayDataDto;
+  useMemo(() => {
     const getMenus = async () => {
       await cafeDrinkList(
         date,
         storeName,
         (res) => {
-          console.log("Response was successful:", res.data)
-          setMenu(res.data)
+          console.log("Response was successful:", res.data);
+          setMenu(res.data);
         },
         (err) => {
-          console.log(err)
+          console.log(err);
         }
-      )
-    }
+      );
+    };
 
-    getMenus()
-  }, [])
-  console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", menu)
+    getMenus();
+  }, []);
+  // console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", menu);
 
-  useEffect(() => {
-    console.log(menu.drinkableDrinks)
-  }, [menu])
+  // useEffect(() => {
+  //   getSelectedDrink()
+  //   console.log(selectDrinkInfo)
+  // }, [selectDrinkInfo]);
 
-  console.log("/////////-------/////////", menu)
+  // console.log("/////////-------/////////", menu);
 
   return (
     <body>
@@ -110,26 +131,29 @@ function SelectMenuPage() {
           </Typography>
           <Box sx={{ flexGrow: 1 }} textAlign="center">
             <Card>
-              스타벅스 강남점 / 320m
+              {storeName} / 320m
               <Button>상세 페이지</Button>
             </Card>
           </Box>
-          <Card>
-            <DailyConsumptionGraph/>
+          <Card style={{marginTop: 15}}>
+            <DailyConsumptionGraph
+              selectDrinkInfo={selectDrinkInfo}
+              consumptionInfo={consumptionInfo}
+            />
           </Card>
           <Card sx={{ marginY: 2 }}>
             {/* <DailyConsumptionGraph data={afterSelectData} /> */}
           </Card>
-          <ItemFiltering menu={menu} />
         </Box>
       </div>
+          <ItemFiltering menu={menu} getSelectedDrink={getSelectedDrink} />
       {/* {drinkItem !== undefined && <Typography>{drinkItem.caffeine}mg</Typography>} */}
 
       <Link to="/custom">
         <FabButton />
       </Link>
     </body>
-  )
+  );
 }
 
 const afterSelectData = [
@@ -143,7 +167,7 @@ const afterSelectData = [
     consumption: 1398,
     change: 3000,
   },
-]
+];
 
 const menuData = [
   { pk: 1, name: "카페라떼", caffeine: 300, sugar: 10, cal: 350, price: 2500 },
@@ -163,6 +187,6 @@ const menuData = [
     cal: 300,
     price: 3500,
   },
-]
+];
 
-export default SelectMenuPage
+export default SelectMenuPage;
