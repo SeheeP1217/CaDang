@@ -86,7 +86,7 @@ public class CafeService {
         return drinksForCafeDto;
     }
 
-    public DrinkDetailDto getDrinkInfoByCafeIdAndDrinkName(Long franchiseId, String drinkName, String storeName) {
+    public DrinkDetailDto getDrinkDetailForOrder(Long franchiseId, String drinkName, String storeName) {
 
         Franchise franchiseIdCheck = franchiseRepository.findById(franchiseId)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.FRANCHISE_NOT_FOUND));
@@ -98,7 +98,12 @@ public class CafeService {
         List<DrinkResponseDto> drinkResponseDtos = findDrinks.stream()
                 .map((o) -> new DrinkResponseDto(o)).collect(Collectors.toList());
 
-        return new DrinkDetailDto(storeCheck.getId(), storeName, drinkResponseDtos);
+        List<Option> findOptions = optionRepository.FindOptionsByFranchiseId(franchiseId);
+        List<OptionDto> optionDtos = findOptions.stream()
+                .map((o) -> new OptionDto(o))
+                .collect(Collectors.toList());
+
+        return new DrinkDetailDto(storeCheck.getId(), storeName, drinkResponseDtos, optionDtos);
     }
 
     public List<OptionDto> findOptionsByFranchiseId(Long franchiseId){
@@ -188,6 +193,24 @@ public class CafeService {
         }
 
         return drinkResponseDtos;
+    }
+
+    public DrinkDetailDto getDrinkDetailForRecord(Long franchiseId, String drinkName){
+
+        Franchise franchiseIdCheck = franchiseRepository.findById(franchiseId)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.FRANCHISE_NOT_FOUND));
+
+        List<Drink> findDrinks = drinkRepository.getDrinkByFranchiseIdAndDrinkName(franchiseId, drinkName);
+        List<DrinkResponseDto> drinkResponseDtos = findDrinks.stream()
+                .map((o) -> new DrinkResponseDto(o)).collect(Collectors.toList());
+
+        List<Option> findOptions = optionRepository.FindOptionsByFranchiseId(franchiseId);
+        List<OptionDto> optionDtos = findOptions.stream()
+                .map((o) -> new OptionDto(o))
+                .collect(Collectors.toList());
+
+
+        return new DrinkDetailDto(drinkResponseDtos, optionDtos);
     }
 
 }
