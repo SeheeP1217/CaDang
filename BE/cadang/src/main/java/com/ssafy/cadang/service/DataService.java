@@ -213,6 +213,8 @@ public class DataService {
                 .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
         todayData.setCaffeGoal(user.getCaffeGoal());
         todayData.setSugarGoal(user.getSugarGoal());
+        todayData.setSugarSuccess(todayData.getSugarGoal()-todayData.getSugarDaily()>=0);
+        todayData.setCaffeSuccess(todayData.getCaffeGoal()-todayData.getCaffeDaily()>=0);
 
     }
 
@@ -224,8 +226,24 @@ public class DataService {
         updateData.setSugarDaily(updateData.getSugarDaily() + findOrder.getSugar());
         updateData.setCalDaily(updateData.getCalDaily() + findOrder.getCal());
         updateData.setMoneyDaily(updateData.getMoneyDaily() + findOrder.getPrice());
+        updateData.setSugarSuccess(updateData.getSugarGoal()-updateData.getSugarDaily()>=0);
+        updateData.setCaffeSuccess(updateData.getCaffeGoal()-updateData.getCaffeDaily()>=0);
 
     }
+
+    @Transactional
+    public void updateDataByDelete(Order findOrder) {
+        Data updateData = dataRepository.findByUserAndDate(findOrder.getRegDate().toLocalDate(), findOrder.getUser().getId())
+                .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
+        updateData.setCaffeDaily(updateData.getCaffeDaily() - findOrder.getCaffeine());
+        updateData.setSugarDaily(updateData.getSugarDaily() - findOrder.getSugar());
+        updateData.setCalDaily(updateData.getCalDaily() - findOrder.getCal());
+        updateData.setMoneyDaily(updateData.getMoneyDaily() - findOrder.getPrice());
+        updateData.setSugarSuccess(updateData.getSugarGoal()-updateData.getSugarDaily()>=0);
+        updateData.setCaffeSuccess(updateData.getCaffeGoal()-updateData.getCaffeDaily()>=0);
+
+    }
+
 
 
     private int getCaffeSum(List<Data> datas) {
