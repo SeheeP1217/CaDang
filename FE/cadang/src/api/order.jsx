@@ -6,7 +6,7 @@ const api = axios.create({
   baseURL: "http://i8a808.p.ssafy.io:8080",
   headers: {
     Authorization:
-    "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjo2OSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjEzMTMzMX0.f7J33C-yMlQgLubKGHXeR81rFFGCdnHf244A1QfUs-eEKKru4Dtwxt-I5XYWpy5ZujjMHPBLHUWFA6eqP3fBsw",
+    "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjo2OSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjIxODE0NX0.s_6_v2kF_hQ4fc7CwscGr47Koq3kzgcCIROUXMiOmJvvdq4x7Cudns_smA6wgf1TgFxy4S76CxxEyuBwwepixg",
 
     // Authorization: `Token ${token}`,
     "Content-Type": "application/json",
@@ -14,13 +14,13 @@ const api = axios.create({
 });
 
 // camelCase로 함수 선언, ()
-async function cafeDrinkData(franchiseId, drinkName, storeName, success, fail) {
+//커스텀 페이지 음료 상세정보 조회
+async function cafeDrinkData(franchiseId, drinkName, success, fail) {
   const res = await api
-    .get(`/cafe/drink`, {
+    .get(`/cafe/drink-record`, {
       params: {
         franchiseId: franchiseId,
         drinkName: drinkName,
-        storeName: storeName,
       },
     })
     .then(success)
@@ -48,4 +48,19 @@ async function getAllCafeList(success, fail) {
   return res;
 }
 
-export { cafeDrinkData, cafeDrinkList, getAllCafeList };
+async function searchDrinkMenu(franchiseId, keyword, success, fail) {
+  const res = await api
+    .get(`/cafe/list-record`, {
+      params: {
+        franchiseId: franchiseId,
+        keyword: keyword,
+      },
+    })
+    .then(success)
+    .catch(fail);
+  return res;
+}
+
+
+
+export { cafeDrinkData, cafeDrinkList, getAllCafeList, searchDrinkMenu, };
