@@ -10,7 +10,7 @@ import { Grid } from "@mui/material"
 
 class MyCalendar extends React.Component {
   render() {
-    console.log("props 받아온 데이터", this.props.monthDataList)
+    // console.log("props 받아온 데이터", this.props.monthDataList)
 
     // Event Render Function To Get Images and Titles
     function renderEventContent(eventInfo) {
@@ -21,11 +21,34 @@ class MyCalendar extends React.Component {
       )
     }
 
+    const events = this.props.monthDataList
+
+      .filter((item) => {
+        if (item.caffeSuccess && item.sugarSuccess) {
+          return true
+        } else if (item.caffeSuccess && !item.sugarSuccess) {
+          return true
+        } else if (!item.caffeSuccess && item.sugarSuccess) {
+          return true
+        } else {
+          return false
+        }
+      })
+      .map((item) => {
+        if (item.caffeSuccess && item.sugarSuccess) {
+          return { date: item.date, url: coffeebeansugar }
+        } else if (item.caffeSuccess && !item.sugarSuccess) {
+          return { date: item.date, url: coffeebean }
+        } else if (!item.caffeSuccess && item.sugarSuccess) {
+          return { date: item.date, url: sugar2 }
+        }
+      })
     return (
       <Grid className="maincontainer">
         <FullCalendar
           plugins={[dayGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
+          fixedWeekCount={false}
           header={{
             left: "prev",
             center: "title",
@@ -42,20 +65,21 @@ class MyCalendar extends React.Component {
           }}
           eventContent={renderEventContent}
           contentHeight="auto"
-          events={[
-            {
-              date: "2023-02-13",
-              url: coffeebean,
-            },
-            {
-              date: "2023-02-08",
-              url: coffeebeansugar,
-            },
-            {
-              date: "2023-02-01",
-              url: sugar2,
-            },
-          ]}
+          events={events}
+          // events={[
+          //   {
+          //     date: "2023-02-13",
+          //     url: coffeebean,
+          //   },
+          //   {
+          //     date: "2023-02-08",
+          //     url: coffeebeansugar,
+          //   },
+          //   {
+          //     date: "2023-02-01",
+          //     url: sugar2,
+          //   },
+          // ]}
         />
       </Grid>
     )
