@@ -48,14 +48,17 @@ export default function MonthlyReportData() {
   // })
 
   const monthDataList = month.monthDataList
-  // console.log("monthDataList", monthDataList)
+  const favRanking = month.favRanking
+  const sugarRanking = month.sugarRanking
+  const caffeRanking = month.caffeRanking
+  const totalPrice = month.totalPrice
 
   return (
     <div>
       <Container component="main" maxWidth="xs">
         <MyCalendar monthDataList={monthDataList} />
-        <MonthAmount />
-        <MonthRank />
+        <MonthAmount totalPrice={totalPrice}/>
+        <MonthRank favRanking={favRanking} sugarRanking={sugarRanking} caffeRanking={caffeRanking}/>
       </Container>
     </div>
   )
