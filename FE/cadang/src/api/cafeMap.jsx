@@ -11,23 +11,12 @@ const api = axios.create({
   },
 })
 
-// camelCase로 함수 선언, ()
-async function recommendDrinks(storeNames, date, success, fail) {
+async function checkCafeList(date, storeName, success, fail) {
   const res = await api
-    .post(`/cafe/recommend`, {
-      storeNames: storeNames,
-      date: date,
-    })
-    .then(success)
-    .catch(fail)
-  return res
-}
-
-async function todayDashboard(date, success, fail) {
-  const res = await api
-    .get(`/data/day`, {
+    .get(`/cafe/drinklist`, {
       params: {
         date: date,
+        storeName: storeName,
       },
     })
     .then(success)
@@ -35,4 +24,4 @@ async function todayDashboard(date, success, fail) {
   return res
 }
 
-export { recommendDrinks, todayDashboard }
+export { checkCafeList }

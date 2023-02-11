@@ -5,7 +5,8 @@ const token = localStorage.getItem("token")
 const api = axios.create({
   baseURL: "http://i8a808.p.ssafy.io:8080",
   headers: {
-    Authorization: "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjoxOSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NTk0NDgxMn0.0wKt87MoJnFpoIuwQZeBnj8e1v3LOGpBDEY2duER05ruO-G_D-Ub3TmKGiD0QkS7O1jJBaXzYHYmfF3ceb6ANg",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjo2OSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjA5ODMwOH0.sW7OaiNg0mOT0euRy1po_cguzTrPTJpqWcg2piKOIh9DKcEC1Ds_r4UAnDD8v1pLxHLl-KTOpij8ejwKdsPPag",
     "Content-Type": "application/json",
   },
 })
@@ -13,7 +14,8 @@ const api = axios.create({
 const formApi = axios.create({
   baseURL: "http://i8a808.p.ssafy.io:8080",
   headers: {
-    Authorization: "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjoxOSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NTk0NDgxMn0.0wKt87MoJnFpoIuwQZeBnj8e1v3LOGpBDEY2duER05ruO-G_D-Ub3TmKGiD0QkS7O1jJBaXzYHYmfF3ceb6ANg",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjo2OSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjA5ODMwOH0.sW7OaiNg0mOT0euRy1po_cguzTrPTJpqWcg2piKOIh9DKcEC1Ds_r4UAnDD8v1pLxHLl-KTOpij8ejwKdsPPag",
     "Content-Type": "multipart/form-data",
   },
 })
@@ -31,10 +33,7 @@ async function userReview(userId, pageIndex, success, fail) {
 
 //리뷰별 디테일 조회
 async function userReviewDetail(reviewId, success, fail) {
-  const res = await api
-    .get(`/record/${reviewId}`, { params: { recordId: reviewId } })
-    .then(success)
-    .catch(fail)
+  const res = await api.get(`/record/${reviewId}`).then(success).catch(fail)
   return res
 }
 
@@ -50,10 +49,48 @@ async function userReviewDetail(reviewId, success, fail) {
 //리뷰 삭제
 async function deleteReview(reviewId, success, fail) {
   const res = await api
-    .delete(`/record/${reviewId}`)
+    .delete(`/record/${reviewId}`, { params: { recordId: reviewId } })
     .then(success)
     .catch(fail)
   return res
 }
 
-export { userReview, userReviewDetail, deleteReview, }
+// 당일 기준 레포트 데이터 조회
+async function getWeeklyData(Date, success, fail) {
+  const res = await api
+    .get(`/data/week`, { params: { date: Date } })
+    .then(success)
+    .catch(fail)
+  return res
+}
+
+// 이전 일자 레포트 데이터 조회
+async function getGraphData(Date, success, fail) {
+  const res = await api
+    .get(`/data/week/graph`, { params: { date: Date } })
+    .then(success)
+    .catch(fail)
+  return res
+}
+
+//캘린더
+async function dataMonth(date, success, fail) {
+  const res = await api
+    .get("/data/month", {
+      params: {
+        date: date,
+      },
+    })
+    .then(success)
+    .catch(fail)
+  return res
+}
+
+export {
+  userReview,
+  userReviewDetail,
+  deleteReview,
+  getWeeklyData,
+  getGraphData,
+  dataMonth,
+}
