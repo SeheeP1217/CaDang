@@ -70,22 +70,20 @@ function ItemFiltering(props) {
             onClick={onClickFilter}
           />
 
-          <FormControl size="small" sx={{ paddingTop: 1 }}>
+          <FormControl size="small" sx={{ paddingTop: 1, zIndex: 999 }}>
             <NativeSelect
               defaultValue="caffeine"
               onChange={(e) => setSortType(e.target.value)}
             >
               <option value="caffeine">낮은 카페인순</option>
-              <option tem value="sugar">
-                낮은 당순
-              </option>
+              <option value="sugar">낮은 당순</option>
               <option value="cal">낮은 칼로리순</option>
               <option value="price">낮은 가격순</option>
             </NativeSelect>
           </FormControl>
         </Grid>
         <Grid item>
-          <MenuListItem showData={showData} getSelectedDrink={props.getSelectedDrink} />
+          <MenuListItem data={showData} getSelectedDrink={props.getSelectedDrink} />
         </Grid>
       </Grid>
     </Card>
