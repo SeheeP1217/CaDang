@@ -14,7 +14,7 @@ public class MessageController {
 
     //고객이 가게에게 신규 주문 요청을 위해 보내는 메시지
     @MessageMapping("/order-request/{storeId}")
-    @SendTo("/topic/request-complete/{storeId}")
+    @SendTo("/topic/store-order-manage/{storeId}")
     public String customerRequestMessage(@DestinationVariable long storeId, String message){
 
         logger.info("가게번호 도착, {} ", storeId);
@@ -25,7 +25,7 @@ public class MessageController {
 
     //가게가 고객에게 주문 수락 여부 알리기 위해 보내는 메시지
     @MessageMapping("/order-response/{customerId}")
-    @SendTo("/topic/request-complete/{customerId}")
+    @SendTo("/topic/customer-order-manage/{customerId}")
     public String storeResponseMessage(@DestinationVariable long customerId, String message){
 
         logger.info("고객 ID 도착, {} ", customerId);
