@@ -10,7 +10,7 @@ import { Grid } from "@mui/material"
 
 class MyCalendar extends React.Component {
   render() {
-    console.log("props 받아온 데이터", this.props.monthDataList)
+    // console.log("props 받아온 데이터", this.props.monthDataList)
 
     // Event Render Function To Get Images and Titles
     function renderEventContent(eventInfo) {

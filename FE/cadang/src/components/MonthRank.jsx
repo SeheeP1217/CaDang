@@ -5,27 +5,25 @@ import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftR
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded"
 import styled from "styled-components"
 
-const items = [
-  {
-    name: "이번 달 많이 마신 음료 랭킹",
-    top1: "1. 스타벅스 돌체라떼",
-    top2: "2. 바나프레소 아이스 아메리카노",
-    top3: "3. 커피빈 바닐라 라떼",
-  },
-  {
-    name: "이번 달 카페인 함량 높은 음료 랭킹",
-    top1: "1. 커피빈 바닐라 라떼",
-    top2: "2. 바나프레소 아이스 아메리카노",
-    top3: "3. 스타벅스 돌체라떼",
-  },
-  {
-    name: "이번 달 당 함량 높은 음료 랭킹",
-    top1: "1. 바나프레소 아이스 아메리카노",
-    top2: "2. 스타벅스 돌체라떼",
-    top3: "3. 커피빈 바닐라 라떼",
-  },
-]
 function MonthRank(props) {
+  const items = [
+    {
+      name: "이번 달 많이 마신 음료 랭킹",
+      type: "favRanking",
+    },
+    {
+      name: "이번 달 카페인 함량 높은 음료 랭킹",
+      type: "caffeRanking",
+    },
+    {
+      name: "이번 달 당 함량 높은 음료 랭킹",
+      type: "sugarRanking",
+    },
+  ]
+
+  console.log("propsfav", props.favRanking)
+  console.log("propssugar", props.sugarRanking)
+  console.log("propscaffe", props.caffeRanking)
   return (
     <Card>
       <RankCarousel
@@ -52,7 +50,7 @@ function MonthRank(props) {
         }}
       >
         {items.map((item, i) => (
-          <Item key={i} item={item} />
+          <Item key={i} item={item} ranking={props[item.type]} />
         ))}
       </RankCarousel>
     </Card>
@@ -63,13 +61,14 @@ function Item(props) {
   return (
     <Card>
       <h3>{props.item.name}</h3>
-      <p>{props.item.top1}</p>
-      <p>{props.item.top2}</p>
-      <p>{props.item.top3}</p>
+      {props.ranking.map((rank, i) => (
+        <p key={i}>
+          {i + 1}. {rank}
+        </p>
+      ))}
     </Card>
   )
 }
-
 const RankCarousel = styled(Carousel)`
   margin: 0 auto;
   font-family: "netmarble";
