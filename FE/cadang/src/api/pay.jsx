@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from "axios";
 
 const token = localStorage.getItem("token");
 
@@ -12,13 +12,8 @@ const api = axios.create({
 });
 
 async function order(item, success, fail) {
-  const res = await api
-    .post(`/order`, 
-      item
-    )
-    .then(success)
-    .catch(fail)
-  return res
+  const res = await api.post(`/order`, item).then(success).catch(fail);
+  return res;
 }
 
-export { order }
+export { order };
