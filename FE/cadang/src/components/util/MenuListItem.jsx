@@ -1,45 +1,67 @@
-import * as React from "react";
-import { Grid, List } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Grid, List, Card, Divider } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import drink from "../../assets/drink.png";
 
 import ListItemButton from "@mui/material/ListItemButton";
-
+import { Box } from "@mui/system";
 
 function MenuListItem(props) {
-  const [selectedIndex, setSelectedIndex] = React.useState();
-  const menuDatas = props.menus.drinkList
-  console.log('MenuListItem에서 menuDatas 콘솔 찍는 중', menuDatas)
+  const drinkListData = props.data;
 
-  const handleListItemClick = (event, index) => {
-    setSelectedIndex(index);
-  };
+  // const [selectedIndex, setSelectedIndex] = useState(0)
+  // const [selectedCaffeine, setSelectedCaffeine] = useState(0)
+  // const [selectedSugar, setSelectedSugar] = useState(0)
+  // const [selectedCal, setSelectedCal] = useState(0)
+  // const [selectedPrice, setSelectedPrice] = useState(0)
+
+  // const handleListItemClick = (event, index) => {
+  //   setSelectedIndex((prevIndex) => {
+  //     // console.log(index)
+  //     for (var i = 0; i < drinkListData.length; i++) {
+  //       if (index === drinkListData[i].drinkId) {
+  //         setSelectedCaffeine(()=>drinkListData[i].caffeine)
+  //         setSelectedSugar(()=>drinkListData[i].sugar)
+  //         setSelectedCal(()=>drinkListData[i].cal)
+  //         setSelectedPrice(()=>drinkListData[i].price)
+  //         break
+  //       }
+  //     }
+  //     return index
+  //   })
+  // }
+  // console.log(selectedCaffeine,selectedSugar,selectedCal,selectedPrice)
+
+  // console.log(selectedIndex)
+  // console.log("drinkListData", drinkListData)
+
+  if (!props.data || !props.data.length) {
+    return <div>검색 츄라이츄라이</div>;
+  }
 
   return (
     <List>
-      {menuDatas.map((menu, index) => {
+      {drinkListData.map((menu, index) => {
         return (
-          <Grid
-            container
-            sx={{ display: "flex" }}
-            key={index}
-            alignItems="center"
-          >
+          <Box sx={{backgroundColor: 'white'}} key={index}>
+            <Divider />
             <ListItemButton
-              selected={selectedIndex === menu.pk}
-              onClick={(event) => handleListItemClick(event, menu.pk)}
+              onClick={() => props.getSelectedDrink(menu)}
             >
-              <Grid item xs={3} margin="auto">
-                <img alt="menuImg" src={drink} width="80%" />
-              </Grid>
-              <Grid item xs={8}>
-                <Typography>{menu.name}</Typography>
-                <Typography>
-                  {menu.caffeine} / {menu.sugar} / {menu.cal} / {menu.price}
-                </Typography>
+              <Grid container display={"flex"} alignItems="center">
+                <Grid item xs={3}>
+                  <img alt="menuImg" src={menu.img} width="90%" />
+                </Grid>
+                <Grid item xs={9}>
+                  <Typography>{menu.drinkName}</Typography>
+                  <Typography>
+                    {menu.caffeine}mg / {menu.sugar}g / {menu.cal}kcal /{" "}
+                    {menu.price}원
+                  </Typography>
+                </Grid>
               </Grid>
             </ListItemButton>
-          </Grid>
+          </Box>
         );
       })}
     </List>

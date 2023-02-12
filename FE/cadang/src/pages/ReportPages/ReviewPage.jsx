@@ -16,6 +16,7 @@ import ReadOnlyCustomOption from "../../components/ReadOnlyCustomOption";
 const ReviewPage = () => {
   const location = useLocation();
   const reviewId = location.state.review.id;
+  const originImg = location.state.review.photo;
 
   const [reviewDetail, setreviewDetail] = useState({
     reviewDetail: [
@@ -42,16 +43,6 @@ const ReviewPage = () => {
       },
     ],
   });
-  const recordDate = dayjs(reviewDetail.regDate).format("YYYY-MM-DD");
-  const [modifyDate, setmodifyDate] = useState(recordDate);
-  const [modifyIsPublic, setmodifyIsPublic] = useState(true);
-  const [modifyMemo, setModifyMemo] = useState(reviewDetail.memo);
-  const [modifyImage, setImage] = useState({
-    image_file: "",
-    preview_URL: reviewDetail.photo,
-  });
-  const [isModified, setIsModified] = useState(0);
-
   useMemo(() => {
     const getReviewDetails = async () => {
       await userReviewDetail(
@@ -65,11 +56,24 @@ const ReviewPage = () => {
     getReviewDetails();
   }, [reviewId]);
 
+  const recordDate = dayjs(reviewDetail.regDate).format("YYYY-MM-DD");
+  const [modifyDate, setmodifyDate] = useState(recordDate);
+  const [modifyIsPublic, setmodifyIsPublic] = useState(true);
+  const [modifyMemo, setModifyMemo] = useState(reviewDetail.memo);
+  const [modifyImage, setImage] = useState({
+    image_file: "",
+    preview_URL: originImg,
+  });
+  console.log(reviewDetail);
+  console.log(originImg);
+  const [isModified, setIsModified] = useState(0);
+
   /////////날짜 변경 확인
   const getRecordDate = (newValue) => {
     setmodifyDate(newValue);
   };
 
+  // use
   // useEffect(() => {
   //   getRecordDate();
   //   console.log(modifyDate)
@@ -91,11 +95,16 @@ const ReviewPage = () => {
     console.log(isModified);
   };
 
-  useEffect(() => {
-    changeImg();
-    deleteImg();
-    console.log(modifyImage);
-  }, [modifyImage]);
+  // useEffect(() => {
+  //   changeImg();
+  //   deleteImg();
+  //   console.log(modifyImage);
+  // }, [modifyImage]);
+
+  // useEffect(() => {
+  //   getImg();
+  //   console.log(modifyImage);
+  // }, [modifyImage]);
 
   //리뷰글 변경 확인
   const onChangeMemo = (e) => {
@@ -114,8 +123,8 @@ const ReviewPage = () => {
   formData.append("image", modifyImage.image_file);
   formData.append("data", JSON.stringify(modifyData));
 
-  console.log(formData)
-  console.log(modifyData)
+  console.log(formData);
+  console.log(modifyData);
 
   // const modifyReviewDetailRecord = async () => {
   //   await modifyReviewDetail(
@@ -135,8 +144,9 @@ const ReviewPage = () => {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization:
-            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjoxOSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NTk0NDgxMn0.0wKt87MoJnFpoIuwQZeBnj8e1v3LOGpBDEY2duER05ruO-G_D-Ub3TmKGiD0QkS7O1jJBaXzYHYmfF3ceb6ANg",
-        }, params:modifyData,
+          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjo2OSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjEzMTMzMX0.f7J33C-yMlQgLubKGHXeR81rFFGCdnHf244A1QfUs-eEKKru4Dtwxt-I5XYWpy5ZujjMHPBLHUWFA6eqP3fBsw",
+        },
+        params: modifyData,
       })
       .then(function (response) {
         console.log(response, "성공");
@@ -161,15 +171,13 @@ const ReviewPage = () => {
       />
       <Card sx={{ marginTop: 2, height: 110 }}>
         <TextField
+          defaultValue={reviewDetail.memo}
           fullWidth
-          id="standard-multiline-static"
           multiline
           rows={4}
           variant="standard"
           onChange={onChangeMemo}
-        >
-          {reviewDetail.memo}
-        </TextField>
+        />
       </Card>
       <ReadOnlyCustomOption data={reviewDetail} />
       <Grid item>

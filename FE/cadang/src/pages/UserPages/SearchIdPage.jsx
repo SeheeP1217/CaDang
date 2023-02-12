@@ -53,18 +53,20 @@ const SearchIdPage = () => {
   const history = useHistory()
 
   const onhandlePost = async (data) => {
-    const { email, name } = data
-    const postData = { email, name }
+    data = { email, username }
 
     await axios
-      .post("/login", postData)
+      .get("http://i8a808.p.ssafy.io:8080/user/findid", {
+        params: { email, username },
+      })
       .then(function (response) {
-        console.log(response, "성공")
-        history.push("/main")
+        console.log(response.data, "성공")
+        alert(`${username}님의 아이디는 ` + response.data + "입니다.")
+        history.push("/password")
       })
       .catch(function (err) {
-        console.log(err)
-        setLoginError("로그인에 실패하였습니다. 다시 한 번 확인해 주세요")
+        console.log(err, "에러")
+        setLoginError("아이디를 찾을 수 없습니다. 다시 한 번 확인해 주세요")
       })
   }
 
@@ -92,13 +94,13 @@ const SearchIdPage = () => {
     const data = new FormData(e.currentTarget)
     const joinData = {
       email: data.get("email"),
-      name: data.get("name"),
+      username: data.get("username"),
     }
-    const { name, email } = joinData
+    const { username, email } = joinData
 
     if (
       emailRegex.test(email) &&
-      usernameRegex.test(name)
+      usernameRegex.test(username)
       // checked
     ) {
       onhandlePost(joinData)

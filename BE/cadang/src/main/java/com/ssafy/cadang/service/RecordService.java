@@ -50,9 +50,9 @@ public class RecordService {
         }
         // 파일 업로드
         // TODO 날짜 형식 프론트와 통일하기
-        String imgUrl = uploadImage(recordDto.getImage(), recordDto.getRegDate());
-        if (imgUrl == null)
-            imgUrl = recordDto.getImage_url();
+//        String imgUrl = uploadImage(recordDto.getImage(), recordDto.getRegDate());
+//        if (imgUrl == null)
+//            imgUrl = recordDto.getImage_url();
 
 
         Order record = Order.builder()
@@ -70,7 +70,8 @@ public class RecordService {
                 .vanilla(recordDto.getVanilla())
                 .hazelnut(recordDto.getHazelnut())
                 .caramel(recordDto.getCaramel())
-                .photo(imgUrl)
+                .photo(drink.getImage())
+//                .photo(imgUrl)
                 .storeName(recordDto.getStoreName())
                 .orderStatus(OrderStatus.RECORD)
                 .build();
@@ -162,8 +163,8 @@ public class RecordService {
     }
 
 
-    public int getSum(Long userId, int month) {
-        return recordReposiotry.findSumByUserAndMonth(userId, month);
+    public int getSum(Long userId, int month, int year) {
+        return recordReposiotry.findSumByUserAndMonth(userId, month, year, recordStatus);
     }
 
     private List<MyPageRecordDto> toMyPageRecordDtos(Slice<Order> orders) {

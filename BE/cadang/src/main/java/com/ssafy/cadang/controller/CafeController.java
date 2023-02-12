@@ -80,6 +80,9 @@ public class CafeController {
     @Operation(summary = "프랜차이즈 별 음료 목록 조회 FOR 기록", description = "프랜차이즈와 검색어(필수X)를 통해 음료 목록을 조회합니다")
     public ResponseEntity<List<DrinkResponseDto>> getDrinksForRecord(Long franchiseId, @RequestParam(required = false) String keyword) {
 
+        logger.info("getDrinksForRecord - 호출 {} ");
+        logger.info(" 요청 시간 - {}", LocalDateTime.now());
+
         List<DrinkResponseDto> drinkResponseDtos = cafeService.getDrinksForRecord(franchiseId, keyword);
         return new ResponseEntity<List<DrinkResponseDto>>(drinkResponseDtos, HttpStatus.ACCEPTED);
     }
@@ -87,6 +90,9 @@ public class CafeController {
     @GetMapping("/drink-record")
     @Operation(summary = "음료 + 옵션 + 일간 기록 조회 FOR 기록", description = "조회 대상 음료의 사이즈별 정보를 사이즈 순서로 오름차순으로 반환합니다.")
     public ResponseEntity<DrinkDetailDto> getDrinkDetailForRecord(HttpServletRequest request, Long franchiseId, String drinkName) {
+
+        logger.info("getDrinkDetailForRecord - 호출 {} ");
+        logger.info(" 요청 시간 - {}", LocalDateTime.now());
 
         Long userId = Long.valueOf(request.getAttribute("userId").toString());
         DrinkDetailDto drinkDetailDto = cafeService.getDrinkDetailForRecord(userId, franchiseId, drinkName);
