@@ -25,6 +25,9 @@ public class StoreOrderDto {
 
     private String drinkName;
 
+    private Long userId;
+    private String memberId;
+
     public StoreOrderDto(Order order){
 
         id = order.getId();
@@ -38,6 +41,8 @@ public class StoreOrderDto {
         caramel = order.getCaramel();
         sugarContent = order.getSugarContent();
         drinkName = order.getDrink().getDrinkName();
+        userId = order.getUser().getId();
+        memberId = order.getUser().getMemberId();
     }
 
 }
