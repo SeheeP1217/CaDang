@@ -25,6 +25,8 @@ public enum ExceptionEnum {
     NEWPASSWORD_DIFFERENT(HttpStatus.BAD_REQUEST, "USER-011", "새 비밀번호를 다시 확인해주세요"),
 
     USER_NOT_SAME(HttpStatus.BAD_REQUEST, "USER-012", "사용자 정보가 일치하지 않습니다."),
+
+    MAIL_EMPTY(HttpStatus.NOT_FOUND, "USER-013", "이메일을 입력해주세요"),
     // Data
     DATA_NOT_FOUND(HttpStatus.NOT_FOUND, "DATA-001", "데이터를 찾을 수 없습니다."),
 
