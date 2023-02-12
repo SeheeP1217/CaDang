@@ -17,7 +17,7 @@ import SockJsClient from "react-stomp";
 export default function PaySuccessPage() {
   const item = useRecoilValue(orderItem);
   const [msg, setMsg] = useState("");
-  const [storeId, setStoreId] = useState(1);
+  const [storeId, setStoreId] = useState(69);
 
   const $websocket = useRef();
   // const handleMsg = (msg) => {
@@ -66,6 +66,10 @@ export default function PaySuccessPage() {
     <div>
       <SockJsClient
         url="http://localhost:8080/websocket"
+        headers={{
+          Authorization:
+            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjo2OSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjIxODE0NX0.s_6_v2kF_hQ4fc7CwscGr47Koq3kzgcCIROUXMiOmJvvdq4x7Cudns_smA6wgf1TgFxy4S76CxxEyuBwwepixg",
+        }}
         // topics={["/topic/request-complete/", "/topics/template", "/topics/api"]}
         onMessage={(msg) => {
           console.log(msg);
