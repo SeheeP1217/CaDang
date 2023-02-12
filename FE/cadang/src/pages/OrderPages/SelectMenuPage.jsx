@@ -123,7 +123,7 @@ function SelectMenuPage() {
   // console.log("/////////-------/////////", menu);
 
   const finalData = {
-    franchiseId: menu.storeId,
+    franchiseId: menu.franchiseId,
     franchiseName: storeName,
     drink: selectDrinkInfo,
     branch: "",

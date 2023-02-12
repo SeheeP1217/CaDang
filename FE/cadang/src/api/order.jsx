@@ -50,17 +50,15 @@ async function getAllCafeList(success, fail) {
 
 async function searchDrinkMenu(franchiseId, keyword, success, fail) {
   const res = await api
-    .get(`/cafe/list-record`, {
-      params: {
-        franchiseId: franchiseId,
-        keyword: keyword,
-      },
-    })
+    .get(`/cafe/list-record`, {params: {franchiseId: franchiseId, keyword: keyword,},})
     .then(success)
     .catch(fail);
   return res;
 }
 
+async function newDrinkRecord(orderDetail, success, fail) {
+  const res = await api.post(`/record`, orderDetail).then(success).catch(fail);
+  return res;
+}
 
-
-export { cafeDrinkData, cafeDrinkList, getAllCafeList, searchDrinkMenu, };
+export { cafeDrinkData, cafeDrinkList, getAllCafeList, searchDrinkMenu, newDrinkRecord,};
