@@ -39,7 +39,10 @@ export default function CategorySearch() {
           console.log(res.data);
           return res.data;
         },
-        (err) => console.log(err)
+        (err) => {
+          console.log("%%%%%%");
+          console.log(err.message);
+        }
       ).then((data) => setCafeMenu(data));
     };
 
