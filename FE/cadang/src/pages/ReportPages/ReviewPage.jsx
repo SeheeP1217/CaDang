@@ -2,7 +2,7 @@ import * as React from "react";
 import axios from "axios";
 import dayjs from "dayjs";
 import { Fragment, useState, useMemo, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { Grid, Card } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import TextField from "@mui/material/TextField";
@@ -14,6 +14,7 @@ import ModifyReviewInfo from "../../components/ModifyReviewInfo";
 import ReadOnlyCustomOption from "../../components/ReadOnlyCustomOption";
 
 const ReviewPage = () => {
+  const history = useHistory()
   const location = useLocation();
   const reviewId = location.state.review.id;
   const originImg = location.state.review.photo;
@@ -144,12 +145,15 @@ const ReviewPage = () => {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization:
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjo2OSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjEzMTMzMX0.f7J33C-yMlQgLubKGHXeR81rFFGCdnHf244A1QfUs-eEKKru4Dtwxt-I5XYWpy5ZujjMHPBLHUWFA6eqP3fBsw",
+          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjo2OSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjIxODE0NX0.s_6_v2kF_hQ4fc7CwscGr47Koq3kzgcCIROUXMiOmJvvdq4x7Cudns_smA6wgf1TgFxy4S76CxxEyuBwwepixg",
         },
         params: modifyData,
       })
       .then(function (response) {
         console.log(response, "성공");
+        if (response.status === 200) {
+          history.push('/mypage')
+        }
       })
       .catch(function (err) {
         console.log(err);
