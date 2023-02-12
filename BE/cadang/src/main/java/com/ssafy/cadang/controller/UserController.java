@@ -11,6 +11,8 @@ import com.ssafy.cadang.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,12 +33,15 @@ public class UserController {
     private final UserService userService;
     private final EmailServiceImpl emailService;
     private final DataService dataService;
-
+    private final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
     //회원가입
     @PostMapping("/user/join")
     @Operation(summary = "회원가입")
     public ResponseEntity<?> join(@Valid UserDto userDto, BindingResult bindingResult) throws IOException {
+
+        logger.info("join - 호출 {} ");
+        logger.info(" 요청 시간 - {}", LocalDateTime.now());
 
         System.out.println("userDto: " + userDto);
         if (bindingResult.hasErrors()) {
@@ -55,6 +61,9 @@ public class UserController {
     @PostMapping("/user/email")
     @Operation(summary = "회원가입 시 이메일 인증번호 발송")
     public ResponseEntity<?> sendEmailCode(@RequestParam("email") String email) throws Exception {
+
+        logger.info("sendEmailCode - 호출 {} ");
+        logger.info(" 요청 시간 - {}", LocalDateTime.now());
         // 이메일 중복 검사
         userService.verifyEmail(email);
         emailService.sendSignupMessage(email);
@@ -66,6 +75,10 @@ public class UserController {
     @GetMapping("/user/email/verify")
     @Operation(summary = "회원가입 시 이메일 인증번호 확인")
     public boolean emailVerify(@RequestParam("key") String key, @RequestParam("email") String email) {
+
+        logger.info("emailVerify - 호출 {} ");
+        logger.info(" 요청 시간 - {}", LocalDateTime.now());
+
         boolean key_check;
 
         key_check = emailService.verifyEmail(email, key);
@@ -78,6 +91,10 @@ public class UserController {
     @GetMapping("/user/id/verify")
     @Operation(summary = "아이디 중복 확인")
     public boolean idVerify(@RequestParam("id") String id) {
+
+        logger.info("idVerify - 호출 {} ");
+        logger.info(" 요청 시간 - {}", LocalDateTime.now());
+
         boolean id_check;
 
         id_check = userService.verifyId(id);
@@ -90,6 +107,10 @@ public class UserController {
     @PostMapping("/user/email/findpw")
     @Operation(summary = "비밀번호 찾기 시 이메일 인증번호 발송")
     public ResponseEntity<Boolean> findPw(@RequestParam String email, @RequestParam String memberId) throws Exception {
+
+        logger.info("findPw - 호출 {} ");
+        logger.info(" 요청 시간 - {}", LocalDateTime.now());
+
         // 이메일 중복 검사
         if (userService.verifyId(email, memberId))
             emailService.sendChangePassMessage(email);
@@ -99,6 +120,10 @@ public class UserController {
     @GetMapping("/user/email/findpw")
     @Operation(summary = "비밀번호 찾기 시 이메일 인증번호 확인")
     public ResponseEntity<?> verifyEmail(@RequestParam String key, @RequestParam String email) {
+
+        logger.info("verifyEmail - 호출 {} ");
+        logger.info(" 요청 시간 - {}", LocalDateTime.now());
+
         if (emailService.verifyEmail(email, key)) {
             Long id = userService.findByEmail(email);
             EmailVerifyDto emailVerifyDto = EmailVerifyDto.builder()
@@ -115,12 +140,20 @@ public class UserController {
     @GetMapping("/user/findid")
     @Operation(summary = "아이디 찾기")
     public String findid(@RequestParam("username") String name, @RequestParam("email") String email) {
+
+        logger.info("findid - 호출 {} ");
+        logger.info(" 요청 시간 - {}", LocalDateTime.now());
+
         return userService.findId(name, email);
     }
 
     @PutMapping("/user/newpass")
     @Operation(summary = "비밀번호 찾기 - 이메일 인증 후 비밀번호 재설정")
     public boolean updatePassword(@RequestParam Long memberId, @RequestParam String password) {
+
+        logger.info("updatePassword - 호출 {} ");
+        logger.info(" 요청 시간 - {}", LocalDateTime.now());
+
         userService.updatePasswordByMemberId(memberId, password);
         return true;
     }
