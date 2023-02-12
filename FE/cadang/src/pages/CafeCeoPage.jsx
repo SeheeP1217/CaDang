@@ -102,7 +102,7 @@ export default function CafeCeoPage() {
   return (
     <Card style={{ background: "#FF6E6E" }}>
       <SockJsClient
-        url="http://localhost:8080/websocket"
+        url="http://i8a808.p.ssafy.io/websocket"
         headers={{
           Authorization:
             "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjo2OSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjIxODE0NX0.s_6_v2kF_hQ4fc7CwscGr47Koq3kzgcCIROUXMiOmJvvdq4x7Cudns_smA6wgf1TgFxy4S76CxxEyuBwwepixg",
