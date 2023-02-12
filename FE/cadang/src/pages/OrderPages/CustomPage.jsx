@@ -20,7 +20,7 @@ function CustomPage() {
   // 페이지 편집용 변수쓰
   // const franchiseId = 9;
   // const drinkName = '캐모마일 블렌드 티 핫 (HOT)';
-  const franchiseId = Number(location.state.finalData.franchiseId);
+  const franchiseId = location.state.finalData.franchiseId;
   const drinkName = location.state.finalData.drink.drinkName;
   const [drinkDetail, setDrinkDetail] = useState({
     storeId: 0,
@@ -81,7 +81,7 @@ function CustomPage() {
     price: basicDrink.price,
     shot: basicDrink.shot,
     whip: basicDrink.whip,
-    sugarContent: "LESS",
+    sugarContent: "BASIC",
     syrup: 0,
     vanilla: 0,
     hazelnut: 0,
@@ -90,6 +90,23 @@ function CustomPage() {
     memo: "",
     storeName: location.state.franchiseName,
   });
+
+  // 선택한 음료 정보로 orderDetail 초기화
+  useEffect(() => {
+    setOrderDetail({
+      ...orderDetail, 
+      drinkId: basicDrink.drinkId,
+      caffeine: basicDrink.caffeine,
+      sugar: basicDrink.sugar,
+      cal: basicDrink.cal,
+      price: basicDrink.price,
+      shot: basicDrink.shot,
+      whip: basicDrink.whip,
+      image_url: basicDrink.img,
+      sugarContent: "BASIC",
+      storeName: location.state.franchiseName,
+    })
+  }, [basicDrink])
 
   // 기존 daily + 선택음료 데이터 계산(젤 작은 사이즈 & 노옵션)
   const withoutCustom = {
@@ -102,7 +119,7 @@ function CustomPage() {
 
   }
 
-  //커스텀 변경시 변화량 계산(orderDetail - 기존 daily)
+  //커스텀 변경시 변화량 계산
   const [changeInfo, setChangeInfo] = useState({
     caffeine: 0,
     sugar: 0,
@@ -110,16 +127,13 @@ function CustomPage() {
     cal: 0,
   })
 
-  useEffect(() => {
-    setChangeInfo({
-      caffeine: Math.max(orderDetail.caffeine - withoutCustom.caffeDaily, 0),
-      sugar: Math.max(orderDetail.sugar - withoutCustom.sugarDaily, 0),
-      money: Math.max(orderDetail.price - withoutCustom.moneyDaily, 0),
-      cal: Math.max(orderDetail.cal - withoutCustom.calDaily, 0),
+  // 섭취일(날짜) 변경 반영
+  const getRecordDate = (newValue) => {
+    setOrderDetail({
+      ...orderDetail, 
+      regDate: newValue,
     })
-    console.log(changeInfo)
-  }, [orderDetail])
-
+  };
 
   // 영양성분에 옵션정보 반영
   const onClickOptionChangeHandler = (field, value) => {
@@ -186,7 +200,6 @@ function CustomPage() {
   useMemo(() => {
     console.log(franchiseId)
     console.log(drinkName)
-    console.log(franchiseId === 9)
     const getCustomData = async () => {
       await cafeDrinkData(
         franchiseId,
@@ -204,8 +217,18 @@ function CustomPage() {
     //   setOrderDetail()
     // },[setDrinkDetail])
 
-  console.log(drinkDetail);
   console.log(orderDetail)
+
+  useEffect(() => {
+    setChangeInfo({
+      caffeine: orderDetail.caffeine - withoutCustom.caffeDaily,
+      sugar: orderDetail.sugar - withoutCustom.sugarDaily,
+      money: orderDetail.price - withoutCustom.moneyDaily,
+      cal: orderDetail.cal - withoutCustom.calDaily,
+    })
+  }, [orderDetail])
+  
+  console.log(changeInfo)
 
   // 기록 등록 axios
   const addDrinkRecord = async () => {
@@ -215,7 +238,6 @@ function CustomPage() {
       (err) => {console.log(err)},
     )
       .then(function (response) {
-        console.log(response, "성공");
       })
       .catch(function (err) {
         console.log(err);
@@ -245,7 +267,7 @@ function CustomPage() {
               <Item style={{ fontWeight: "700" }}>{location.state.finalData.branch ? location.state.finalData.branch : '-'}</Item>
             </Grid>
             <Grid item xs={12}>
-              <DrinkMenuItem data={location.state.finalData}/>
+              <DrinkMenuItem data={location.state.finalData} getRecordDate={getRecordDate}/>
             </Grid>
           </Grid>
         </Box>

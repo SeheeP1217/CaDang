@@ -1,13 +1,16 @@
 import * as React from "react";
-import { Paper, Grid, Divider, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
+import RecordDatePicker from "../RecordDatePicker";
+
+
 export default function DrinkMenuItem(props) {
   console.log(props.data)
   return (
-    <Card sx={{ display: "flex" }}>
+    <Card sx={{ display: "flex", marginBottom: 1 }}>
       <CardMedia
         component="img"
         sx={{ width: 110 }}
@@ -30,6 +33,7 @@ export default function DrinkMenuItem(props) {
         >
           {props.data.drink.caffeine}mg / {props.data.drink.sugar}g
         </Typography>
+        <RecordDatePicker getRecordDate={props.getRecordDate}/>
       </Box>
     </Card>
   );

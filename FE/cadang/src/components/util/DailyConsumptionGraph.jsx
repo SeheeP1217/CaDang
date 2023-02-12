@@ -68,6 +68,7 @@ function DailyConsumptionGraph(props) {
           background={{ fill: "#eee" }}
         />
         <Bar dataKey="change" stackId="a" fill="#82ca9d" />
+        </BarChart>
         {/* <Tooltip />
         <ReferenceArea
           x1={0}
@@ -106,7 +107,6 @@ function DailyConsumptionGraph(props) {
           background={{ fill: "#eee" }}
         />
         <Bar data={props.data} dataKey="change" stackId="a" fill="#82ca9d" /> */}
-      </BarChart>
     </div>
   );
 }

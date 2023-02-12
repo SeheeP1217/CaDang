@@ -7,7 +7,7 @@ function DailyOtherInfo(props) {
     <List>
       {props !== undefined && (
         <Typography textAlign="center" alignItems="center">
-          💰 {props.money} | 🍔 {props.kcal}
+          💰 {props.data.moneyDaily} 원 | 🍔 {props.data.calDaily} Kcal
         </Typography>
       )}
     </List>
