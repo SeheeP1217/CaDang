@@ -347,9 +347,6 @@ const RegisterPage = () => {
               회원가입
             </Typography>
           </TitleCard>
-          <BackCard>
-            <ProfileImageUploader getImg={getImg}></ProfileImageUploader>
-          </BackCard>
           <Boxs
             component="form"
             noValidate
@@ -359,6 +356,7 @@ const RegisterPage = () => {
             <FormControl component="fieldset" variant="standard">
               <BackCard>
                 <Grid container spacing={1} m={0}>
+                  <ProfileImageUploader getImg={getImg}></ProfileImageUploader>
                   <Grid item xs={11.5}>
                     <TextField
                       required
@@ -493,7 +491,7 @@ const RegisterPage = () => {
                       fullWidth
                       variant="contained"
                       size="medium"
-                      fullHeight
+                      style={{ height: "57.5px" }}
                     >
                       확인
                     </BackButton>

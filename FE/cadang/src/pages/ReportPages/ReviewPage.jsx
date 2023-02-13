@@ -108,7 +108,6 @@ const ReviewPage = () => {
     console.log(isModified)
   }
 
-
   //리뷰글 변경 확인
   const onChangeMemo = (e) => {
     setModifyMemo(e.target.value)
