@@ -3,6 +3,7 @@ package com.ssafy.cadang.config;
 
 import com.ssafy.cadang.jwt.*;
 import com.ssafy.cadang.repository.UserRepository;
+import com.ssafy.cadang.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +39,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     //    private final CorsFilter corsFilter;
     private final UserRepository userRepository;
+
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
@@ -119,27 +121,32 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //.antMatchers("/")
                 //.permitAll()
-                .antMatchers(HttpMethod.POST,"/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/login").permitAll()
 //                .antMatchers("/main").permitAll()
                 .antMatchers("/user/**")
                 .permitAll()
                 .antMatchers("/user2/**").hasRole("USER") // 유저 권한을 가진 클라이언트만 접근이 가능하다.
                 .antMatchers("/admin/**").hasRole("ADMIN") // 어드민 권한을 가진 클라이언트만 접근이 가능하다.
-//                .anyRequest().authenticated()
-                .anyRequest().permitAll()
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/v3/api-docs/**").permitAll()
+                .antMatchers("/favicon.ico").permitAll()
+                .antMatchers("/api-docs/**").permitAll()
+                .antMatchers("/websocket/**").permitAll()
+                .anyRequest().authenticated()
+//                .anyRequest().permitAll(
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(), passwordEncoder(), userRepository)) // AuthenticationManager  // 로그인을 하면 클라이언트에게 토큰을 발급해주는 필터
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository));
 
 
-        // 사용자가 요청을 보낼 때마다 토큰을 검증하는 필터
 
+        // 사용자가 요청을 보낼 때마다 토큰을 검증하는 필터
 
     }
 
     // CORS 허용 적용
     @Bean
-    public CorsConfigurationSource corsConfigurationSource(){
+    public CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);       // 서버의 json 응답을 JS로 처리가능하게 함

@@ -4,21 +4,20 @@ package com.ssafy.cadang.service;
 import com.ssafy.cadang.domain.User;
 import com.ssafy.cadang.dto.user.UserDto;
 import com.ssafy.cadang.dto.user.UserGoalDto;
+import com.ssafy.cadang.dto.user.UserModifyDto;
 import com.ssafy.cadang.dto.user.UserPassChangeDto;
 import com.ssafy.cadang.error.CustomException;
 import com.ssafy.cadang.error.ExceptionEnum;
 import com.ssafy.cadang.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.UUID;
 
 @Service
@@ -29,14 +28,12 @@ public class UserAuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${EC2_FILE_PATH}")
-    private String RecordUploadPath;
+    @Value("${DEFAULT_PROFILE_FILE}")
+    private String DefaultProfileFile;
 
     @Value("${EC2_PROFILE_PATH}")
     private String UserProfileImgPath;
 
-    @Value("${DEFAULT_PROFILE_PATH}")
-    private String DefaultProfileImgPath;
 
     private String getFullPath(String imgPath, String filename) {
         return imgPath + filename;
@@ -62,14 +59,30 @@ public class UserAuthService {
 
 
     @Transactional
-    public void modifyUserInfo(UserDto userDto, Long id) {
+    public void modifyUserInfo(UserModifyDto userModifyDto, Long id) throws IOException {
 
+        MultipartFile multipartFile;
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
-        user.setNickname(userDto.getNickname());
-        user.setCaffeGoal(userDto.getCaffeGoal());
-        user.setSugarGoal(user.getSugarGoal());
+
+        if (userModifyDto.getIsModified() == 1) {
+            // 수정
+            multipartFile = userModifyDto.getImg();
+            String originalFilename = multipartFile.getOriginalFilename();
+            String storeFilename = createStoreFileName(originalFilename);
+            String storedPath = getFullPath(UserProfileImgPath, storeFilename);
+            multipartFile.transferTo(new File(storedPath));
+            user.setImgUrl(storeFilename);
+        } else if (userModifyDto.getIsModified() == 2) {
+            // 기본 이미지로
+            user.setImgUrl(DefaultProfileFile);
+        }
+
+        user.setNickname(userModifyDto.getNickname());
+        user.setCaffeGoal(userModifyDto.getCaffeGoal());
+        user.setSugarGoal(userModifyDto.getSugarGoal());
+
 
     }
 
@@ -79,7 +92,7 @@ public class UserAuthService {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
-        if (!user.getPassword().equals(userPassChangeDto.getCurpass())) {
+        if (!passwordEncoder.matches(userPassChangeDto.getCurpass(), user.getPassword())) {
             throw new CustomException(ExceptionEnum.PASSWORD_INCORRECT);
         }
 
@@ -96,15 +109,13 @@ public class UserAuthService {
     public void deleteUser(Long id, String password) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
-        if (!user.getPassword().equals(password)) {
+
+        if (!passwordEncoder.matches(password,user.getPassword())) {
             throw new CustomException(ExceptionEnum.PASSWORD_INCORRECT);
         }
 
         userRepository.deleteById(id);
     }
-
-
-
 
 
     // 서버에 저장할 파일명을 만든다.
@@ -120,9 +131,6 @@ public class UserAuthService {
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);
     }
-
-
-
 
 
 }

@@ -5,7 +5,7 @@ import BottomNav from "./BottomNav";
 import styled from "styled-components";
 
 function PageLayout(props) {
-  const Main = styled.main(() => ({
+  const MainLayout = styled.div(() => ({
     backgroundColor: "#F9F6F2",
     width: '95%',
     marginTop: 15,
@@ -15,11 +15,11 @@ function PageLayout(props) {
   }))
 
   return (
-    <div>
-      <TopBar />
-      <Main style={{ marginTop: 15, marginBotton: 20 }}>
+    <div >
+      <TopBar/>
+      <MainLayout style={{ marginTop: 15, marginBotton: 20 }}>
         {props.children}
-      </Main>
+      </MainLayout>
       <BottomNav />
     </div>
   );

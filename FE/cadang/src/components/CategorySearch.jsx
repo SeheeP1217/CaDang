@@ -1,11 +1,14 @@
 // import { element } from "prop-types";
 import Stack from "@mui/material/Stack";
 import { Link } from "react-router-dom";
-import { Paper, Grid, Divider, Card } from "@mui/material";
+import { Paper, Grid, Divider, Card, Button, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import React, { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { todayDate } from "../recoil/atom/user.jsx";
 import "./CategorySearch.css";
+import { checkCafeList } from "../api/cafeMap";
 
 const { kakao } = window;
 
@@ -18,14 +21,59 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function CategorySearch() {
-  // const [map, setMap] = useState()
   const [list, setList] = useState([]);
+  const [clickCafe, setClickCafe] = useState("");
+  const [cafeMenu, setCafeMenu] = useState([]);
+  const dateString = useRecoilValue(todayDate);
 
-  // const [plus, setPlus] = useState([]);
+  const onCheckCafe = (index) => {
+    console.log("!!!!!!! 해당 카페가 DB에 있는지 확인 !!!!!!!");
+    console.log(list[index].place_name);
+    console.log(dateString);
+    const cafe = list[index].place_name;
+    const checkCafe = async () => {
+      await checkCafeList(
+        dateString,
+        cafe,
+        (res) => {
+          console.log(res.data);
+          return res.data;
+        },
+        (err) => {
+          console.log("%%%%%%");
+          console.log(err.message);
+        }
+      ).then((data) => setCafeMenu(data));
+    };
+
+    checkCafe();
+  };
+
   // const [location, setLocation] = useState();
 
   useEffect(() => {
     console.log("***");
+
+    let placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
+      contentNode = document.createElement("div"), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
+      markers = [], // 마커를 담을 배열입니다
+      currCategory = "CE7"; // 현재 선택된 카테고리를 가지고 있을 변수입니다
+
+    let mapContainer = document.getElementById("map"), // 지도를 표시할 div
+      mapOption = {
+        center: new kakao.maps.LatLng(37.50153289264357, 127.03983097807087), // 지도의 중심좌표
+        level: 4, // 지도의 확대 레벨
+      };
+
+    // 지도를 생성합니다
+    let map = new kakao.maps.Map(mapContainer, mapOption);
+
+    // 장소 검색 객체를 생성합니다
+    let ps = new kakao.maps.services.Places();
+
+    // 지도 중심좌표를 얻어옵니다
+    let latlng = map.getCenter();
+
     // Get the user's current location
     //     navigator.geolocation.getCurrentPosition(position => {
     //     setLocation({
@@ -130,31 +178,10 @@ export default function CategorySearch() {
     //   }, []);
 
     // 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
-    let placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
-      contentNode = document.createElement("div"), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
-      markers = [], // 마커를 담을 배열입니다
-      currCategory = "CE7"; // 현재 선택된 카테고리를 가지고 있을 변수입니다
-
-    let mapContainer = document.getElementById("map"), // 지도를 표시할 div
-      mapOption = {
-        center: new kakao.maps.LatLng(37.50153289264357, 127.03983097807087), // 지도의 중심좌표
-        level: 4, // 지도의 확대 레벨
-      };
-
-    // 지도를 생성합니다
-    let map = new kakao.maps.Map(mapContainer, mapOption);
-
-    // 장소 검색 객체를 생성합니다
-    let ps = new kakao.maps.services.Places();
-
-    // 지도 중심좌표를 얻어옵니다
-    let latlng = map.getCenter();
-
-    searchPlaces();
-
     // 지도에 idle 이벤트를 등록합니다
     kakao.maps.event.addListener(map, "idle", searchPlaces);
 
+    searchPlaces();
     // 마우스 드래그로 지도 이동이 완료되었을 때 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
     // kakao.maps.event.addListener(map, 'dragend',searchPlaces);
 
@@ -185,36 +212,40 @@ export default function CategorySearch() {
 
     // 카테고리 검색을 요청하는 함수입니다
     function searchPlaces() {
-      // if (!currCategory) {
-      //   return;
-      // }
-
       // 커스텀 오버레이를 숨깁니다
       placeOverlay.setMap(null);
 
       // 지도 중심좌표를 얻어옵니다
       latlng = map.getCenter();
 
-      let message = "변경된 지도 중심좌표는 " + latlng.getLat() + " 이고, ";
-      message += "경도는 " + latlng.getLng() + " 입니다";
+      // let message = "변경된 지도 중심좌표는 " + latlng.getLat() + " 이고, ";
+      // message += "경도는 " + latlng.getLng() + " 입니다";
 
-      let resultDiv = document.getElementById("result");
-      resultDiv.innerHTML = message;
+      // let resultDiv = document.getElementById("result");
+      // resultDiv.innerHTML = message;
 
       // 지도에 표시되고 있는 마커를 제거합니다
       removeMarker();
 
-      for (let i = 1; i <= 3; i++) {
-        ps.categorySearch("CE7", placesSearchCB, {
-          // location: new kakao.maps.LatLng(37.5018952591279, 127.039347134781),
-          x: latlng.getLng(),
-          y: latlng.getLat(),
-          useMapBounds: true,
-          radius: 300, // 전방 300m
-          page: i,
-        });
-      }
+      // const getCafe = ps.categorySearch("CE7", placesSearchCB, {
+      //   x: latlng.getLng(),
+      //   y: latlng.getLat(),
+      //   useMapBounds: true,
+      //   radius: 300, // 전방 300m
+      //   // page: i,
+      // });
+
+      // for (let i = 1; i <= 3; i++) {
+      ps.categorySearch("CE7", placesSearchCB, {
+        // location: new kakao.maps.LatLng(37.5018952591279, 127.039347134781),
+        x: latlng.getLng(),
+        y: latlng.getLat(),
+        useMapBounds: true,
+        radius: 300, // 전방 300m
+        page: 1,
+      });
     }
+    // }
 
     // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
     function placesSearchCB(data, status, pagination) {
@@ -225,23 +256,6 @@ export default function CategorySearch() {
         // setList({...list, data});
         // getData(data);
         displayPlaces(data);
-
-        // setList(list.concat(data));
-        // if (list.length == 0) {
-        //   setList(data);
-        //   console.log(list.length);
-        // } else if (list2.length == 0) {
-        //   console.log();
-        //   setList2(data);
-        //   console.log(list2.length);
-        // } else if (list3.length == 0) {
-        //   setList3(data);
-        //   console.log(list3.length);
-        // }
-        for (let i = 0; i < data.length; i++) {
-          // displayMarker(data[i]);
-          // displayPlaces(data[i]);
-        }
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         // 검색결과가 없는경우 해야할 처리가 있다면 이곳에 작성해 주세요
       } else if (status === kakao.maps.services.Status.ERROR) {
@@ -254,17 +268,11 @@ export default function CategorySearch() {
       // 몇번째 카테고리가 선택되어 있는지 얻어옵니다
       // 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
       let order = document.getElementById(currCategory).getAttribute("data-order");
-      // console.log("================");
-      console.log(list);
-      // console.log("================");
-      // setPlus(places);
-      // setList(places);
 
       setList(list.concat(places));
       // setList([ ...list, places ]);
 
       // setList((list) => [...list, places]);
-      console.log(list);
 
       for (let i = 0; i < places.length; i++) {
         // 마커를 생성하고 지도에 표시합니다
@@ -391,8 +399,7 @@ export default function CategorySearch() {
 
     // 카테고리를 클릭했을 때 호출되는 함수입니다
     function onClickCategory() {
-      let id = this.id,
-        className = this.className;
+      let className = this.className;
 
       placeOverlay.setMap(null);
 
@@ -406,22 +413,17 @@ export default function CategorySearch() {
         searchPlaces();
       }
     }
-
-    // // 클릭된 카테고리에만 클릭된 스타일을 적용하는 함수입니다
-    // function changeCategoryClass(el) {
-    //   var category = document.getElementById("category"),
-    //     children = category.children,
-    //     i;
-
-    //   for (i = 0; i < children.length; i++) {
-    //     children[i].className = "";
-    //   }
-
-    //   if (el) {
-    //     el.className = "on";
-    //   }
-    // }
   }, []);
+
+  useEffect(() => {
+    console.log("====== list 변수 : ======");
+    // console.log(list[0]);
+
+    const cafeNames = list.map((element, idx) => {
+      console.log("cafe name: " + idx + " : " + element.place_name);
+      console.log("cafe address: " + element.address_name);
+    });
+  }, [list]);
 
   return (
     <>
@@ -448,14 +450,79 @@ export default function CategorySearch() {
               <button className="category_bg cafe">카페</button>
             </li>
           </div>
-          <p id="result"></p>
+          {/* <p id="result"></p> */}
+
+          {/* <Card>
+            <Grid
+              container
+              spacing={2}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                textAlign: "center",
+              }}
+            >
+              <Grid item xs={12}>
+                {list.length !== 0 &&
+                  list.map((element, i) => (
+                    <Button
+                      onclick={onCheckCafe}
+                      // component={Link}
+                      // to="/selectmenu"
+                      // textdecoration="none"
+                      key={i}
+                    >
+                      <Typography>{element.place_name}</Typography>
+                    </Button>
+                  ))}
+              </Grid>
+            </Grid>
+          </Card> */}
 
           <Box sx={{ width: "100%" }}>
             <Stack spacing={1}>
               {list.length !== 0
                 ? list.map((element, i) => (
-                    <Item component={Link} to="/selectmenu" textdecoration="none" key={i}>
-                      {element.place_name} <br /> {element.address_name}
+                    <Item
+                      sx={{ padding: 1.5 }}
+                      onMouseDown={() => onCheckCafe(i)}
+                      // component={Link}
+                      // to="/selectmenu"
+                      textdecoration="none"
+                      key={i}
+                    >
+                      <Typography
+                        sx={{
+                          fontWeight: "700",
+                          fontSize: 16,
+                          display: "flex",
+                          justifyContent: "flex-start",
+                        }}
+                      >
+                        {element.place_name}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          fontWeight: "300",
+                          fontSize: 13,
+                          display: "flex",
+                          justifyContent: "flex-start",
+                        }}
+                      >
+                        {element.address_name}
+                      </Typography>
+
+                      <Typography
+                        sx={{
+                          fontWeight: "200",
+                          fontSize: 13,
+                          display: "flex",
+                          justifyContent: "flex-end",
+                        }}
+                      >
+                        {element.distance}m
+                      </Typography>
+                      {/* <Button onclick={onCheckCafe}>보러 가기</Button> */}
                     </Item>
                   ))
                 : null}

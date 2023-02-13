@@ -37,6 +37,8 @@ public class RecordService {
     private final DataService dataService;
     @Value("${EC2_FILE_PATH}")
     private String RecordUploadPath;
+    @Value("${EC2_RENDER_PATH}")
+    private String RenderPath;
 
     @Transactional
     public Long saveRecordDirectly(RecordSaveRequestDto recordDto) throws IOException {
@@ -48,12 +50,6 @@ public class RecordService {
         if (recordDto.getRegDate() != null) {
             regDate = LocalDate.parse(recordDto.getRegDate()).atStartOfDay();
         }
-        // 파일 업로드
-        // TODO 날짜 형식 프론트와 통일하기
-        String imgUrl = uploadImage(recordDto.getImage(), recordDto.getRegDate());
-        if (imgUrl == null)
-            imgUrl = recordDto.getImage_url();
-
 
         Order record = Order.builder()
                 .user(user)
@@ -70,7 +66,7 @@ public class RecordService {
                 .vanilla(recordDto.getVanilla())
                 .hazelnut(recordDto.getHazelnut())
                 .caramel(recordDto.getCaramel())
-                .photo(imgUrl)
+                .photo(drink.getImage())
                 .storeName(recordDto.getStoreName())
                 .orderStatus(OrderStatus.RECORD)
                 .build();
@@ -80,30 +76,33 @@ public class RecordService {
     }
 
 
-//    public RecordDetailDto getOrderByRecordId(Long userId, Long recordId) {
-        public RecordDetailDto getOrderByRecordId(Long recordId) {
+    public RecordDetailDto getOrderByRecordId(Long userId, Long recordId) {
         Order order = recordReposiotry.findById(recordId)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.RECORD_NOT_FOUND));
-//        if (!Objects.equals(order.getUser().getId(), userId)) {
-//            throw new CustomException(ExceptionEnum.USER_NOT_SAME);
-//        }
+        if (!Objects.equals(order.getUser().getId(), userId)) {
+            throw new CustomException(ExceptionEnum.USER_NOT_SAME);
+        }
         String image = order.getDrink().getImage();
 
-
         return toRecordDetailDto(order, image);
+
 
     }
 
     @Transactional
-//    public Long deleteOrderById(Long userId, Long recordId) {
-        public Long deleteOrderById( Long recordId) {
+    public Long deleteOrderById(Long userId, Long recordId) {
         Order findRecord = recordReposiotry.findById(recordId)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.RECORD_NOT_FOUND));
-//        if (!Objects.equals(findRecord.getUser().getId(), userId)) {
-//            throw new CustomException(ExceptionEnum.USER_NOT_SAME);
-//        }
+        if (!Objects.equals(findRecord.getUser().getId(), userId)) {
+            throw new CustomException(ExceptionEnum.USER_NOT_SAME);
+        }
+
+        dataService.updateDataByDelete(findRecord);
         recordReposiotry.delete(findRecord);
+
+
         return recordId;
+
     }
 
     public MyPageRecordListDto searchByKeyword(Long userId, String keyword, int page, int size) {
@@ -130,40 +129,37 @@ public class RecordService {
     }
 
     @Transactional
-//    public Long updateRecord(Long userId, RecordUpdateDto updateDto) throws IOException {
-        public Long updateRecord(RecordUpdateDto updateDto) throws IOException {
+    public Long updateRecord(Long userId, RecordUpdateDto updateDto) throws IOException {
         Order findRecord = recordReposiotry.findById(updateDto.getId())
                 .orElseThrow(() -> new CustomException(ExceptionEnum.RECORD_NOT_FOUND));
-//        if (!Objects.equals(findRecord.getUser().getId(), userId)) {
-//            throw new CustomException(ExceptionEnum.USER_NOT_SAME);
-//        }
+        if (!Objects.equals(findRecord.getUser().getId(), userId)) {
+            throw new CustomException(ExceptionEnum.USER_NOT_SAME);
+        }
         if (findRecord.getOrderStatus() == OrderStatus.PICKUP && updateDto.getRegDate() != null) {
             throw new CustomException(ExceptionEnum.RECORD_NOT_ALLOWED_MODIFY);
         }
-
-        LocalDateTime localDateTime = LocalDateTime.parse(updateDto.getRegDate());
-        findRecord.setRegDate(localDateTime);
-
         // 파일 업로드
         // TODO 날짜 형식 프론트와 통일하기
+        LocalDateTime localDateTime = LocalDate.parse(updateDto.getRegDate()).atStartOfDay();
+        findRecord.setRegDate(localDateTime);
         findRecord.setMemo(updateDto.getMemo());
         findRecord.setPublic(updateDto.getIsPublic());
         if (updateDto.getIsModified() == 1) {
+            // 수정
             String imgUrl = uploadImage(updateDto.getImage(), updateDto.getRegDate());
             findRecord.setPhoto(imgUrl);
         } else if (updateDto.getIsModified() == 2) {
+            // 기본 이미지로
             String imgUrl = findRecord.getDrink().getImage();
             findRecord.setPhoto(imgUrl);
         }
-
-
         return findRecord.getId();
 
     }
 
 
-    public int getSum(Long userId, int month) {
-        return recordReposiotry.findSumByUserAndMonth(userId, month);
+    public int getSum(Long userId, int month, int year) {
+        return recordReposiotry.findSumByUserAndMonth(userId, month, year, recordStatus);
     }
 
     private List<MyPageRecordDto> toMyPageRecordDtos(Slice<Order> orders) {
@@ -212,13 +208,14 @@ public class RecordService {
 
 
     private String uploadImage(MultipartFile image, String regDate) throws IOException {
+
         if (image != null) {
             MultipartFile file = image;
             String uuid = UUID.randomUUID().toString();
             String originalFilename = file.getOriginalFilename();
-            String fullPath = RecordUploadPath + regDate + "/" + uuid + "_" + originalFilename;
+            String fullPath = RecordUploadPath + uuid + "_" + originalFilename;
             file.transferTo(new File(fullPath));
-            return regDate + "/" + uuid + "_" + originalFilename;
+            return RenderPath + uuid + "_" + originalFilename;
         }
         return null;
     }

@@ -9,18 +9,19 @@ import java.util.List;
 @Data
 public class DrinksForCafeDto {
 
-    List<DrinkResponseDto> drinkableDrinks;
-    List<DrinkResponseDto> nonDrinkableDrinks;
-
     DayDataDto dayDataDto;
     Long franchiseId;
     Long storeId;
     String storeName;
+    List<DrinkResponseDto> drinkableDrinks;
+    List<DrinkResponseDto> allDrinks;
 
-    public DrinksForCafeDto(List<DrinkResponseDto> drinkableDrinks, List<DrinkResponseDto> nonDrinkableDrinks,
+
+
+    public DrinksForCafeDto(List<DrinkResponseDto> drinkableDrinks, List<DrinkResponseDto> allDrinks,
                             DayDataDto dayDataDto, Long franchiseId, Long storeId, String storeName){
         this.drinkableDrinks = drinkableDrinks;
-        this.nonDrinkableDrinks = nonDrinkableDrinks;
+        this.allDrinks = allDrinks;
         this.dayDataDto = dayDataDto;
         this.franchiseId = franchiseId;
         this.storeId = storeId;

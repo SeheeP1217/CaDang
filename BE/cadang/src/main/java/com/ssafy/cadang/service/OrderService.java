@@ -17,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,9 +35,9 @@ public class OrderService {
 
     private static OrderStatus[] orderStatusList = {OrderStatus.RECORD, OrderStatus.PICKUP, OrderStatus.CANCEL};
 
-    public Long saveOrder(OrderSaveDto orderSaveDto) {
+    public Long saveOrder(OrderSaveDto orderSaveDto, Long customerId) {
 
-        User user = userRepository.findById(orderSaveDto.getUserId())
+        User user = userRepository.findById(customerId)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
 
         Drink drink = drinkRepository.findById(orderSaveDto.getDrinkId())
@@ -64,10 +66,11 @@ public class OrderService {
                 regDate(LocalDateTime.now()).
                 isPublic((true)).build();
 
-        Long orderId = orderRepository.save(order).getId();
-
-        return orderId;
+        orderRepository.save(order);
+        Long storeId = store.getId();
+        return storeId;
     }
+
 
     public List<CustomerOrderDto> getCustomerOrderById(Long userId) {
 
@@ -113,21 +116,27 @@ public class OrderService {
         return customerNowOrderDtoList;
     }
 
-    public Long updateOrderByOrderIdAndOrderStatus(OrderUpdateDto orderUpdateDto, Long storeId) {
+    public Map<String, Long> updateOrderByOrderIdAndOrderStatus(OrderUpdateDto orderUpdateDto, Long storeId) {
 
         Order findOrder = orderRepository.findById(orderUpdateDto.getOrderId())
                 .orElseThrow(() -> new CustomException(ExceptionEnum.ORDER_NOT_FOUND));
 
-        if(findOrder.getUser().getId() != storeId) {
+        if(findOrder.getStore().getId() != storeId) {
             throw new CustomException(ExceptionEnum.ORDER_NOT_SAME);
         }
+
+        Long orderId = findOrder.getId();
+        Long customerId = findOrder.getUser().getId();
+        Map<String, Long> orderAndCustomerId = new HashMap<>();
+        orderAndCustomerId.put("orderId", orderId);
+        orderAndCustomerId.put("customerId", customerId);
 
         findOrder.setOrderStatus(orderUpdateDto.getOrderStatus());
         if (orderUpdateDto.getOrderStatus() == OrderStatus.PICKUP) {
             dataService.updateData(findOrder);
         }
 
-        return findOrder.getId();
+        return orderAndCustomerId;
     }
 
 }

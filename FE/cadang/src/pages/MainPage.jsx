@@ -3,28 +3,42 @@ import axios from "axios";
 import Box from "@mui/material/Box";
 import OrderStatus from "../components/OrderStatus";
 import DrinkRecommendation from "../components/DrinkRecommendation";
-import DailyConsumptionGraph from "../components/util/DailyConsumptionGraph";
+import MainDailyConsumptionGraph from "../components/util/MainDailyConsumptionGraph";
 import DailyOtherInfo from "../components/DailyOtherInfo";
 import { Card } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userId, todayDate } from "../recoil/atom/user.jsx";
-
-import { recommendDrinks } from "../api/main";
+import { todayDashboard } from "../api/main";
+import TodayChart from "../components/TodayChart"
 
 export default function MainPage() {
+  const [load, setLoad] = useState(false);
   const [today, setToday] = useRecoilState(todayDate);
-  const [location, setLocation] = useState({});
+  const [dashboard, setDashboard] = useState({
+    userId: 0,
+    date: "",
+    caffeGoal: 0,
+    sugarGoal: 0,
+    caffeDaily: 0,
+    sugarDaily: 0,
+    calDaily: 0,
+    moneyDaily: 0,
+    caffeSuccess: true,
+    sugarSuccess: true,
+  });
 
-  // 현재 날짜 세팅
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = ("0" + (date.getMonth() + 1)).slice(-2);
-  const day = ("0" + date.getDate()).slice(-2);
+  const data = [
+    {
+      name: "카페인",
+      consumption: 2400,
+    },
+    {
+      name: "당",
+      consumption: 1398,
+    },
+  ];
 
-  // 현재 날짜 string으로 변환
-  const dateString = year + "-" + month + "-" + day;
-  // console.log(dateString);
   // 로그인 한 사용자 아이디
   // const id = useRecoilValue(userId);
 
@@ -35,82 +49,39 @@ export default function MainPage() {
   //     lng: position.coords.longitude,
   //   });
   // });
+  // 현재 날짜 세팅
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = ("0" + (date.getMonth() + 1)).slice(-2);
+  const day = ("0" + date.getDate()).slice(-2);
 
-  const [list, setList] = useState([]);
-  const [cafe, setCafe] = useState([""]);
-  const container = [];
+  // 현재 날짜 string으로 변환
+  const dateString = year + "-" + month + "-" + day;
 
-  const [drink, setDrink] = useState({
-    drinkId: 0,
-    franchiseId: "",
-    drinkName: "",
-    img: "",
-    caffeine: 0,
-    sugar: 0,
-    cal: 0,
-    price: 0,
-    storeName: "",
-  });
   // 첫 화면이 랜더링 되기 전
   useMemo(() => {
-    setToday(dateString);
-
-    console.log(today);
-
-    axios
-      .get(
-        `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=CE7&page=1&size=15&sort=accuracy&x=127.03983097807087&y=37.50153289264357&radius=300`,
-        {
-          headers: { Authorization: `KakaoAK ${process.env.REACT_APP_REST_API_KEY}` },
-        }
-      )
-      .then((res) => {
-        const cafe = res.data.documents;
-        // console.log(cafe);
-        setList([...list, cafe]);
-      });
-
-    console.log(list);
-    console.log("---------------");
-  }, []);
-
-  useEffect(() => {
-    function settingCafe() {
-      const temp = list[0];
-
-      if (temp !== undefined) temp.map((element, i) => console.log(temp[i].place_name));
-
-      if (temp !== undefined) temp.map((element, i) => container.push(element.place_name));
-
-      setCafe([...container]);
-      // if (temp !== undefined)
-      //   temp.map((element, i) => setCafe([...cafe, temp[i].place_name]));
-    }
-
-    settingCafe();
-  }, [list]);
-
-  useEffect(() => {
-    // 음료 추천 통신 api 사용
-    const getDrinks = async () => {
-      console.log(today);
-      await recommendDrinks(
-        cafe,
+    
+    const getDashboard = async () => {
+      await todayDashboard(
         dateString,
-        2,
         (res) => {
-          console.log(res.data);
+          console.log("!!!!===== "+res.data);
           return res.data;
         },
         (err) => console.log(err)
-      ).then((data) => setDrink(data));
+      ).then((data) => setDashboard(data));
     };
-    // setToday(dateString);
-    getDrinks();
-  }, [cafe]);
+    getDashboard();
+  }, []);
+
+  useEffect(() => {
+    console.log(dashboard);
+  }, [dashboard]);
 
   useEffect(() => {
     console.log("화면 랜더링");
+    console.log(today);
+    setLoad(true);
     // setToday(dateString);
   }, []);
 
@@ -120,8 +91,9 @@ export default function MainPage() {
         오늘의 현황
       </Typography>
       <Card>
-        <DailyConsumptionGraph data={data} />
-        <DailyOtherInfo data={dailyData} />
+        {/* <TodayChart/> */}
+        <MainDailyConsumptionGraph data={dashboard} />
+        <DailyOtherInfo data={dashboard}/>
       </Card>
       <OrderStatus />
       <Box sx={{ mt: 2 }}>
@@ -136,22 +108,3 @@ export default function MainPage() {
   );
 }
 
-const data = [
-  {
-    name: "카페인",
-    consumption: 2400,
-    change: 0,
-  },
-  {
-    name: "당",
-    consumption: 1398,
-    change: 0,
-  },
-];
-
-const dailyData = [
-  {
-    calorie: 4000,
-    money: 2400,
-  },
-];

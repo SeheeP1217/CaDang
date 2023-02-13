@@ -11,6 +11,7 @@ import Avatar from "@mui/joy/Avatar"
 import Grid from "@mui/material/Grid"
 import { Card } from "@mui/material"
 import { Link } from "react-router-dom"
+import dayjs from "dayjs"
 
 // 검색바 import
 import AutocompleteSearchBar from "../../components/util/AutocompleteSearchBar"
@@ -19,19 +20,25 @@ import AutocompleteSearchBar from "../../components/util/AutocompleteSearchBar"
 import List from "@mui/joy/List"
 import Paper from "@mui/material/Paper"
 
-import DailyConsumptionGraph from "../../components/util/DailyConsumptionGraph"
+import MainDailyConsumptionGraph from "../../components/util/MainDailyConsumptionGraph"
 import DailyOtherInfo from "../../components/DailyOtherInfo"
 import ReviewListItem from "../../components/ReviewListItem"
 import { Box } from "@mui/system"
 
 // api
 import { userReview } from '../../api/report' 
-
-
+import { todayDashboard } from "../../api/main"
 
 function MyPage() {
   const userId = 2
   const pageIndex = 1
+
+  const [selectIndex, setSelectIndex] = useState(-1)
+
+  const getModifyReviewIndex = (selectIndexId) => {
+    setSelectIndex(selectIndexId)
+  }
+
   const [review, setReview] = useState({ recordList: [{
     id: -1,
     storeName: "",
@@ -47,7 +54,30 @@ function MyPage() {
 
   }]})
 
+  const [dashboard, setDashboard] = useState({
+    userId: 0,
+    date: "",
+    caffeGoal: 0,
+    sugarGoal: 0,
+    caffeDaily: 0,
+    sugarDaily: 0,
+    calDaily: 0,
+    moneyDaily: 0,
+    caffeSuccess: true,
+    sugarSuccess: true,
+  });
+
   useMemo(() => {
+    const getDashboard = async () => {
+      await todayDashboard(
+        dayjs().format('YYYY-MM-DD'),
+        (res) => {
+          return res.data;
+        },
+        (err) => console.log(err)
+      ).then((data) => setDashboard(data));
+    };
+
     const getReviews = async () => {
       await userReview(
         userId,
@@ -57,12 +87,13 @@ function MyPage() {
         )
         .then((data) => setReview(data))
     }
-    getReviews()
+    getReviews();
+    getDashboard();
     console.log(review)
   }, [])
 
   return (
-    <body>
+    <>
       <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
         <Box sx={{ backgroundColor: "#F9F6F2", paddingY: 0 }}>
           <Typography level="h3" fontSize="xl" fontWeight="xl">
@@ -77,8 +108,8 @@ function MyPage() {
             <Typography>김싸퓌</Typography>
           </Grid>
           <Grid item xs={10}>
-            <DailyConsumptionGraph data={data} />
-            <DailyOtherInfo data={dailyData} />
+            <MainDailyConsumptionGraph data={dashboard}/>
+            <DailyOtherInfo data={dashboard} />
           </Grid>
         </Grid>
       </Card>
@@ -120,10 +151,10 @@ function MyPage() {
           aria-labelledby="ellipsis-list-demo"
           sx={{ "--List-decorator-size": "56px" }}
         >
-          <ReviewListItem reviews={review}/>
+          <ReviewListItem reviews={review} selectIndex={selectIndex} onClick={getModifyReviewIndex}/>
         </List>
       </Paper>
-    </body>
+    </>
   )
 }
 

@@ -2,12 +2,12 @@ package com.ssafy.cadang.repository;
 
 import com.ssafy.cadang.domain.Drink;
 import com.ssafy.cadang.domain.OrderStatus;
+import com.ssafy.cadang.dto.cafe.DrinkResponseDto;
 import com.ssafy.cadang.dto.cafe.query.DrinkInterface;
 import com.ssafy.cadang.dto.cafe.query.DrinkNumCheckDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
@@ -15,9 +15,9 @@ public interface DrinkRepository extends JpaRepository<Drink, Long> {
 
     @Query("select d from Drink d where d.franchise.id=:franchiseId and d.drinkName=:drinkName order by d.vol")
     public List<Drink> getDrinkByFranchiseIdAndDrinkName(@Param("franchiseId") Long franchiseId,
-                                                    @Param("drinkName") String drinkName);
+                                                         @Param("drinkName") String drinkName);
 
-    @Query("SELECT new com.ssafy.cadang.dto.cafe.query.DrinkNumCheckDto(d.drinkName, MAX(d.franchise.id), count(d.drinkName), MAX(o.store.id)) " +
+    @Query("SELECT new com.ssafy.cadang.dto.cafe.query.DrinkNumCheckDto(d.drinkName, count(d.drinkName)) " +
             "FROM Order o " +
             "JOIN o.drink d " +
             "WHERE o.user.id = :userId " +
@@ -51,6 +51,22 @@ public interface DrinkRepository extends JpaRepository<Drink, Long> {
                     "order by rand() " +
                     "limit 20", nativeQuery = true)
     List<DrinkInterface> getRecommendDrinksByRestVolumeAndFranchiseIds(@Param("caffeRest") long caffeRest, @Param("sugarRest") long sugarRest, @Param("franchiseIds") List<Long> franchiseIds);
+
+
+
+    @Query("select new com.ssafy.cadang.dto.cafe.DrinkResponseDto(d.drinkName, min(d.caffeine), min(d.sugar), min(d.cal), min(d.price), min(d.image)) " +
+            "from Drink d " +
+            "where d.franchise.id = :franchiseId " +
+            "and d.drinkName " +
+            "like :keyword " +
+            "group by d.drinkName")
+    List<DrinkResponseDto> getDrinksByFranchiseIdAndKeyword(@Param("franchiseId") Long franchiseId, @Param("keyword") String keyword);
+
+    @Query("select new com.ssafy.cadang.dto.cafe.DrinkResponseDto(d.drinkName, min(d.caffeine), min(d.sugar), min(d.cal), min(d.price), min(d.image)) " +
+            "from Drink d " +
+            "where d.franchise.id = :franchiseId " +
+            "group by d.drinkName")
+    List<DrinkResponseDto> getDrinksByFranchiseId(@Param("franchiseId") Long franchiseId);
 
 
 }

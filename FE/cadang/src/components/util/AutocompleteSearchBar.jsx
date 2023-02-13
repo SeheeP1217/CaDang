@@ -1,45 +1,47 @@
+import * as React from "react";
 import TextField from "@mui/material/TextField";
+import Stack from "@mui/material/Stack";
 import Autocomplete from "@mui/material/Autocomplete";
-import parse from "autosuggest-highlight/parse";
-import match from "autosuggest-highlight/match";
-import { margin } from "@mui/system";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
-function AutocompleteSearchBar (props) {
-    return (
-        <Autocomplete
-              id="highlights-demo"
-              sx={{ width: "100%", margin: 0}}
-              options={props.data}
-              getOptionLabel={(option) => option.title}
-              size="small"
-              renderInput={(params) => (
-                <TextField {...params} label={props.label} margin="normal" />
-              )}
-              renderOption={(props, option, { inputValue }) => {
-                const matches = match(option.title, inputValue, {
-                  insideWords: true,
-                });
-                const parts = parse(option.title, matches);
-
-                return (
-                  <li {...props}>
-                    <div>
-                      {parts.map((part, index) => (
-                        <span
-                          key={index}
-                          style={{
-                            fontWeight: part.highlight ? 700 : 400,
-                          }}
-                        >
-                          {part.text}
-                        </span>
-                      ))}
-                    </div>
-                  </li>
-                );
-              }}
-            />
-    )
+function AutocompleteSearchBar(props) {
+  //console.log(props.data);
+  return (
+      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+        <InputLabel id="demo-select-small">카페명</InputLabel>
+        <Select
+        >
+        
+        {props.data.map((cafe) => (
+      <MenuItem key={cafe.id} value={cafe.franchiseName}
+      onClick={() => props.getSelectedFranchise(cafe)}>
+        {cafe.franchiseName}
+      </MenuItem>
+    ))}
+        </Select>
+      </FormControl>
+    //   {/* <Autocomplete
+    //   freeSolo
+    //   disableClearable
+    //   options={props.data.map((option) => option.franchiseName)}
+    //   renderInput={(params) => (
+    //     <TextField
+    //     {...params}
+    //     label="Search input"
+    //     InputProps={{
+    //       ...params.InputProps,
+    //       type: "search",
+    //     }}
+    //     onMouseDown={() => props.getSelectedFranchiseId(params.id)}
+    //     />
+    //     )}
+    //     size="small"
+    //     >
+    // </Autocomplete> */}
+  );
 }
 
 export default AutocompleteSearchBar;

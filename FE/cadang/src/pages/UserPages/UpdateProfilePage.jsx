@@ -16,7 +16,7 @@ import {
 } from "@mui/material/"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import styled from "styled-components"
-import ImageUploader from "../../components/util/imageuploader"
+import ProfileImageUploader from "../../components/util/ProfileImageUploader"
 import default_image from "../../assets/default_image.png"
 import GoalSettingItem from "../../components/util/goalSettingItem"
 
@@ -190,7 +190,7 @@ const UpdateProfilePage = () => {
           <Typography component="h1" variant="h5">
             회원 정보 수정
           </Typography>
-          <ImageUploader getImg={getImg}></ImageUploader>
+          <ProfileImageUploader getImg={getImg}></ProfileImageUploader>
           <Boxs
             component="form"
             noValidate

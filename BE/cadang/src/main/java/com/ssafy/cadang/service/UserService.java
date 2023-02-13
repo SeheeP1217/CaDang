@@ -8,6 +8,7 @@ import com.ssafy.cadang.dto.user.UserDto;
 import com.ssafy.cadang.error.CustomException;
 import com.ssafy.cadang.error.ExceptionEnum;
 import com.ssafy.cadang.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,11 +32,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final DataService dataService;
 
     @Value("${EC2_PROFILE_PATH}")
     private String UserProfileImgPath;
-    @Value("${DEFAULT_PROFILE_PATH}")
-    private String DefaultProfileImgPath;
+
+    @Value("${DEFAULT_PROFILE_FILE}")
+    private String DefaultProfileFile;
 
     private String getFullPath(String imgPath, String filename) {
         return imgPath + filename;
@@ -45,20 +48,20 @@ public class UserService {
     private final Long defaultCaffeineGoal = 400L;
     private final Long defaultSugarGoal = 25L;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, DataService dataService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-
+        this.dataService = dataService;
     }
 
     //회원가입
-    //Todo: @ModelAttribute을 UserDto 앞에 붙여야 되나?
     //Todo: IOException 대신 사용할 만한 Exception?
     @Transactional(readOnly = false)
     public void join(UserDto userDto) throws IOException {
         MultipartFile multipartFile;
 
         User user;
+
 
         //TODO: builder() 할 때 activated 필드를 만들어야 되나?
 
@@ -95,13 +98,15 @@ public class UserService {
                     .nickname(userDto.getNickname())
                     .caffeGoal(defaultCaffeineGoal)
                     .sugarGoal(defaultSugarGoal)
-                    .imgUrl(DefaultProfileImgPath)
+                    .imgUrl(DefaultProfileFile)
                     .authorities("ROLE_USER")
                     .build();
 
         }
 
-        userRepository.save(user);
+        User registerUser = userRepository.saveAndFlush(user);
+        dataService.createData(registerUser.getId());
+
 
     }
 
@@ -152,8 +157,8 @@ public class UserService {
 
     public boolean verifyEmail(String email) {
         if (email.isEmpty()) {
-            // 아이디를 입력해주세요
-            throw new CustomException(ExceptionEnum.MAIL_VERIFY_EMPTY);
+
+            throw new CustomException(ExceptionEnum.MAIL_EMPTY);
         }
         if (userRepository.existsByEmail(email)) {
             throw new CustomException(ExceptionEnum.MAIL_ALREADY_EXISTS);
@@ -197,5 +202,6 @@ public class UserService {
 
         return true;
     }
+
 
 }

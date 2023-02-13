@@ -38,14 +38,12 @@ public class OrderController {
         logger.info("saveOrder - 호출 {} ", orderSaveDto);
         logger.info(" 요청 시간 - {}", LocalDateTime.now());
 
-        Long userId = Long.valueOf(request.getAttribute("userId").toString());
-        orderSaveDto.setUserId(userId);
+        Long customerId = Long.valueOf(request.getAttribute("userId").toString());
+        Long storeId = orderService.saveOrder(orderSaveDto, customerId);
 
-        Long orderId = orderService.saveOrder(orderSaveDto);
+        logger.info("응답 결과 - {}", storeId);
 
-        logger.info("응답 결과 - {}", orderId);
-
-        return new ResponseEntity<Long>(orderId, HttpStatus.ACCEPTED);
+        return new ResponseEntity<Long>(storeId, HttpStatus.ACCEPTED);
     }
 
     @GetMapping
@@ -79,7 +77,7 @@ public class OrderController {
         return new ResponseEntity<List<CustomerOrderDto>>(CustomerOrderDtoList, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/store-list/{storeId}")
+    @GetMapping("/store-list")
     @Operation(summary = "주문 내역 조회(가게)", description = "가게의 진행 중인 주문 내역을 조회합니다.")
     public ResponseEntity<List<StoreOrderDto>> getStoreOrderList(HttpServletRequest request){
 
@@ -95,7 +93,7 @@ public class OrderController {
         return new ResponseEntity<List<StoreOrderDto>>(StoreOrderDtoList, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/store-new/{storeId}")
+    @GetMapping("/store-new")
     @Operation(summary = "신규 주문 조회(가게)", description = "가게의 주문 내역 중 상태가 REQUEST인 신규 주문을 조회합니다.")
     public ResponseEntity<List<StoreOrderDto>> getStoreNewOrderList(HttpServletRequest request){
 
@@ -113,22 +111,19 @@ public class OrderController {
 
     @PutMapping
     @Operation(summary = "주문 상태 수정", description = "주문 상태를 수락/거절/제조완료/픽업완료로 수정합니다")
-    public ResponseEntity<Map<String, Long>> updateOrder(HttpServletRequest request,
+    public ResponseEntity<Long> updateOrder(HttpServletRequest request,
                                                          @RequestBody OrderUpdateDto orderUpdateDto) {
 
         logger.info("updateOrder - 호출 {} ", orderUpdateDto);
         logger.info(" 요청 시간 - {}", LocalDateTime.now());
 
         Long storeId = Long.valueOf(request.getAttribute("userId").toString());
-        Long orderId = orderService.updateOrderByOrderIdAndOrderStatus(orderUpdateDto, storeId);
-        Long customerId = orderUpdateDto.getCustomerId();
-        Map<String, Long> orderAndCustomerId = new HashMap<>();
-        orderAndCustomerId.put("orderId", orderId);
-        orderAndCustomerId.put("customerId", customerId);
+        Map<String, Long> orderAndCustomerId = orderService.updateOrderByOrderIdAndOrderStatus(orderUpdateDto, storeId);
+        Long customerId = orderAndCustomerId.get("customerId");
 
-        logger.info("응답결과: orderId - {}", orderId);
-        logger.info("응답결과: customerId - {}", customerId);
+        logger.info("응답결과: orderId - {}", orderAndCustomerId.get("orderId"));
+        logger.info("응답결과: customerId - {}", orderAndCustomerId.get("customerId"));
 
-        return new ResponseEntity<Map<String, Long>>(orderAndCustomerId, HttpStatus.ACCEPTED);
+        return new ResponseEntity<Long>(customerId, HttpStatus.ACCEPTED);
     }
 }
