@@ -50,7 +50,7 @@ public class DataService {
     public void createDataByScheduler() {
         List<User> users = userRepository.findAll();
         for (User user : users) {
-            createDataByRegDate(user.getId(), LocalDate.parse("2023-02-12"));
+            createData(user.getId());
         }
     }
 
@@ -59,7 +59,6 @@ public class DataService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
         Data saveData = dataRepository.save(new Data(user, date));
-        saveData.setCaffeDaily(date.getDayOfMonth());
         return saveData.getId();
     }
 
