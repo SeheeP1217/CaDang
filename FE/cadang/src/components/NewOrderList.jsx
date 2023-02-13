@@ -7,6 +7,7 @@ import { newOrderCheck } from "../api/cafeCeo";
 export default function NewOrderList() {
   const $websocket = useRef();
   const [msg, setMsg] = useState("");
+  const [data, setData] = useState([]);
   const [drinks, setDrinks] = useState([]);
 
   console.log("NewOrderList !!!!!!!!!!!!! " + drinks);
@@ -44,10 +45,14 @@ export default function NewOrderList() {
   };
 
   useMemo(() => {
+    // 화면이 뜨자마자 신규 주문 조회 api를 호출해서
+    // 신규 주문 리스트 받아와서 화면에 렌더링한다.
     getOrder();
   }, []);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setDrinks(data);
+  }, [data]);
 
   useEffect(() => {
     console.log(msg);
@@ -64,7 +69,7 @@ export default function NewOrderList() {
           return res.data;
         },
         (err) => console.log(err)
-      ).then((data) => setDrinks(data));
+      ).then((data) => setData(data));
 
       // then((data) => setDrink(drink.concat(data)));
     };
@@ -73,9 +78,13 @@ export default function NewOrderList() {
     console.log(drinks + "=====");
   }, [msg]);
 
-  if (drinks.length === 0) {
-    return <h2>신규 주문이 없습니다.</h2>;
-  }
+  useEffect(() => {
+    setDrinks(data);
+  }, [data]);
+
+  // if (drinks.length === 0) {
+  //   return <h2>신규 주문이 없습니다.</h2>;
+  // }
 
   return (
     <div>
@@ -93,6 +102,13 @@ export default function NewOrderList() {
         ref={$websocket}
       />
       {/* drinks.length !== 0 && */}
+      {/* {drinks.length === 0 ? (
+        <h2>신규 주문이 없습니다.</h2>
+      ) : (
+        drinks.map((item, key) => (
+          <NewOrderListItem drink={item} onRemove={onRemove} id={key} deleteChild={deleteChild} />
+        ))
+      )} */}
       {drinks.map((item, key) => (
         <NewOrderListItem drink={item} onRemove={onRemove} id={key} deleteChild={deleteChild} />
       ))}

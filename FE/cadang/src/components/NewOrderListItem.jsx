@@ -65,8 +65,8 @@ export default function NewOrderListItem(props) {
   }, [userId]);
 
   useEffect(() => {
-    console.log(drinkItem);
-  }, [drinkItem]);
+    setDrinkItem(props.drink);
+  }, [props.drink]);
 
   // console.log("NewOrderListItem !!!!!!!!!!! " + props.drink);
 
