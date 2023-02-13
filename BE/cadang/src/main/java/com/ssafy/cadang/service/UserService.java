@@ -158,7 +158,7 @@ public class UserService {
     public boolean verifyEmail(String email) {
         if (email.isEmpty()) {
 
-            throw new CustomException(ExceptionEnum.MAIL_VERIFY_EMPTY);
+            throw new CustomException(ExceptionEnum.MAIL_EMPTY);
         }
         if (userRepository.existsByEmail(email)) {
             throw new CustomException(ExceptionEnum.MAIL_ALREADY_EXISTS);
