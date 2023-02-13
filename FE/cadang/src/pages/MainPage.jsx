@@ -92,8 +92,8 @@ export default function MainPage() {
       </Typography>
       <Card>
         {/* <TodayChart/> */}
-        <MainDailyConsumptionGraph data={data} />
-        <DailyOtherInfo money={dashboard.moneyDaily} kcal={dashboard.calDaily} />
+        <MainDailyConsumptionGraph data={dashboard} />
+        <DailyOtherInfo data={dashboard}/>
       </Card>
       <OrderStatus />
       <Box sx={{ mt: 2 }}>

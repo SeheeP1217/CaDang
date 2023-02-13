@@ -33,7 +33,7 @@ public class OrderService {
     private final DrinkRepository drinkRepository;
     private final DataService dataService;
 
-    private static OrderStatus[] orderStatusList = {OrderStatus.RECORD, OrderStatus.PICKUP, OrderStatus.CANCEL};
+    private static OrderStatus[] orderStatusList = {OrderStatus.REQUEST, OrderStatus.RECORD, OrderStatus.PICKUP, OrderStatus.CANCEL};
 
     public Long saveOrder(OrderSaveDto orderSaveDto, Long customerId) {
 
@@ -116,21 +116,27 @@ public class OrderService {
         return customerNowOrderDtoList;
     }
 
-    public Long updateOrderByOrderIdAndOrderStatus(OrderUpdateDto orderUpdateDto, Long storeId) {
+    public Map<String, Long> updateOrderByOrderIdAndOrderStatus(OrderUpdateDto orderUpdateDto, Long storeId) {
 
         Order findOrder = orderRepository.findById(orderUpdateDto.getOrderId())
                 .orElseThrow(() -> new CustomException(ExceptionEnum.ORDER_NOT_FOUND));
 
-        if(findOrder.getUser().getId() != storeId) {
+        if(findOrder.getStore().getId() != storeId) {
             throw new CustomException(ExceptionEnum.ORDER_NOT_SAME);
         }
+
+        Long orderId = findOrder.getId();
+        Long customerId = findOrder.getUser().getId();
+        Map<String, Long> orderAndCustomerId = new HashMap<>();
+        orderAndCustomerId.put("orderId", orderId);
+        orderAndCustomerId.put("customerId", customerId);
 
         findOrder.setOrderStatus(orderUpdateDto.getOrderStatus());
         if (orderUpdateDto.getOrderStatus() == OrderStatus.PICKUP) {
             dataService.updateData(findOrder);
         }
 
-        return findOrder.getId();
+        return orderAndCustomerId;
     }
 
 }
