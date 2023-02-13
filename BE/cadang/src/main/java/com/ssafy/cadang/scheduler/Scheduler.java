@@ -25,7 +25,7 @@ public class Scheduler {
     @Value("${EC2_FILE_PATH}")
     private String DirectoryName;
 
-    @Scheduled(cron = "45 9 0 * * *")
+    @Scheduled(cron = "0 53 9 * * *")
     public void runTask() {
         log.info("스케줄러 실행 {}", LocalDateTime.now());
         dataService.createDataByScheduler();
