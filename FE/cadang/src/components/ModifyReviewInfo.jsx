@@ -66,6 +66,25 @@ function ModifyReviewInfo(props) {
           <Grid></Grid>
         </Grid>
       </Grid>
+      <Grid item margin="auto">
+        <Grid item xs>
+          <Typography variant="subtitle1" component="div">
+            {detail.storeName}
+          </Typography>
+          <Typography variant="subtitle1" component="div">
+            {detail.drinkName}
+          </Typography>
+          <Typography variant="body2">
+            {detail.caffeine}mg / {detail.sugar}g / {detail.cal}Kcal /{" "}
+            {detail.price}원
+          </Typography>
+          <DatePickerComponent
+            recordDate={props.recordDate}
+            getRecordDate={props.getRecordDate}
+          />
+        </Grid>
+        <Grid></Grid>
+      </Grid>
     </Card>
   )
 }
