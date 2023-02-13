@@ -111,22 +111,19 @@ public class OrderController {
 
     @PutMapping
     @Operation(summary = "주문 상태 수정", description = "주문 상태를 수락/거절/제조완료/픽업완료로 수정합니다")
-    public ResponseEntity<Map<String, Long>> updateOrder(HttpServletRequest request,
+    public ResponseEntity<Long> updateOrder(HttpServletRequest request,
                                                          @RequestBody OrderUpdateDto orderUpdateDto) {
 
         logger.info("updateOrder - 호출 {} ", orderUpdateDto);
         logger.info(" 요청 시간 - {}", LocalDateTime.now());
 
         Long storeId = Long.valueOf(request.getAttribute("userId").toString());
-        Long orderId = orderService.updateOrderByOrderIdAndOrderStatus(orderUpdateDto, storeId);
-        Long customerId = orderUpdateDto.getCustomerId();
-        Map<String, Long> orderAndCustomerId = new HashMap<>();
-        orderAndCustomerId.put("orderId", orderId);
-        orderAndCustomerId.put("customerId", customerId);
+        Map<String, Long> orderAndCustomerId = orderService.updateOrderByOrderIdAndOrderStatus(orderUpdateDto, storeId);
+        Long customerId = orderAndCustomerId.get("customerId");
 
-        logger.info("응답결과: orderId - {}", orderId);
-        logger.info("응답결과: customerId - {}", customerId);
+        logger.info("응답결과: orderId - {}", orderAndCustomerId.get("orderId"));
+        logger.info("응답결과: customerId - {}", orderAndCustomerId.get("customerId"));
 
-        return new ResponseEntity<Map<String, Long>>(orderAndCustomerId, HttpStatus.ACCEPTED);
+        return new ResponseEntity<Long>(customerId, HttpStatus.ACCEPTED);
     }
 }

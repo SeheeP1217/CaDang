@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 public class StoreOrderDto {
 
-    private Long id;
+    private Long orderId;
     private LocalDateTime regDate;
     private OrderStatus orderStatus;
 
@@ -30,7 +30,7 @@ public class StoreOrderDto {
 
     public StoreOrderDto(Order order){
 
-        id = order.getId();
+        orderId = order.getId();
         regDate = order.getRegDate();
         orderStatus = order.getOrderStatus();
         shot = order.getShot();
