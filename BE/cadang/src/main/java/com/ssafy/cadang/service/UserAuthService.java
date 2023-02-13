@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -115,6 +116,16 @@ public class UserAuthService {
         }
 
         userRepository.deleteById(id);
+    }
+
+    public Optional<User> getMyInfo(Long id){
+        Optional<User> user = userRepository.findById(id);
+
+        if (!user.isPresent()) {
+            throw new CustomException(ExceptionEnum.USER_NOT_FOUND);
+        }
+        return user;
+
     }
 
 
