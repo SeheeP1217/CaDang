@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom"
 import RegisterPage from "./pages/UserPages/RegisterPage"
 import * as React from "react"
 import logo from "./assets/logo.png"
+import styled from "styled-components"
 
 import PageLayout from "./components/util/PageLayout"
 import MyPage from "./pages/ReportPages/MyPage"
@@ -28,6 +29,7 @@ import LoadingPage from "./pages/LoadingPage"
 import PaySuccessPage from "./pages/OrderPages/PaySuccessPage"
 import PayFailPage from "./pages/OrderPages/PayFail"
 import DailyConsumptionGraph from "./components/util/DailyConsumptionGraph"
+import ResetPwPage from "./pages/UserPages/ResetPw"
 
 function App() {
   // const [{ user }, dispatch] = useStateValue();
@@ -36,7 +38,9 @@ function App() {
   const IntroContainer = () => (
     <div>
       {/* img fixed 옵션으로 바꿀지?? */}
-      <img height={75} src={logo} alt="커피" />
+      <TopImage>
+        <img height={75} src={logo} alt="커피" />
+      </TopImage>
       <Switch>
         <Route exact path="/" component={IntroPage}></Route>
         <Route exact path="/sign-in" component={LoginPage} />
@@ -45,6 +49,7 @@ function App() {
         <Route exact path="/cafe-ceo-order" component={CafeCeoPage} />
         <Route exact path="/search-id" component={SearchIdPage} />
         <Route exact path="/search-pw" component={SearchPwPage} />
+        <Route exact path="/reset-pw" component={ResetPwPage} />
 
         <Route exact path="/error404" component={Error404Page} />
         <Route exact path="/error500" component={Error500Page} />
@@ -70,9 +75,13 @@ function App() {
         <Route exact path="/selectmenu" component={SelectMenuPage} />
         <Route exact path="/review/:reviewId" component={ReviewPage} />
         <Route exact path="/update-profile" component={UpdateProfilePage} />
-        <Route exact path="/pay-success" component={PaySuccessPage}/>
-        <Route exact path="/pay-fail" component={PayFailPage}/>
-        <Route exact path="/daily-consumption-graph" component={DailyConsumptionGraph} />
+        <Route exact path="/pay-success" component={PaySuccessPage} />
+        <Route exact path="/pay-fail" component={PayFailPage} />
+        <Route
+          exact
+          path="/daily-consumption-graph"
+          component={DailyConsumptionGraph}
+        />
       </Switch>
     </PageLayout>
   )
@@ -89,6 +98,8 @@ function App() {
         <Route exact path="/cafe-ceo-order" component={IntroContainer} />
         <Route exact path="/search-id" component={SearchIdPage} />
         <Route exact path="/search-pw" component={SearchPwPage} />
+        <Route exact path="/reset-pw" component={ResetPwPage} />
+
         <Route exact path="/error404" component={IntroContainer} />
         <Route exact path="/error500" component={IntroContainer} />
         <Route exact path="/loading" component={IntroContainer} />
@@ -102,5 +113,10 @@ function App() {
     </BrowserRouter>
   )
 }
+
+const TopImage = styled.div`
+  background-color: #f5f0e8 !important;
+  // background-color: #A28F70 !important;
+`
 
 export default App

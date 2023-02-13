@@ -227,7 +227,6 @@ const UpdateProfilePage = () => {
                 <Grid item xs={12}>
                   <TextField
                     required
-                    autoFocus
                     fullWidth
                     type="email"
                     id="email"
