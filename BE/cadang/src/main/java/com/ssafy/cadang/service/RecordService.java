@@ -37,8 +37,6 @@ public class RecordService {
     private final DataService dataService;
     @Value("${EC2_FILE_PATH}")
     private String RecordUploadPath;
-    @Value("${EC2_RENDER_PATH}")
-    private String RenderPath;
 
     @Transactional
     public Long saveRecordDirectly(RecordSaveRequestDto recordDto) throws IOException {
@@ -138,11 +136,14 @@ public class RecordService {
         if (findRecord.getOrderStatus() == OrderStatus.PICKUP && updateDto.getRegDate() != null) {
             throw new CustomException(ExceptionEnum.RECORD_NOT_ALLOWED_MODIFY);
         }
-        // 파일 업로드
-        // TODO 날짜 형식 프론트와 통일하기
+        // 해당 날짜 기록 삭제
+        dataService.updateDataByDelete(findRecord);
+
         LocalDateTime localDateTime = LocalDate.parse(updateDto.getRegDate()).atStartOfDay();
-        findRecord.setRegDate(localDateTime);
+        findRecord.setRegDate(localDateTime); // data 수정하기
         findRecord.setMemo(updateDto.getMemo());
+        // 새로운 날짜에 기록 추가
+        dataService.updateData(findRecord);
         findRecord.setPublic(updateDto.getIsPublic());
         if (updateDto.getIsModified() == 1) {
             // 수정
@@ -213,9 +214,9 @@ public class RecordService {
             MultipartFile file = image;
             String uuid = UUID.randomUUID().toString();
             String originalFilename = file.getOriginalFilename();
-            String fullPath = RecordUploadPath + uuid + "_" + originalFilename;
+            String fullPath = RecordUploadPath + regDate + "/" + uuid + "_" + originalFilename;
             file.transferTo(new File(fullPath));
-            return RenderPath + uuid + "_" + originalFilename;
+            return regDate + "/" + uuid + "_" + originalFilename;
         }
         return null;
     }
