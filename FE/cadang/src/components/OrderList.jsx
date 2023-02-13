@@ -15,7 +15,7 @@ export default function OrderList() {
     const getOrderList = async () => {
       await orderList(
         (res) => {
-          console.log(res.data);
+          // console.log(res.data);
           return res.data;
         },
         (err) => console.log(err)
@@ -23,6 +23,10 @@ export default function OrderList() {
     };
     getOrderList();
   }, []);
+
+  useEffect(() => {
+    console.log(orderListData);
+  }, [orderListData]);
 
   return (
     <div>
