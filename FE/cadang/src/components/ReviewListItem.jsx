@@ -19,6 +19,7 @@ const Img = styled("img")({
 });
 
 function ReviewListItem(props) {
+  const history = useHistory()
   const onModifyClickHandler = (event) => {
     console.log(event.target.parentElement.parentElement.id);
     props.onClick(event.target.parentElement.parentElement.id);
@@ -35,11 +36,14 @@ function ReviewListItem(props) {
         reviewId,
         (res) => console.log(res),
         (err) => console.log(err)
-        ).then((res) => {
-          if (res.status === 200) {
-            useHistory.push('/mypage')
+        ).then(function (response) {
+          if (response.status === 200) {
+            history.push('/mypage')
           }
-        });
+        })
+        .catch(function(err) {
+          console.log(err)
+        })
       }
   };
   console.log(props.reviews);
