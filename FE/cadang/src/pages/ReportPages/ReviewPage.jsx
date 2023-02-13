@@ -18,12 +18,13 @@ const ReviewPage = () => {
   const location = useLocation()
   const reviewId = location.state.review.id
   const originImg = location.state.review.photo
+  console.log(originImg)
 
   const [reviewDetail, setreviewDetail] = useState({
     reviewDetail: [
       {
         id: 0,
-        photo: "",
+        photo: "string",
         drinkName: "string",
         caffeine: 0,
         sugar: 0,
@@ -121,9 +122,7 @@ const ReviewPage = () => {
   }
 
   const formData = new FormData()
-  if (modifyImage.image_file) {
-    formData.append("image", modifyImage.image_file)
-  }
+  formData.append("image", modifyImage.image_file)
   formData.append("data", JSON.stringify(modifyData))
 
   console.log(formData)

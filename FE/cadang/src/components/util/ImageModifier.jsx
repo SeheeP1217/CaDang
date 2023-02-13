@@ -11,7 +11,7 @@ const ImageModifier = (props) => {
 
   const [imagestatus, setImageStatus] = useState({
     image_file: "",
-    preview_URL: beforeModifyImage
+    preview_URL: beforeModifyImage,
   })
 
   let inputRef
@@ -77,20 +77,21 @@ const ImageModifier = (props) => {
         style={{ display: "none" }}
       />
       <ImgWrapper className="img-wrapper">
-        <ImgSpace src={imagestatus.preview_URL} alt="img"/>
+        <ImgSpace src={imagestatus.preview_URL} alt="img" />
       </ImgWrapper>
 
       <div className="upload-button">
-        <SelectButton
-          variant="contained"
-          onClick={() => inputRef.click()}
-        >
+        <SelectButton variant="contained" onClick={() => inputRef.click()}>
           교체
         </SelectButton>
         <DeleteButton color="error" variant="contained" onClick={deleteImage}>
           삭제
         </DeleteButton>
-        <SaveButton color="success" variant="contained" onClick={sendImageToServer}>
+        <SaveButton
+          color="success"
+          variant="contained"
+          onClick={sendImageToServer}
+        >
           저장
         </SaveButton>
       </div>
@@ -109,15 +110,8 @@ const ImgWrapper = styled.div`
 const ImgSpace = styled.img`
   width: 100%;
 `
-const SelectButton = styled.button`
-
-`
-const DeleteButton = styled.button`
-
-`
-const SaveButton = styled.button`
-
-
-`
+const SelectButton = styled.button``
+const DeleteButton = styled.button``
+const SaveButton = styled.button``
 
 export default ImageModifier
