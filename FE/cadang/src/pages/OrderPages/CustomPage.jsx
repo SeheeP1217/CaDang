@@ -86,7 +86,6 @@ function CustomPage() {
     vanilla: 0,
     hazelnut: 0,
     caramel: 0,
-    image_url: basicDrink.img,
     memo: "",
     storeName: location.state.franchiseName,
   });
@@ -102,7 +101,6 @@ function CustomPage() {
       price: basicDrink.price,
       shot: basicDrink.shot,
       whip: basicDrink.whip,
-      image_url: basicDrink.img,
       sugarContent: "BASIC",
       storeName: location.state.franchiseName,
     })
@@ -178,7 +176,6 @@ function CustomPage() {
       price: drinkDetail.drinkResponseDtos[index].price,
       shot: drinkDetail.drinkResponseDtos[index].shot,
       whip: drinkDetail.drinkResponseDtos[index].whip,
-      image_url: drinkDetail.drinkResponseDtos[index].img,
       sugarContent: "BASIC",
       syrup: 0,
       vanilla: 0,
