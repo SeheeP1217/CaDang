@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom"
 import RegisterPage from "./pages/UserPages/RegisterPage"
 import * as React from "react"
 import logo from "./assets/logo.png"
+import styled from "styled-components"
 
 import PageLayout from "./components/util/PageLayout"
 import MyPage from "./pages/ReportPages/MyPage"
@@ -37,7 +38,9 @@ function App() {
   const IntroContainer = () => (
     <div>
       {/* img fixed 옵션으로 바꿀지?? */}
-      <img height={75} src={logo} alt="커피" />
+      <TopImage>
+        <img height={75} src={logo} alt="커피" />
+      </TopImage>
       <Switch>
         <Route exact path="/" component={IntroPage}></Route>
         <Route exact path="/sign-in" component={LoginPage} />
@@ -110,5 +113,10 @@ function App() {
     </BrowserRouter>
   )
 }
+
+const TopImage = styled.div`
+  background-color: #f5f0e8 !important;
+  // background-color: #A28F70 !important;
+`
 
 export default App

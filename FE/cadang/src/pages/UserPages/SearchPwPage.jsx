@@ -81,45 +81,45 @@ const SearchPwPage = () => {
   }
 
   // 이메일 인증번호 받기
-  // const handleEmail = (e) => {
-  //   e.preventDefault()
+  const handleEmail = (e) => {
+    e.preventDefault()
 
-  //   const params = {
-  //     email: email,
-  //     memberId: memberId,
-  //   }
-  //   console.log("aaa", email, memberId)
-  //   console.log(params)
-  //   axios
-  //     .post("http://i8a808.p.ssafy.io:8080/user/email/findpw", {
-  //       headers: { "Content-Type": "application/json" },
-  //       postData: { memberId, email },
-  //     })
-  //     .then((response) => {
-  //       console.log(response, "성공")
-  //       alert("메일로 인증번호가 발송되었습니다.")
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //       console.log(memberId, email)
-  //     })
-  // }
-  const [checkEmail, setCheckEmail] = useState({
-    email: "",
-    memberId: "",
-  })
-
-  const handleEmail = async () => {
-    await findPwd(
-      memberId,
-      email,
-      (res) => {
-        console.log("aaaaaaaaaaa")
-        return res.data
-      },
-      (err) => console.log(err)
-    ).then((data) => setCheckEmail(data))
+    const params = {
+      email: email,
+      memberId: memberId,
+    }
+    console.log("aaa", email, memberId)
+    console.log(params)
+    axios
+      .post("http://i8a808.p.ssafy.io:8080/user/email/findpw", {
+        headers: { "Content-Type": "application/json" },
+        postData: { memberId, email },
+      })
+      .then((response) => {
+        console.log(response, "성공")
+        alert("메일로 인증번호가 발송되었습니다.")
+      })
+      .catch((err) => {
+        console.log(err)
+        console.log(memberId, email)
+      })
   }
+  // const [checkEmail, setCheckEmail] = useState({
+  //   email: "",
+  //   memberId: "",
+  // })
+
+  // const handleEmail = async () => {
+  //   await findPwd(
+  //     memberId,
+  //     email,
+  //     (res) => {
+  //       console.log("aaaaaaaaaaa")
+  //       return res.data
+  //     },
+  //     (err) => console.log(err)
+  //   ).then((data) => setCheckEmail(data))
+  // }
 
   // 이메일 인증번호 확인하기
   const emailNumberCheck = async (data) => {
