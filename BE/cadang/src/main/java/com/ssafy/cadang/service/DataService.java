@@ -50,21 +50,19 @@ public class DataService {
     public void createDataByScheduler() {
         List<User> users = userRepository.findAll();
         for (User user : users) {
-            createData(user.getId());
+            createDataByRegDate(user.getId(), LocalDate.parse("2023-02-12"));
         }
     }
 
-//    @Transactional
-//    public Long createDataByRegDate(Long userId, LocalDate date) {
-//        Optional<User> userOptional = userRepository.findById(userId);
-//        User user = userOptional.orElse(null);
-//        if (user != null) {
-//            Data saveData = dataRepository.save(new Data(user, date));
-//            saveData.setCaffeDaily(date.getDayOfMonth());
-//            return saveData.getId();
-//        }
-//        return null; // 에러 처리 하기
-//    }
+    @Transactional
+    public Long createDataByRegDate(Long userId, LocalDate date) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
+        Data saveData = dataRepository.save(new Data(user, date));
+        saveData.setCaffeDaily(date.getDayOfMonth());
+        return saveData.getId();
+    }
+
 
     public WeekDataDto getDataByWeek(LocalDate date, Long userId) {
 
@@ -233,6 +231,8 @@ public class DataService {
 
     @Transactional
     public void updateData(Order findOrder) {
+        log.info("날짜 = {}", findOrder.getRegDate().toLocalDate());
+        log.info("사용자 아이디 = {}", findOrder.getUser().getId());
         Data updateData = dataRepository.findByUserAndDate(findOrder.getRegDate().toLocalDate(), findOrder.getUser().getId())
                 .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
         updateData.setCaffeDaily(updateData.getCaffeDaily() + findOrder.getCaffeine());
@@ -285,7 +285,7 @@ public class DataService {
 
     private List<String> rankingCaffeine(Long userId, int month, int year) {
         PageRequest pageRequest = PageRequest.of(0, 3);
-        List<RecordRankingDto> topList = recordReposiotry.findTop3ByCaffeine(userId, month,year, recordStatus, pageRequest);
+        List<RecordRankingDto> topList = recordReposiotry.findTop3ByCaffeine(userId, month, year, recordStatus, pageRequest);
         return topList.stream()
                 .map(o -> o.getFranchiseName() + " " + o.getDrinkName())
                 .collect(Collectors.toList());
