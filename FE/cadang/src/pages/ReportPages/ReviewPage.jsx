@@ -15,9 +15,10 @@ import ReadOnlyCustomOption from "../../components/ReadOnlyCustomOption"
 
 const ReviewPage = () => {
   const history = useHistory()
-  const location = useLocation()
-  const reviewId = location.state.review.id
-  const originImg = location.state.review.photo
+  const location = useLocation();
+  const reviewId = location.state.review.id;
+  const originImg = location.state.review.photo;
+  console.log(originImg)
 
   const [reviewDetail, setreviewDetail] = useState({
     reviewDetail: [
@@ -43,7 +44,16 @@ const ReviewPage = () => {
         efaultUrl: "string",
       },
     ],
-  })
+  });
+
+  const [modifyDate, setmodifyDate] = useState(dayjs(reviewDetail.regDate).format("YYYY-MM-DD"));
+  const [modifyIsPublic, setmodifyIsPublic] = useState(true);
+  const [modifyMemo, setModifyMemo] = useState(reviewDetail.memo);
+  const [modifyImage, setImage] = useState({
+    image_file: "",
+    preview_URL: originImg,
+  });
+
   useMemo(() => {
     const getReviewDetails = async () => {
       await userReviewDetail(
@@ -52,22 +62,24 @@ const ReviewPage = () => {
           return res.data
         },
         (err) => console.log(err)
-      ).then((data) => setreviewDetail(data))
-    }
-    getReviewDetails()
-  }, [reviewId])
+      ).then((data) => setreviewDetail(data));
+    };
+    getReviewDetails();
+  }, [reviewId]);
 
-  const recordDate = dayjs(reviewDetail.regDate).format("YYYY-MM-DD")
-  const [modifyDate, setmodifyDate] = useState(recordDate)
-  const [modifyIsPublic, setmodifyIsPublic] = useState(true)
-  const [modifyMemo, setModifyMemo] = useState(reviewDetail.memo)
-  const [modifyImage, setImage] = useState({
-    image_file: "",
-    preview_URL: originImg,
-  })
-  console.log(reviewDetail)
-  console.log(originImg)
-  const [isModified, setIsModified] = useState(0)
+  useEffect(() => {
+    setmodifyDate(dayjs(reviewDetail.regDate).format("YYYY-MM-DD"))
+    setModifyMemo(reviewDetail.memo)
+    setImage({
+      image_file: "",
+      preview_URL: originImg,
+    })
+  }, [reviewDetail])
+
+
+  console.log(reviewDetail);
+  console.log(originImg);
+  const [isModified, setIsModified] = useState(0);
 
   /////////날짜 변경 확인
   const getRecordDate = (newValue) => {
@@ -96,16 +108,6 @@ const ReviewPage = () => {
     console.log(isModified)
   }
 
-  // useEffect(() => {
-  //   changeImg();
-  //   deleteImg();
-  //   console.log(modifyImage);
-  // }, [modifyImage]);
-
-  // useEffect(() => {
-  //   getImg();
-  //   console.log(modifyImage);
-  // }, [modifyImage]);
 
   //리뷰글 변경 확인
   const onChangeMemo = (e) => {
@@ -128,18 +130,6 @@ const ReviewPage = () => {
 
   console.log(formData)
   console.log(modifyData)
-
-  // const modifyReviewDetailRecord = async () => {
-  //   await modifyReviewDetail(
-  //     formData,
-  //     (res) => console.log(res),
-  //     (err) => console.log(err),
-  //   ).then((res) => {
-  //     if (res.status === 200) {
-  //       window.location.reload()
-  //     }
-  //   });
-  // };
 
   const modifyReviewDetailRecord = async () => {
     await axios
