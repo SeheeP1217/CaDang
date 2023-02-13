@@ -213,9 +213,9 @@ public class RecordService {
             MultipartFile file = image;
             String uuid = UUID.randomUUID().toString();
             String originalFilename = file.getOriginalFilename();
-            String fullPath = RecordUploadPath + regDate + "/" + uuid + "_" + originalFilename;
+            String fullPath = RecordUploadPath + uuid + "_" + originalFilename;
             file.transferTo(new File(fullPath));
-            return RenderPath + regDate + "/" + uuid + "_" + originalFilename;
+            return RenderPath + uuid + "_" + originalFilename;
         }
         return null;
     }
