@@ -37,6 +37,8 @@ public class RecordService {
     private final DataService dataService;
     @Value("${EC2_FILE_PATH}")
     private String RecordUploadPath;
+    @Value("${EC2_RENDER_PATH}")
+    private String RenderPath;
 
     @Transactional
     public Long saveRecordDirectly(RecordSaveRequestDto recordDto) throws IOException {
@@ -214,9 +216,9 @@ public class RecordService {
             MultipartFile file = image;
             String uuid = UUID.randomUUID().toString();
             String originalFilename = file.getOriginalFilename();
-            String fullPath = RecordUploadPath + regDate + "/" + uuid + "_" + originalFilename;
+            String fullPath = RecordUploadPath + "/" + uuid + "_" + originalFilename;
             file.transferTo(new File(fullPath));
-            return regDate + "/" + uuid + "_" + originalFilename;
+            return RenderPath + uuid + "_" + originalFilename;
         }
         return null;
     }
