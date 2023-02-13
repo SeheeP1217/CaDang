@@ -84,7 +84,7 @@ function MyPage() {
             <Typography>김싸퓌</Typography>
           </Grid>
           <Grid item xs={10}>
-            <DailyConsumptionGraph data={data} />
+            {/* <DailyConsumptionGraph data={data} /> */}
             <DailyOtherInfo data={dailyData} />
           </Grid>
         </Grid>

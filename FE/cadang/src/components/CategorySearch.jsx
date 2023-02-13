@@ -481,13 +481,44 @@ export default function CategorySearch() {
               {list.length !== 0
                 ? list.map((element, i) => (
                     <Item
+                      sx={{ padding: 1.5 }}
                       onMouseDown={() => onCheckCafe(i)}
                       // component={Link}
                       // to="/selectmenu"
                       textdecoration="none"
                       key={i}
                     >
-                      {element.place_name} <br /> {element.address_name}
+                      <Typography
+                        sx={{
+                          fontWeight: "700",
+                          fontSize: 16,
+                          display: "flex",
+                          justifyContent: "flex-start",
+                        }}
+                      >
+                        {element.place_name}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          fontWeight: "300",
+                          fontSize: 13,
+                          display: "flex",
+                          justifyContent: "flex-start",
+                        }}
+                      >
+                        {element.address_name}
+                      </Typography>
+
+                      <Typography
+                        sx={{
+                          fontWeight: "200",
+                          fontSize: 13,
+                          display: "flex",
+                          justifyContent: "flex-end",
+                        }}
+                      >
+                        {element.distance}m
+                      </Typography>
                       {/* <Button onclick={onCheckCafe}>보러 가기</Button> */}
                     </Item>
                   ))

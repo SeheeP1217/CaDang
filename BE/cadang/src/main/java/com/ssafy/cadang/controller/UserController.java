@@ -4,6 +4,7 @@ package com.ssafy.cadang.controller;
 
 import com.ssafy.cadang.dto.user.EmailVerifyDto;
 import com.ssafy.cadang.dto.user.UserDto;
+import com.ssafy.cadang.dto.user.UserFindPassDto;
 import com.ssafy.cadang.service.DataService;
 import com.ssafy.cadang.service.EmailServiceImpl;
 import com.ssafy.cadang.service.UserService;
@@ -106,26 +107,28 @@ public class UserController {
     // 비밀번호 찾아서 변경하는 이메일 보내기
     @PostMapping("/user/email/findpw")
     @Operation(summary = "비밀번호 찾기 시 이메일 인증번호 발송")
-    public ResponseEntity<Boolean> findPw(@RequestParam String email, @RequestParam String memberId) throws Exception {
+    public ResponseEntity<?> findPw(@RequestBody UserFindPassDto userFindPassDto) throws Exception {
 
         logger.info("findPw - 호출 {} ");
         logger.info(" 요청 시간 - {}", LocalDateTime.now());
+        System.out.println("여기 들어감?: " + userFindPassDto.getEmail() + " " + userFindPassDto.getMemberId());
 
         // 이메일 중복 검사
-        if (userService.verifyId(email, memberId))
-            emailService.sendChangePassMessage(email);
-        return new ResponseEntity<>(true, HttpStatus.OK);
+        if (userService.verifyId(userFindPassDto.getEmail(), userFindPassDto.getMemberId())) {
+            emailService.sendChangePassMessage(userFindPassDto.getEmail());
+        }
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
     @GetMapping("/user/email/findpw")
     @Operation(summary = "비밀번호 찾기 시 이메일 인증번호 확인")
-    public ResponseEntity<?> verifyEmail(@RequestParam String key, @RequestParam String email) {
+    public ResponseEntity<?> verifyEmail(@RequestBody UserFindPassDto userFindPassDto) {
 
         logger.info("verifyEmail - 호출 {} ");
         logger.info(" 요청 시간 - {}", LocalDateTime.now());
 
-        if (emailService.verifyEmail(email, key)) {
-            Long id = userService.findByEmail(email);
+        if (emailService.verifyEmail(userFindPassDto.getEmail(), userFindPassDto.getKey())) {
+            Long id = userService.findByEmail(userFindPassDto.getEmail());
             EmailVerifyDto emailVerifyDto = EmailVerifyDto.builder()
                     .check(true)
                     .id(id)

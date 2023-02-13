@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react"
-import { Grid, List, Card } from "@mui/material"
-import Typography from "@mui/joy/Typography"
-import drink from "../../assets/drink.png"
+import React, { useState, useEffect } from "react";
+import { Grid, List, Card, Divider } from "@mui/material";
+import Typography from "@mui/joy/Typography";
+import drink from "../../assets/drink.png";
 
-import ListItemButton from "@mui/material/ListItemButton"
+import ListItemButton from "@mui/material/ListItemButton";
+import { Box } from "@mui/system";
 
 function MenuListItem(props) {
-  const drinkListData = props.showData
+  const drinkListData = props.data;
 
   // const [selectedIndex, setSelectedIndex] = useState(0)
   // const [selectedCaffeine, setSelectedCaffeine] = useState(0)
@@ -34,32 +35,37 @@ function MenuListItem(props) {
   // console.log(selectedIndex)
   // console.log("drinkListData", drinkListData)
 
+  if (!props.data || !props.data.length) {
+    return <div>검색 츄라이츄라이</div>;
+  }
+
   return (
     <List>
       {drinkListData.map((menu, index) => {
         return (
+          <Box sx={{backgroundColor: 'white'}} key={index}>
+            <Divider />
             <ListItemButton
-              // selected={selectedIndex === menu.id}
               onClick={() => props.getSelectedDrink(menu)}
-              key={index}
             >
-              <Grid item xs={3} margin="auto">
-                <img alt="menuImg" src={menu.img} width="80%" />
-              </Grid>
-              <Grid item xs={9}>
-                <Card>
+              <Grid container display={"flex"} alignItems="center">
+                <Grid item xs={3}>
+                  <img alt="menuImg" src={menu.img} width="90%" />
+                </Grid>
+                <Grid item xs={9}>
                   <Typography>{menu.drinkName}</Typography>
                   <Typography>
                     {menu.caffeine}mg / {menu.sugar}g / {menu.cal}kcal /{" "}
                     {menu.price}원
                   </Typography>
-                </Card>
+                </Grid>
               </Grid>
             </ListItemButton>
-        )
+          </Box>
+        );
       })}
     </List>
-  )
+  );
 }
 
-export default MenuListItem
+export default MenuListItem;

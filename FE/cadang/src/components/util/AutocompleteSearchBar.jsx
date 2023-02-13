@@ -2,29 +2,45 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Autocomplete from "@mui/material/Autocomplete";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 function AutocompleteSearchBar(props) {
-  console.log(props.data)
+  //console.log(props.data);
   return (
-    <div>
-    <Autocomplete
-      freeSolo
-      disableClearable
-      options={props.data.map((option) => option.franchiseName)}
-      renderInput={(params) => (
-        <TextField
-        {...params}
-        label="Search input"
-        InputProps={{
-          ...params.InputProps,
-          type: "search",
-        }}
-        />
-        )}
-        size="small"
+      <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+        <InputLabel id="demo-select-small">카페명</InputLabel>
+        <Select
         >
-    </Autocomplete>
-      </div>
+        
+        {props.data.map((cafe) => (
+      <MenuItem key={cafe.id} value={cafe.franchiseName}
+      onClick={() => props.getSelectedFranchise(cafe)}>
+        {cafe.franchiseName}
+      </MenuItem>
+    ))}
+        </Select>
+      </FormControl>
+    //   {/* <Autocomplete
+    //   freeSolo
+    //   disableClearable
+    //   options={props.data.map((option) => option.franchiseName)}
+    //   renderInput={(params) => (
+    //     <TextField
+    //     {...params}
+    //     label="Search input"
+    //     InputProps={{
+    //       ...params.InputProps,
+    //       type: "search",
+    //     }}
+    //     onMouseDown={() => props.getSelectedFranchiseId(params.id)}
+    //     />
+    //     )}
+    //     size="small"
+    //     >
+    // </Autocomplete> */}
   );
 }
 

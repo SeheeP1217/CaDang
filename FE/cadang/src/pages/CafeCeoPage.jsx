@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import { Paper, Box, Grid, Card } from "@mui/material";
 import { BoxProps } from "@mui/material/Box";
@@ -6,11 +6,18 @@ import Button from "@mui/material-next/Button";
 import Typography from "@mui/joy/Typography";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import SockJsClient from "react-stomp";
+import SockJS from "sockjs-client";
+import { newOrderCheck } from "../api/cafeCeo";
+import NewOrderList from "../components/NewOrderList";
 
 export default function CafeCeoPage() {
   const [value, setValue] = React.useState(0);
+  const [msg, setMsg] = useState("");
+  const $websocket = useRef();
+  const [drink, setDrink] = useState([]);
 
-  function Item(props: BoxProps) {
+  function Item(props) {
     const { sx, ...other } = props;
     return (
       <Button
@@ -67,8 +74,46 @@ export default function CafeCeoPage() {
     };
   }
 
+  useEffect(() => {
+    console.log(msg);
+
+    const getOrder = async () => {
+      await newOrderCheck(
+        (res) => {
+          console.log(res.data[0]);
+          return res.data[0];
+        },
+        (err) => console.log(err)
+      ).then((data) => setDrink(drink.concat(data)));
+    };
+    // setDrink((drink) => {
+    //   console.log("새로 들어오기 이전 데이터 :", drink);
+    //   return [data, ...drink];
+    // })
+    if (msg === "주문이 들어왔습니다.") getOrder();
+    setMsg("");
+    console.log(drink + "=====");
+  }, [msg]);
+
+  useEffect(() => {
+    console.log("drink 잘 set 된거니??????" + drink);
+  }, [drink]);
+
   return (
     <Card style={{ background: "#FF6E6E" }}>
+      <SockJsClient
+        url="http://i8a808.p.ssafy.io:8080/websocket"
+        headers={{
+          Authorization:
+            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjo2OSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjIxODE0NX0.s_6_v2kF_hQ4fc7CwscGr47Koq3kzgcCIROUXMiOmJvvdq4x7Cudns_smA6wgf1TgFxy4S76CxxEyuBwwepixg",
+        }}
+        topics={["/topic/store-order-manage/69"]}
+        onMessage={(msg) => {
+          // console.log(msg);
+          setMsg(msg);
+        }}
+        ref={$websocket}
+      />
       <Box sx={{ borderBottom: 1, borderColor: "divider" }} mt={2}>
         <Tabs
           value={value}
@@ -82,74 +127,9 @@ export default function CafeCeoPage() {
       </Box>
       <TabPanel value={value} index={0}>
         <Card sx={{ mt: "", p: 1 }}>
-          <Grid container>
-            <Grid item xs={8} sx={{ display: "flex", justifyContent: "flex-start" }}>
-              <Typography
-                sx={{
-                  fontWeight: "700",
-                  display: "inline",
-                  fontSize: 18,
-                }}
-              >
-                아이스 아메리카노
-              </Typography>
-            </Grid>
-            <Grid item xs={4} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}>
-              <Typography
-                sx={{
-                  fontWeight: "700",
-                  display: "inline",
-                  fontSize: 16,
-                  mt: "1%",
-                }}
-              >
-                사용자 아이디
-              </Typography>
-            </Grid>
-
-            <Grid item xs={12} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-start" }}>
-              <Typography
-                sx={{
-                  fontWeight: "500",
-                  display: "inline",
-                  fontSize: 13,
-                }}
-              >
-                샷 추가 + 1 / 헤이즐넛시럽 추가 + 1
-              </Typography>
-            </Grid>
-          </Grid>
-          <Grid container sx={{}}>
-            <Grid item xs={6} sx={{ boxShadow: 0, display: "flex", justifyContent: "center" }}>
-              <Button
-                variant="contained"
-                sx={{
-                  borderRadius: 2,
-                  background: "#FF9E57",
-                  fontSize: 14,
-                  fontWeight: "500",
-                  mt: 2,
-                }}
-              >
-                수락
-              </Button>
-            </Grid>
-            <Grid item xs={6} sx={{ boxShadow: 0, display: "flex", justifyContent: "center" }}>
-              <Button
-                variant="contained"
-                sx={{
-                  // width: "130px",
-                  borderRadius: 2,
-                  background: "#CBCBCB",
-                  fontSize: 14,
-                  fontWeight: "500",
-                  mt: 2,
-                }}
-              >
-                거절
-              </Button>
-            </Grid>
-          </Grid>
+          {/* 신규 주문에 대한 컴포넌트 */}
+          {drink.length !== 0 && <NewOrderList drinks={drink} />}
+          {/* ======================= */}
         </Card>
       </TabPanel>
       <TabPanel value={value} index={1}>
