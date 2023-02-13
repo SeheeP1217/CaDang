@@ -7,7 +7,6 @@ import lombok.Getter;
 public class OrderUpdateDto {
 
     Long orderId;
-    Long customerId;
     OrderStatus orderStatus;
 
 }
