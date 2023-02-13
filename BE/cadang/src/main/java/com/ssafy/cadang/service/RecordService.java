@@ -48,12 +48,6 @@ public class RecordService {
         if (recordDto.getRegDate() != null) {
             regDate = LocalDate.parse(recordDto.getRegDate()).atStartOfDay();
         }
-        // 파일 업로드
-        // TODO 날짜 형식 프론트와 통일하기
-//        String imgUrl = uploadImage(recordDto.getImage(), recordDto.getRegDate());
-//        if (imgUrl == null)
-//            imgUrl = recordDto.getImage_url();
-
 
         Order record = Order.builder()
                 .user(user)
@@ -71,7 +65,6 @@ public class RecordService {
                 .hazelnut(recordDto.getHazelnut())
                 .caramel(recordDto.getCaramel())
                 .photo(drink.getImage())
-//                .photo(imgUrl)
                 .storeName(recordDto.getStoreName())
                 .orderStatus(OrderStatus.RECORD)
                 .build();
