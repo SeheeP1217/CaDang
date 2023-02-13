@@ -1,17 +1,17 @@
-import * as React from "react";
-import axios from "axios";
-import dayjs from "dayjs";
-import { Fragment, useState, useMemo, useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
-import { Grid, Card } from "@mui/material";
-import Typography from "@mui/joy/Typography";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import * as React from "react"
+import axios from "axios"
+import dayjs from "dayjs"
+import { Fragment, useState, useMemo, useEffect } from "react"
+import { useHistory, useLocation } from "react-router-dom"
+import { Grid, Card } from "@mui/material"
+import Typography from "@mui/joy/Typography"
+import TextField from "@mui/material/TextField"
+import Button from "@mui/material/Button"
 
-import { userReviewDetail } from "../../api/report";
+import { userReviewDetail } from "../../api/report"
 
-import ModifyReviewInfo from "../../components/ModifyReviewInfo";
-import ReadOnlyCustomOption from "../../components/ReadOnlyCustomOption";
+import ModifyReviewInfo from "../../components/ModifyReviewInfo"
+import ReadOnlyCustomOption from "../../components/ReadOnlyCustomOption"
 
 const ReviewPage = () => {
   const history = useHistory()
@@ -24,7 +24,7 @@ const ReviewPage = () => {
     reviewDetail: [
       {
         id: 0,
-        photo: "string",
+        photo: "",
         drinkName: "string",
         caffeine: 0,
         sugar: 0,
@@ -59,7 +59,7 @@ const ReviewPage = () => {
       await userReviewDetail(
         reviewId,
         (res) => {
-          return res.data;
+          return res.data
         },
         (err) => console.log(err)
       ).then((data) => setreviewDetail(data));
@@ -83,8 +83,8 @@ const ReviewPage = () => {
 
   /////////날짜 변경 확인
   const getRecordDate = (newValue) => {
-    setmodifyDate(newValue);
-  };
+    setmodifyDate(newValue)
+  }
 
   // use
   // useEffect(() => {
@@ -94,25 +94,25 @@ const ReviewPage = () => {
 
   /////////이미지 변경 확인
   const getImg = (image_file, preview_URL) => {
-    const newImage = { image_file, preview_URL };
-    setImage(newImage);
-  };
+    const newImage = { image_file, preview_URL }
+    setImage(newImage)
+  }
 
   const changeImg = () => {
-    setIsModified(1);
-    console.log(isModified);
-  };
+    setIsModified(1)
+    console.log(isModified)
+  }
 
   const deleteImg = () => {
-    setIsModified(2);
-    console.log(isModified);
-  };
+    setIsModified(2)
+    console.log(isModified)
+  }
 
 
   //리뷰글 변경 확인
   const onChangeMemo = (e) => {
-    setModifyMemo(e.target.value);
-  };
+    setModifyMemo(e.target.value)
+  }
 
   const modifyData = {
     id: reviewDetail.id,
@@ -120,14 +120,16 @@ const ReviewPage = () => {
     isPublic: true,
     memo: modifyMemo,
     isModified: isModified,
-  };
+  }
 
-  const formData = new FormData();
-  formData.append("image", modifyImage.image_file);
-  formData.append("data", JSON.stringify(modifyData));
+  const formData = new FormData()
+  if (modifyImage.image_file) {
+    formData.append("image", modifyImage.image_file)
+  }
+  formData.append("data", JSON.stringify(modifyData))
 
-  console.log(formData);
-  console.log(modifyData);
+  console.log(formData)
+  console.log(modifyData)
 
   const modifyReviewDetailRecord = async () => {
     await axios
@@ -135,20 +137,20 @@ const ReviewPage = () => {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization:
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzanNqbGltIiwiaWQiOjIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NzYzMzI5MTZ9.EmP0DkZs6vpdCNfOocU_eCCHZTpK5mjDYKJn-XXAbr4-pa0o86jgRWN4apbk5-DecBmH0Ye2XhhjT5anSDoslw",
+            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzanNqbGltIiwiaWQiOjIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NzYzMzI5MTZ9.EmP0DkZs6vpdCNfOocU_eCCHZTpK5mjDYKJn-XXAbr4-pa0o86jgRWN4apbk5-DecBmH0Ye2XhhjT5anSDoslw",
         },
         params: modifyData,
       })
       .then(function (response) {
-        console.log(response, "성공");
+        console.log(response, "성공")
         if (response.status === 200) {
-          history.push('/mypage')
+          history.push("/mypage")
         }
       })
       .catch(function (err) {
-        console.log(err);
-      });
-  };
+        console.log(err)
+      })
+  }
 
   return (
     <Fragment>
@@ -180,7 +182,7 @@ const ReviewPage = () => {
         </Button>
       </Grid>
     </Fragment>
-  );
-};
+  )
+}
 
-export default ReviewPage;
+export default ReviewPage

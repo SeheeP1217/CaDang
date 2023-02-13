@@ -21,6 +21,8 @@ import {
 } from "@mui/material/styles"
 import styled from "styled-components"
 
+import { findPwd } from "../../api/user"
+
 // const StyledButton = styled.button`
 //   padding: 6px 12px;
 //   border-radius: 8px;
@@ -42,37 +44,14 @@ import styled from "styled-components"
 
 const SearchPwPage = () => {
   const theme = createTheme()
-  // const [checked, setChecked] = useState(false)
+
   const [memberId, setMemberId] = useState("")
   const [email, setEmail] = useState("")
   const [key, setKey] = useState("")
-
   const [memberIdError, setMemberIdError] = useState("")
   const [emailError, setEmailError] = useState("")
   const [keyError, setKeyError] = useState("")
-
-  const [checkEmailDone, setCheckEmailDone] = useState(false)
-  const [checkEmailNumberDone, setCheckEmailNumberDone] = useState(false)
-
-  const [loginError, setLoginError] = useState("")
-  const history = useHistory()
-
-  const onhandlePost = async (data) => {
-    data = { email, memberId }
-
-    await axios
-      .get("http://i8a808.p.ssafy.io:8080/user/findid", {
-        params: { email, memberId },
-      })
-      .then(function (response) {
-        console.log(response.data, "성공")
-        history.push("/sign-in")
-      })
-      .catch(function (err) {
-        console.log(err, "에러")
-        setLoginError("비밀번호를 찾을 수 없습니다. 다시 한 번 확인해 주세요")
-      })
-  }
+  const history = useState()
 
   // 아이디 유효성 체크
   const idRegex = /^[a-zA-Z0-9]+$/
@@ -82,6 +61,7 @@ const SearchPwPage = () => {
     else setMemberIdError("영문자+숫자 조합으로 입력해주세요.")
     setMemberId(e.target.value)
   }
+
   // 이메일 유효성 체크
   const emailRegex =
     /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
@@ -100,49 +80,58 @@ const SearchPwPage = () => {
     setKey(e.target.value)
   }
 
-  const emailCheck = async (data) => {
-    data = email
-    console.log(email)
-    await axios
-      .post(
-        "http://i8a808.p.ssafy.io:8080/user/email/findpw",
-        // null,
-        { params: { email, memberId } }
-      )
-      .then(function (response) {
-        console.log(response, "성공")
-        alert("메일로 인증번호가 발송되었습니다.")
-        setCheckEmailDone(() => true)
-      })
-      .catch(function (err) {
-        console.log(err)
-        alert("이미 계정이 있습니다.")
-      })
-  }
-
+  // 이메일 인증번호 받기
   const handleEmail = (e) => {
     e.preventDefault()
 
-    const data = new FormData(e.currentTarget[0])
-    const joinData = {
-      email: data.get("email"),
+    const params = {
+      email: email,
+      memberId: memberId,
     }
-    emailCheck(joinData)
+    console.log("aaa", email, memberId)
+    console.log(params)
+    axios
+      .post("http://i8a808.p.ssafy.io:8080/user/email/findpw", {
+        headers: { "Content-Type": "application/json" },
+        postData: { memberId, email },
+      })
+      .then((response) => {
+        console.log(response, "성공")
+        alert("메일로 인증번호가 발송되었습니다.")
+      })
+      .catch((err) => {
+        console.log(err)
+        console.log(memberId, email)
+      })
   }
+  // const [checkEmail, setCheckEmail] = useState({
+  //   email: "",
+  //   memberId: "",
+  // })
+
+  // const handleEmail = async () => {
+  //   await findPwd(
+  //     memberId,
+  //     email,
+  //     (res) => {
+  //       console.log("aaaaaaaaaaa")
+  //       return res.data
+  //     },
+  //     (err) => console.log(err)
+  //   ).then((data) => setCheckEmail(data))
+  // }
 
   // 이메일 인증번호 확인하기
   const emailNumberCheck = async (data) => {
     data = { key, email }
-    await axios
-      .get("http://i8a808.p.ssafy.io:8080/user/email/verify", {
+    axios
+      .get("http://i8a808.p.ssafy.io:8080/user/email/findpw", {
         params: { key: key, email: email },
       })
       .then(function (response) {
         console.log(response, "성공")
         alert("인증이 완료되었습니다.")
-
-        const checkEmailNumberDone = "yes"
-        setCheckEmailNumberDone(() => true)
+        history.push("/reset-pw")
       })
       .catch(function (err) {
         console.log(err)
@@ -151,8 +140,6 @@ const SearchPwPage = () => {
   }
 
   const handleEmailNumber = (e) => {
-    e.preventDefault()
-
     const data = new FormData(e.currentTarget[0])
     const joinData = {
       key: data.get("key"),
@@ -160,37 +147,14 @@ const SearchPwPage = () => {
     }
     emailNumberCheck(joinData)
   }
-  const handleSubmit = (e) => {
-    e.preventDefault()
 
-    const data = new FormData(e.currentTarget)
-    const joinData = {
-      memberId: data.get("memberId"),
-      email: data.get("email"),
-    }
-    const { memberId, email } = joinData
-
-    // 회원가입 동의 체크
-    // if (!checked) alert("회원가입 약관에 동의해주세요.")
-    if (
-      idRegex.test(memberId) &&
-      emailRegex.test(email) &&
-      checkEmailNumberDone === true
-      // checked
-    ) {
-      onhandlePost({
-        memberId,
-        email,
-      })
-    }
-  }
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 2,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -199,12 +163,7 @@ const SearchPwPage = () => {
           <Typography component="h1" variant="h5">
             비밀번호 찾기
           </Typography>
-          <Boxs
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
+          <Boxs component="form" noValidate sx={{ mt: 2 }}>
             <FormControl component="fieldset" variant="standard">
               <Grid container spacing={2}>
                 <Grid item xs={12}>
@@ -266,28 +225,11 @@ const SearchPwPage = () => {
                   </Button>
                 </Grid>
               </Grid>
-
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                size="large"
-                className="button"
-              >
-                찾기
-              </Button>
-              <Grid>
-                <Button component={Link} to="/search-pw" variant="text">
-                  비밀번호 찾기
-                </Button>
-                |
-                <Button component={Link} to="/sign-in" variant="text">
-                  로그인
-                </Button>
-              </Grid>
             </FormControl>
-            <FormHelperTexts>{loginError}</FormHelperTexts>
+            {/* <FormHelperTexts>{registerError}</FormHelperTexts> */}
+            <Button component={Link} to="/sign-in" variant="text">
+              이미 회원이라면? 로그인 하러 가기
+            </Button>
           </Boxs>
         </Box>
       </Container>
@@ -303,7 +245,6 @@ const FormHelperTexts = styled(FormHelperText)`
 `
 
 const Boxs = styled(Box)`
-  padding-bottom: 40px !important;
+  padding-bottom: 10px !important;
 `
-
 export default SearchPwPage
