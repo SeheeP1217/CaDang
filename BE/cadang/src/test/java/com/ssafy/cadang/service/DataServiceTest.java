@@ -13,6 +13,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,6 +27,14 @@ class DataServiceTest {
     DataService dataService;
     @Autowired
     UserRepository userRepository;
+
+    @Test
+    public void dataCrate() {
+
+        for (int i = 1; i <= 31; i++)
+            dataService.createDataByRegDate(2L, LocalDate.of(2022, 12, i));
+
+    }
 
     @Test
     public void updateGoalTest() {
