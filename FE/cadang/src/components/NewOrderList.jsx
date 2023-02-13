@@ -102,16 +102,16 @@ export default function NewOrderList() {
         ref={$websocket}
       />
       {/* drinks.length !== 0 && */}
-      {/* {drinks.length === 0 ? (
+      {drinks.length === 0 ? (
         <h2>신규 주문이 없습니다.</h2>
       ) : (
         drinks.map((item, key) => (
           <NewOrderListItem drink={item} onRemove={onRemove} id={key} deleteChild={deleteChild} />
         ))
-      )} */}
-      {drinks.map((item, key) => (
+      )}
+      {/* {drinks.map((item, key) => (
         <NewOrderListItem drink={item} onRemove={onRemove} id={key} deleteChild={deleteChild} />
-      ))}
+      ))} */}
     </div>
   );
 }

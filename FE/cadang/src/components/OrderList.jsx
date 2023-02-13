@@ -15,7 +15,7 @@ export default function OrderList() {
     const getOrderList = async () => {
       await orderList(
         (res) => {
-          // console.log(res.data);
+          console.log(res.data);
           return res.data;
         },
         (err) => console.log(err)
@@ -24,9 +24,7 @@ export default function OrderList() {
     getOrderList();
   }, []);
 
-  useEffect(() => {
-    console.log(orderListData);
-  }, [orderListData]);
+  useEffect(() => {}, [orderListData]);
 
   return (
     <div>
@@ -43,7 +41,9 @@ export default function OrderList() {
         }}
         ref={$websocket}
       />
-      <OrderListItem />
+      {orderListData.map((item, key) => (
+        <OrderListItem order={item} id={key} />
+      ))}
     </div>
   );
 }

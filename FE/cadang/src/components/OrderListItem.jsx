@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState, useMemo } from "react";
-import PropTypes from "prop-types";
-import { Paper, Box, Grid, Card } from "@mui/material";
+import { Box, Grid, Card } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import Button from "@mui/material-next/Button";
+import Divider from "@mui/material/Divider";
 
 export default function OrderListItem(props) {
-  useMemo(() => {}, []);
+  const [orderItem, setOrderItem] = useState(props.order);
 
   function Item(props) {
     const { sx, ...other } = props;
@@ -27,31 +27,39 @@ export default function OrderListItem(props) {
     );
   }
 
+  useEffect(() => {
+    setOrderItem(props.order);
+  }, [props.order]);
+
   return (
     <div>
-      <Grid container>
+      <Grid sx={{ mt: 2 }} container>
         <Grid item xs={8} sx={{ display: "flex", justifyContent: "flex-start" }}>
-          <Typography
-            sx={{
-              fontWeight: "700",
-              display: "inline",
-              fontSize: 18,
-            }}
-          >
-            아이스 아메리카노
-          </Typography>
+          {orderItem !== undefined && (
+            <Typography
+              sx={{
+                fontWeight: "700",
+                display: "inline",
+                fontSize: 18,
+              }}
+            >
+              {orderItem.drinkName}
+            </Typography>
+          )}
         </Grid>
         <Grid item xs={4} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}>
-          <Typography
-            sx={{
-              fontWeight: "700",
-              display: "inline",
-              fontSize: 16,
-              mt: "1%",
-            }}
-          >
-            사용자 아이디
-          </Typography>
+          {orderItem !== undefined && (
+            <Typography
+              sx={{
+                fontWeight: "700",
+                display: "inline",
+                fontSize: 16,
+                mt: "1%",
+              }}
+            >
+              {orderItem.memberId}
+            </Typography>
+          )}
         </Grid>
 
         <Grid item xs={12} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-start" }}>
@@ -72,7 +80,8 @@ export default function OrderListItem(props) {
           justifyContent: "space-between",
           bgcolor: "background.paper",
           borderRadius: 1,
-          mt: 2,
+          mt: 1.5,
+          mb: 0.5,
         }}
       >
         <Item
@@ -113,6 +122,7 @@ export default function OrderListItem(props) {
           픽업 완료
         </Item>
       </Box>
+      <Divider />
     </div>
   );
 }
