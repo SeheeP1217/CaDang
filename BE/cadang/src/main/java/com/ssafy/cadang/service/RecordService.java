@@ -37,6 +37,8 @@ public class RecordService {
     private final DataService dataService;
     @Value("${EC2_FILE_PATH}")
     private String RecordUploadPath;
+    @Value("${EC2_RENDER_PATH}")
+    private String RenderPath;
 
     @Transactional
     public Long saveRecordDirectly(RecordSaveRequestDto recordDto) throws IOException {
@@ -142,7 +144,7 @@ public class RecordService {
         findRecord.setRegDate(localDateTime);
         findRecord.setMemo(updateDto.getMemo());
         findRecord.setPublic(updateDto.getIsPublic());
-        if (updateDto.getIsModified() == 1) { 
+        if (updateDto.getIsModified() == 1) {
             // 수정
             String imgUrl = uploadImage(updateDto.getImage(), updateDto.getRegDate());
             findRecord.setPhoto(imgUrl);
@@ -213,7 +215,7 @@ public class RecordService {
             String originalFilename = file.getOriginalFilename();
             String fullPath = RecordUploadPath + regDate + "/" + uuid + "_" + originalFilename;
             file.transferTo(new File(fullPath));
-            return regDate + "/" + uuid + "_" + originalFilename;
+            return RenderPath + regDate + "/" + uuid + "_" + originalFilename;
         }
         return null;
     }
