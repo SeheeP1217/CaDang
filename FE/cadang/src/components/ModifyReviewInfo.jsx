@@ -16,7 +16,8 @@ function ModifyReviewInfo(props) {
   //console.log(props.data)
   const detail = props.data
   const image = props.image
-  console.log("현재 이미지", image)
+  // console.log("현재 이미지", image)
+  // console.log(props.recordDate)
 
   // if (location.state.review !== undefined) {
   //   const review = location.state.review
@@ -58,7 +59,7 @@ function ModifyReviewInfo(props) {
               <Typography variant="body2">
                 {detail.caffeine}mg / {detail.sugar}g / {detail.cal}Kcal / {detail.price}원
               </Typography>
-              <DatePickerComponent getRecordDate={props.getRecordDate}/>
+              <DatePickerComponent recordDate={props.recordDate} getRecordDate={props.getRecordDate}/>
             </Grid>
             <Grid></Grid>
           </Grid>
