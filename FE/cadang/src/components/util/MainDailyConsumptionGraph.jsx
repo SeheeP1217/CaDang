@@ -1,64 +1,83 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {
   BarChart,
   Bar,
   XAxis,
   YAxis,
   Label,
-  CartesianGrid,
   Tooltip,
-  Legend,
 } from "recharts";
 
 function MainDailyConsumptionGraph(props) {
-  const chartData = props.data
+  const chartData = props.data;
+  const [dailyData, setDailyData] = useState([
+    {
+      name: "카페인",
+      goal: chartData.caffeGoal,
+      consumption: chartData.caffeDaily,
+    },
+    {
+      name: "당",
+      goal: chartData.sugarGoal,
+      consumption: chartData.sugarDaily,
+    },
+  ]);
+  useEffect(() => {
+    setDailyData([
+      {
+        name: "카페인",
+        goal: chartData.caffeGoal,
+        consumption: chartData.caffeDaily,
+      },
+      {
+        name: "당",
+        goal: chartData.sugarGoal,
+        consumption: chartData.sugarDaily,
+      },
+    ]);
+  }, [chartData]);
 
   return (
     <div>
-<BarChart
-      layout="vertical"
-      width={300}
-      height={120}
-      data={chartData}
-      margin={{
-        top: 20,
-        right: 30,
-        left: 20,
-        bottom: 5
-      }}
-      barSize={20}
-    >
-      <XAxis hide type="number" allowDataOverflow />
-      <YAxis type="category" dataKey="name"/>
-      <Tooltip />
-      {/* <Legend /> */}
-      <Bar
-        dataKey="consumption"
-        stackId="a"
-        fill="#8884d8"
-        background={{ fill: "#eee" }}
+      <BarChart
+        layout="vertical"
+        width={300}
+        height={120}
+        data={dailyData}
+        margin={{
+          top: 20,
+          right: 30,
+          left: 20,
+          bottom: 5,
+        }}
+        barSize={20}
       >
-        {chartData.map((entry, index) => (
-          <Label key={`label-${index}`} value={entry.name} position="top" />
-        ))}
-      </Bar>
-      
-    </BarChart>
+        <Tooltip />
+        <XAxis
+          type="number"
+          dataKey="goal"
+          allowDataOverflow
+          domain={["0", dailyData.caffeGoal]}
+          position="top"
+        />
+        <XAxis
+          type="number"
+          dataKey="goal"
+          allowDataOverflow
+          domain={["0", dailyData.sugarGoal]}
+          position="bottom"
+        />
+        <YAxis type="category" dataKey="name" />
+        <Bar
+          dataKey="consumption"
+          stackId="a"
+          fill="#8884d8"
+          background={{ fill: "#eee" }}
+        />
+        <Bar dataKey="change" stackId="a" fill="#82ca9d" />
+      </BarChart>
     </div>
   );
 }
-
-// const data = [
-//   {
-//     name: "카페인",
-//     consumption: 2400,
-//     change: 4000,
-//   },
-//   {
-//     name: "당",
-//     consumption: 1398,
-//     change: 3000,
-//   },
-// ];
 
 export default MainDailyConsumptionGraph;

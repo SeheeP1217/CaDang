@@ -6,7 +6,7 @@ const api = axios.create({
   baseURL: "http://i8a808.p.ssafy.io:8080",
   headers: {
     Authorization:
-    "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjo2OSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjIxODE0NX0.s_6_v2kF_hQ4fc7CwscGr47Koq3kzgcCIROUXMiOmJvvdq4x7Cudns_smA6wgf1TgFxy4S76CxxEyuBwwepixg",
+    "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzanNqbGltIiwiaWQiOjIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NzYzMzI5MTZ9.EmP0DkZs6vpdCNfOocU_eCCHZTpK5mjDYKJn-XXAbr4-pa0o86jgRWN4apbk5-DecBmH0Ye2XhhjT5anSDoslw",
 
     // Authorization: `Token ${token}`,
     "Content-Type": "application/json",
@@ -50,17 +50,16 @@ async function getAllCafeList(success, fail) {
 
 async function searchDrinkMenu(franchiseId, keyword, success, fail) {
   const res = await api
-    .get(`/cafe/list-record`, {
-      params: {
-        franchiseId: franchiseId,
-        keyword: keyword,
-      },
-    })
+    .get(`/cafe/list-record`, {params: {franchiseId: franchiseId, keyword: keyword,},})
     .then(success)
     .catch(fail);
   return res;
 }
 
+// 기록 추가
+async function newDrinkRecord(orderDetail, success, fail) {
+  const res = await api.post(`/record`, orderDetail).then(success).catch(fail);
+  return res;
+}
 
-
-export { cafeDrinkData, cafeDrinkList, getAllCafeList, searchDrinkMenu, };
+export { cafeDrinkData, cafeDrinkList, getAllCafeList, searchDrinkMenu, newDrinkRecord,};
