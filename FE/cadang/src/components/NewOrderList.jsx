@@ -92,7 +92,7 @@ export default function NewOrderList() {
         url="http://i8a808.p.ssafy.io:8080/websocket"
         headers={{
           Authorization:
-            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdGFyYnVja3MiLCJpZCI6MSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjMzNjcwMH0.vwZeywsGVXtdv1_SVTv0gGnytWlSs1v4hOJsUITZixgkuq55W7WaLy2VzOuRKODkM4X_NphAfIbxGDVml4bYCA",
+            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdGFyYnVja3MiLCJpZCI6MSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjQyMDE4M30.5fIcQRXCRCaddt8ekcw-8BIHHA7I6zQwUgQXy85yE9gbJ2UGBumnCyMssleEHg7G6XNW2fCHSKDuDKbB9PKiCA",
         }}
         topics={["/topic/store-order-manage/1", ""]}
         onMessage={(msg) => {
@@ -102,16 +102,16 @@ export default function NewOrderList() {
         ref={$websocket}
       />
       {/* drinks.length !== 0 && */}
-      {/* {drinks.length === 0 ? (
+      {drinks.length === 0 ? (
         <h2>신규 주문이 없습니다.</h2>
       ) : (
         drinks.map((item, key) => (
           <NewOrderListItem drink={item} onRemove={onRemove} id={key} deleteChild={deleteChild} />
         ))
-      )} */}
-      {drinks.map((item, key) => (
+      )}
+      {/* {drinks.map((item, key) => (
         <NewOrderListItem drink={item} onRemove={onRemove} id={key} deleteChild={deleteChild} />
-      ))}
+      ))} */}
     </div>
   );
 }
