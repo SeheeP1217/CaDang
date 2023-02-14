@@ -115,7 +115,8 @@ function App() {
 }
 
 const TopImage = styled.div`
-  background-color: #f5f0e8 !important;
+  background-image: #350e0b !important;
+  // background-color: #f5f0e8 !important;
   // background-color: #A28F70 !important;
 `
 

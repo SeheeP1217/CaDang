@@ -323,7 +323,7 @@ const RegisterPage = () => {
   const theme = createTheme({
     palette: {
       primary: {
-        main: "#A28F70",
+        main: "#3A130C",
       },
     },
     typography: {
@@ -351,28 +351,53 @@ const RegisterPage = () => {
             component="form"
             noValidate
             onSubmit={handleSubmit}
-            sx={{ mt: 1 }}
+            sx={{ mt: 0 }}
           >
             <FormControl component="fieldset" variant="standard">
               <BackCard>
                 <Grid container spacing={1} m={0}>
-                  <ProfileImageUploader getImg={getImg}></ProfileImageUploader>
-                  <Grid item xs={11.5}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="username"
-                      name="username"
-                      label="이름"
-                      onChange={onChangeUserName}
-                      inputProps={{
-                        style: {
-                          caretColor: "orange",
-                        },
-                      }}
-                    />
+                  <ImageContainer>
+                    <ProfileImageUploader
+                      getImg={getImg}
+                      style="grid-column: 1 / span 2; grid-row: 1 / 3;"
+                    ></ProfileImageUploader>
+                  </ImageContainer>
+                  <Grid item xs={7}>
+                    <Grid>
+                      <TextField
+                        required
+                        fullWidth
+                        id="username"
+                        name="username"
+                        label="이름"
+                        onChange={onChangeUserName}
+                        inputProps={{
+                          style: {
+                            caretColor: "orange",
+                          },
+                        }}
+                      />
+                      <FormHelperTexts>{usernameError}</FormHelperTexts>
+                    </Grid>
+                    <Grid sx={{ mt: 1.5 }}>
+                      <TextField
+                        required
+                        fullWidth
+                        id="nickname"
+                        name="nickname"
+                        label="닉네임"
+                        // error={nicknameError !== "" || false}
+                        onChange={onChangeNickname}
+                        inputProps={{
+                          style: {
+                            caretColor: "orange",
+                          },
+                        }}
+                      />
+                    </Grid>
+                    <FormHelperTexts>{nicknameError}</FormHelperTexts>
                   </Grid>
-                  <FormHelperTexts>{usernameError}</FormHelperTexts>
+
                   <Grid item xs={8.5}>
                     <TextField
                       required
@@ -496,23 +521,7 @@ const RegisterPage = () => {
                       확인
                     </BackButton>
                   </Grid>
-                  <Grid item xs={11.5}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="nickname"
-                      name="nickname"
-                      label="닉네임"
-                      // error={nicknameError !== "" || false}
-                      onChange={onChangeNickname}
-                      inputProps={{
-                        style: {
-                          caretColor: "orange",
-                        },
-                      }}
-                    />
-                  </Grid>
-                  <FormHelperTexts>{nicknameError}</FormHelperTexts>
+
                   {/* <Grid item xs={12}>
                   <FormControlLabel
                     control={
@@ -523,7 +532,7 @@ const RegisterPage = () => {
                 </Grid> */}
                 </Grid>
               </BackCard>
-              <BackButton
+              <SendButton
                 type="submit"
                 fullWidth
                 variant="contained"
@@ -531,7 +540,7 @@ const RegisterPage = () => {
                 size="large"
               >
                 가입하기
-              </BackButton>
+              </SendButton>
             </FormControl>
             <FormHelperTexts>{registerError}</FormHelperTexts>
             <Button component={Link} to="/sign-in" variant="text">
@@ -555,27 +564,37 @@ const Boxs = styled(Box)`
   padding-bottom: 10px !important;
 `
 
-const BackCard = styled(Card)`
+const BackCard = styled(Box)`
   border-radius: 10px !important;
-  border: 2px solid #674f04 !important;
+  // border: 2px solid #674f04 !important;
   padding-bottom: 10px !important;
 `
 
 const BackButton = styled(Button)`
   border-radius: 10px !important;
-  border: 2px solid #674f04 !important;
-  heigth: 57.5px !important;
+  heigth: 54px !important;
+  // border: 2px solid #674f04 !important;
 `
 
 const TitleCard = styled(Card)`
-  border: 2px solid #a28f70 !important;
+  border: 2px solid #ffba00 !important;
   padding: 3px !important;
-  padding-right: 5px !important;
-  padding-left: 5px !important;
+  padding-right: 9px !important;
+  padding-left: 9px !important;
   border-radius: 10px !important;
-  background-color: #a28f70 !important;
+  background-color: white !important;
   margin-bottom: 10px !important;
-  color: white !important;
+  color: #ffba00 !important;
+`
+
+const ImageContainer = styled(Grid)`
+  grid-template-columns: 3fr 7fr;
+  grid-template-rows: repeat(2, 1fr);
+`
+
+const SendButton = styled(Button)`
+  background-color: #ffba00 !important;
+  margin-top: 9px !important;
 `
 
 export default RegisterPage
