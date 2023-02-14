@@ -1,14 +1,28 @@
+import { Directions } from "@mui/icons-material";
+import { Grid, Typography } from "@mui/material";
 import React, { useMemo, useState, useEffect } from "react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ReferenceArea } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ReferenceLine,
+  CartesianGrid,
+  CartesianAxis,
+  Label,
+} from "recharts";
 
 function DailyConsumptionGraph(props) {
-  const [data, setData] = useState([
+  const [caffeineData, setCaffeineData] = useState([
     {
       name: "카페인",
       goal: props.consumptionInfo.caffeGoal,
       consumption: props.consumptionInfo.caffeDaily,
       change: 0,
     },
+  ]);
+  const [sugarData, setSugarData] = useState([
     {
       name: "당",
       goal: props.consumptionInfo.sugarGoal,
@@ -16,22 +30,26 @@ function DailyConsumptionGraph(props) {
       change: 0,
     },
   ]);
-  const [maxBarNum, setMaxBarNum] = useState(
-    Math.max(data[0].goal, data[1].goal)
+
+  const [allCaffeine, setAllCaffeine] = useState(
+    Number(props.consumptionInfo.caffeDaily) +
+      Number(props.selectDrinkInfo.caffeine)
+  );
+  const [allSugar, setAllSugar] = useState(
+    Number(props.consumptionInfo.sugarDaily) +
+      Number(props.selectDrinkInfo.sugar)
   );
 
   useEffect(() => {
-    setMaxBarNum(Math.max(data[0].goal, data[1].goal));
-  }, [data]);
-
-  useEffect(() => {
-    setData([
+    setCaffeineData([
       {
         name: "카페인",
         goal: props.consumptionInfo.caffeGoal,
         consumption: props.consumptionInfo.caffeDaily,
         change: props.selectDrinkInfo.caffeine,
       },
+    ]);
+    setSugarData([
       {
         name: "당",
         goal: props.consumptionInfo.sugarGoal,
@@ -39,75 +57,109 @@ function DailyConsumptionGraph(props) {
         change: props.selectDrinkInfo.sugar,
       },
     ]);
-    console.log(data);
   }, [props.consumptionInfo, props.selectDrinkInfo]);
 
+  useEffect(() => {
+    setAllCaffeine(
+      Number(props.consumptionInfo.caffeDaily) +
+        Number(props.selectDrinkInfo.caffeine)
+    );
+    setAllSugar(
+      Number(props.consumptionInfo.sugarDaily) +
+        Number(props.selectDrinkInfo.sugar)
+    );
+  }, [props.consumptionInfo, props.selectDrinkInfo]);
+
+  console.log(props.consumptionInfo.caffeGoal);
+  console.log(props.consumptionInfo.sugarGoal);
   return (
-    <div>
-      <BarChart
-        layout="vertical"
-        width={300}
-        height={120}
-        data={data}
-        margin={{
-          top: 20,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-        barSize={20}
-      >
-        <Tooltip />
-        <XAxis type="number" dataKey="goal" allowDataOverflow domain={['0', props.consumptionInfo.caffeGoal]} position="top" />
-        <XAxis type="number" dataKey="goal" allowDataOverflow domain={['0', props.consumptionInfo.sugarGoal]} position="bottom" />
-        <YAxis type="category" dataKey="name" />
-        <Bar
-          dataKey="consumption"
-          stackId="a"
-          fill="#8884d8"
-          background={{ fill: "#eee" }}
-        />
-        <Bar dataKey="change" stackId="a" fill="#82ca9d" />
+    <Grid container style={{display: "flex", alignItems: "center", marginRight: 20}}>
+      <Grid item xs={12} style={{ textAlign: 'end', marginRight: 35, marginTop: 5}}>
+        <Typography>
+          {Number(props.consumptionInfo.caffeDaily)}
+          {props.selectDrinkInfo.caffeine
+            ? ` + ${Number(props.selectDrinkInfo.caffeine)}`
+            : ""}
+          / {props.consumptionInfo.caffeGoal}
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <BarChart
+          layout="vertical"
+          width={300}
+          height={30}
+          data={caffeineData}
+          margin={{
+            top: 0,
+            right: 0,
+            left: 10,
+            bottom: 0,
+          }}
+          barSize={15}
+          >
+          <Tooltip />
+          <XAxis
+            hide
+            type="number"
+            dataKey="goal"
+            allowDataOverflow
+            domain={[0, props.consumptionInfo.caffeGoal]}
+            orientation="top"
+            />
+          <YAxis type="category" dataKey="name" />
+          <Bar
+            dataKey="consumption"
+            stackId="a"
+            fill="#8884d8"
+            background={{ fill: "#eee" }}
+            />
+          <Bar dataKey="change" stackId="a" fill="#82ca9d" />
         </BarChart>
-        {/* <Tooltip />
-        <ReferenceArea
-          x1={0}
-          x2={props.consumptionInfo.caffeGoal}
-          y1={0}
-          y2={300}
-        >
+      </Grid>
+      <Grid item xs={12} style={{ textAlign: 'end', marginRight: 35, marginTop: 5}}>
+        <Typography>
+          {Number(props.consumptionInfo.sugarDaily)}
+          {props.selectDrinkInfo.sugar
+            ? ` + ${Number(props.selectDrinkInfo.sugar)}`
+            : ""}
+          / {props.consumptionInfo.sugarGoal}
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <BarChart
+          layout="vertical"
+          width={330}
+          height={30}
+          data={sugarData}
+          margin={{
+            top: 0,
+            right: 30,
+            left: 10,
+            bottom: 0,
+          }}
+          barSize={15}
+          
+          >
+          <Tooltip />
           <XAxis
+            hide
             type="number"
-            dataKey="caffe"
+            dataKey="goal"
             allowDataOverflow
-            domain={["0", props.consumptionInfo.caffeGoal]}
-            position="top"
-          />
-        </ReferenceArea>
-        <ReferenceArea
-          x1={0}
-          x2={props.consumptionInfo.sugarGoal}
-          y1={0}
-          y2={300}
-        >
-          <XAxis
-            type="number"
-            dataKey="sugar"
-            allowDataOverflow
-            domain={["0", props.consumptionInfo.sugarGoal]}
+            domain={[0, props.consumptionInfo.sugarGoal]}
             position="bottom"
-          />
-        </ReferenceArea>
-        <YAxis type="category" dataKey="name" />
-        <Bar
-          data={data}
-          dataKey="consumption"
-          stackId="a"
-          fill="#8884d8"
-          background={{ fill: "#eee" }}
-        />
-        <Bar data={props.data} dataKey="change" stackId="a" fill="#82ca9d" /> */}
-    </div>
+            />
+          <YAxis type="category" dataKey="name" />
+          <Bar
+            dataKey="consumption"
+            stackId="a"
+            fill="#8884d8"
+            background={{ fill: "#eee" }}
+            />
+          <Bar dataKey="change" stackId="a" fill="#82ca9d" />
+        </BarChart>
+      </Grid>
+    </Grid>
   );
 }
 
