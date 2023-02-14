@@ -274,6 +274,8 @@ public class DataService {
                 .map(m -> DayDataDtoByMonth.builder()
                         .date(m.getRegDate())
                         .caffeDaily(m.getCaffeDaily())
+                        .caffeGoal(m.getCaffeGoal())
+                        .sugarGoal(m.getSugarGoal())
                         .sugarDaily(m.getSugarDaily())
                         .caffeSuccess(m.isCaffeSuccess())
                         .sugarSuccess(m.isSugarSuccess())
