@@ -13,6 +13,7 @@ import {
   Box,
   Typography,
   Container,
+  Card,
 } from "@mui/material/"
 import {
   createTheme,
@@ -53,7 +54,16 @@ const Boxs = styled(Box)`
 // `
 
 const LoginPage = () => {
-  const theme = createTheme()
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#3A130C",
+      },
+    },
+    typography: {
+      fontFamily: "netmarble",
+    },
+  })
   // const [checked, setChecked] = useState(false)
   const [memberId, setMemberId] = useState("")
   const [password, setPassword] = useState("")
@@ -133,9 +143,11 @@ const LoginPage = () => {
             alignItems: "center",
           }}
         >
-          <Typography component="h1" variant="h5">
-            로그인
-          </Typography>
+          <TitleCard>
+            <Typography component="h1" variant="h4">
+              로그인
+            </Typography>
+          </TitleCard>
           <Boxs
             component="form"
             noValidate
@@ -171,7 +183,7 @@ const LoginPage = () => {
                 {/* <FormHelperTexts>{setPasswordError}</FormHelperTexts> */}
               </Grid>
 
-              <Button
+              <SendButton
                 type="submit"
                 fullWidth
                 variant="contained"
@@ -180,7 +192,7 @@ const LoginPage = () => {
                 className="button"
               >
                 LOGIN
-              </Button>
+              </SendButton>
               <Grid>
                 <Button component={Link} to="/search-id" variant="text">
                   아이디 찾기
@@ -202,5 +214,19 @@ const LoginPage = () => {
     </ThemeProvider>
   )
 }
+
+const TitleCard = styled(Card)`
+  border: 2px solid #ffba00 !important;
+  padding: 3px !important;
+  padding-right: 9px !important;
+  padding-left: 9px !important;
+  border-radius: 10px !important;
+  background-color: white !important;
+  margin-bottom: 10px !important;
+  color: #ffba00 !important;
+`
+const SendButton = styled(Button)`
+  background-color: #ffba00 !important;
+`
 
 export default LoginPage

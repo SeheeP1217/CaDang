@@ -21,7 +21,7 @@ import List from "@mui/joy/List"
 import Paper from "@mui/material/Paper"
 
 import MainDailyConsumptionGraph from "../../components/util/MainDailyConsumptionGraph"
-import DailyOtherInfo from "../../components/DailyOtherInfo"
+import MainDailyOtherInfo from "../../components/MainDailyOtherInfo"
 import ReviewListItem from "../../components/ReviewListItem"
 import { Box } from "@mui/system"
 
@@ -109,7 +109,9 @@ function MyPage() {
           </Grid>
           <Grid item xs={10}>
             <MainDailyConsumptionGraph data={dashboard}/>
-            <DailyOtherInfo data={dashboard} />
+          </Grid>
+          <Grid item xs={12}>
+            <MainDailyOtherInfo data={dashboard} />
           </Grid>
         </Grid>
       </Card>

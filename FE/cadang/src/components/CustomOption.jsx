@@ -65,9 +65,9 @@ function CustomOption(props) {
           </Grid>
           <Grid item xs={8} alignItems="center">
             <ButtonGroup variant="outlined" size="small">
-              <Button>덜달게</Button>
-              <Button defaultChecked>기본</Button>
-              <Button>달게</Button>
+              <Button onClick={() => props.onclickSugarContentHandler('LESS', 0.5)}>덜달게</Button>
+              <Button defaultChecked onClick={() => props.onclickSugarContentHandler('BASIC', 1)}>기본</Button>
+              <Button onClick={() => props.onclickSugarContentHandler('MORE', 1.5)}>달게</Button>
             </ButtonGroup>
           </Grid>
           <Grid item xs={4} textAlign="center" margin="auto">

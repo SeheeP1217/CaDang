@@ -72,7 +72,10 @@ public class OrderController {
         List<CustomerOrderDto> CustomerOrderDtoList = orderService.getCustomerOrderById(userId);
 
         logger.info("응답결과: 사이즈 - {}", CustomerOrderDtoList.size());
-        logger.info("응답결과: 첫번째 데이터 - {}", CustomerOrderDtoList.get(0));
+
+        if(CustomerOrderDtoList.size() != 0){
+            logger.info("응답결과: 첫번째 데이터 - {}", CustomerOrderDtoList.get(0));
+        }
 
         return new ResponseEntity<List<CustomerOrderDto>>(CustomerOrderDtoList, HttpStatus.ACCEPTED);
     }
@@ -88,7 +91,10 @@ public class OrderController {
         List<StoreOrderDto> StoreOrderDtoList = orderService.getStoreOrderById(storeId);
 
         logger.info("응답결과: 사이즈 - {}", StoreOrderDtoList.size());
-        logger.info("응답결과: 첫번째 데이터 - {}", StoreOrderDtoList.get(0));
+
+        if(StoreOrderDtoList.size() != 0){
+            logger.info("응답결과: 첫번째 데이터 - {}", StoreOrderDtoList.get(0));
+        }
 
         return new ResponseEntity<List<StoreOrderDto>>(StoreOrderDtoList, HttpStatus.ACCEPTED);
     }
@@ -104,7 +110,10 @@ public class OrderController {
         List<StoreOrderDto> StoreNewOrderDtoList = orderService.getStoreNewOrderById(storeId);
 
         logger.info("응답결과: 사이즈 - {}", StoreNewOrderDtoList.size());
-        logger.info("응답결과: 첫번째 데이터 - {}", StoreNewOrderDtoList.get(0));
+        if(StoreNewOrderDtoList.size() != 0){
+            logger.info("응답결과: 첫번째 데이터 - {}", StoreNewOrderDtoList.get(0));
+        }
+
 
         return new ResponseEntity<List<StoreOrderDto>>(StoreNewOrderDtoList, HttpStatus.ACCEPTED);
     }

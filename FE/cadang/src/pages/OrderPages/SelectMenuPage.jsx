@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 
 import DailyConsumptionGraph from "../../components/util/DailyConsumptionGraph";
 import ItemFiltering from "../../components/util/ItemFiltering";
+import DailyOtherInfo from "../../components/DailyOtherInfo";
 
 import { cafeDrinkList } from "../../api/order";
 import { useRecoilValue } from "recoil";
@@ -96,6 +97,10 @@ function SelectMenuPage() {
     storeName: "",
   });
   const consumptionInfo = menu.dayDataDto;
+  const [changedOtherInfo, setChangedOtherInfo] = useState({
+    money: 0,
+    cal: 0,
+  })
   useMemo(() => {
     const getMenus = async () => {
       await cafeDrinkList(
@@ -122,6 +127,13 @@ function SelectMenuPage() {
 
   // console.log("/////////-------/////////", menu);
 
+  useEffect(() => {
+    setChangedOtherInfo({
+      money: selectDrinkInfo.price,
+      cal: selectDrinkInfo.cal,
+    });
+  }, [selectDrinkInfo])
+
   const finalData = {
     franchiseId: menu.franchiseId,
     franchiseName: storeName,
@@ -147,6 +159,7 @@ function SelectMenuPage() {
               selectDrinkInfo={selectDrinkInfo}
               consumptionInfo={consumptionInfo}
             />
+            <DailyOtherInfo data={menu.dayDataDto} changedOtherInfo={changedOtherInfo}></DailyOtherInfo>
           </Card>
           <Card sx={{ marginY: 2 }}>
             {/* <DailyConsumptionGraph data={afterSelectData} /> */}

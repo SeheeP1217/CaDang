@@ -31,8 +31,8 @@ class DataServiceTest {
     @Test
     public void dataCrate() {
 
-        for (int i = 1; i <= 31; i++)
-            dataService.createDataByRegDate(2L, LocalDate.of(2022, 12, i));
+        for (int i = 10; i <= 11; i++)
+            dataService.createDataByRegDate(2L, LocalDate.of(2023, 2, i));
 
     }
 
