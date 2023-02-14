@@ -7,10 +7,6 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  ReferenceLine,
-  CartesianGrid,
-  CartesianAxis,
-  Label,
 } from "recharts";
 
 function DailyConsumptionGraph(props) {

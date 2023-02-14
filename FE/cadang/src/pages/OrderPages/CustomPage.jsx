@@ -39,7 +39,7 @@ function CustomPage() {
         cal: 0,
         price: 0,
         shot: 0,
-        whip: true,
+        whip: null,
         franchiseId: 0,
         storeName: "",
         cnt: 0,
@@ -108,7 +108,8 @@ function CustomPage() {
       storeName: location.state.franchiseName,
     });
   }, [basicDrink])
-  console.log("this", basicDrink.sugar)
+  console.log("this", basicDrink)
+  console.log("this", orderDetail)
 
   // 전체 가격, 칼로리 변동량 계산
   useEffect(() => {
