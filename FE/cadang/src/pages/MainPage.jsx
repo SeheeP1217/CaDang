@@ -10,7 +10,6 @@ import Typography from "@mui/joy/Typography";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userId, todayDate } from "../recoil/atom/user.jsx";
 import { todayDashboard } from "../api/main";
-import TodayChart from "../components/TodayChart"
 
 export default function MainPage() {
   const [load, setLoad] = useState(false);

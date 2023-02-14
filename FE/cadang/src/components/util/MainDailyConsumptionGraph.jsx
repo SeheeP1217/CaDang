@@ -79,7 +79,7 @@ function MainDailyConsumptionGraph(props) {
           <Bar
             dataKey="consumption"
             stackId="a"
-            fill="#8884d8"
+            fill="#3A130C"
             background={{ fill: "#eee" }}
             />
           <Bar dataKey="change" stackId="a" fill="#82ca9d" />
@@ -118,7 +118,7 @@ function MainDailyConsumptionGraph(props) {
           <Bar
             dataKey="consumption"
             stackId="a"
-            fill="#8884d8"
+            fill="#3A130C"
             background={{ fill: "#eee" }}
             />
           <Bar dataKey="change" stackId="a" fill="#82ca9d" />

@@ -80,16 +80,28 @@ const LoginPage = () => {
       .post("http://i8a808.p.ssafy.io:8080/login", postData, {
         withCredentials: true,
       })
-      .then(function (response) {
-        console.log("//////////////")
-        console.log(response.headers)
-        console.log("//////////////")
+      .then((response) => {
+        // console.log("//////////////")
+        // console.log(response.headers)
+        // console.log("//////////////")
+        console.log(response)
+        return response;
 
-        let headers = response.headers.authorization
-        localStorage.setItem("token", headers)
+        // let headers = response.headers.authorization
+        // localStorage.setItem("token", headers)
 
-        console.log(localStorage)
-        history.push("/main")
+        // console.log(localStorage)
+        // history.push("/main")
+      })
+      .then((response) => {
+        if (response.headers.authorization) {
+          localStorage.setItem('login-token', response.headers.authorization)
+          console.log(data);
+        }
+        if (response.status === 200) {
+          alert('로그인에 성공하였습니다.')
+          history.push('/main')
+        }
       })
       .catch(function (err) {
         console.log(err)
