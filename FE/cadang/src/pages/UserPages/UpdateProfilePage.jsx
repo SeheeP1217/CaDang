@@ -39,6 +39,9 @@ const UpdateProfilePage = () => {
   const [registerError, setRegisterError] = useState("")
   const history = useHistory()
 
+  const [caffeineGoal, setCaffeineGoal] = useState(400)
+  const [sugarGoal, setSugarGoal] = useState(25)
+
   // const handleAgree = (event) => {
   //   setChecked(event.target.checked)
   // }
