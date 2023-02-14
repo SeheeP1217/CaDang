@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react"
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Button from "@mui/material/Button";
@@ -13,6 +14,10 @@ function CustomOption(props) {
   const defaultInfo = props.drinkDetail.drinkResponseDtos;
   const optionInfo = props.drinkDetail.optionDtos;
   const orderInfo = props.orderDetail
+
+  const [ cupSize, setCupSize] = useState(0)
+  const [ isWhiped, setIsWhiped ] = useState(defaultInfo[0].whip)
+  const [ howTasty, setHowTasty ] = useState(defaultInfo[0].sugarContent)
 
   return (
     <div>
@@ -32,14 +37,18 @@ function CustomOption(props) {
             사이즈
           </Grid>
           <Grid item xs={8} >
-            <ToggleButtonGroup color="primary" exclusive size="small" defaultValue={defaultInfo[0].size}>
+            <ButtonGroup color="primary" exclusive size="small" defaultValue={defaultInfo[0].size}>
               {defaultInfo.map((size, index) => {
+                console.log(orderInfo.size)
                 return (
-                  <ToggleButton key={index} value={size.size}
-                    onClick={() => props.onClickSizeChangeHandler(index)}>{size.size}</ToggleButton>
-                );
+                  <Button variant={cupSize === index ? "contained" : "outlined"} key={index} value={size.size} 
+                  onClick={() => {
+                    setCupSize(index)
+                    props.onClickSizeChangeHandler(index)
+                }}>{size.size}</Button>
+                )
               })}
-            </ToggleButtonGroup>
+            </ButtonGroup>
           </Grid>
           <Grid item xs={4} textAlign="center" margin="auto">
             샷
@@ -56,8 +65,14 @@ function CustomOption(props) {
           </Grid>
           <Grid item xs={8} alignItems="center">
             <ButtonGroup variant="outlined" size="small" defaultValue={defaultInfo[0].whip}>
-              <Button value={false} onClick={() => {props.onClickOptionChangeHandler("whip", false)}} >X</Button>
-              <Button value={true} onClick={() => {props.onClickOptionChangeHandler("whip", true)}}>O</Button>
+              <Button value={false} variant={isWhiped ? "outlined" : "contained"} onClick={() => {
+                props.onClickOptionChangeHandler("whip", false)
+                setIsWhiped(false)
+              }} >X</Button>
+              <Button value={true} variant={isWhiped ? "contained" : "outlined"} onClick={() => {
+                props.onClickOptionChangeHandler("whip", true)
+                setIsWhiped(true)
+              }}>O</Button>
             </ButtonGroup>
           </Grid>
           <Grid item xs={4} textAlign="center" margin="auto">
@@ -65,9 +80,18 @@ function CustomOption(props) {
           </Grid>
           <Grid item xs={8} alignItems="center">
             <ButtonGroup variant="outlined" size="small">
-              <Button onClick={() => props.onclickSugarContentHandler('LESS', 0.5)}>덜달게</Button>
-              <Button defaultChecked onClick={() => props.onclickSugarContentHandler('BASIC', 1)}>기본</Button>
-              <Button onClick={() => props.onclickSugarContentHandler('MORE', 1.5)}>달게</Button>
+              <Button variant={howTasty === 'LESS' ? "contained" : "outlined"} onClick={() => {
+                setHowTasty('LESS')
+                props.onclickSugarContentHandler('LESS', 0.5)
+              }}>덜달게</Button>
+              <Button variant={howTasty === 'BASIC' ? "contained" : "outlined"} onClick={() => {
+                setHowTasty('BASIC')
+                props.onclickSugarContentHandler('BASIC', 1)
+              }}>기본</Button>
+              <Button variant={howTasty === 'MORE' ? "contained" : "outlined"} onClick={() => {
+                setHowTasty('MORE')
+                props.onclickSugarContentHandler('MORE', 1.5)
+              }}>달게</Button>
             </ButtonGroup>
           </Grid>
           <Grid item xs={4} textAlign="center" margin="auto">
