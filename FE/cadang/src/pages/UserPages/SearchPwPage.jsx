@@ -91,9 +91,8 @@ const SearchPwPage = () => {
     console.log("aaa", email, memberId)
     console.log(params)
     axios
-      .post("http://i8a808.p.ssafy.io:8080/user/email/findpw", {
+      .post("http://i8a808.p.ssafy.io:8080/user/email/findpw", params, {
         headers: { "Content-Type": "application/json" },
-        postData: { memberId, email },
       })
       .then((response) => {
         console.log(response, "성공")
