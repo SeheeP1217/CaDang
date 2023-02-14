@@ -1,41 +1,34 @@
 import * as React from "react";
-import { Box, Grid } from "@mui/material";
+import { Box, Button, Grid } from "@mui/material";
 import TextField from "@mui/material/TextField";
 
-export default function goalSettingItem() {
+export default function goalSettingItem(props) {
   return (
     <Box width="90%" my={3} mx="auto">
-      <Grid container>
+      <Grid container rowGap={2}>
         <Grid
           item
           xs={6}
           style={{
-            background: "rgba(232, 222, 248)",
+            background: "#ffba00",
             borderRadius: "10px",
             textAlign: "center",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
           }}
-        >
-          <goalCard>☕ 카페인 목표량</goalCard>
+        >☕ 카페인 목표량
         </Grid>
         <Grid item xs={6}>
-          <TextField
-            id="standard-basic"
-            placeholder="목표량 입력"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <div style={{ height: "15px" }}></div>
+        <TextField id="standard-basic" label="목표량(mg)" variant="standard"
+        onChange={props.onChangeCaffeineGoal}/>
         </Grid>
 
         <Grid
           item
           xs={6}
           style={{
-            background: "rgba(232, 222, 248)",
+            background: "#ffba00",
             borderRadius: "10px",
             textAlign: "center",
             display: "flex",
@@ -43,15 +36,11 @@ export default function goalSettingItem() {
             alignItems: "center",
           }}
         >
-          <goalCard>🍯 당 목표량</goalCard>
+        🍯 당 목표량
         </Grid>
         <Grid item xs={6}>
-          <TextField
-            style={{ height: "100%" }}
-            id="standard-basic"
-            placeholder="목표량 입력"
-            variant="standard"
-          />
+        <TextField id="standard-basic" label="목표량(g)" variant="standard" 
+        onChange={props.onChangeSugarGoal}/>
         </Grid>
       </Grid>
     </Box>

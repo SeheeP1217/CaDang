@@ -30,6 +30,7 @@ import PaySuccessPage from "./pages/OrderPages/PaySuccessPage"
 import PayFailPage from "./pages/OrderPages/PayFail"
 import DailyConsumptionGraph from "./components/util/DailyConsumptionGraph"
 import ResetPwPage from "./pages/UserPages/ResetPw"
+import PaymentCustomPage from "./pages/OrderPages/PaymentCustomPage"
 
 function App() {
   // const [{ user }, dispatch] = useStateValue();
@@ -71,6 +72,7 @@ function App() {
         {/* custom page 프렌차이즈 pk와 메뉴 pk url에 넣어서 접근해야하는지?? */}
         <Route exact path="/custom" component={CustomPage} />
         <Route exact path="/payment" component={PaymentPage} />
+        <Route exact path="/payment/custom" component={PaymentCustomPage} />
         <Route exact path="/test" component={TestPage} />
         <Route exact path="/selectmenu" component={SelectMenuPage} />
         <Route exact path="/review/:reviewId" component={ReviewPage} />
@@ -105,6 +107,7 @@ function App() {
         <Route exact path="/loading" component={IntroContainer} />
 
         <Route component={DefaultContainer} />
+        <Route exact path="/payment/custom" component={DefaultContainer} />
         <Route exact path="/drink-add" component={DefaultContainer} />
         <Route exact path="/custom" component={DefaultContainer} />
         <Route exact path="/selectmenu" component={DefaultContainer} />
@@ -115,7 +118,8 @@ function App() {
 }
 
 const TopImage = styled.div`
-  background-color: #f5f0e8 !important;
+  background-image: #350e0b !important;
+  // background-color: #f5f0e8 !important;
   // background-color: #A28F70 !important;
 `
 

@@ -3,18 +3,17 @@ package com.ssafy.cadang.repository;
 
 import com.ssafy.cadang.domain.User;
 
-import lombok.RequiredArgsConstructor;
+import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
     // @EntityGraph은 쿼리가 수행이 될때 Lazy 조회가 아니고 Eager
     // 조회로 authorities 정보를 같이 가져오게 된다.
@@ -24,9 +23,22 @@ public interface UserRepository extends JpaRepository<User,Long> {
     Optional<User> findOneWithAuthoritiesByMemberId(String memberId);
 
     boolean existsByMemberId(String memberId);
+
     boolean existsByEmail(String email);
 
-    public User findByMemberId(String memberId);
+    boolean existsByUserNameAndEmail(String username, String email);
+
+    boolean existsByMemberIdAndEmail(String memberId, String email);
+
+    User findByMemberId(String memberId);
+
+    Optional<User> findById(Long id);
+
+    Optional<User> findByUserNameAndEmail(String username, String email);
+    Optional<User> findByEmail(String Email);
+
+
+
 
 }
 

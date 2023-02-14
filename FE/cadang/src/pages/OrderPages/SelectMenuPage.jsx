@@ -7,14 +7,19 @@ import { Link } from "react-router-dom";
 
 import DailyConsumptionGraph from "../../components/util/DailyConsumptionGraph";
 import ItemFiltering from "../../components/util/ItemFiltering";
+import DailyOtherInfo from "../../components/DailyOtherInfo";
 
 import { cafeDrinkList } from "../../api/order";
 import { useRecoilValue } from "recoil";
 import { todayDate } from "../../recoil/atom/user";
 
-function SelectMenuPage() {
+function SelectMenuPage(props) {
   const date = useRecoilValue(todayDate);
-  const storeName = "스타벅스 역삼대로점";
+  const [storeName, setStoreName] = useState(props.location.state.cafe)
+
+  useEffect(() => {
+    setStoreName(props.location.state.cafe)
+  }, [storeName])
 
   // const [possible, setPossible] = useState([])
   // const [impossible, setImpossible] = useState([])
@@ -96,6 +101,10 @@ function SelectMenuPage() {
     storeName: "",
   });
   const consumptionInfo = menu.dayDataDto;
+  const [changedOtherInfo, setChangedOtherInfo] = useState({
+    money: 0,
+    cal: 0,
+  })
   useMemo(() => {
     const getMenus = async () => {
       await cafeDrinkList(
@@ -122,6 +131,13 @@ function SelectMenuPage() {
 
   // console.log("/////////-------/////////", menu);
 
+  useEffect(() => {
+    setChangedOtherInfo({
+      money: selectDrinkInfo.price,
+      cal: selectDrinkInfo.cal,
+    });
+  }, [selectDrinkInfo])
+
   const finalData = {
     franchiseId: menu.franchiseId,
     franchiseName: storeName,
@@ -147,6 +163,7 @@ function SelectMenuPage() {
               selectDrinkInfo={selectDrinkInfo}
               consumptionInfo={consumptionInfo}
             />
+            <DailyOtherInfo data={menu.dayDataDto} changedOtherInfo={changedOtherInfo}></DailyOtherInfo>
           </Card>
           <Card sx={{ marginY: 2 }}>
             {/* <DailyConsumptionGraph data={afterSelectData} /> */}

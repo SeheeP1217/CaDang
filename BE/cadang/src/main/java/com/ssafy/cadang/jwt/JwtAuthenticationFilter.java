@@ -3,19 +3,29 @@ package com.ssafy.cadang.jwt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.cadang.auth.PrincipalDetails;
 import com.ssafy.cadang.domain.User;
-import com.ssafy.cadang.dto.LoginDto;
+
+import com.ssafy.cadang.dto.user.LoginDto;
+import com.ssafy.cadang.error.CustomException;
+import com.ssafy.cadang.error.ExceptionEnum;
+import com.ssafy.cadang.repository.UserRepository;
+import com.ssafy.cadang.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -24,6 +34,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.security.Key;
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -31,10 +43,24 @@ import java.util.stream.Collectors;
 // 스프링 시큐리티에서 UsernamePasswordAuthenticationFilter 가 있음.
 // /login 요청해서 id, pw 를 전송하면(post)
 // UsernamePasswordAuthenticationFilter 동작을 함
-@RequiredArgsConstructor
+
+
+@Transactional
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private final AuthenticationManager authenticationManager;
+
+   private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+    private UserRepository userRepository;
+
+
+
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+        //this.userService = userService;
+    }
 
     private static final String AUTHORITIES_KEY = "auth";
     private Key key;
@@ -56,11 +82,21 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         System.out.println("로그인 시도");
         // 1. id, pw 를 받아서
         try {
-//            BufferedReader br = request.getReader();
-//
-//            String input = null;
+
             ObjectMapper om = new ObjectMapper();
             LoginDto loginDto = om.readValue(request.getInputStream(), LoginDto.class);
+
+
+            // 아이디 검사
+            if (!userRepository.existsByMemberId(loginDto.getMemberId())) {
+                throw new CustomException(ExceptionEnum.ID_OR_PW_NOT_FOUND);
+            }
+            User user = userRepository.findByMemberId(loginDto.getMemberId());
+            // 패스워드 검사
+            if (!passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
+                throw new CustomException(ExceptionEnum.ID_OR_PW_NOT_FOUND);
+            }
+
 
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(loginDto.getMemberId(), loginDto.getPassword());
@@ -78,6 +114,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             // authentication 객체가 session 영역에 저장을 해야하고 그 방법이 return 해주면 됨.
             // 리턴의 이유는 권한 권리를 security가 대신 해주기 때문에 편하려고 하는 것임
             // 근데 굳이 JWT 토큰을 사용하면서 세션을 만들 이유가 없음. 단지 권한 처리 때문에 session에 넣어준다.
+            SecureRandom secureRandom = new SecureRandom();
+            System.out.println("secureRandom : " + secureRandom);
 
             System.out.println("로그인 정상");
 
@@ -100,6 +138,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     // attemptAuthentication 실행 후 인증이 정상적으로 되었으면 successfulAuthentication 함수가 실행됨
     // JWT 토큰을 만들어서 request 요청한 사용자에게 JWT토큰을 response해주면 됨.
     @Override
+    @Transactional
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
 
         PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
@@ -109,7 +148,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         long now = (new Date()).getTime();
         Date validity = new Date(now + JwtProperties.EXPIRATION_TIME);
-        System.out.println(validity);
+        System.out.println("발급날짜: " + new Date(now));
+        System.out.println("만료날짜: " + validity);
 
         // RSA 방식은 아니고 Hash 암호방식
         // claim을 통해 넣고 싶은 정보들을 집어넣는다.
@@ -119,19 +159,63 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         System.out.println(this.key);
 
 
+
+
         String jwtToken = Jwts.builder()
                 .setSubject(principalDetails.getUsername())
                 .claim("id",principalDetails.getUser().getId())
+                .claim(AUTHORITIES_KEY,authorities)
                 .signWith(this.key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
                 .compact();
+        //String refreshToken = generateRefreshToken(principalDetails);
 
 
+
+
+//        ResponseCookie.from("refreshToken", refreshToken)
+//                .httpOnly(true)
+//                .secure(true)
+//                .path("/")
+//                .maxAge(JwtProperties.REFRESH_EXPIRATION_TIME/ 1000) // 초 단위이므로 1000으로 나눈다.
+//                .domain(JwtProperties.DOMAIN)
+//                .build();
+
+        //userRepository.setRefreshToken(principalDetails.getUser().getId(), refreshToken);
+
+
+        System.out.println("user: " + principalDetails.getUser().getMemberId());
         System.out.println("토큰: " + jwtToken);
+       // System.out.println("리프레쉬 토큰: " + refreshToken);
+
+
+
 
         response.addHeader("Authorization", "Bearer " + jwtToken);
+        //response.addHeader(HttpHeaders.SET_COOKIE, refreshToken);
         System.out.println("토큰 발급 성공");
 
-
     }
+
+
+//    private String generateRefreshToken(PrincipalDetails principalDetails){
+//        byte[] keyBytes = Decoders.BASE64.decode(JwtProperties.REFRESH_SECRET);
+//        this.key = Keys.hmacShaKeyFor(keyBytes);
+//        long now = (new Date()).getTime();
+//        Date validity = new Date(now + JwtProperties.REFRESH_EXPIRATION_TIME);
+//        System.out.println("refresh token 발급날짜: " + new Date(now));
+//        System.out.println("refresh token 만료날짜: " + validity);
+//
+//        return Jwts.builder()
+//                .setSubject(principalDetails.getUsername())
+//                .claim("id", principalDetails.getUser().getId())
+//                .signWith(this.key, SignatureAlgorithm.HS512)
+//                .setExpiration(validity)
+//                .compact();
+//
+//    }
+
+
+
+
 }

@@ -9,10 +9,11 @@ import { Link, useLocation, useHistory } from "react-router-dom";
 import dayjs from "dayjs";
 
 import DailyConsumptionGraph from "../../components/util/DailyConsumptionGraph";
-import DrinkMenuItem from "../../components/util/DrinkMenuItem";
+import CustomDrinkMenuItem from "../../components/util/CustomDrinkMenuItem";
 import CustomOption from "../../components/CustomOption";
 
 import { cafeDrinkData, newDrinkRecord } from "../../api/order";
+import DailyOtherInfo from "../../components/DailyOtherInfo";
 
 function CustomPage() {
   const location = useLocation()
@@ -70,6 +71,10 @@ function CustomPage() {
     },
   });
   const basicDrink = drinkDetail.drinkResponseDtos[0]
+  const [changedOtherInfo, setChangedOtherInfo] = useState({
+    money: 0,
+    cal: 0,
+  })
   const [orderDetail, setOrderDetail] = useState({
     drinkId: basicDrink.drinkId,
     regDate: dayjs().format("YYYY-MM-DD"),
@@ -101,8 +106,16 @@ function CustomPage() {
       whip: basicDrink.whip,
       sugarContent: "BASIC",
       storeName: location.state.franchiseName,
-    })
+    });
   }, [basicDrink])
+
+  // 전체 가격, 칼로리 변동량 계산
+  useEffect(() => {
+    setChangedOtherInfo({
+      money: orderDetail.price,
+      cal: orderDetail.cal,
+    });
+  }, [orderDetail])
 
   // 기존 daily + 선택음료 데이터 계산(젤 작은 사이즈 & 노옵션)
   const withoutCustom = {
@@ -236,12 +249,14 @@ function CustomPage() {
   const addDrinkRecord = async () => {
     await newDrinkRecord(
       orderDetail,
-      (res) => {console.log(res)},
+      (res) => {console.log(res);
+      return res},
       (err) => {console.log(err)},
     )
-      .then(function (response) {
+      .then((response) => {
+        console.log(response)
         if (response.status === 200) {
-          history.push('/mypage')
+          history.push("/mypage")
         }
       })
       .catch(function (err) {
@@ -272,7 +287,7 @@ function CustomPage() {
               <Item style={{ fontWeight: "700" }}>{location.state.finalData.branch ? location.state.finalData.branch : '-'}</Item>
             </Grid>
             <Grid item xs={12}>
-              <DrinkMenuItem data={location.state.finalData} getRecordDate={getRecordDate}/>
+              <CustomDrinkMenuItem data={location.state.finalData} getRecordDate={getRecordDate}/>
             </Grid>
           </Grid>
         </Box>
@@ -283,6 +298,7 @@ function CustomPage() {
           selectDrinkInfo={changeInfo}
           consumptionInfo={withoutCustom}
         />
+        <DailyOtherInfo data={drinkDetail.dayDataDto} changedOtherInfo={changedOtherInfo}></DailyOtherInfo>
       </Card>
 
       <CustomOption drinkDetail={drinkDetail} orderDetail={orderDetail} 
