@@ -6,7 +6,7 @@ import coffeebean from "../assets/coffeebean.png"
 import coffeebeansugar from "../assets/coffeebeansugar.png"
 import sugar2 from "../assets/sugar2.png"
 import "./MyCalendar.css"
-import { Grid, Modal, Typography } from "@mui/material"
+import { Grid, Modal, Typography, Card, Button } from "@mui/material"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import styled from "styled-components"
 import dayjs from "dayjs"
@@ -20,7 +20,6 @@ class MyCalendar extends React.Component {
       modalData: {},
     }
   }
-
   dateChangeHandler = (num) => {
     this.setState({
       changeDate: dayjs(this.state.changeDate)
@@ -33,6 +32,20 @@ class MyCalendar extends React.Component {
     this.setState({
       showModal: !this.state.showModal,
       modalData: clickedData,
+    })
+  }
+  handleOpen = (date) => {
+    const data = this.props.monthDataList.find((item) => item.date === date)
+    this.setState({
+      open: true,
+      modalData: data,
+    })
+  }
+
+  handleClose = () => {
+    this.setState({
+      open: false,
+      modalData: null,
     })
   }
 
@@ -78,7 +91,7 @@ class MyCalendar extends React.Component {
           return { date: item.date, url: sugar2 }
         }
       })
-
+    console.log("aaaaaaaa", this.state.modalData.date)
     return (
       <ThemeProvider theme={theme}>
         <Grid className="maincontainer">
@@ -113,23 +126,63 @@ class MyCalendar extends React.Component {
               alignItems: "center",
               justifyContent: "center",
               "& .MuiPaper-root": {
-                width: "50%",
+                width: "80%",
                 backgroundColor: "#fff",
                 boxShadow: 24,
-                padding: "20px",
+                padding: "10px",
                 borderRadius: "10px",
               },
             }}
           >
-            <div>
-              <h2>Modal Title</h2>
-              <p>Modal content goes here.</p>
-            </div>
-          </Modal> 
+            {this.state.modalData && (
+              <ModalCard>
+                <Date>{this.state.modalData.date} 섭취량</Date>
+                <Grid>
+                  {this.state.modalData ? (
+                    <Typography
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Icon src={coffeebean}></Icon>
+                      {this.state.modalData.caffeDaily}/
+                      {this.state.modalData.caffeGoal}
+                      <Icon src={sugar2}></Icon>
+                      {this.state.modalData.sugarDaily}/
+                      {this.state.modalData.sugarGoal}
+                    </Typography>
+                  ) : (
+                    <Typography>
+                      <h2 id="modal-modal-title">데이터 없음</h2>
+                      <p id="modal-modal-description">
+                        해당 일자에 대한 데이터가 없습니다.
+                      </p>
+                    </Typography>
+                  )}
+                </Grid>
+              </ModalCard>
+            )}
+          </Modal>
         </Grid>
       </ThemeProvider>
     )
   }
 }
 
+const Icon = styled.img`
+  width: 40px !important;
+`
+
+const ModalCard = styled(Card)`
+  border: 5px solid #3a130c !important;
+  border: 10px solid #ffba00 !important;
+  font-family: netmarble !important;
+`
+
+const Date = styled.h2`
+  margin-top: 3px !important;
+  border-bottom: 5px solid #3a130c !important;
+`
 export default MyCalendar
