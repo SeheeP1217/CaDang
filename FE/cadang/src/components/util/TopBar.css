@@ -7,8 +7,9 @@ body {
 
   position: absolute !important;
 
-  background: #ffba00 !important;
+  /* background: #ffba00 !important; */
   /* border-bottom: 1px solid #000000 !important; */
+  background: linear-gradient(45deg, white 30%, #ffba00);
 }
 .logoText {
   color: #000000 !important;
