@@ -110,10 +110,10 @@ function DailyConsumptionGraph(props) {
           <Bar
             dataKey="consumption"
             stackId="a"
-            fill="#8884d8"
+            fill="#3A130C"
             background={{ fill: "#eee" }}
             />
-          <Bar dataKey="change" stackId="a" fill="#82ca9d" />
+          <Bar dataKey="change" stackId="a" fill="#ffba00" />
         </BarChart>
       </Grid>
       <Grid item xs={12} style={{ textAlign: 'end', marginRight: 35, marginTop: 5}}>
@@ -153,10 +153,10 @@ function DailyConsumptionGraph(props) {
           <Bar
             dataKey="consumption"
             stackId="a"
-            fill="#8884d8"
+            fill="#3A130C"
             background={{ fill: "#eee" }}
             />
-          <Bar dataKey="change" stackId="a" fill="#82ca9d" />
+          <Bar dataKey="change" stackId="a" fill="#ffba00" />
         </BarChart>
       </Grid>
     </Grid>
