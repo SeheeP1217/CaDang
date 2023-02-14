@@ -191,13 +191,13 @@ public class DataService {
 
         boolean hasNext = dataRepository.existsByRegDateGreaterThan(endDate, userId);
         boolean hasPrevious = dataRepository.existsByRegDateLessThan(startDate, userId);
-        System.out.println("hasNext = " + hasNext);
-        System.out.println("hasPrevious = " + hasPrevious);
+        log.info("hasNext = {}", hasNext);
+        log.info("hasPrevious = {}", hasPrevious);
 
         int month = date.getMonthValue();
         int year = date.getYear();
         int sumByUserAndMonth = recordReposiotry.findSumByUserAndMonth(userId, month, year, recordStatus);
-        System.out.println("sumByUserAndMonth = " + sumByUserAndMonth);
+        log.info("sumByUserAndMonth = {}", sumByUserAndMonth);
 
 
         List<DayDataDtoByMonth> daydatas = toMonThDto(monthData);
