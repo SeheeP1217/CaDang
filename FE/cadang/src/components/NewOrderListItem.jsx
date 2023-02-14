@@ -4,7 +4,7 @@ import { Paper, Box, Grid, Card } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import Button from "@mui/material-next/Button";
 import Divider from "@mui/material/Divider";
-import {newOrderResponse} from "../api/cafeCeo";
+import { newOrderResponse } from "../api/cafeCeo";
 
 export default function NewOrderListItem(props) {
   const [drinkItem, setDrinkItem] = useState();
@@ -13,7 +13,7 @@ export default function NewOrderListItem(props) {
   const onClickAccept = () => {
     console.log("수락 버튼 클릭!!!!!!!!!!!!!!!!!!!!!!!");
 
-    if(window.confirm( `${props.id}번째 주문을 수락하시겠습니까?`)) {
+    if (window.confirm(`${props.id}번째 주문을 수락하시겠습니까?`)) {
       props.deleteChild(props.id);
     }
 
@@ -36,7 +36,7 @@ export default function NewOrderListItem(props) {
   const onClickCancel = () => {
     console.log("거절 버튼 클릭!!!!!!!!!!!!!!!!!!!!");
 
-    if(window.confirm(`${props.id}번째 주문을 거절하시겠습니까?`)) {
+    if (window.confirm(`${props.id}번째 주문을 거절하시겠습니까?`)) {
       props.deleteChild(props.id);
     }
 
@@ -61,12 +61,12 @@ export default function NewOrderListItem(props) {
   }, []);
 
   useEffect(() => {
-    console.log("서버로부터 받아온 userId : "+ userId);
-  },[userId]);
+    console.log("서버로부터 받아온 userId : " + userId);
+  }, [userId]);
 
   useEffect(() => {
-    console.log(drinkItem);
-  }, [drinkItem]);
+    setDrinkItem(props.drink);
+  }, [props.drink]);
 
   // console.log("NewOrderListItem !!!!!!!!!!! " + props.drink);
 
@@ -102,23 +102,23 @@ export default function NewOrderListItem(props) {
         </Grid>
 
         <Grid item xs={12} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-start" }}>
-        {drinkItem !== undefined && (
-          <Typography
-            sx={{
-              fontWeight: "500",
-              display: "inline",
-              fontSize: 1,
-            }}
-          >
-            샷 :{drinkItem.shot}
-          </Typography>
-        )}
+          {drinkItem !== undefined && (
+            <Typography
+              sx={{
+                fontWeight: "500",
+                display: "inline",
+                fontSize: 1,
+              }}
+            >
+              샷 :{drinkItem.shot}
+            </Typography>
+          )}
         </Grid>
       </Grid>
       <Grid container sx={{ mb: 2 }}>
         <Grid item xs={6} sx={{ boxShadow: 0, display: "flex", justifyContent: "center" }}>
           <Button
-          onMouseDown={onClickAccept}
+            onMouseDown={onClickAccept}
             variant="contained"
             sx={{
               borderRadius: 2,
@@ -133,7 +133,7 @@ export default function NewOrderListItem(props) {
         </Grid>
         <Grid item xs={6} sx={{ boxShadow: 0, display: "flex", justifyContent: "center" }}>
           <Button
-          onMouseDown={onClickCancel}
+            onMouseDown={onClickCancel}
             variant="contained"
             sx={{
               // width: "130px",

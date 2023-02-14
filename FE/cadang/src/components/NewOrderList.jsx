@@ -7,6 +7,7 @@ import { newOrderCheck } from "../api/cafeCeo";
 export default function NewOrderList() {
   const $websocket = useRef();
   const [msg, setMsg] = useState("");
+  const [data, setData] = useState([]);
   const [drinks, setDrinks] = useState([]);
 
   console.log("NewOrderList !!!!!!!!!!!!! " + drinks);
@@ -18,19 +19,18 @@ export default function NewOrderList() {
   const deleteChild = (idx) => {
     const newChild = drinks;
     const index = newChild.indexOf(drinks[idx]);
-    if(index > -1) {
+    if (index > -1) {
       newChild.splice(index, 1);
       setDrinks([...newChild]);
     }
-  }
+  };
 
-  // NewOrderListItem의 수락 / 거절  
+  // NewOrderListItem의 수락 / 거절
   const onRemove = (targetId) => {
-    const newOrderList = drinks.filter((item) => item.id !== targetId)
+    const newOrderList = drinks.filter((item) => item.id !== targetId);
     // setDrinks((newOrderList) => {return(newOrderList)});
     setDrinks(newOrderList);
-  }
-
+  };
 
   const getOrder = async () => {
     await newOrderCheck(
@@ -45,12 +45,14 @@ export default function NewOrderList() {
   };
 
   useMemo(() => {
+    // 화면이 뜨자마자 신규 주문 조회 api를 호출해서
+    // 신규 주문 리스트 받아와서 화면에 렌더링한다.
     getOrder();
-  },[]);
+  }, []);
 
   useEffect(() => {
-
-  },[]);
+    setDrinks(data);
+  }, [data]);
 
   useEffect(() => {
     console.log(msg);
@@ -58,8 +60,8 @@ export default function NewOrderList() {
     //   console.log("새로 들어오기 이전 데이터 :", drink);
     //   return [data, ...drink];
     // })
-    // if (msg === "주문이 들어왔습니다.") 
-    
+    // if (msg === "주문이 들어왔습니다.")
+
     const getOrder2 = async () => {
       await newOrderCheck(
         (res) => {
@@ -67,14 +69,22 @@ export default function NewOrderList() {
           return res.data;
         },
         (err) => console.log(err)
-      ).then((data) => setDrinks(data));
-  
+      ).then((data) => setData(data));
+
       // then((data) => setDrink(drink.concat(data)));
     };
     getOrder2();
     setMsg("");
     console.log(drinks + "=====");
   }, [msg]);
+
+  useEffect(() => {
+    setDrinks(data);
+  }, [data]);
+
+  // if (drinks.length === 0) {
+  //   return <h2>신규 주문이 없습니다.</h2>;
+  // }
 
   return (
     <div>
@@ -91,7 +101,15 @@ export default function NewOrderList() {
         }}
         ref={$websocket}
       />
-      {drinks.length !== 0 && drinks.map((item, key) => (
+      {/* drinks.length !== 0 && */}
+      {/* {drinks.length === 0 ? (
+        <h2>신규 주문이 없습니다.</h2>
+      ) : (
+        drinks.map((item, key) => (
+          <NewOrderListItem drink={item} onRemove={onRemove} id={key} deleteChild={deleteChild} />
+        ))
+      )} */}
+      {drinks.map((item, key) => (
         <NewOrderListItem drink={item} onRemove={onRemove} id={key} deleteChild={deleteChild} />
       ))}
     </div>

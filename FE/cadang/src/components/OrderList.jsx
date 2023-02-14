@@ -15,20 +15,22 @@ export default function OrderList() {
     const getOrderList = async () => {
       await orderList(
         (res) => {
-          console.log(res.data);
+          // console.log(res.data);
           return res.data;
         },
         (err) => console.log(err)
       ).then((data) => setOrderListData(data));
     };
     getOrderList();
+  }, []);
 
-  },[]);
-
+  useEffect(() => {
+    console.log(orderListData);
+  }, [orderListData]);
 
   return (
-  <div>
-    <SockJsClient
+    <div>
+      <SockJsClient
         url="http://i8a808.p.ssafy.io:8080/websocket"
         headers={{
           Authorization:
@@ -41,7 +43,7 @@ export default function OrderList() {
         }}
         ref={$websocket}
       />
-    <OrderListItem />
-  </div>
+      <OrderListItem />
+    </div>
   );
 }

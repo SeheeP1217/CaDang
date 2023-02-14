@@ -30,6 +30,7 @@ export default function PaySuccessPage() {
       "주문이 들어왔습니다."
     );
     console.log("send to server");
+    console.log(item);
   };
 
   // const handleClickSendTemplate = () => {

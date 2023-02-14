@@ -4,7 +4,7 @@ import { atom, selector } from "recoil";
 // 주문 등록 아이템 정보
 
 const item = {
-  drinkId: 1180,
+  drinkId: 1335,
   caffeine: 225,
   sugar: 0,
   cal: 0,

@@ -47,7 +47,6 @@ export default function CafeCeoPage() {
     };
   }
 
-
   // useEffect(() => {
   //   console.log("drink 잘 set 된거니??????" + drink);
 
@@ -77,7 +76,7 @@ export default function CafeCeoPage() {
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Card sx={{ mt: "", p: 1 }}>
-          <OrderList/>
+          <OrderList />
         </Card>
       </TabPanel>
     </Card>
