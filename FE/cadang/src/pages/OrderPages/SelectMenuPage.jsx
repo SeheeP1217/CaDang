@@ -13,9 +13,13 @@ import { cafeDrinkList } from "../../api/order";
 import { useRecoilValue } from "recoil";
 import { todayDate } from "../../recoil/atom/user";
 
-function SelectMenuPage() {
+function SelectMenuPage(props) {
   const date = useRecoilValue(todayDate);
-  const storeName = "스타벅스 역삼대로점";
+  const [storeName, setStoreName] = useState(props.location.state.cafe)
+
+  useEffect(() => {
+    setStoreName(props.location.state.cafe)
+  }, [storeName])
 
   // const [possible, setPossible] = useState([])
   // const [impossible, setImpossible] = useState([])
