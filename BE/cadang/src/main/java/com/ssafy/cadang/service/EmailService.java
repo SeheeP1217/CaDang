@@ -1,5 +1,7 @@
 package com.ssafy.cadang.service;
 
 public interface EmailService {
-    void sendMessage(String to) throws Exception;
+    void sendSignupMessage(String to) throws Exception;
+
+    void sendChangePassMessage(String to) throws Exception;
 }

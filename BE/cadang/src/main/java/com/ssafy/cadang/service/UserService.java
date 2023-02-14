@@ -1,19 +1,23 @@
 package com.ssafy.cadang.service;
 
 
-
 import com.ssafy.cadang.domain.User;
 
-import com.ssafy.cadang.dto.UserDto;
+
+import com.ssafy.cadang.dto.user.UserDto;
 import com.ssafy.cadang.error.CustomException;
 import com.ssafy.cadang.error.ExceptionEnum;
 import com.ssafy.cadang.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,13 +32,15 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final DataService dataService;
 
     @Value("${EC2_PROFILE_PATH}")
     private String UserProfileImgPath;
-    @Value("${DEFAULT_PROFILE_PATH}")
-    private String DefaultProfileImgPath;
 
-    public String getFullPath(String imgPath,String filename){
+    @Value("${DEFAULT_PROFILE_FILE}")
+    private String DefaultProfileFile;
+
+    private String getFullPath(String imgPath, String filename) {
         return imgPath + filename;
     }
 
@@ -42,20 +48,20 @@ public class UserService {
     private final Long defaultCaffeineGoal = 400L;
     private final Long defaultSugarGoal = 25L;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder){
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, DataService dataService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-
+        this.dataService = dataService;
     }
 
     //회원가입
-    //Todo: @ModelAttribute을 UserDto 앞에 붙여야 되나?
     //Todo: IOException 대신 사용할 만한 Exception?
-    @Transactional
+    @Transactional(readOnly = false)
     public void join(UserDto userDto) throws IOException {
         MultipartFile multipartFile;
 
         User user;
+
 
         //TODO: builder() 할 때 activated 필드를 만들어야 되나?
 
@@ -67,7 +73,7 @@ public class UserService {
 
             String originalFilename = multipartFile.getOriginalFilename();
             String storeFilename = createStoreFileName(originalFilename);
-            String storedPath = getFullPath(UserProfileImgPath,storeFilename);
+            String storedPath = getFullPath(UserProfileImgPath, storeFilename);
             multipartFile.transferTo(new File(storedPath));
 
             user = User.builder()
@@ -81,8 +87,8 @@ public class UserService {
                     .imgUrl(storeFilename)
                     .authorities("ROLE_USER")
                     .build();
-        // 프로필 이미지를 설정하지 않은 경우
-        }else{
+            // 프로필 이미지를 설정하지 않은 경우
+        } else {
 
             user = User.builder()
                     .userName(userDto.getUsername())
@@ -92,13 +98,15 @@ public class UserService {
                     .nickname(userDto.getNickname())
                     .caffeGoal(defaultCaffeineGoal)
                     .sugarGoal(defaultSugarGoal)
-                    .imgUrl(DefaultProfileImgPath)
+                    .imgUrl(DefaultProfileFile)
                     .authorities("ROLE_USER")
                     .build();
 
         }
 
-        userRepository.save(user);
+        User registerUser = userRepository.saveAndFlush(user);
+        dataService.createData(registerUser.getId());
+
 
     }
 
@@ -112,7 +120,7 @@ public class UserService {
 
     // 원본 파일의 확장자를 반환한다.
 
-    private String extractExt(String originalFilename){
+    private String extractExt(String originalFilename) {
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);
     }
@@ -134,6 +142,66 @@ public class UserService {
 
     }
 
+    // 아이디 찾기
+    public String findId(String username, String email) {
+        if (!userRepository.existsByUserNameAndEmail(username, email)) {
+            throw new CustomException(ExceptionEnum.USER_NOT_FOUND);
+        }
+        User user = userRepository.findByUserNameAndEmail(username, email)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
+
+
+        return user.getMemberId();
+
+    }
+
+    public boolean verifyEmail(String email) {
+        if (email.isEmpty()) {
+
+            throw new CustomException(ExceptionEnum.MAIL_EMPTY);
+        }
+        if (userRepository.existsByEmail(email)) {
+            throw new CustomException(ExceptionEnum.MAIL_ALREADY_EXISTS);
+        }
+
+        return true;
+    }
+
+    public Long findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND)).getId();
+
+    }
+
+    public boolean verifyId(String email, String memberId) {
+        if (!userRepository.existsByMemberIdAndEmail(memberId, email)) {
+            throw new CustomException(ExceptionEnum.USER_NOT_FOUND);
+        }
+
+        return true;
+    }
+
+    @Transactional
+    public boolean updatePasswordByMemberId(Long memberId, String password) {
+
+        //유효성 체크
+        Pattern pattern = Pattern.compile("^(?=.*[a-zA-Z])(?=.*[0-9]).{8,20}$");
+        Matcher matcher = pattern.matcher(password);
+
+        System.out.println(password);
+        if (!matcher.matches()) throw new CustomException(ExceptionEnum.PASSWORD_NOT_VALID);
+
+
+        //암호화
+        String encodedPassword = passwordEncoder.encode(password);
+
+        User user = userRepository.findById(memberId)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
+
+        user.setPassword(encodedPassword);
+
+        return true;
+    }
 
 
 }
