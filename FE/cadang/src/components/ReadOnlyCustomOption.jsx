@@ -25,9 +25,9 @@ function ReadOnlyCustomOption(props) {
           <Grid item xs={8}>{custom.syrup}</Grid>
           <Grid item xs={4}>바닐라 시럽</Grid>
           <Grid item xs={8}>{custom.vanilla}</Grid>
-          <Grid item xs={4}>헤이즐넛 시럽</Grid>
-          <Grid item xs={8}>{custom.caramel}</Grid>
           <Grid item xs={4}>카라멜 시럽</Grid>
+          <Grid item xs={8}>{custom.caramel}</Grid>
+          <Grid item xs={4}>헤이즐넛 시럽</Grid>
           <Grid item xs={8}>{custom.hazelnut}</Grid>
         </Grid>
       </Card>

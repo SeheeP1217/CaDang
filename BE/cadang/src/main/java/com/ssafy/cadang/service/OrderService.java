@@ -33,7 +33,7 @@ public class OrderService {
     private final DrinkRepository drinkRepository;
     private final DataService dataService;
 
-    private static OrderStatus[] orderStatusList = {OrderStatus.RECORD, OrderStatus.PICKUP, OrderStatus.CANCEL};
+    private static OrderStatus[] orderStatusList = {OrderStatus.REQUEST, OrderStatus.RECORD, OrderStatus.PICKUP, OrderStatus.CANCEL};
 
     public Long saveOrder(OrderSaveDto orderSaveDto, Long customerId) {
 
