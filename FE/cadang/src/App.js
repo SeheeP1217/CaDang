@@ -36,6 +36,11 @@ function App() {
   // const [{ user }, dispatch] = useStateValue();
 
   // NavBar 필요 없는 페이지 정의
+  const FirstContainer = () => (
+    <div>
+      <Route exact path="/" component={IntroPage}></Route>
+    </div>
+  )
   const IntroContainer = () => (
     <div>
       {/* img fixed 옵션으로 바꿀지?? */}
@@ -43,7 +48,6 @@ function App() {
         <img height={75} src={logo} alt="커피" />
       </TopImage>
       <Switch>
-        <Route exact path="/" component={IntroPage}></Route>
         <Route exact path="/sign-in" component={LoginPage} />
         <Route exact path="/sign-up" component={RegisterPage} />
         <Route exact path="/info" component={InfoPage} />
@@ -92,7 +96,7 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" component={IntroContainer} />
+        <Route exact path="/" component={FirstContainer} />
         <Route exact path="/sign-in" component={IntroContainer} />
         <Route exact path="/sign-up" component={IntroContainer} />
         <Route exact path="/image-signup" component={IntroContainer} />

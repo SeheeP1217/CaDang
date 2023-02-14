@@ -6,6 +6,8 @@ import Tabs from "@mui/material/Tabs"
 import Tab from "@mui/material/Tab"
 import { Paper } from "@mui/material"
 import { Link } from "react-router-dom"
+import styled from "styled-components"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
 
 import WeeklyReportData from "../../components/WeeklyReportData"
 import MontlyReportData from "../../components/MonthlyReportData"
@@ -17,6 +19,16 @@ import MonthlyReportData from "../../components/MonthlyReportData"
 function TabPanel(props) {
   const { children, value, index, ...other } = props
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#3A130C",
+      },
+    },
+    typography: {
+      fontFamily: "netmarble",
+    },
+  })
   return (
     <div
       role="tabpanel"
@@ -86,4 +98,8 @@ function ReportPage() {
     </div>
   )
 }
+
+const ReportTaps = styled(Tabs)`
+  color: #ffba00 !important;
+`
 export default ReportPage
