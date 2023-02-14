@@ -1,6 +1,6 @@
 // import { element } from "prop-types";
 import Stack from "@mui/material/Stack";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Paper, Grid, Divider, Card, Button, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -21,33 +21,48 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function CategorySearch() {
+  const history = useHistory()
   const [list, setList] = useState([]);
   const [clickCafe, setClickCafe] = useState("");
   const [cafeMenu, setCafeMenu] = useState([]);
   const dateString = useRecoilValue(todayDate);
 
-  const onCheckCafe = (index) => {
-    console.log("!!!!!!! 해당 카페가 DB에 있는지 확인 !!!!!!!");
-    console.log(list[index].place_name);
-    console.log(dateString);
-    const cafe = list[index].place_name;
-    const checkCafe = async () => {
-      await checkCafeList(
-        dateString,
-        cafe,
-        (res) => {
-          console.log(res.data);
-          return res.data;
-        },
-        (err) => {
-          console.log("%%%%%%");
-          console.log(err.message);
-        }
-      ).then((data) => setCafeMenu(data));
-    };
+  // const onCheckCafe = (index) => {
+  //   console.log("!!!!!!! 해당 카페가 DB에 있는지 확인 !!!!!!!");
+  //   console.log(list[index].place_name);
+  //   console.log(dateString);
+  //   const cafe = list[index].place_name;
+  //   const checkCafe = async () => {
+  //     await checkCafeList(
+  //       dateString,
+  //       cafe,
+  //       (res) => {
+  //         console.log(res.data);
+  //         return res.data;
+  //       },
+  //       (err) => {
+  //         console.log("%%%%%%");
+  //         console.log(err.message);
+  //       }
+  //     ).then((data) => setCafeMenu(data));
+  //   };
 
-    checkCafe();
-  };
+  //   checkCafe();
+  // };
+
+  const onCheckCafe = (cafe) => {
+    const cafeWords = cafe.split(' ')
+    const firstWord = cafeWords[0]
+    const isCafeInList = cafeList.some((item) => item.franchiseName.includes(firstWord))
+    console.log(firstWord)
+    if (isCafeInList) {
+      history.push({ pathname: '/selectmenu', state: {cafe}})
+    } else {
+      alert('아직 제휴 카페가 아닙니다:(')
+    }
+  }
+
+  
 
   // const [location, setLocation] = useState();
 
@@ -485,11 +500,12 @@ export default function CategorySearch() {
                 ? list.map((element, i) => (
                     <Item
                       sx={{ padding: 1.5 }}
-                      onMouseDown={() => onCheckCafe(i)}
+                      onMouseDown={() => onCheckCafe(element.place_name)}
                       // component={Link}
                       // to="/selectmenu"
                       textdecoration="none"
                       key={i}
+                      // onclick={() => goToCafeMenuList(element.place_name)}
                     >
                       <Typography
                         sx={{
@@ -565,3 +581,17 @@ export default function CategorySearch() {
     </>
   );
 }
+
+const cafeList = [
+  { id: 10, franchiseName: "매머드커피" },
+  { id: 7, franchiseName: "메가MGC커피" },
+  { id: 5, franchiseName: "바나프레소" },
+  { id: 4, franchiseName: "빽다방" },
+  { id: 9, franchiseName: "스타벅스" },
+  { id: 8, franchiseName: "이디야" },
+  { id: 2, franchiseName: "컴포즈커피" },
+  { id: 3, franchiseName: "투썸플레이스" },
+  { id: 6, franchiseName: "파스쿠찌" },
+  { id: 1, franchiseName: "폴바셋" },
+  { id: 11, franchiseName: "할리스" },
+];

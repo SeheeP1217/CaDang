@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useState } from "react"
 import Typography from "@mui/joy/Typography"
 import { Paper, Box, Grid } from "@mui/material"
 import ListItem from "@mui/material/ListItem"
@@ -15,16 +15,55 @@ import coke from "../../assets/menus/coke.png"
 import frappe from "../../assets/menus/frappe.png"
 import juice from "../../assets/menus/juice.png"
 import latte from "../../assets/menus/latte.png"
+import { useEffect } from "react"
+import { useHistory, Link } from "react-router-dom"
+import { setUserGoal } from "../../api/user"
 
 function InfoPage() {
+  const history = useHistory()
+  const [caffeineGoal, setCaffeineGoal] = useState(400)
+  const [sugarGoal, setSugarGoal] = useState(25)
+
+  const onChangeCaffeineGoal = (e) => {
+    setCaffeineGoal(e.target.value)
+  }
+
+  const onChangeSugarGoal = (e) => {
+    setSugarGoal(e.target.value)
+  }
+
+  console.log(caffeineGoal)
+  console.log(sugarGoal)
+
+  const setDrinkGoal = async () => {
+    await setUserGoal(
+      caffeineGoal,
+      sugarGoal,
+      (res) => {
+        console.log(res);
+        return res.data
+      },
+      (err) => console.log(err)
+      ).then((response) => {
+        console.log(response, "성공")
+        if (response === 'success') {
+          history.push("/main")
+        }
+      })
+      .catch(function (err) {
+        console.log(err)
+      })
+  };
+
+
   return (
     <Paper elevation={2} sx={{ backgroundColor: "#EFF5F5", paddingTop: 1 }}>
       <Paper sx={{ width: "90%", paddingTop: 3, mx: "auto", mt: 2 }}>
         <Box mx={2}>
-          <titleDiv>목표량을 정해 볼까요?</titleDiv>
-          <titleDiv>카페인 일일 섭취 권고량은 400mg 입니다.</titleDiv>
-          <titleDiv>당류 일일 섭취 권고량은 25g 입니다.</titleDiv>
-          <titleDiv>아메리카노</titleDiv>
+          <div>목표량을 정해 볼까요?</div>
+          <div>카페인 일일 섭취 권고량은 400mg 입니다.</div>
+          <div>당류 일일 섭취 권고량은 25g 입니다.</div>
+          <div>아메리카노</div>
         </Box>
         <Box sx={{ width: "100%" }}>
           <Grid
@@ -73,30 +112,23 @@ function InfoPage() {
         </Box>
       </Paper>
 
-      <GoalSettingItem />
+      <GoalSettingItem 
+      onChangeCaffeineGoal={onChangeCaffeineGoal}
+      onChangeSugarGoal={onChangeSugarGoal}/>
       <Stack spacing={1} width="50%" margin="auto">
         <Button
           variant="filledTonal"
-          sx={{
-            "&:hover, &.Mui-focusVisible": {
-              zIndex: 1,
-              backgroundColor: "#F99417",
-            },
-          }}
+          sx={{backgroundColor: "#ffba00"}}
+          onMouseDown={setDrinkGoal}
         >
           입력완료
         </Button>
+        <Link to={'/main'}>
         <Button variant="text">나중에 설정하기</Button>
+        </Link>
       </Stack>
     </Paper>
   )
 }
-
-const goalCard = styled.div`
-  text-align: center;
-`
-const titleDiv = styled.div`
-  font-size: 2em;
-`
 
 export default InfoPage
