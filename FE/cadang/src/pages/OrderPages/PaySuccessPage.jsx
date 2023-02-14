@@ -69,7 +69,7 @@ export default function PaySuccessPage() {
         url="http://i8a808.p.ssafy.io:8080/websocket"
         headers={{
           Authorization:
-            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzanNqbGltIiwiaWQiOjIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NzYzMzI5MTZ9.EmP0DkZs6vpdCNfOocU_eCCHZTpK5mjDYKJn-XXAbr4-pa0o86jgRWN4apbk5-DecBmH0Ye2XhhjT5anSDoslw",
+            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlc29tNzM1IiwiaWQiOjQsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NzY0MjAxNDJ9.-Z-H463JA7bRSHzvx4M80g347_O2taXdMZunObua9l2oirU-k7rWPjXX2Ydnjnp6aOwhRfdvBwqcpcy25ViLxw",
         }}
         // topics={["/topic/request-complete/", "/topics/template", "/topics/api"]}
         onMessage={(msg) => {

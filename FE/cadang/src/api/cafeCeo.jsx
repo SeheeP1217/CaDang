@@ -6,7 +6,7 @@ const api = axios.create({
   baseURL: "http://i8a808.p.ssafy.io:8080",
   headers: {
     Authorization:
-      "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwYXJrNjkzOCIsImlkIjo4LCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjc2NDIxODU0fQ.A5F0TESgslXBROgdtgaoz8QTjkN4L8mopVeU4MZiXy3Fa2JyataG5VUZ1F2SVeikvH0UiXTkLIppRGDL8SbHBg",
+      "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdGFyYnVja3MiLCJpZCI6MSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjQyMDE4M30.5fIcQRXCRCaddt8ekcw-8BIHHA7I6zQwUgQXy85yE9gbJ2UGBumnCyMssleEHg7G6XNW2fCHSKDuDKbB9PKiCA",
     "Content-Type": "application/json",
   },
 })
@@ -18,17 +18,11 @@ async function newOrderCheck(success, fail) {
 }
 
 // 신규 주문에 대한 수락 or 거절 요청 api
-async function newOrderResponse(
-  orderId,
-  customerId,
-  orderStatus,
-  success,
-  fail
-) {
+// 주문 상태가 제조 완료(COMPLETE) 혹은 픽업 완료(PICKUP) 상태로 변경됐을 경우 PUT 요청
+async function setOrderStatus(orderId, orderStatus, success, fail) {
   const res = await api
     .put(`/order`, {
       orderId: orderId,
-      customerId: customerId,
       orderStatus: orderStatus,
     })
     .then(success)
@@ -42,4 +36,10 @@ async function orderList(success, fail) {
   return res
 }
 
-export { newOrderCheck, newOrderResponse, orderList }
+// 주문 상태가 제조 완료(COMPLETE) 혹은 픽업 완료(PICKUP) 상태로 변경됐을 경우 PUT 요청
+// async function setOrderStatus(orderId, orderStatus, success, fail) {
+//   const res = await api
+//   .put(`/order`)
+// }
+
+export { newOrderCheck, setOrderStatus, orderList };

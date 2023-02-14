@@ -224,10 +224,10 @@ function DrinkRecommendation() {
             textAlign: "center",
           }}
         >
-          <Grid item>
+          <Grid item xs={12}>
             {drinkItem !== undefined && <Typography>{drinkItem.storeName}</Typography>}
           </Grid>
-          <Grid item>
+          <Grid item xs={12}>
             {drinkItem !== undefined && (
               <Typography>오늘은 {drinkItem.drinkName} 어떨까요?</Typography>
             )}
