@@ -117,6 +117,7 @@ function MyPage() {
       </Card>
       <Stack spacing={1}>
         <Button
+         sx={{backgroundColor: "#ffba00"}}
           component={Link}
           to="/payment-report"
           variant="filledTonal"
@@ -126,6 +127,7 @@ function MyPage() {
           주문 내역 보러가기
         </Button>
         <Button
+         sx={{backgroundColor: "#ffba00"}}
           component={Link}
           to="/report"
           variant="filledTonal"

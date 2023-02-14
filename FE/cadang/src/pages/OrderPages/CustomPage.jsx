@@ -108,6 +108,7 @@ function CustomPage() {
       storeName: location.state.franchiseName,
     });
   }, [basicDrink])
+  console.log("this", basicDrink.sugar)
 
   // 전체 가격, 칼로리 변동량 계산
   useEffect(() => {
@@ -177,8 +178,10 @@ function CustomPage() {
     }
   }
   
+  const [ sizeButton, setSizeButton ] = useState(0)
   // 사이즈 변경에 따른 옵션 초기화(전체 옵션 초기화(만약 남기고 싶은거 있으면 onClickOptionHandler처럼 초기값 앞에 더해줘야함))
   const onClickSizeChangeHandler = (index) => {
+    setSizeButton(index)
     setOrderDetail({
       ...orderDetail, 
       drinkId: drinkDetail.drinkResponseDtos[index].drinkId,
@@ -193,6 +196,7 @@ function CustomPage() {
       vanilla: 0,
       hazelnut: 0,
       caramel: 0,
+      size: 0,
     })
   }
 
