@@ -26,7 +26,7 @@ import ReviewListItem from "../../components/ReviewListItem"
 import { Box } from "@mui/system"
 
 // api
-import { userReview } from '../../api/report' 
+import { userReview } from "../../api/report"
 import { todayDashboard } from "../../api/main"
 
 function MyPage() {
@@ -39,20 +39,23 @@ function MyPage() {
     setSelectIndex(selectIndexId)
   }
 
-  const [review, setReview] = useState({ recordList: [{
-    id: -1,
-    storeName: "",
-    drinkName: "",
-    regDate: "",
-    caffeine: 0,
-    sugar: 0,
-    cal: 0,
-    price: 0,
-    memo: null,
-    photo: "",
-    public: true,
-
-  }]})
+  const [review, setReview] = useState({
+    recordList: [
+      {
+        id: -1,
+        storeName: "",
+        drinkName: "",
+        regDate: "",
+        caffeine: 0,
+        sugar: 0,
+        cal: 0,
+        price: 0,
+        memo: null,
+        photo: "",
+        public: true,
+      },
+    ],
+  })
 
   const [dashboard, setDashboard] = useState({
     userId: 0,
@@ -65,30 +68,31 @@ function MyPage() {
     moneyDaily: 0,
     caffeSuccess: true,
     sugarSuccess: true,
-  });
+  })
 
   useMemo(() => {
     const getDashboard = async () => {
       await todayDashboard(
-        dayjs().format('YYYY-MM-DD'),
+        dayjs().format("YYYY-MM-DD"),
         (res) => {
-          return res.data;
+          return res.data
         },
         (err) => console.log(err)
-      ).then((data) => setDashboard(data));
-    };
+      ).then((data) => setDashboard(data))
+    }
 
     const getReviews = async () => {
       await userReview(
         userId,
         pageIndex,
-        (res) => {return res.data},
-        (err) => console.log(err),
-        )
-        .then((data) => setReview(data))
+        (res) => {
+          return res.data
+        },
+        (err) => console.log(err)
+      ).then((data) => setReview(data))
     }
-    getReviews();
-    getDashboard();
+    getReviews()
+    getDashboard()
     console.log(review)
   }, [])
 
@@ -108,7 +112,7 @@ function MyPage() {
             <Typography>김싸퓌</Typography>
           </Grid>
           <Grid item xs={10}>
-            <MainDailyConsumptionGraph data={dashboard}/>
+            <MainDailyConsumptionGraph data={dashboard} />
           </Grid>
           <Grid item xs={12}>
             <MainDailyOtherInfo data={dashboard} />
@@ -117,7 +121,7 @@ function MyPage() {
       </Card>
       <Stack spacing={1}>
         <Button
-         sx={{backgroundColor: "#ffba00"}}
+          sx={{ backgroundColor: "#ffba00" }}
           component={Link}
           to="/payment-report"
           variant="filledTonal"
@@ -127,7 +131,7 @@ function MyPage() {
           주문 내역 보러가기
         </Button>
         <Button
-         sx={{backgroundColor: "#ffba00"}}
+          sx={{ backgroundColor: "#ffba00" }}
           component={Link}
           to="/report"
           variant="filledTonal"
@@ -155,7 +159,11 @@ function MyPage() {
           aria-labelledby="ellipsis-list-demo"
           sx={{ "--List-decorator-size": "56px" }}
         >
-          <ReviewListItem reviews={review} selectIndex={selectIndex} onClick={getModifyReviewIndex}/>
+          <ReviewListItem
+            reviews={review}
+            selectIndex={selectIndex}
+            onClick={getModifyReviewIndex}
+          />
         </List>
       </Paper>
     </>
