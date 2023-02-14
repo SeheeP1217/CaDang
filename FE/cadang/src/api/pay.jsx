@@ -6,7 +6,7 @@ const api = axios.create({
   baseURL: "http://i8a808.p.ssafy.io:8080",
   headers: {
     Authorization:
-      "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwYXJrNjkzOCIsImlkIjo4LCJhdXRoIjoiUk9MRV9VU0VSIiwiZXhwIjoxNjc2NDIxODU0fQ.A5F0TESgslXBROgdtgaoz8QTjkN4L8mopVeU4MZiXy3Fa2JyataG5VUZ1F2SVeikvH0UiXTkLIppRGDL8SbHBg",
+    "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzanNqbGltIiwiaWQiOjIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NzY0MjM4MjZ9.7OA_nrQzOYLSqqBunIr81qr9BaynoLuG5qyHPxRFMIDa5ZCUmnsKIdBBhok9xdTSL0Pq4CeDB9Dl5FGu4wTVbw",
     "Content-Type": "application/json",
   },
 })

@@ -254,9 +254,11 @@ function DrinkRecommendation() {
             textAlign: "center",
           }}
         >
-          <Button component={Link} to="/custom" size="small">
+          <Link to={{pathname: `/payment/custom`, state: {drinkItem}}}>
+          <Button size="small">
             주문하러 가기
           </Button>
+          </Link>
         </Grid>
       </Card>
     </div>

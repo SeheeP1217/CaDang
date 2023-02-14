@@ -249,10 +249,12 @@ function CustomPage() {
   const addDrinkRecord = async () => {
     await newDrinkRecord(
       orderDetail,
-      (res) => {console.log(res)},
+      (res) => {console.log(res);
+      return res},
       (err) => {console.log(err)},
     )
-      .then(function (response) {
+      .then((response) => {
+        console.log(response)
         if (response.status === 200) {
           history.push("/mypage")
         }

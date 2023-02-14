@@ -26,7 +26,7 @@ class RecordServiceTest {
 
     @Test
     void getSum() {
-        recordService.getSum(6L, 2);
+        recordService.getSum(6L, 2, 2023);
     }
 
 }

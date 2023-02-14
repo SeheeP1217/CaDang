@@ -1,6 +1,8 @@
 package com.ssafy.cadang.service;
 
 import com.ssafy.cadang.domain.Data;
+import com.ssafy.cadang.domain.Order;
+import com.ssafy.cadang.domain.OrderStatus;
 import com.ssafy.cadang.domain.User;
 import com.ssafy.cadang.dto.data.*;
 import com.ssafy.cadang.dto.record.query.MostRankingDto;
@@ -28,6 +30,7 @@ public class DataService {
     private final DataRepository dataRepository;
     private final UserRepository userRepository;
     private final RecordReposiotry recordReposiotry;
+    private static OrderStatus[] recordStatus = {OrderStatus.RECORD, OrderStatus.PICKUP};
 
 
     /**
@@ -51,17 +54,14 @@ public class DataService {
         }
     }
 
-//    @Transactional
-//    public Long createDataByRegDate(Long userId, LocalDate date) {
-//        Optional<User> userOptional = userRepository.findById(userId);
-//        User user = userOptional.orElse(null);
-//        if (user != null) {
-//            Data saveData = dataRepository.save(new Data(user, date));
-//            saveData.setCaffeDaily(date.getDayOfMonth());
-//            return saveData.getId();
-//        }
-//        return null; // 에러 처리 하기
-//    }
+    @Transactional
+    public Long createDataByRegDate(Long userId, LocalDate date) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
+        Data saveData = dataRepository.save(new Data(user, date));
+        return saveData.getId();
+    }
+
 
     public WeekDataDto getDataByWeek(LocalDate date, Long userId) {
 
@@ -180,6 +180,10 @@ public class DataService {
     }
 
     public MonthDataDto getMonthData(LocalDate date, Long userId) {
+        System.out.println("date = " + date);
+        System.out.println("userId = " + userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
         List<Data> monthData = dataRepository.findMonthData(date, userId);
         monthData.sort(Comparator.comparing(Data::getRegDate));
         LocalDate startDate = monthData.get(0).getRegDate();
@@ -187,19 +191,26 @@ public class DataService {
 
         boolean hasNext = dataRepository.existsByRegDateGreaterThan(endDate, userId);
         boolean hasPrevious = dataRepository.existsByRegDateLessThan(startDate, userId);
+        System.out.println("hasNext = " + hasNext);
+        System.out.println("hasPrevious = " + hasPrevious);
+
+        int month = date.getMonthValue();
+        int year = date.getYear();
+        int sumByUserAndMonth = recordReposiotry.findSumByUserAndMonth(userId, month, year, recordStatus);
+        System.out.println("sumByUserAndMonth = " + sumByUserAndMonth);
+
 
         List<DayDataDtoByMonth> daydatas = toMonThDto(monthData);
 
-        int month = date.getMonthValue();
 
         return MonthDataDto.builder()
                 .monthDataList(daydatas)
                 .hasPrevious(hasPrevious)
                 .hasNext(hasNext)
-                .totalPrice(recordReposiotry.findSumByUserAndMonth(userId, month))
-                .favRanking(rankingMost(userId, month))
-                .caffeRanking(rankingCaffeine(userId, month))
-                .sugarRanking(rankingSugar(userId, month))
+                .totalPrice(recordReposiotry.findSumByUserAndMonth(userId, month, year, recordStatus))
+                .favRanking(rankingMost(userId, month, year))
+                .caffeRanking(rankingCaffeine(userId, month, year))
+                .sugarRanking(rankingSugar(userId, month, year))
                 .build();
 
     }
@@ -212,6 +223,36 @@ public class DataService {
                 .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
         todayData.setCaffeGoal(user.getCaffeGoal());
         todayData.setSugarGoal(user.getSugarGoal());
+        todayData.setSugarSuccess(todayData.getSugarGoal() - todayData.getSugarDaily() >= 0);
+        todayData.setCaffeSuccess(todayData.getCaffeGoal() - todayData.getCaffeDaily() >= 0);
+
+    }
+
+    @Transactional
+    public void updateData(Order findOrder) {
+        log.info("날짜 = {}", findOrder.getRegDate().toLocalDate());
+        log.info("사용자 아이디 = {}", findOrder.getUser().getId());
+        Data updateData = dataRepository.findByUserAndDate(findOrder.getRegDate().toLocalDate(), findOrder.getUser().getId())
+                .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
+        updateData.setCaffeDaily(updateData.getCaffeDaily() + findOrder.getCaffeine());
+        updateData.setSugarDaily(updateData.getSugarDaily() + findOrder.getSugar());
+        updateData.setCalDaily(updateData.getCalDaily() + findOrder.getCal());
+        updateData.setMoneyDaily(updateData.getMoneyDaily() + findOrder.getPrice());
+        updateData.setSugarSuccess(updateData.getSugarGoal() - updateData.getSugarDaily() >= 0);
+        updateData.setCaffeSuccess(updateData.getCaffeGoal() - updateData.getCaffeDaily() >= 0);
+
+    }
+
+    @Transactional
+    public void updateDataByDelete(Order findOrder) {
+        Data updateData = dataRepository.findByUserAndDate(findOrder.getRegDate().toLocalDate(), findOrder.getUser().getId())
+                .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
+        updateData.setCaffeDaily(updateData.getCaffeDaily() - findOrder.getCaffeine());
+        updateData.setSugarDaily(updateData.getSugarDaily() - findOrder.getSugar());
+        updateData.setCalDaily(updateData.getCalDaily() - findOrder.getCal());
+        updateData.setMoneyDaily(updateData.getMoneyDaily() - findOrder.getPrice());
+        updateData.setSugarSuccess(updateData.getSugarGoal() - updateData.getSugarDaily() >= 0);
+        updateData.setCaffeSuccess(updateData.getCaffeGoal() - updateData.getCaffeDaily() >= 0);
 
     }
 
@@ -241,25 +282,25 @@ public class DataService {
 
     }
 
-    private List<String> rankingCaffeine(Long userId, int month) {
+    private List<String> rankingCaffeine(Long userId, int month, int year) {
         PageRequest pageRequest = PageRequest.of(0, 3);
-        List<RecordRankingDto> topList = recordReposiotry.findTop3ByCaffeine(userId, month, pageRequest);
+        List<RecordRankingDto> topList = recordReposiotry.findTop3ByCaffeine(userId, month, year, recordStatus, pageRequest);
         return topList.stream()
                 .map(o -> o.getFranchiseName() + " " + o.getDrinkName())
                 .collect(Collectors.toList());
     }
 
-    private List<String> rankingSugar(Long userId, int month) {
+    private List<String> rankingSugar(Long userId, int month, int year) {
         PageRequest pageRequest = PageRequest.of(0, 3);
-        List<RecordRankingDto> topList = recordReposiotry.findTop3BySugar(userId, month, pageRequest);
+        List<RecordRankingDto> topList = recordReposiotry.findTop3BySugar(userId, month, year, recordStatus, pageRequest);
         return topList.stream()
                 .map(o -> o.getFranchiseName() + " " + o.getDrinkName())
                 .collect(Collectors.toList());
     }
 
-    private List<String> rankingMost(Long userId, int month) {
+    private List<String> rankingMost(Long userId, int month, int year) {
         PageRequest pageRequest = PageRequest.of(0, 3);
-        List<MostRankingDto> topList = recordReposiotry.findTop3ByMostDrink(userId, month, pageRequest);
+        List<MostRankingDto> topList = recordReposiotry.findTop3ByMostDrink(userId, month, year, recordStatus, pageRequest);
         return topList.stream()
                 .map(o -> o.getFranchiseName() + " " + o.getDrinkName())
                 .collect(Collectors.toList());
