@@ -64,13 +64,16 @@ const ProfileImageUploader = ({ getImg }) => {
         style={{ display: "none" }}
       />
       <ImgWrapper className="img-wrapper">
-        <ImgSpace src={imagestatus.preview_URL} alt="img" />
+        <ImgSpace
+          src={imagestatus.preview_URL}
+          alt="img"
+          onClick={() => inputRef.click()}
+        />
       </ImgWrapper>
       <div className="upload-button">
-        <AddAPhotoIcon
-          variant="contained"
-          onClick={() => inputRef.click()}
-        ></AddAPhotoIcon>
+        <IconContainer>
+          <AddAPhotoIcon variant="contained"></AddAPhotoIcon>
+        </IconContainer>
         <DeleteButton color="error" variant="contained" onClick={deleteImage}>
           기본이미지로 변경
         </DeleteButton>
@@ -80,24 +83,42 @@ const ProfileImageUploader = ({ getImg }) => {
 }
 
 const UploaderWrapper = styled.div`
-  margin-top: 20px;
-  display: grid;
-  grid-template-columns: 0.5fr 2fr 3fr 0.5fr;
-  grid-gap: 30px;
+  position: relative;
+  height: 100%;
+  width: 100%;
 `
 const ImgWrapper = styled.div`
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
   width: 100px;
-  grid-column: 2;
+  margin-top: 7px;
+  margin-left: 10px;
 `
 const ImgSpace = styled.img`
   width: 100%;
 `
 const DeleteButton = styled.button`
-  grid-column: 3;
+  grid-area: DeleteButton;
+  margin-left: 8px;
+  border-radius: 5px !important;
+  border: 2px solid #674f04 !important;
+  background-color: #ffffff !important;
+  font-family: netmarble;
+  color: 350B !important;
 `
-const SaveButton = styled.button`
-  grid-column: 3;
+const IconContainer = styled.div`
+  position: absolute;
+  bottom: 40px;
+  left: 75px;
+  z-index: 1;
+  background-color: white;
+  border-radius: 20px !important;
+  border: 2px solid black !important;
+  width: 33px;
+  height: 33px;
+  padding: 3px;
 `
-
 
 export default ProfileImageUploader
