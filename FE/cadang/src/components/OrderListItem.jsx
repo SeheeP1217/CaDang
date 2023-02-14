@@ -8,6 +8,9 @@ import { setOrderStatus } from "../api/cafeCeo";
 
 export default function OrderListItem(props) {
   const $websocket = useRef();
+  const acceptBtn = useRef();
+  const completeBtn = useRef();
+  const pickupBtn = useRef(null);
   const [accept, setAccept] = useState(false);
   const [complete, setComplete] = useState(false);
   const [pickup, setPickup] = useState(false);
@@ -56,9 +59,9 @@ export default function OrderListItem(props) {
         "/message/order-response/" + id + "",
         "음료가 픽업 완료됐습니다."
       );
-      setAccept(false);
+      // setAccept(false);
       setComplete(false);
-      setPickup(false);
+      // setPickup(false);
       console.log("send to server : 음료가 픽업 완료됐습니다. msg 전송." + id);
 
       // 음료를 손님이 픽업 완료해갔다면 음료 리스트에서 삭제하기
@@ -97,7 +100,7 @@ export default function OrderListItem(props) {
   const onClickPickUp = () => {
     console.log("픽업 완료 버튼 클릭!!!!!!!!!!!!!!");
     setComplete(false);
-    setPickup(true);
+    // setPickup(true);
 
     if (window.confirm("손님이 픽업 완료했습니까?")) {
       setStatus("PICKUP"); // 음료가 픽업 완료됐다면 status 변경
@@ -122,7 +125,7 @@ export default function OrderListItem(props) {
   useMemo(() => {
     if (props.order.orderStatus === "ACCEPT") setAccept(true);
     else if (props.order.orderStatus === "COMPLETE") setComplete(true);
-    else if (props.order.orderStatus === "PICKUP") setPickup(true);
+    // else if (props.order.orderStatus === "PICKUP") setPickup(true);
 
     console.log(props.order.orderStatus);
   }, []);
@@ -150,7 +153,7 @@ export default function OrderListItem(props) {
     } else if (status === "PICKUP") {
       console.log("현재 주문 현황 PICKUP인 경우 complete 상태: " + complete);
       setPickup(false);
-      setTimeout(() => setPickup(false), 10);
+      setTimeout(() => setComplete(false), 10);
       setTimeout(() => handleClickSendToPickup(), 500);
     }
     // if(status === "COMPLETE") {
@@ -163,13 +166,13 @@ export default function OrderListItem(props) {
     // }
   }, [id]);
 
-  useEffect(() => {
-    if (complete === true) {
-      // 픽업 완료 눌렀다면 해당 주문의 아이템 리스트에서 삭제 처리하기
-      console.log("리스트에서 삭제 처리하기 !!!!!!!!!!!!!!!!!");
-    }
-    console.log("complete 처리 된건가요 ?????");
-  }, [complete]);
+  // useEffect(() => {
+  //   if (complete === true) {
+  //     // 픽업 완료 눌렀다면 해당 주문의 아이템 리스트에서 삭제 처리하기
+  //     console.log("리스트에서 삭제 처리하기 !!!!!!!!!!!!!!!!!");
+  //   }
+  //   console.log("complete 처리 된건가요 ?????");
+  // }, [complete]);
 
   useEffect(() => {
     setOrderItem(props.order);
@@ -179,17 +182,19 @@ export default function OrderListItem(props) {
     setPickup(false);
 
     if (props.order.orderStatus === "ACCEPT") {
+      pickupBtn.current.background = "#FF9E57";
       setAccept(true);
       setComplete(false);
-      setPickup(false);
+      setPickup((pickup) => false);
     } else if (props.order.orderStatus === "COMPLETE") {
       setAccept(false);
       setComplete(true);
-      setPickup(false);
+      setPickup((pickup) => false);
     } else if (props.order.orderStatus === "PICKUP") {
+      pickupBtn.current.background = "FF9E57";
       setAccept(false);
       setComplete(false);
-      setPickup(true);
+      // setPickup(true);
     }
     console.log("현재 props.orderStatus의 상태 : " + props.order.orderStatus);
     console.log("accept의 상태 : " + accept);
@@ -275,6 +280,7 @@ export default function OrderListItem(props) {
             fontSize: 12,
             fontWeight: "500",
           }}
+          ref={acceptBtn}
         >
           음료 제조 중
         </Button>
@@ -295,6 +301,7 @@ export default function OrderListItem(props) {
             fontSize: 12,
             fontWeight: "500",
           }}
+          ref={completeBtn}
         >
           제조 완료
         </Button>
@@ -308,10 +315,12 @@ export default function OrderListItem(props) {
             border: "1px solid",
             borderColor: (theme) => (theme.palette.mode === "dark" ? "grey.800" : "grey.300"),
             borderRadius: 2,
-            background: pickup === true ? "grey.300" : "#FF9E57",
+            background: "#FF9E57",
+            // background: pickup === true ? "grey.300" : "#FF9E57",s
             fontSize: 12,
             fontWeight: "500",
           }}
+          ref={pickupBtn}
         >
           픽업 완료
         </Button>
