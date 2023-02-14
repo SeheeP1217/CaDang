@@ -38,5 +38,7 @@ const AmountGrid = styled(Grid)`
   padding: 7px !important;
 `
 const AmountCard = styled(Card)`
+  border-top: 6px solid #ffba00 !important;
   margin: 2px;
+  margin-top: 10px !important;
 `

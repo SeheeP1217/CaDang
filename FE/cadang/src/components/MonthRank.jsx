@@ -25,7 +25,7 @@ function MonthRank(props) {
   console.log("propssugar", props.sugarRanking)
   console.log("propscaffe", props.caffeRanking)
   return (
-    <Card>
+    <RankCard>
       <RankCarousel
         NextIcon={<KeyboardArrowRightRoundedIcon />}
         PrevIcon={<KeyboardArrowLeftRoundedIcon />}
@@ -34,7 +34,7 @@ function MonthRank(props) {
           style: {
             backgroundColor: "transparent",
             borderRadius: 0,
-            color: "cornflowerblue",
+            color: "#3A130C",
             zIndex: 0,
           },
         }}
@@ -53,18 +53,18 @@ function MonthRank(props) {
           <Item key={i} item={item} ranking={props[item.type]} />
         ))}
       </RankCarousel>
-    </Card>
+    </RankCard>
   )
 }
 
 function Item(props) {
   return (
     <Card>
-      <h3>{props.item.name}</h3>
+      <Title>{props.item.name}</Title>
       {props.ranking.map((rank, i) => (
-        <p key={i}>
+        <List key={i}>
           {i + 1}. {rank}
-        </p>
+        </List>
       ))}
     </Card>
   )
@@ -72,6 +72,19 @@ function Item(props) {
 const RankCarousel = styled(Carousel)`
   margin: 0 auto;
   font-family: "netmarble";
+  border-top: 6px solid #ffba00 !important;
+`
+
+const Title = styled.h3`
+  margin: 5px !important;
+`
+
+const List = styled.p`
+  margin: 10px !important;
+`
+
+const RankCard = styled(Card)`
+  margin-top: 10px !important;
 `
 
 export default MonthRank
