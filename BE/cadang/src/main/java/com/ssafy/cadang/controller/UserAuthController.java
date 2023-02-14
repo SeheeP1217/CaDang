@@ -38,6 +38,7 @@ public class UserAuthController {
 
     // 초기 카페인, 당목표량 설정
     @PutMapping("/goalSet")
+    @Operation(summary = "회원 가입 이후 카페인, 당 목표량 설정")
     public ResponseEntity<?> goalSet(HttpServletRequest request, @Valid @RequestBody UserGoalDto userGoalDto, BindingResult bindingResult) throws Exception {
 
         logger.info("goalSet - 호출 {} ");
@@ -63,6 +64,7 @@ public class UserAuthController {
 
     //유저 프로필 수정
     @PutMapping("/modify")
+    @Operation(summary = "유저 프로필 수정")
     public ResponseEntity<?> modify( @Valid UserModifyDto userModifyDto, BindingResult bindingResult, HttpServletRequest request) throws IOException {
 
         logger.info("modify - 호출 {} ");
@@ -94,6 +96,7 @@ public class UserAuthController {
 
     //로그인 이후 비밀번호 재설정
     @PutMapping("/newpass")
+    @Operation(summary = "로그인 이후 비밀번호 재설정")
     public ResponseEntity<?> newpass(HttpServletRequest request, @Valid UserPassChangeDto userPassChangeDto, BindingResult bindingResult) {
 
         logger.info("newpass - 호출 {} ");
@@ -115,6 +118,7 @@ public class UserAuthController {
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @Operation(summary = "로그아웃")
     public ResponseEntity<String> logout(HttpServletResponse response) {
 
         logger.info("logout - 호출 {} ");
@@ -130,6 +134,7 @@ public class UserAuthController {
 
     // 회원 탈퇴하기
     @DeleteMapping("/deleteAccount")
+    @Operation(summary = "회원 탈퇴")
     public ResponseEntity<?> deleteAccount(HttpServletRequest request,String password) {
 
         logger.info("deleteAccount - 호출 {} ");
