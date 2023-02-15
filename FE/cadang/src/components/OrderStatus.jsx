@@ -8,11 +8,18 @@ import { fontSize } from "@mui/system";
 import { useEffect, useRef, useState, useMemo } from "react";
 import { Box, Grid } from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
+import { cardGrey } from "../assets/card-gray.png";
+import { card } from "../assets/card.png";
+import { coffeePot } from "../assets/coffeepot.png";
+import { coffeePotGrey } from "../assets/coffeepot-gray.png";
+import { logoDrink } from "../assets/logo-drink.png";
+import { drinkGrey } from "../assets/drink-gray.png";
 import payCompleteImg from "../assets/payComplete.png";
 import making from "../assets/making.png";
 import finished from "../assets/finished.png";
 import SockJsClient from "react-stomp";
 import { nowOrderStatus } from "../api/main";
+import OrderStatusChild from "./OrderStatusChild";
 
 export default function OrderStatus(props) {
   const $websocket = useRef();
@@ -37,6 +44,8 @@ export default function OrderStatus(props) {
   useMemo(() => {
     getOrderStatus();
   }, []);
+
+  useEffect(() => {});
 
   useEffect(() => {
     data.map((item, key) => {
@@ -75,7 +84,7 @@ export default function OrderStatus(props) {
           topics={["/topic/customer-order-manage/" + userId + "", ""]}
           onMessage={(msg) => {
             console.log("웹소켓 통신으로 받아온 메시지: " + msg);
-            setMsg((msg) => msg);
+            setMsg(msg);
           }}
           ref={$websocket}
         />
@@ -111,79 +120,9 @@ export default function OrderStatus(props) {
           </AccordionSummary>
         </Box>
         <AccordionDetails>
+          {data.length === 0 && <h2>주문이 없습니다.</h2>}
           {data.length !== 0 &&
-            data.map((item, key) => (
-              <Typography
-                key={key}
-                sx={{
-                  fontWeight: "700",
-                  display: "inline",
-                  fontSize: 16,
-                }}
-              >
-                {item.drinkName} - {item.storeName}
-              </Typography>
-            ))}
-          <Box>
-            <Grid container sx={{ mt: 1 }}>
-              <Grid item xs={4} sx={{ display: "flex" }}>
-                {/* <Typography
-                  sx={{
-                    fontWeight: "700",
-                    display: "inline",
-                    fontSize: 18,
-                  }}
-                >
-                  결제 완료
-                </Typography> */}
-                <CardMedia
-                  component="img"
-                  sx={{ width: 50, ml: 3 }}
-                  image={payCompleteImg}
-                  alt="payCompleteImg"
-                />
-                {/* <img
-                  alt="paysuccess"
-                  src={payCompleteImg}
-                  style={{ objectFit: "fill" }}
-                  width="50"
-                /> */}
-              </Grid>
-              <Grid item xs={4} sx={{ boxShadow: 0, display: "flex" }}>
-                <CardMedia component="img" sx={{ width: 50, ml: 2 }} image={making} alt="making" />
-                {/* <img alt="making" src={making} style={{ objectFit: "fill" }} width="50" /> */}
-                {/* <Typography
-                  sx={{
-                    fontWeight: "700",
-                    display: "inline",
-                    fontSize: 18,
-                    mt: "1%",
-                  }}
-                >
-                  제조 중
-                </Typography> */}
-              </Grid>
-              <Grid item xs={4} sx={{ boxShadow: 0, display: "flex" }}>
-                <CardMedia
-                  component="img"
-                  sx={{ width: 50, ml: 1 }}
-                  image={finished}
-                  alt="finished"
-                />
-                {/* <img alt="finished" src={finished} style={{ objectFit: "fill" }} width="50" /> */}
-                {/* <Typography
-                  sx={{
-                    fontWeight: "700",
-                    display: "inline",
-                    fontSize: 18,
-                    mt: "1%",
-                  }}
-                >
-                  제조 완료
-                </Typography> */}
-              </Grid>
-            </Grid>
-          </Box>
+            data.map((item, key) => <OrderStatusChild drink={item} key={key} />)}
         </AccordionDetails>
       </Accordion>
     </div>

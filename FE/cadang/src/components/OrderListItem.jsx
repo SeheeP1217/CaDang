@@ -96,6 +96,7 @@ export default function OrderListItem(props) {
       putOrder();
 
       console.log("putOrder() 후 : 서버로부터 받아온 customerId => " + id);
+    } else {
     }
   };
 
@@ -121,6 +122,7 @@ export default function OrderListItem(props) {
       };
 
       putOrder();
+    } else {
     }
   };
 

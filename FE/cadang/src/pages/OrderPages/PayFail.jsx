@@ -4,10 +4,10 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material-next/Button";
 import { Link } from "react-router-dom";
 import paymentCancel from "../../assets/paymentCancel.png";
+import payFail from "../../assets/paymentCancel.png";
 
 export default function PayFailPage() {
-
-  return(
+  return (
     <div>
       <Grid container sx={{ mt: 15 }}>
         <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
@@ -37,7 +37,7 @@ export default function PayFailPage() {
             결제에 실패하였습니다.
           </Typography>
         </Grid>
-        <Grid item xs={12} sx={{ mt:6 , boxShadow: 0, display: "flex", justifyContent: "center" }}>
+        <Grid item xs={12} sx={{ mt: 6, boxShadow: 0, display: "flex", justifyContent: "center" }}>
           <Typography
             sx={{
               fontWeight: "700",
@@ -50,8 +50,8 @@ export default function PayFailPage() {
         </Grid>
         <Grid item xs={6} sx={{ boxShadow: 0, display: "flex", justifyContent: "center" }}>
           <Button
-          component={Link}
-          to="/main"
+            component={Link}
+            to="/main"
             variant="contained"
             sx={{
               borderRadius: 2,
@@ -80,7 +80,6 @@ export default function PayFailPage() {
           </Button>
         </Grid>
       </Grid>
-
     </div>
-  )
+  );
 }
