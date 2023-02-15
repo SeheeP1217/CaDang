@@ -16,6 +16,9 @@ function FirstPage() {
           height="740px"
           src={introimage}
           alt="커피"
+          style={{
+            opacity: "60%",
+          }}
         />
       </Grid>
       <Grid zIndex={1}>
@@ -29,8 +32,8 @@ function FirstPage() {
             left: "53%",
             transform: "translate(-50%, -50%)",
             borderRadius: "30%",
-            backgroundImage:
-              "radial-gradient(ellipse 100% 60% at center, #ffffff 30%, #ffffff00, #ffffff00)",
+            // backgroundImage:
+            //   "radial-gradient(ellipse 100% 60% at center, #ffffff 30%, #ffffff00, #ffffff00)",
           }}
         />
 
