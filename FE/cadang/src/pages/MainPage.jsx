@@ -27,7 +27,6 @@ export default function MainPage() {
     caffeSuccess: true,
     sugarSuccess: true,
   });
-  const [msg, setMsg] = useState("");
 
   // 오늘의 현황 GET 요청 후 받아온 res.data.userId 세팅
   const [id, setId] = useRecoilState(userId);
