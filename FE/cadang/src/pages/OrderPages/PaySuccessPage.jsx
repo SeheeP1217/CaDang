@@ -8,72 +8,38 @@ import React, { useEffect, useRef, useState, useMemo } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { orderItem } from "../../recoil/atom/paymentItem";
 import { order } from "../../api/pay";
-import SockJS from "sockjs-client";
-import SockJsClient from "react-stomp";
+// import SockJS from "sockjs-client";
+// import SockJsClient from "react-stomp";
 import * as StompJs from "@stomp/stompjs";
+import { Client, Frame } from "stompjs";
+import SockJsClient from "react-stomp";
 
 export default function PaySuccessPage() {
   const item = useRecoilValue(orderItem);
   const [msg, setMsg] = useState("");
-  const ROOM_SEQ = 1;
+  const [storeId, setStoreId] = useState(1);
 
-  const client = useRef({});
-  const [chatMessages, setChatMessages] = useState([]);
-  const [message, setMessage] = useState("");
-
-  const connect = () => {
-    client.current = new StompJs.Client({
-      brokerURL: "ws://i8a808.p.ssafy.io:8080/websocket", // 웹소켓 서버로 직접 접속
-      connectHeaders: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmFiMTIzNCIsImlkIjo2OSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjA5ODMwOH0.sW7OaiNg0mOT0euRy1po_cguzTrPTJpqWcg2piKOIh9DKcEC1Ds_r4UAnDD8v1pLxHLl-KTOpij8ejwKdsPPag",
-      },
-      debug: function (str) {
-        console.log(str);
-      },
-      // reconnectDelay: 5000,
-      heartbeatIncoming: 4000,
-      heartbeatOutgoing: 4000,
-      onConnect: () => {
-        subscribe();
-      },
-      onStompError: (frame) => {
-        console.error(frame);
-      },
-    });
-    console.log("socket 통신 시작 !!!!!");
-    client.current.activate();
-  };
-
-  const disconnect = () => {
-    console.log("socket disconnect !!!!!!");
-    client.current.deactivate();
-  };
-
-  const subscribe = () => {
-    client.current.subscribe(`/sub/chat/${ROOM_SEQ}`, ({ body }) => {
-      setChatMessages((_chatMessages) => [..._chatMessages, JSON.parse(body)]);
-    });
-  };
-
-  // const publish = (message) => {
-  //   if (!client.current.connected) {
-  //     return;
-  //   }
-
-  //   client.current.publish({
-  //     destination: "/pub/chat",
-  //     body: JSON.stringify({ roomSeq: ROOM_SEQ, message }),
-  //   });
-
-  //   setMessage("");
+  const $websocket = useRef();
+  // const handleMsg = (msg) => {
+  //   console.log(msg);
   // };
 
-  useEffect(() => {
-    connect();
+  const handleClickSendTo = () => {
+    $websocket.current.sendMessage(
+      "/message/order-request/" + storeId + "",
+      "주문이 들어왔습니다."
+    );
+    console.log("send to server");
+    console.log(item);
+  };
 
-    return () => disconnect();
-  }, []);
+  // const handleClickSendTemplate = () => {
+  //   $websocket.current.sendMessage("/Template");
+  // };
+
+  // const sendMessage = (msg) => {
+  //   $websocket.current.sendMessage("/message/order-request/1", msg);
+  // };
 
   const orderRegist = async () => {
     await order(
@@ -84,19 +50,33 @@ export default function PaySuccessPage() {
         return res.data;
       },
       (err) => console.log(err)
-    ).then((data) => setMsg(data));
+    ).then((data) => setStoreId(data));
   };
 
   useMemo(() => {
     orderRegist();
+
+    setTimeout(() => handleClickSendTo(), 1000);
   }, []);
 
-  useEffect(() => {
-    console.log(msg);
-  });
+  // useEffect(() => {
+  //   setTimeout(() => handleClickSendTo(), 1000);
+  // }, [storeId]);
 
   return (
     <div>
+      <SockJsClient
+        url="http://i8a808.p.ssafy.io:8080/websocket"
+        headers={{
+          Authorization:
+            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzanNqbGltIiwiaWQiOjIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NzYzMzI5MTZ9.EmP0DkZs6vpdCNfOocU_eCCHZTpK5mjDYKJn-XXAbr4-pa0o86jgRWN4apbk5-DecBmH0Ye2XhhjT5anSDoslw",
+        }}
+        // topics={["/topic/request-complete/", "/topics/template", "/topics/api"]}
+        onMessage={(msg) => {
+          console.log(msg);
+        }}
+        ref={$websocket}
+      />
       <Grid container sx={{ mt: 15 }}>
         <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
           <CardMedia
@@ -148,6 +128,14 @@ export default function PaySuccessPage() {
           </Button>
         </Grid>
       </Grid>
+      {/* <div>socket</div>
+      <div>socket connected : {`${socketConnected}`}</div>
+      <div>res : </div>
+      <div>
+        {items.map((item) => {
+          return <div>{JSON.stringify(item)}</div>;
+        })}
+      </div> */}
     </div>
   );
 }

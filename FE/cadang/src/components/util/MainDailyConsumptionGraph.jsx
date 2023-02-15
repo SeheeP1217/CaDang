@@ -1,64 +1,132 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import { Grid, Typography } from "@mui/material";
 import {
   BarChart,
   Bar,
   XAxis,
   YAxis,
   Label,
-  CartesianGrid,
   Tooltip,
-  Legend,
 } from "recharts";
 
 function MainDailyConsumptionGraph(props) {
-  const chartData = props.data
+  const chartData = props.data;
+
+  const [caffeineData, setCaffeineData] = useState([
+    {
+      name: "카페인",
+      goal: chartData.caffeGoal,
+      consumption: chartData.caffeDaily
+    },
+  ]);
+  const [sugarData, setSugarData] = useState([
+    {
+      name: "당",
+      goal: chartData.sugarGoal,
+      consumption: chartData.sugarDaily,
+    },
+  ]);
+
+  useEffect(() => {
+    setCaffeineData([
+      {
+        name: "카페인",
+        goal: chartData.caffeGoal,
+        consumption: chartData.caffeDaily
+      },
+    ]);
+    setSugarData([
+      {
+        name: "당",
+        goal: chartData.sugarGoal,
+        consumption: chartData.sugarDaily,
+      },
+    ]);
+  }, [chartData]);
 
   return (
     <div>
-<BarChart
-      layout="vertical"
-      width={300}
-      height={120}
-      data={chartData}
-      margin={{
-        top: 20,
-        right: 30,
-        left: 20,
-        bottom: 5
-      }}
-      barSize={20}
-    >
-      <XAxis hide type="number" allowDataOverflow />
-      <YAxis type="category" dataKey="name"/>
-      <Tooltip />
-      {/* <Legend /> */}
-      <Bar
-        dataKey="consumption"
-        stackId="a"
-        fill="#8884d8"
-        background={{ fill: "#eee" }}
-      >
-        {chartData.map((entry, index) => (
-          <Label key={`label-${index}`} value={entry.name} position="top" />
-        ))}
-      </Bar>
-      
-    </BarChart>
+          <Grid container style={{display: "flex", alignItems: "center", marginRight: 20}}>
+      <Grid item xs={12} style={{ textAlign: 'end', marginRight: 35, marginTop: 5}}>
+        <Typography>
+          {Number(chartData.caffeDaily)} / {chartData.caffeGoal}
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <BarChart
+          layout="vertical"
+          width={300}
+          height={30}
+          data={caffeineData}
+          margin={{
+            top: 0,
+            right: 0,
+            left: 10,
+            bottom: 0,
+          }}
+          barSize={15}
+          >
+          <Tooltip />
+          <XAxis
+            hide
+            type="number"
+            dataKey="goal"
+            allowDataOverflow
+            domain={[0, chartData.caffeGoal]}
+            orientation="top"
+            />
+          <YAxis type="category" dataKey="name" />
+          <Bar
+            dataKey="consumption"
+            stackId="a"
+            fill="#8884d8"
+            background={{ fill: "#eee" }}
+            />
+          <Bar dataKey="change" stackId="a" fill="#82ca9d" />
+        </BarChart>
+      </Grid>
+      <Grid item xs={12} style={{ textAlign: 'end', marginRight: 35, marginTop: 5}}>
+        <Typography>
+          {Number(chartData.sugarDaily)} / {chartData.sugarGoal}
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <BarChart
+          layout="vertical"
+          width={330}
+          height={30}
+          data={sugarData}
+          margin={{
+            top: 0,
+            right: 30,
+            left: 10,
+            bottom: 0,
+          }}
+          barSize={15}
+          
+          >
+          <Tooltip />
+          <XAxis
+            hide
+            type="number"
+            dataKey="goal"
+            allowDataOverflow
+            domain={[0, chartData.sugarGoal]}
+            position="bottom"
+            />
+          <YAxis type="category" dataKey="name" />
+          <Bar
+            dataKey="consumption"
+            stackId="a"
+            fill="#8884d8"
+            background={{ fill: "#eee" }}
+            />
+          <Bar dataKey="change" stackId="a" fill="#82ca9d" />
+        </BarChart>
+      </Grid>
+    </Grid>
     </div>
   );
 }
-
-// const data = [
-//   {
-//     name: "카페인",
-//     consumption: 2400,
-//     change: 4000,
-//   },
-//   {
-//     name: "당",
-//     consumption: 1398,
-//     change: 3000,
-//   },
-// ];
 
 export default MainDailyConsumptionGraph;

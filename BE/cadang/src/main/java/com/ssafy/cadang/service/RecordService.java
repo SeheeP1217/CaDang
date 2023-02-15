@@ -11,6 +11,7 @@ import com.ssafy.cadang.repository.DrinkRepository;
 import com.ssafy.cadang.repository.RecordReposiotry;
 import com.ssafy.cadang.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @Transactional(readOnly = true)
 public class RecordService {
     private final RecordReposiotry recordReposiotry;
@@ -37,6 +39,8 @@ public class RecordService {
     private final DataService dataService;
     @Value("${EC2_FILE_PATH}")
     private String RecordUploadPath;
+    @Value("${EC2_RENDER_PATH}")
+    private String RenderPath;
 
     @Transactional
     public Long saveRecordDirectly(RecordSaveRequestDto recordDto) throws IOException {
@@ -48,12 +52,6 @@ public class RecordService {
         if (recordDto.getRegDate() != null) {
             regDate = LocalDate.parse(recordDto.getRegDate()).atStartOfDay();
         }
-        // 파일 업로드
-        // TODO 날짜 형식 프론트와 통일하기
-//        String imgUrl = uploadImage(recordDto.getImage(), recordDto.getRegDate());
-//        if (imgUrl == null)
-//            imgUrl = recordDto.getImage_url();
-
 
         Order record = Order.builder()
                 .user(user)
@@ -71,7 +69,6 @@ public class RecordService {
                 .hazelnut(recordDto.getHazelnut())
                 .caramel(recordDto.getCaramel())
                 .photo(drink.getImage())
-//                .photo(imgUrl)
                 .storeName(recordDto.getStoreName())
                 .orderStatus(OrderStatus.RECORD)
                 .build();
@@ -143,13 +140,19 @@ public class RecordService {
         if (findRecord.getOrderStatus() == OrderStatus.PICKUP && updateDto.getRegDate() != null) {
             throw new CustomException(ExceptionEnum.RECORD_NOT_ALLOWED_MODIFY);
         }
-        // 파일 업로드
-        // TODO 날짜 형식 프론트와 통일하기
+
+        // 해당 날짜 기록 삭제
+        dataService.updateDataByDelete(findRecord);
+
         LocalDateTime localDateTime = LocalDate.parse(updateDto.getRegDate()).atStartOfDay();
-        findRecord.setRegDate(localDateTime);
+        findRecord.setRegDate(localDateTime); // data 수정하기
         findRecord.setMemo(updateDto.getMemo());
+        // 새로운 날짜에 기록 추가
+
+        dataService.updateData(findRecord);
+
         findRecord.setPublic(updateDto.getIsPublic());
-        if (updateDto.getIsModified() == 1) { 
+        if (updateDto.getIsModified() == 1) {
             // 수정
             String imgUrl = uploadImage(updateDto.getImage(), updateDto.getRegDate());
             findRecord.setPhoto(imgUrl);
@@ -218,9 +221,9 @@ public class RecordService {
             MultipartFile file = image;
             String uuid = UUID.randomUUID().toString();
             String originalFilename = file.getOriginalFilename();
-            String fullPath = RecordUploadPath + regDate + "/" + uuid + "_" + originalFilename;
+            String fullPath = RecordUploadPath + "/" + uuid + "_" + originalFilename;
             file.transferTo(new File(fullPath));
-            return regDate + "/" + uuid + "_" + originalFilename;
+            return RenderPath + uuid + "_" + originalFilename;
         }
         return null;
     }

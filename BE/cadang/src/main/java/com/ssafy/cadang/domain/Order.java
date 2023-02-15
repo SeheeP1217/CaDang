@@ -67,11 +67,15 @@ public class Order {
 
     // ------- 주문
 
-    // store와 양방향 연관관계 편의 메소드 있어야 할까?
-//    public void setStore(Store store){
-//        this.store = store;
-//        store.getOrders().add(this);
-//    }
 
-
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", caffeine=" + caffeine +
+                ", sugar=" + sugar +
+                ", cal=" + cal +
+                ", price=" + price +
+                '}';
+    }
 }

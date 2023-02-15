@@ -1,68 +1,55 @@
-import { useEffect, useState } from "react";
-import { Button } from "@mui/material";
+import { useEffect, useState } from "react"
+import { Button } from "@mui/material"
 // import axios from "axios"
-import default_image from "../../assets/default_image.png";
-import styled from "styled-components";
+import default_image from "../../assets/default_image.png"
+import styled from "styled-components"
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto"
 
 const ProfileImageUploader = ({ getImg }) => {
   const [imagestatus, setImageStatus] = useState({
     image_file: "",
     preview_URL: default_image,
-  });
+  })
 
   //컴포넌트 이름 바꾸기
 
-  let inputRef;
+  let inputRef
 
-  useEffect(function() {
-    getImg(imagestatus.image_file, imagestatus.preview_URL)
-  }, [imagestatus])
+  useEffect(
+    function () {
+      getImg(imagestatus.image_file, imagestatus.preview_URL)
+    },
+    [imagestatus]
+  )
 
   const saveImage = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (e.target.files[0]) {
       // 새로운 이미지를 올리면 createObjectURL()을 통해 생성한 기존 URL을 폐기
-      URL.revokeObjectURL(imagestatus.preview_URL);
-      const preview_URL = URL.createObjectURL(e.target.files[0]);
+      URL.revokeObjectURL(imagestatus.preview_URL)
+      const preview_URL = URL.createObjectURL(e.target.files[0])
       setImageStatus(() => ({
         image_file: e.target.files[0],
         preview_URL: preview_URL,
-      }));
+      }))
     }
-  };
+  }
 
   const deleteImage = () => {
     // createObjectURL()을 통해 생성한 기존 URL을 폐기
-    URL.revokeObjectURL(imagestatus.preview_URL);
+    URL.revokeObjectURL(imagestatus.preview_URL)
     setImageStatus({
       image_file: "",
       preview_URL: default_image,
-    });
-  };
+    })
+  }
 
   useEffect(() => {
     // 컴포넌트가 언마운트되면 createObjectURL()을 통해 생성한 기존 URL을 폐기
     return () => {
-      URL.revokeObjectURL(imagestatus.preview_URL);
-    };
-  }, []);
-
-  const sendImageToServer = async () => {
-    if (imagestatus.image_file) {
-      // const formData = new FormData()
-      // formData.append("file", imagestatus.image_file)
-      // await axios.post("/api/image/upload", formData)
-      // console.log(imagestatus.image_file)
-      getImg(imagestatus.image_file, imagestatus.preview_URL);
-      alert("서버에 등록이 완료되었습니다!");
-      // setImageStatus({
-      //   image_file: "",
-      //   preview_URL: default_image,
-      // })
-    } else {
-      alert("사진을 등록하세요!");
+      URL.revokeObjectURL(imagestatus.preview_URL)
     }
-  };
+  }, [])
 
   return (
     <UploaderWrapper className="uploader-wrapper">
@@ -77,45 +64,61 @@ const ProfileImageUploader = ({ getImg }) => {
         style={{ display: "none" }}
       />
       <ImgWrapper className="img-wrapper">
-        <ImgSpace src={imagestatus.preview_URL} alt="img" />
+        <ImgSpace
+          src={imagestatus.preview_URL}
+          alt="img"
+          onClick={() => inputRef.click()}
+        />
       </ImgWrapper>
-
       <div className="upload-button">
-        <SelectButton variant="contained" onClick={() => inputRef.click()}>
-          사진 선택하기
-        </SelectButton>
+        <IconContainer>
+          <AddAPhotoIcon variant="contained"></AddAPhotoIcon>
+        </IconContainer>
         <DeleteButton color="error" variant="contained" onClick={deleteImage}>
-          사진 삭제하기
+          기본이미지로 변경
         </DeleteButton>
-        <SaveButton color="success" variant="contained" onClick={sendImageToServer}>
-          사진 저장하기
-        </SaveButton>
       </div>
     </UploaderWrapper>
-  );
-};
+  )
+}
 
 const UploaderWrapper = styled.div`
-  margin-top: 20px;
-  display: grid;
-  grid-template-columns: 0.5fr 2fr 3fr 0.5fr;
-  grid-gap: 30px;
-`;
+  position: relative;
+  height: 100%;
+  width: 100%;
+`
 const ImgWrapper = styled.div`
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
   width: 100px;
-  grid-column: 2;
-`;
+  margin-top: 7px;
+  margin-left: 10px;
+`
 const ImgSpace = styled.img`
   width: 100%;
-`;
-const SelectButton = styled.button`
-  grid-column: 3;
-`;
+`
 const DeleteButton = styled.button`
-  grid-column: 3;
-`;
-const SaveButton = styled.button`
-  grid-column: 3;
-`;
+  grid-area: DeleteButton;
+  margin-left: 8px;
+  border-radius: 5px !important;
+  border: 2px solid #674f04 !important;
+  background-color: #ffffff !important;
+  font-family: netmarble;
+  color: 350B !important;
+`
+const IconContainer = styled.div`
+  position: absolute;
+  bottom: 40px;
+  left: 75px;
+  z-index: 1;
+  background-color: white;
+  border-radius: 20px !important;
+  border: 2px solid black !important;
+  width: 33px;
+  height: 33px;
+  padding: 3px;
+`
 
-export default ProfileImageUploader;
+export default ProfileImageUploader

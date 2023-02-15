@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 
 import DailyConsumptionGraph from "../../components/util/DailyConsumptionGraph";
 import ItemFiltering from "../../components/util/ItemFiltering";
+import DailyOtherInfo from "../../components/DailyOtherInfo";
 
 import { cafeDrinkList } from "../../api/order";
 import { useRecoilValue } from "recoil";
@@ -96,6 +97,10 @@ function SelectMenuPage() {
     storeName: "",
   });
   const consumptionInfo = menu.dayDataDto;
+  const [changedOtherInfo, setChangedOtherInfo] = useState({
+    money: 0,
+    cal: 0,
+  })
   useMemo(() => {
     const getMenus = async () => {
       await cafeDrinkList(
@@ -122,6 +127,20 @@ function SelectMenuPage() {
 
   // console.log("/////////-------/////////", menu);
 
+  useEffect(() => {
+    setChangedOtherInfo({
+      money: selectDrinkInfo.price,
+      cal: selectDrinkInfo.cal,
+    });
+  }, [selectDrinkInfo])
+
+  const finalData = {
+    franchiseId: menu.franchiseId,
+    franchiseName: storeName,
+    drink: selectDrinkInfo,
+    branch: "",
+  }
+
   return (
     <body>
       <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
@@ -140,6 +159,7 @@ function SelectMenuPage() {
               selectDrinkInfo={selectDrinkInfo}
               consumptionInfo={consumptionInfo}
             />
+            <DailyOtherInfo data={menu.dayDataDto} changedOtherInfo={changedOtherInfo}></DailyOtherInfo>
           </Card>
           <Card sx={{ marginY: 2 }}>
             {/* <DailyConsumptionGraph data={afterSelectData} /> */}
@@ -149,44 +169,11 @@ function SelectMenuPage() {
           <ItemFiltering menu={menu} getSelectedDrink={getSelectedDrink} />
       {/* {drinkItem !== undefined && <Typography>{drinkItem.caffeine}mg</Typography>} */}
 
-      <Link to="/custom">
+      <Link to={{ pathname: `/custom`, state: { finalData } }}>
         <FabButton />
       </Link>
     </body>
   );
 }
-
-const afterSelectData = [
-  {
-    name: "카페인",
-    consumption: 2400,
-    change: 4000,
-  },
-  {
-    name: "당",
-    consumption: 1398,
-    change: 3000,
-  },
-];
-
-const menuData = [
-  { pk: 1, name: "카페라떼", caffeine: 300, sugar: 10, cal: 350, price: 2500 },
-  {
-    pk: 2,
-    name: "바닐라 라떼",
-    caffeine: 200,
-    sugar: 20,
-    cal: 400,
-    price: 5000,
-  },
-  {
-    pk: 3,
-    name: "아이스 아메리카노",
-    caffeine: 100,
-    sugar: 30,
-    cal: 300,
-    price: 3500,
-  },
-];
 
 export default SelectMenuPage;

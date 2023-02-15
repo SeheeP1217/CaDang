@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import OrderStatus from "../components/OrderStatus";
 import DrinkRecommendation from "../components/DrinkRecommendation";
 import MainDailyConsumptionGraph from "../components/util/MainDailyConsumptionGraph";
-import DailyOtherInfo from "../components/DailyOtherInfo";
+import MainDailyOtherInfo from "../components/MainDailyOtherInfo";
 import { Card } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -92,8 +92,8 @@ export default function MainPage() {
       </Typography>
       <Card>
         {/* <TodayChart/> */}
-        <MainDailyConsumptionGraph data={data} />
-        <DailyOtherInfo money={dashboard.moneyDaily} kcal={dashboard.calDaily} />
+        <MainDailyConsumptionGraph data={dashboard} />
+        <MainDailyOtherInfo data={dashboard}/>
       </Card>
       <OrderStatus />
       <Box sx={{ mt: 2 }}>

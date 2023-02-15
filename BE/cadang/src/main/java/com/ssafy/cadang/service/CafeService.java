@@ -34,8 +34,18 @@ public class CafeService {
         System.out.println("userId : " +userId + " storeName : "+storeName + " date : " +date);
         DrinksForCafeDto drinksForCafeDto;    // 카페 별 음료 목록 담을 객체
 
-        Store findStore = storeRepository.findStoreByStoreName(storeName)
-                .orElseThrow(() -> new CustomException(ExceptionEnum.STORE_NOT_FOUND));
+        Boolean hasStore = storeRepository.findStoreByStoreName(storeName).isPresent();
+        Store findStore;
+        if(hasStore){
+            findStore = storeRepository.findStoreByStoreName(storeName).get();
+        }else{
+            String franchiseName = storeName.split(" ")[0];
+            Franchise findFranchise = franchiseRepository.findFranchiseByfranchiseName(franchiseName)
+                    .orElseThrow(() -> new CustomException(ExceptionEnum.FRANCHISE_NOT_FOUND));
+            Store newStore = new Store(findFranchise, storeName);
+            findStore = storeRepository.save(newStore);
+        }
+
 
         // 프론트에서 다음 로직을 위해 사용할 데이터(가게id, 프랜차이즈id) 초기화
         Long franchiseId = findStore.getFranchise().getId();
