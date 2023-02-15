@@ -88,9 +88,6 @@ function ReviewListItem(props) {
                   {/* <Link to={{ pathname: `/review/${review.id}`, state:{review} }}> */}
                   <Link to={{ pathname: `/review/${review.id}`, state:{review} }}>
                   <IconButton
-                    // component={Link}
-                    // to={`/review/${review.id}`}
-                    // state={review}
                     style={{ padding: 0 }}
                     >
                     <EditOutlinedIcon />

@@ -25,7 +25,9 @@ import { useEffect } from "react";
 
 const UpdateProfilePage = () => {
   const history = useHistory()
-  const theme = createTheme();
+  const theme = createTheme()
+
+  // 기존 프로필 불러오기
   const [userProfile, setuserProfile] = useState({
     memberId: "",
     username: "",
@@ -37,6 +39,7 @@ const UpdateProfilePage = () => {
     isModified: 0,
   });
 
+  // 변경 정보 보낼 변수 선언
   const [changedProfile, setchangedProfile] = useState({
   nickname: "",
   caffeGoal: 1000,
@@ -45,8 +48,7 @@ const UpdateProfilePage = () => {
   isModified: 0,
   });
 
-  const [caffeineGoal, setCaffeineGoal] = useState(userProfile.caffeGoal)
-  const [sugarGoal, setSugarGoal] = useState(userProfile.sugarGoal)
+  // 변화값 담을 변수
   const [modifiedImage, setModifiedImage] = useState({
     image_file: "",
     preview_URL: userProfile.imgUrl,
@@ -77,20 +79,23 @@ const UpdateProfilePage = () => {
   console.log(userProfile);
   console.log(changedProfile);
 
+  // 카페인 목표량 
   const onChangeCaffeineGoal = (e) => {
-    setCaffeineGoal({
+    setchangedProfile({
       ...changedProfile,
       caffeGoal: e.target.value,
   })
   }
 
+  // 당 목표량
   const onChangeSugarGoal = (e) => {
-    setSugarGoal({
+    setchangedProfile({
       ...changedProfile,
       sugarGoal: e.target.value,
   })
   }
 
+  // 프로필 이미지 변경 확인
   const getImg = (image_file, preview_URL) => {
       const newImage = {
         image_file: image_file,
@@ -112,17 +117,13 @@ const UpdateProfilePage = () => {
   })
   }
 
+  // 닉네임 변경 확인
   const onChangeNickname = (e) => {
     setchangedProfile({
       ...changedProfile,
       nickname: e.target.value,
   })
   }
-
-  console.log(changedProfile)
-  console.log(modifiedImage.image_file)
-  console.log(typeof(modifiedImage.image_file))
-  console.log(modifiedImage)
 
   const data = new FormData()
   data.append("img", modifiedImage.image_file)
@@ -145,6 +146,7 @@ const UpdateProfilePage = () => {
       .then((response) => {
         console.log(response, "성공")
         if (response.status === 200) {
+          alert('정보가 성공적으로 변경되었습니다.')
           history.push("/mypage")
         }
       })
@@ -192,7 +194,6 @@ const UpdateProfilePage = () => {
                   <Typography>닉네임</Typography>
                   <TextField
                     fullWidth
-                    variant="outlined"
                     defaultValue={userProfile.nickname}
                     onChange={onChangeNickname}
                   />
@@ -202,8 +203,8 @@ const UpdateProfilePage = () => {
                 비밀번호 변경하기
               </Button>
               <GoalSettingItem 
-              caffeineGoal={caffeineGoal}
-              sugarGoal={sugarGoal}
+              caffeineGoal={userProfile.caffeGoal}
+              sugarGoal={userProfile.sugarGoal}
               onChangeCaffeineGoal={onChangeCaffeineGoal}
               onChangeSugarGoal={onChangeSugarGoal}/>
               <Button
