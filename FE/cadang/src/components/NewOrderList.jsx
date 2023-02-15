@@ -3,6 +3,10 @@ import PropTypes from "prop-types";
 import NewOrderListItem from "./NewOrderListItem.jsx";
 import SockJsClient from "react-stomp";
 import { newOrderCheck } from "../api/cafeCeo";
+import Typography from "@mui/joy/Typography";
+import { Grid } from "@mui/material";
+import CardMedia from "@mui/material/CardMedia";
+import drinkImg from "../assets/drink.png";
 
 export default function NewOrderList() {
   const $websocket = useRef();
@@ -126,7 +130,25 @@ export default function NewOrderList() {
       </div>
       {/* drinks.length !== 0 && */}
       {drinks.length === 0 ? (
-        <h2>신규 주문이 없습니다.</h2>
+        <Grid container sx={{ mt: 0, display: "flex", justifyContent: "center" }}>
+          <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+            <CardMedia component="img" sx={{ width: 80 }} image={drinkImg} alt="payImg" />
+          </Grid>
+          <Typography
+            sx={{
+              fontFamily: "netmarble",
+              fontSize: "20px",
+              fontWeight: "xl",
+              level: "h3",
+              m: 0,
+              mt: 1,
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            신규 주문이 없습니다.🙏
+          </Typography>
+        </Grid>
       ) : (
         drinks.map((item, key) => (
           <NewOrderListItem
