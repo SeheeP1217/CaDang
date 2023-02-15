@@ -23,24 +23,7 @@ function AutocompleteSearchBar(props) {
     ))}
         </Select>
       </FormControl>
-    //   {/* <Autocomplete
-    //   freeSolo
-    //   disableClearable
-    //   options={props.data.map((option) => option.franchiseName)}
-    //   renderInput={(params) => (
-    //     <TextField
-    //     {...params}
-    //     label="Search input"
-    //     InputProps={{
-    //       ...params.InputProps,
-    //       type: "search",
-    //     }}
-    //     onMouseDown={() => props.getSelectedFranchiseId(params.id)}
-    //     />
-    //     )}
-    //     size="small"
-    //     >
-    // </Autocomplete> */}
+
   );
 }
 

@@ -8,9 +8,8 @@ import AddAPhotoIcon from "@mui/icons-material/AddAPhoto"
 const ModifyProfileImageUploader = (props) => {
   const [imagestatus, setImageStatus] = useState({
     image_file: "",
-    preview_URL: props.defaultImage ? props.defaultImage : default_image,
+    preview_URL: (props.defaultImage !== " ") ? `http://i8a808.p.ssafy.io/images/profile/${props.defaultImage}` : default_image,
   })
-  console.log(props.defaultImage)
   //컴포넌트 이름 바꾸기
 
   let inputRef
@@ -21,6 +20,8 @@ const ModifyProfileImageUploader = (props) => {
     },
     [imagestatus]
   )
+  console.log(imagestatus.image_file)
+  console.log(typeof(imagestatus.image_file))
 
   const saveImage = (e) => {
     if (e.target.files[0]) {
