@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Grid, List, Card, Divider, Button } from "@mui/material";
-import Typography from "@mui/joy/Typography";
-import drink from "../../assets/drink.png";
+import React, { useState, useEffect } from "react"
+import { Grid, List, Card, Divider, Button } from "@mui/material"
+import Typography from "@mui/joy/Typography"
+import drink from "../../assets/drink.png"
 
-import ListItemButton from "@mui/material/ListItemButton";
-import { Box } from "@mui/system";
+import ListItemButton from "@mui/material/ListItemButton"
+import { Box, textAlign } from "@mui/system"
+import loading from "../../assets/loadinggif.gif"
 
 function MenuListItem(props) {
-  const drinkListData = props.data;
-  const [ isSelected, setIsSelected ] = useState(-1)
+  const drinkListData = props.data
+  const [isSelected, setIsSelected] = useState(-1)
   // const [selectedIndex, setSelectedIndex] = useState(0)
   // const [selectedCaffeine, setSelectedCaffeine] = useState(0)
   // const [selectedSugar, setSelectedSugar] = useState(0)
@@ -36,17 +37,42 @@ function MenuListItem(props) {
   // console.log("drinkListData", drinkListData)
 
   if (!props.data || !props.data.length) {
-    return <div>검색 츄라이츄라이</div>;
+    return (
+      <div>
+        <img src={loading} alt={loading} style={{ maxWidth: "300px" }} />
+        <Typography
+          style={{
+            fontSize: "30px",
+            position: "absolute",
+            bottom: "250px",
+            left: "50px",
+          }}
+        >
+          {"음료를 선택하세요:)"}
+        </Typography>
+      </div>
+    )
   }
 
   return (
     <List>
       {drinkListData.map((menu, index) => {
         return (
-          <Box sx={{backgroundColor: 'white'}} key={index}>
+          <Box sx={{ backgroundColor: "white" }} key={index}>
             <Divider />
-            <Card style={{display: 'flex', alignItems: 'center'}}
-              sx={isSelected === index ? {backgroundColor: '#FFBA00'} : {backgroundColor: 'white'}}
+            <Card
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginTop: "2px",
+                marginBottom: "2px",
+                borderRadius: "10px",
+              }}
+              sx={
+                isSelected === index
+                  ? { backgroundColor: "#FFBA00" }
+                  : { backgroundColor: "white" }
+              }
               onClick={() => {
                 setIsSelected(index)
                 props.getSelectedDrink(menu)
@@ -66,10 +92,10 @@ function MenuListItem(props) {
               </Grid>
             </Card>
           </Box>
-        );
+        )
       })}
     </List>
-  );
+  )
 }
 
-export default MenuListItem;
+export default MenuListItem
