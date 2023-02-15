@@ -52,12 +52,12 @@ function App() {
         <Route exact path="/error404" component={Error404Page} />
         <Route exact path="/error500" component={Error500Page} />
         <Route exact path="/loading" component={LoadingPage} />
-        <GlobalStyle />
-
         <Route exact path="/sign-in" component={LoginPage} />
         <Route exact path="/sign-up" component={RegisterPage} />
         <Route exact path="/info" component={InfoPage} />
         <Route exact path="/cafe-ceo-order" component={CafeCeoPage} />
+        <GlobalStyle />
+
         <Route exact path="/search-id" component={SearchIdPage} />
         <Route exact path="/search-pw" component={SearchPwPage} />
         <Route exact path="/reset-pw" component={ResetPwPage} />
