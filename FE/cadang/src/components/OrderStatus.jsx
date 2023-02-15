@@ -1,12 +1,11 @@
-import * as React from "react";
-import { Box, Grid, Card } from "@mui/material";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import CardMedia from "@mui/material/CardMedia";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import * as React from "react"
+import Accordion from "@mui/material/Accordion"
+import AccordionSummary from "@mui/material/AccordionSummary"
+import AccordionDetails from "@mui/material/AccordionDetails"
+import Typography from "@mui/material/Typography"
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import { fontSize } from "@mui/system"
+import { Box } from "@mui/material"
 import payCompleteImg from "../assets/payComplete.png";
 import making from "../assets/making.png";
 import finished from "../assets/finished.png";
@@ -20,22 +19,34 @@ export default function OrderStatus() {
     >
       {/* defaultExpanded 속성을 통해 AccordionDetails 보이게 하기 defaultExpanded="true" */}
       <Accordion defaultExpanded="true">
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
+        <Box
+          style={{
+            borderBottom: "2px solid #ffab00",
+          }}
         >
-          <Typography
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon sx={{ color: "#ffab00" }} />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
             sx={{
-              fontWeight: "700",
-              display: "inline",
-              fontSize: 20,
+              "&.Mui-expanded": {
+                margin: 0,
+              },
             }}
           >
-            현재 주문 현황
-          </Typography>
-        </AccordionSummary>
-        <Divider />
+            <Typography
+              sx={{
+                fontFamily: "netmarble",
+                fontSize: "22px",
+                fontWeight: "xl",
+                level: "h3",
+                m: 0,
+              }}
+            >
+              현재 주문 현황
+            </Typography>
+          </AccordionSummary>
+        </Box>
         <AccordionDetails>
           <Typography
             sx={{
@@ -109,5 +120,5 @@ export default function OrderStatus() {
         </AccordionDetails>
       </Accordion>
     </div>
-  );
+  )
 }
