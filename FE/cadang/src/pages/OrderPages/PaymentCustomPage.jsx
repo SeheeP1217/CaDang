@@ -19,6 +19,7 @@ function PaymentCustomPage(props) {
   const location = useLocation()
   const history = useHistory()
   const drinkItem = props.location.state.drinkItem
+  console.log(drinkItem)
   const franchiseId = props.location.state.drinkItem.franchiseId;
   const drinkName = props.location.state.drinkItem.drinkName;
   const [drinkDetail, setDrinkDetail] = useState({
@@ -36,7 +37,7 @@ function PaymentCustomPage(props) {
         cal: 0,
         price: 0,
         shot: 0,
-        whip: true,
+        whip: null,
         franchiseId: 0,
         storeName: "",
         cnt: 0,
@@ -105,6 +106,7 @@ function PaymentCustomPage(props) {
       storeName: location.state.franchiseName,
     });
   }, [basicDrink])
+  console.log(basicDrink.sugar)
 
   // 전체 가격, 칼로리 변동량 계산
   useEffect(() => {
@@ -240,6 +242,8 @@ function PaymentCustomPage(props) {
       cal: orderDetail.cal - basicDrink.cal,
     })
   }, [orderDetail])
+  console.log(orderDetail.sugar)
+  console.log(basicDrink.sugar)
   
 
   // 기록 등록 axios

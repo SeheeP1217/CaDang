@@ -38,12 +38,16 @@ function SelectMenuPage(props) {
     shot: null,
     whip: null,
     franchiseId: -1,
-    storeName: null,
+    storeName: storeName,
     cnt: 0,
   });
 
   const getSelectedDrink = (selectDrink) => {
-    setSelectDrinkInfo(selectDrink);
+    setSelectDrinkInfo({
+      ...selectDrink,
+      storeName: storeName,
+    
+    });
   };
 
   const [menu, setMenu] = useState({
@@ -144,6 +148,7 @@ function SelectMenuPage(props) {
     drink: selectDrinkInfo,
     branch: "",
   }
+  console.log(selectDrinkInfo)
 
   return (
     <body>
@@ -172,8 +177,7 @@ function SelectMenuPage(props) {
       </div>
           <ItemFiltering menu={menu} getSelectedDrink={getSelectedDrink} />
       {/* {drinkItem !== undefined && <Typography>{drinkItem.caffeine}mg</Typography>} */}
-
-      <Link to={{ pathname: `/custom`, state: { finalData } }}>
+      <Link to={{ pathname: `/payment/custom`, state: { drinkItem: selectDrinkInfo } }}>
         <FabButton />
       </Link>
     </body>

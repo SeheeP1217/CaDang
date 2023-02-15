@@ -12,6 +12,7 @@ import Grid from "@mui/material/Grid"
 import { Card } from "@mui/material"
 import { Link } from "react-router-dom"
 import dayjs from "dayjs"
+import styled from "styled-components"
 
 // 검색바 import
 import AutocompleteSearchBar from "../../components/util/AutocompleteSearchBar"
@@ -26,7 +27,7 @@ import ReviewListItem from "../../components/ReviewListItem"
 import { Box } from "@mui/system"
 
 // api
-import { userReview } from '../../api/report' 
+import { userReview } from "../../api/report"
 import { todayDashboard } from "../../api/main"
 
 function MyPage() {
@@ -39,20 +40,23 @@ function MyPage() {
     setSelectIndex(selectIndexId)
   }
 
-  const [review, setReview] = useState({ recordList: [{
-    id: -1,
-    storeName: "",
-    drinkName: "",
-    regDate: "",
-    caffeine: 0,
-    sugar: 0,
-    cal: 0,
-    price: 0,
-    memo: null,
-    photo: "",
-    public: true,
-
-  }]})
+  const [review, setReview] = useState({
+    recordList: [
+      {
+        id: -1,
+        storeName: "",
+        drinkName: "",
+        regDate: "",
+        caffeine: 0,
+        sugar: 0,
+        cal: 0,
+        price: 0,
+        memo: null,
+        photo: "",
+        public: true,
+      },
+    ],
+  })
 
   const [dashboard, setDashboard] = useState({
     userId: 0,
@@ -65,30 +69,31 @@ function MyPage() {
     moneyDaily: 0,
     caffeSuccess: true,
     sugarSuccess: true,
-  });
+  })
 
   useMemo(() => {
     const getDashboard = async () => {
       await todayDashboard(
-        dayjs().format('YYYY-MM-DD'),
+        dayjs().format("YYYY-MM-DD"),
         (res) => {
-          return res.data;
+          return res.data
         },
         (err) => console.log(err)
-      ).then((data) => setDashboard(data));
-    };
+      ).then((data) => setDashboard(data))
+    }
 
     const getReviews = async () => {
       await userReview(
         userId,
         pageIndex,
-        (res) => {return res.data},
-        (err) => console.log(err),
-        )
-        .then((data) => setReview(data))
+        (res) => {
+          return res.data
+        },
+        (err) => console.log(err)
+      ).then((data) => setReview(data))
     }
-    getReviews();
-    getDashboard();
+    getReviews()
+    getDashboard()
     console.log(review)
   }, [])
 
@@ -108,7 +113,7 @@ function MyPage() {
             <Typography>김싸퓌</Typography>
           </Grid>
           <Grid item xs={10}>
-            <MainDailyConsumptionGraph data={dashboard}/>
+            <MainDailyConsumptionGraph data={dashboard} />
           </Grid>
           <Grid item xs={12}>
             <MainDailyOtherInfo data={dashboard} />
@@ -117,20 +122,40 @@ function MyPage() {
       </Card>
       <Stack spacing={1}>
         <Button
+          sx={{
+            backgroundColor: "#ffba00",
+            color: "white",
+            fontFamily: "netmarble",
+            fontSize: "20px",
+            mt: "5px",
+            mb: "5px",
+            boxShadow: "2px 2px 2px 1px #FFab00",
+          }}
           component={Link}
           to="/payment-report"
           variant="filledTonal"
-          startIcon={<ContentPasteSearchIcon />}
-          endIcon={<ArrowForwardIosIcon />}
+          startIcon={
+            <ContentPasteSearchIcon sx={{ color: "white", fontSize: "30px" }} />
+          }
+          endIcon={<ArrowForwardIosIcon sx={{ color: "white" }} />}
         >
           주문 내역 보러가기
         </Button>
         <Button
+          sx={{
+            backgroundColor: "#ffba00",
+            color: "white",
+            fontFamily: "netmarble",
+            fontSize: "20px",
+            mt: "5px",
+            mb: "10px",
+            boxShadow: "2px 2px 2px 1px #FFab00",
+          }}
           component={Link}
           to="/report"
           variant="filledTonal"
-          startIcon={<AssessmentIcon />}
-          endIcon={<ArrowForwardIosIcon />}
+          startIcon={<AssessmentIcon sx={{ color: "white" }} />}
+          endIcon={<ArrowForwardIosIcon sx={{ color: "white" }} />}
         >
           내 리포트 보러가기
         </Button>
@@ -153,7 +178,11 @@ function MyPage() {
           aria-labelledby="ellipsis-list-demo"
           sx={{ "--List-decorator-size": "56px" }}
         >
-          <ReviewListItem reviews={review} selectIndex={selectIndex} onClick={getModifyReviewIndex}/>
+          <ReviewListItem
+            reviews={review}
+            selectIndex={selectIndex}
+            onClick={getModifyReviewIndex}
+          />
         </List>
       </Paper>
     </>

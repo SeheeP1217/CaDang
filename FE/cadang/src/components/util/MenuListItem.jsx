@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid, List, Card, Divider } from "@mui/material";
+import { Grid, List, Card, Divider, Button } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import drink from "../../assets/drink.png";
 
@@ -8,7 +8,7 @@ import { Box } from "@mui/system";
 
 function MenuListItem(props) {
   const drinkListData = props.data;
-
+  const [ isSelected, setIsSelected ] = useState(-1)
   // const [selectedIndex, setSelectedIndex] = useState(0)
   // const [selectedCaffeine, setSelectedCaffeine] = useState(0)
   // const [selectedSugar, setSelectedSugar] = useState(0)
@@ -45,11 +45,15 @@ function MenuListItem(props) {
         return (
           <Box sx={{backgroundColor: 'white'}} key={index}>
             <Divider />
-            <ListItemButton
-              onClick={() => props.getSelectedDrink(menu)}
+            <Card style={{display: 'flex', alignItems: 'center'}}
+              sx={isSelected === index ? {backgroundColor: '#FFBA00'} : {backgroundColor: 'white'}}
+              onClick={() => {
+                setIsSelected(index)
+                props.getSelectedDrink(menu)
+              }}
             >
               <Grid container display={"flex"} alignItems="center">
-                <Grid item xs={3}>
+                <Grid item xs={3} display={"flex"} alignItems="center">
                   <img alt="menuImg" src={menu.img} width="90%" />
                 </Grid>
                 <Grid item xs={9}>
@@ -60,7 +64,7 @@ function MenuListItem(props) {
                   </Typography>
                 </Grid>
               </Grid>
-            </ListItemButton>
+            </Card>
           </Box>
         );
       })}

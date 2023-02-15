@@ -7,10 +7,6 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  ReferenceLine,
-  CartesianGrid,
-  CartesianAxis,
-  Label,
 } from "recharts";
 
 function DailyConsumptionGraph(props) {
@@ -72,6 +68,7 @@ function DailyConsumptionGraph(props) {
 
   console.log(props.consumptionInfo.caffeGoal);
   console.log(props.consumptionInfo.sugarGoal);
+  console.log(props.selectDrinkInfo.sugar)
   return (
     <Grid container style={{display: "flex", alignItems: "center", marginRight: 20}}>
       <Grid item xs={12} style={{ textAlign: 'end', marginRight: 35, marginTop: 5}}>

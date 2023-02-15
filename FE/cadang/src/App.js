@@ -4,6 +4,7 @@ import RegisterPage from "./pages/UserPages/RegisterPage"
 import * as React from "react"
 import logo from "./assets/logo.png"
 import styled from "styled-components"
+import GlobalStyle from "./components/util/GlobalStyle"
 
 import PageLayout from "./components/util/PageLayout"
 import MyPage from "./pages/ReportPages/MyPage"
@@ -36,6 +37,11 @@ function App() {
   // const [{ user }, dispatch] = useStateValue();
 
   // NavBar 필요 없는 페이지 정의
+  const FirstContainer = () => (
+    <div>
+      <Route exact path="/" component={IntroPage}></Route>
+    </div>
+  )
   const IntroContainer = () => (
     <div>
       {/* img fixed 옵션으로 바꿀지?? */}
@@ -43,7 +49,11 @@ function App() {
         <img height={75} src={logo} alt="커피" />
       </TopImage>
       <Switch>
-        <Route exact path="/" component={IntroPage}></Route>
+        <Route exact path="/error404" component={Error404Page} />
+        <Route exact path="/error500" component={Error500Page} />
+        <Route exact path="/loading" component={LoadingPage} />
+        <GlobalStyle />
+
         <Route exact path="/sign-in" component={LoginPage} />
         <Route exact path="/sign-up" component={RegisterPage} />
         <Route exact path="/info" component={InfoPage} />
@@ -51,10 +61,6 @@ function App() {
         <Route exact path="/search-id" component={SearchIdPage} />
         <Route exact path="/search-pw" component={SearchPwPage} />
         <Route exact path="/reset-pw" component={ResetPwPage} />
-
-        <Route exact path="/error404" component={Error404Page} />
-        <Route exact path="/error500" component={Error500Page} />
-        <Route exact path="/loading" component={LoadingPage} />
       </Switch>
     </div>
   )
@@ -62,6 +68,8 @@ function App() {
   // NavBar 필요한 페이지 정의
   const DefaultContainer = () => (
     <PageLayout>
+      <GlobalStyle />
+
       <Switch>
         <Route exact path="/main" component={MainPage} />
         <Route exact path="/cafe-map" component={CafeMapPage} />
@@ -91,8 +99,9 @@ function App() {
   // Intro 페이지는 Nav 없는곳으로 렌더링
   return (
     <BrowserRouter>
+      <GlobalStyle />
       <Switch>
-        <Route exact path="/" component={IntroContainer} />
+        <Route exact path="/" component={FirstContainer} />
         <Route exact path="/sign-in" component={IntroContainer} />
         <Route exact path="/sign-up" component={IntroContainer} />
         <Route exact path="/image-signup" component={IntroContainer} />

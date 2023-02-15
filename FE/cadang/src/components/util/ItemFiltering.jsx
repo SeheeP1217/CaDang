@@ -70,7 +70,7 @@ function ItemFiltering(props) {
             onClick={onClickFilter}
           />
 
-          <FormControl size="small" sx={{ paddingTop: 1, zIndex: 999 }}>
+          <FormControl size="small" sx={{ paddingTop: 1, }}>
             <NativeSelect
               defaultValue="caffeine"
               onChange={(e) => setSortType(e.target.value)}

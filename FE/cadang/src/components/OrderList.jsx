@@ -9,6 +9,15 @@ import SockJsClient from "react-stomp";
 export default function OrderList() {
   const [orderListData, setOrderListData] = useState([]);
   const $websocket = useRef();
+  // 픽업 완료했을 시 해당 주문의 아이템 삭제
+  const onRemove = (idx) => {
+    const newChild = orderListData;
+    const index = newChild.indexOf(orderListData[idx]);
+    if (idx > -1) {
+      newChild.splice(index, 1);
+      setOrderListData([...newChild]);
+    }
+  };
 
   useMemo(() => {
     // 화면 랜더링 되기 전 현재 주문 목록 리스트 통신
@@ -26,8 +35,6 @@ export default function OrderList() {
 
   useEffect(() => {}, [orderListData]);
 
-
-
   return (
     <div>
       <SockJsClient
@@ -44,7 +51,7 @@ export default function OrderList() {
         ref={$websocket}
       />
       {orderListData.map((item, key) => (
-        <OrderListItem order={item} id={key} />
+        <OrderListItem order={item} id={key} onRemove={onRemove} />
       ))}
     </div>
   );
