@@ -36,6 +36,7 @@ async function todayDashboard(date, success, fail) {
   return res;
 }
 
+// 메인화면에서 현재 주문 현황 가져오기 api
 async function nowOrderStatus(success, fail) {
   const res = await api.get(`/order`).then(success).catch(fail);
   return res;
