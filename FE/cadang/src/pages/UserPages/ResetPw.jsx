@@ -21,27 +21,21 @@ import {
 } from "@mui/material/styles"
 import styled from "styled-components"
 
-// const StyledButton = styled.button`
-//   padding: 6px 12px;
-//   border-radius: 8px;
-//   font-size: 1rem;
-//   line-height: 1.5;
-//   border: 1px solid lightgray;
 
-//   color: ${(props) => props.color || "gray"};
-//   background: ${(props) => props.background || "white"};
+const ResetPwPage = (props) => {
+  console.log("props", props.memberId)
+  const memberId = props.memberId
 
-//   ${(props) =>
-//     props.primary &&
-//     css`
-//       color: white;
-//       background: navy;
-//       border-color: navy;
-//     `}
-// `
-
-const ResetPwPage = () => {
-  const theme = createTheme()
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#3A130C",
+      },
+    },
+    typography: {
+      fontFamily: "netmarble",
+    },
+  })
 
   const [password, setPassword] = useState("")
   const [passwordState, setpasswordState] = useState("")
@@ -71,10 +65,9 @@ const ResetPwPage = () => {
     setpasswordState(e.target.value)
   }
 
-  const memberId = "6"
-  console.log(memberId)
+  // const memberId = "6"
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e, memberId) => {
     e.preventDefault()
     if (
       passwordRegex.test(password) &&
@@ -118,7 +111,7 @@ const ResetPwPage = () => {
           <Boxs
             component="form"
             noValidate
-            onSubmit={handleSubmit}
+            onClick={(e) => handleSubmit(e, memberId)}
             sx={{ mt: 2 }}
           >
             <FormControl component="fieldset" variant="standard">
@@ -133,6 +126,7 @@ const ResetPwPage = () => {
                     label="비밀번호 (숫자+영문자+특수문자 8자리 이상)"
                     // error={passwordError !== "" || false}
                     onChange={onChangePassword}
+                    variant="standard"
                   />
                 </Grid>
                 <FormHelperTexts>{passwordError}</FormHelperTexts>
@@ -146,11 +140,12 @@ const ResetPwPage = () => {
                     label="비밀번호 재입력"
                     // error={passwordStateError !== "" || false}
                     onChange={onChangePasswordState}
+                    variant="standard"
                   />
                   <FormHelperTexts>{passwordStateError}</FormHelperTexts>
                 </Grid>
                 <Grid item xs={12}>
-                  <Button
+                  <SendButton
                     type="submit"
                     fullWidth
                     variant="contained"
@@ -158,7 +153,7 @@ const ResetPwPage = () => {
                     size="large"
                   >
                     비밀번호 재설정하기
-                  </Button>
+                  </SendButton>
                 </Grid>
               </Grid>
             </FormControl>
@@ -178,5 +173,9 @@ const FormHelperTexts = styled(FormHelperText)`
 
 const Boxs = styled(Box)`
   padding-bottom: 10px !important;
+`
+
+const SendButton = styled(Button)`
+  background-color: #ffba00 !important;
 `
 export default ResetPwPage
