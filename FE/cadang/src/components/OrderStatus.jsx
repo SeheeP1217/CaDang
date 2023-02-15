@@ -17,6 +17,7 @@ import { drinkGrey } from "../assets/drink-gray.png";
 import payCompleteImg from "../assets/payComplete.png";
 import making from "../assets/making.png";
 import finished from "../assets/finished.png";
+import drinkImg from "../assets/drink.png";
 import SockJsClient from "react-stomp";
 import { nowOrderStatus } from "../api/main";
 import OrderStatusChild from "./OrderStatusChild";
@@ -120,7 +121,27 @@ export default function OrderStatus(props) {
           </AccordionSummary>
         </Box>
         <AccordionDetails>
-          {data.length === 0 && <h2>주문이 없습니다.</h2>}
+          {data.length === 0 && (
+            <Grid container sx={{ mt: 0, display: "flex", justifyContent: "center" }}>
+              <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+                <CardMedia component="img" sx={{ width: 80 }} image={drinkImg} alt="payImg" />
+              </Grid>
+              <Typography
+                sx={{
+                  fontFamily: "netmarble",
+                  fontSize: "20px",
+                  fontWeight: "xl",
+                  level: "h3",
+                  m: 0,
+                  mt: 1,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                아직 주문한 음료가 없습니다🙏
+              </Typography>
+            </Grid>
+          )}
           {data.length !== 0 &&
             data.map((item, key) => <OrderStatusChild drink={item} key={key} />)}
         </AccordionDetails>

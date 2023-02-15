@@ -21,7 +21,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function CategorySearch() {
-  const history = useHistory()
+  const history = useHistory();
   const [list, setList] = useState([]);
   const [clickCafe, setClickCafe] = useState("");
   const [cafeMenu, setCafeMenu] = useState([]);
@@ -51,18 +51,16 @@ export default function CategorySearch() {
   // };
 
   const onCheckCafe = (cafe) => {
-    const cafeWords = cafe.split(' ')
-    const firstWord = cafeWords[0]
-    const isCafeInList = cafeList.some((item) => item.franchiseName.includes(firstWord))
-    console.log(firstWord)
+    const cafeWords = cafe.split(" ");
+    const firstWord = cafeWords[0];
+    const isCafeInList = cafeList.some((item) => item.franchiseName.includes(firstWord));
+    console.log(firstWord);
     if (isCafeInList) {
-      history.push({ pathname: '/selectmenu', state: {cafe}})
+      history.push({ pathname: "/selectmenu", state: { cafe } });
     } else {
-      alert('아직 제휴 카페가 아닙니다:(')
+      alert("아직 제휴 카페가 아닙니다:(");
     }
-  }
-
-  
+  };
 
   // const [location, setLocation] = useState();
 

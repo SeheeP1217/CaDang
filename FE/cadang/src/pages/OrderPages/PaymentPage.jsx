@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { orderItem } from "../../recoil/atom/paymentItem";
 
-export default function PaymentPage() {
+export default function PaymentPage(props) {
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -19,26 +19,29 @@ export default function PaymentPage() {
     textAlign: "center",
     color: "000000",
   }));
-
-  // 이전 페이지에서 받아오 props 더미 데이터로 우선 세팅
-  const drink = {
-    drinkId: 1275,
-    caffeine: 225,
+  const [drink, setDrink] = useState({
+    drinkId: 0,
+    caffeine: 0,
     sugar: 0,
     cal: 0,
-    price: 5000,
-    shot: 3,
+    price: 0,
+    shot: 0,
     whip: false,
     sugarContent: "BASIC",
     syrup: 0,
     vanilla: 0,
     hazelnut: 0,
     caramel: 0,
-    photo:
-      "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[110563]_20210426095937808.jpg",
-    storeName: "스타벅스 역삼대로",
-    storeId: 1,
-  };
+    photo: "",
+    storeName: "",
+    storeId: 0,
+  });
+  // 이전 페이지에서 받아오 props 더미 데이터로 우선 세팅
+  // const drink = {
+  console.log(props.status);
+  // };
+
+  console.log("이전 페이지로부터 " + props.location.drinkId);
   const setDrinkAtom = useSetRecoilState(orderItem);
 
   const [payItem, setPayItem] = useState({
@@ -281,10 +284,10 @@ export default function PaymentPage() {
           sx={{
             borderRadius: 2,
             background: "#F7BE81",
-            fontSize: 16,
+            fontSize: 15,
             fontWeight: "700",
             mt: 3,
-            ml: 26,
+            ml: 24,
           }}
         >
           결제하기
