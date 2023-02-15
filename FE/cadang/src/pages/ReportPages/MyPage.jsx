@@ -15,7 +15,9 @@ import dayjs from "dayjs";
 import styled from "styled-components";
 
 // 검색바 import
-import AutocompleteSearchBar from "../../components/util/AutocompleteSearchBar";
+import ReviewSearchBar from "../../components/util/ReviewSearchBar";
+import Pagination from '@mui/material/Pagination';
+
 
 // 기록 리스트
 import List from "@mui/joy/List";
@@ -27,12 +29,13 @@ import ReviewListItem from "../../components/ReviewListItem";
 import { Box } from "@mui/system";
 
 // api
-import { userReview } from "../../api/report";
+import { userReview, userSearchReview } from "../../api/report";
 import { todayDashboard } from "../../api/main";
+import { useEffect } from "react";
 
 function MyPage() {
-  const userId = 2;
-  const pageIndex = 1;
+  const [pageIndex, setPageIndex] = useState(1)
+  const [searchKeyword, setSearchKeyword] = useState("")
 
   const [selectIndex, setSelectIndex] = useState(-1);
 
@@ -88,7 +91,6 @@ function MyPage() {
 
     const getReviews = async () => {
       await userReview(
-        userId,
         pageIndex,
         (res) => {
           return res.data;
@@ -100,6 +102,26 @@ function MyPage() {
     getDashboard();
     console.log(review);
   }, []);
+
+  // 검색어 Input
+  const onChangeKeyword = (e) => {
+    setSearchKeyword(e.target.value)
+  }
+
+  // 리뷰 검색 axios
+  const getSearchedReviews = async () => {
+    await userReview(
+      pageIndex,
+      searchKeyword,
+      (res) => {
+        return res.data;
+      },
+      (err) => console.log(err)
+    ).then((data) => setReview(data));
+  };
+
+  console.log(searchKeyword)
+  console.log(review)
 
   return (
     <div>
@@ -113,7 +135,7 @@ function MyPage() {
       <Card sx={{ mb: 2, pl: 1 }}>
         <Grid container textAlign="center">
           <Grid item xs={2} margin="auto">
-            <Avatar style={{ height: '70', width: '70px' }} src={dashboard.image} />
+            <Avatar style={{ width: '70' }} src={dashboard.image} />
             <Typography>{dashboard.nickname}</Typography>
           </Grid>
           <Grid item xs={10}>
@@ -171,7 +193,7 @@ function MyPage() {
       >
         <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
           <TitleBox sx={{ paddingY: 0 }}>
-            {/* <AutocompleteSearchBar label="메뉴, 카페명 검색" data={top100Films} /> */}
+            <ReviewSearchBar label="메뉴, 카페명 검색" data={review} getSearchedReviews={getSearchedReviews} onChangeKeyword={onChangeKeyword} />
           </TitleBox>
         </div>
         <Typography
@@ -190,6 +212,9 @@ function MyPage() {
             selectIndex={selectIndex}
             onClick={getModifyReviewIndex}
           />
+              <Stack spacing={2}>
+      <Pagination style={{margin: 'auto'}} count={5} shape="rounded" />
+    </Stack>
         </List>
       </Paper>
     </div>

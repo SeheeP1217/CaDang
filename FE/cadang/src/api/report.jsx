@@ -22,9 +22,18 @@ const api = axios.create({
 // camelCase로 함수 선언
 
 //리뷰 리스트 조회
-async function userReview(userId, pageIndex, success, fail) {
+async function userReview(pageIndex, success, fail) {
   const res = await api
-    .get(`/record`, { params: { userId: userId, page: pageIndex, size: 10 } })
+    .get(`/record`, { params: { page: pageIndex, size: 10 } })
+    .then(success)
+    .catch(fail)
+  return res
+}
+
+//검색어 리뷰 리스트 조회
+async function userSearchReview(pageIndex, keyword, success, fail) {
+  const res = await api
+    .get(`/record`, { params: { page: pageIndex, size: 10, keyword: keyword } })
     .then(success)
     .catch(fail)
   return res
@@ -89,4 +98,5 @@ export {
   getWeeklyData,
   getGraphData,
   dataMonth,
+  userSearchReview,
 }

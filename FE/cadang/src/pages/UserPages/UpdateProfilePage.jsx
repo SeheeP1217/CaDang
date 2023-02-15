@@ -98,7 +98,6 @@ const UpdateProfilePage = () => {
       }
       setModifiedImage(newImage)
     }
-
   const changeImg = () => {
     setchangedProfile({
       ...changedProfile,
@@ -122,23 +121,32 @@ const UpdateProfilePage = () => {
 
   console.log(changedProfile)
   console.log(modifiedImage.image_file)
+  console.log(typeof(modifiedImage.image_file))
+  console.log(modifiedImage)
 
   const data = new FormData()
   data.append("img", modifiedImage.image_file)
+  data.append("nickname", changedProfile.nickname)
+  data.append("caffeGoal", changedProfile.caffeGoal)
+  data.append("sugarGoal", changedProfile.sugarGoal)
+  data.append("isModified", changedProfile.isModified)
 
-  const modifyInfo = async () => {
+  const modifyInfo = async (e) => {
+    e.preventDefault()
     await axios
       .put("http://i8a808.p.ssafy.io:8080/user2/modify", data, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization:localStorage.getItem('login-token'),},
-        params: changedProfile,
+          // "Content-Type": "application/json",
+          Authorization:localStorage.getItem('login-token'),
+        },
+        // params: changedProfile,
       })
       .then((response) => {
         console.log(response, "성공")
-        // if (response.status === 200) {
-        //   history.push("/mypage")
-        // }
+        if (response.status === 200) {
+          history.push("/mypage")
+        }
       })
       .catch(function (err) {
         console.log(err)

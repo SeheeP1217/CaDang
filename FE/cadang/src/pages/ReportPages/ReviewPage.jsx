@@ -90,12 +90,6 @@ const ReviewPage = () => {
     setmodifyDate(newValue)
   }
 
-  // use
-  // useEffect(() => {
-  //   getRecordDate();
-  //   console.log(modifyDate)
-  // }, [modifyDate]);
-
   /////////이미지 변경 확인
   const getImg = (image_file, preview_URL) => {
     const newImage = { image_file, preview_URL }

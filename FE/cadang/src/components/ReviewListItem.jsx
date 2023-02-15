@@ -12,6 +12,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteReview } from "../api/report";
 
+
 const Img = styled("img")({
   margin: "auto",
   display: "block",
