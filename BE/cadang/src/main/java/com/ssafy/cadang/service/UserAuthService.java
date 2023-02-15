@@ -2,7 +2,6 @@ package com.ssafy.cadang.service;
 
 
 import com.ssafy.cadang.domain.User;
-import com.ssafy.cadang.dto.user.UserDto;
 import com.ssafy.cadang.dto.user.UserGoalDto;
 import com.ssafy.cadang.dto.user.UserModifyDto;
 import com.ssafy.cadang.dto.user.UserPassChangeDto;
@@ -69,12 +68,15 @@ public class UserAuthService {
 
         if (userModifyDto.getIsModified() == 1) {
             // 수정
-            multipartFile = userModifyDto.getImg();
-            String originalFilename = multipartFile.getOriginalFilename();
-            String storeFilename = createStoreFileName(originalFilename);
-            String storedPath = getFullPath(UserProfileImgPath, storeFilename);
-            multipartFile.transferTo(new File(storedPath));
-            user.setImgUrl(storeFilename);
+            if (userModifyDto.getImg() != null) {
+                multipartFile = userModifyDto.getImg();
+                String originalFilename = multipartFile.getOriginalFilename();
+                String storeFilename = createStoreFileName(originalFilename);
+                String storedPath = getFullPath(UserProfileImgPath, storeFilename);
+                multipartFile.transferTo(new File(storedPath));
+                user.setImgUrl(storeFilename);
+
+            }
         } else if (userModifyDto.getIsModified() == 2) {
             // 기본 이미지로
             user.setImgUrl(DefaultProfileFile);

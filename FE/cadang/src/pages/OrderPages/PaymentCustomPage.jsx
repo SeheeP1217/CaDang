@@ -9,21 +9,19 @@ import { Link, useLocation, useHistory } from "react-router-dom";
 import dayjs from "dayjs";
 
 import DailyConsumptionGraph from "../../components/util/DailyConsumptionGraph";
-import CustomDrinkMenuItem from "../../components/util/CustomDrinkMenuItem";
+import PaymentCustomDrinkMenuItem from "../../components/util/PaymentCustomDrinkMenuItem";
 import CustomOption from "../../components/CustomOption";
 
 import { cafeDrinkData, newDrinkRecord } from "../../api/order";
 import DailyOtherInfo from "../../components/DailyOtherInfo";
 
-function CustomPage() {
+function PaymentCustomPage(props) {
   const location = useLocation()
   const history = useHistory()
-
-  // 페이지 편집용 변수쓰
-  // const franchiseId = 9;
-  // const drinkName = '캐모마일 블렌드 티 핫 (HOT)';
-  const franchiseId = location.state.finalData.franchiseId;
-  const drinkName = location.state.finalData.drink.drinkName;
+  const drinkItem = props.location.state.drinkItem
+  console.log(drinkItem)
+  const franchiseId = props.location.state.drinkItem.franchiseId;
+  const drinkName = props.location.state.drinkItem.drinkName;
   const [drinkDetail, setDrinkDetail] = useState({
     storeId: 0,
     storeName: "",
@@ -108,8 +106,7 @@ function CustomPage() {
       storeName: location.state.franchiseName,
     });
   }, [basicDrink])
-  console.log("this", basicDrink)
-  console.log("this", orderDetail)
+  console.log(basicDrink.sugar)
 
   // 전체 가격, 칼로리 변동량 계산
   useEffect(() => {
@@ -179,10 +176,8 @@ function CustomPage() {
     }
   }
   
-  const [ sizeButton, setSizeButton ] = useState(0)
   // 사이즈 변경에 따른 옵션 초기화(전체 옵션 초기화(만약 남기고 싶은거 있으면 onClickOptionHandler처럼 초기값 앞에 더해줘야함))
   const onClickSizeChangeHandler = (index) => {
-    setSizeButton(index)
     setOrderDetail({
       ...orderDetail, 
       drinkId: drinkDetail.drinkResponseDtos[index].drinkId,
@@ -197,7 +192,6 @@ function CustomPage() {
       vanilla: 0,
       hazelnut: 0,
       caramel: 0,
-      size: 0,
     })
   }
 
@@ -248,6 +242,8 @@ function CustomPage() {
       cal: orderDetail.cal - basicDrink.cal,
     })
   }, [orderDetail])
+  console.log(orderDetail.sugar)
+  console.log(basicDrink.sugar)
   
 
   // 기록 등록 axios
@@ -286,13 +282,13 @@ function CustomPage() {
         <Box sx={{ flexGrow: 1 }} marginTop={1}>
           <Grid container spacing={2}>
             <Grid item xs={8}>
-              <Item sx={{ fontWeight: "700" }}>{location.state.finalData.franchiseName}</Item>
+              <Item sx={{ fontWeight: "700" }}>{location.state.drinkItem.storeName}</Item>
             </Grid>
             <Grid item xs={4}>
-              <Item style={{ fontWeight: "700" }}>{location.state.finalData.branch ? location.state.finalData.branch : '-'}</Item>
+              <Item style={{ fontWeight: "700" }}>{location.state.drinkItem.branch ? location.state.drinkItem.branch : '-'}</Item>
             </Grid>
             <Grid item xs={12}>
-              <CustomDrinkMenuItem data={location.state.finalData} getRecordDate={getRecordDate}/>
+              <PaymentCustomDrinkMenuItem data={drinkItem} getRecordDate={getRecordDate}/>
             </Grid>
           </Grid>
         </Box>
@@ -313,13 +309,25 @@ function CustomPage() {
         />
 
       <Grid item>
-        <Button onClick={addDrinkRecord}>
+        <Link style={{textDecoration:'none'}} to={{ pathname: `/payment`, 
+        // state={'결제페이지에 필요한 데이터를 모아모아 내려주면 됩니다'} 
+        }}>
+        <Button variant="contained"
+          sx={{
+            borderRadius: 2,
+            background: "#ffba00",
+            fontSize: 16,
+            fontWeight: "700",
+            mt: 1,
+            ml: 26,
+          }}>
           주문하기
         </Button>
+        </Link>
       </Grid>
     </div>
   );
 }
 
 
-export default CustomPage;
+export default PaymentCustomPage;

@@ -13,9 +13,13 @@ import { cafeDrinkList } from "../../api/order";
 import { useRecoilValue } from "recoil";
 import { todayDate } from "../../recoil/atom/user";
 
-function SelectMenuPage() {
+function SelectMenuPage(props) {
   const date = useRecoilValue(todayDate);
-  const storeName = "스타벅스 역삼대로점";
+  const [storeName, setStoreName] = useState(props.location.state.cafe)
+
+  useEffect(() => {
+    setStoreName(props.location.state.cafe)
+  }, [storeName])
 
   // const [possible, setPossible] = useState([])
   // const [impossible, setImpossible] = useState([])
@@ -34,12 +38,16 @@ function SelectMenuPage() {
     shot: null,
     whip: null,
     franchiseId: -1,
-    storeName: null,
+    storeName: storeName,
     cnt: 0,
   });
 
   const getSelectedDrink = (selectDrink) => {
-    setSelectDrinkInfo(selectDrink);
+    setSelectDrinkInfo({
+      ...selectDrink,
+      storeName: storeName,
+    
+    });
   };
 
   const [menu, setMenu] = useState({
@@ -140,6 +148,7 @@ function SelectMenuPage() {
     drink: selectDrinkInfo,
     branch: "",
   }
+  console.log(selectDrinkInfo)
 
   return (
     <body>
@@ -168,8 +177,7 @@ function SelectMenuPage() {
       </div>
           <ItemFiltering menu={menu} getSelectedDrink={getSelectedDrink} />
       {/* {drinkItem !== undefined && <Typography>{drinkItem.caffeine}mg</Typography>} */}
-
-      <Link to={{ pathname: `/custom`, state: { finalData } }}>
+      <Link to={{ pathname: `/payment/custom`, state: { drinkItem: selectDrinkInfo } }}>
         <FabButton />
       </Link>
     </body>

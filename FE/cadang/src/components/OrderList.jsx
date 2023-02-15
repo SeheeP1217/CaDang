@@ -9,13 +9,22 @@ import SockJsClient from "react-stomp";
 export default function OrderList() {
   const [orderListData, setOrderListData] = useState([]);
   const $websocket = useRef();
+  // 픽업 완료했을 시 해당 주문의 아이템 삭제
+  const onRemove = (idx) => {
+    const newChild = orderListData;
+    const index = newChild.indexOf(orderListData[idx]);
+    if (idx > -1) {
+      newChild.splice(index, 1);
+      setOrderListData([...newChild]);
+    }
+  };
 
   useMemo(() => {
     // 화면 랜더링 되기 전 현재 주문 목록 리스트 통신
     const getOrderList = async () => {
       await orderList(
         (res) => {
-          // console.log(res.data);
+          console.log(res.data);
           return res.data;
         },
         (err) => console.log(err)
@@ -24,9 +33,7 @@ export default function OrderList() {
     getOrderList();
   }, []);
 
-  useEffect(() => {
-    console.log(orderListData);
-  }, [orderListData]);
+  useEffect(() => {}, [orderListData]);
 
   return (
     <div>
@@ -34,7 +41,7 @@ export default function OrderList() {
         url="http://i8a808.p.ssafy.io:8080/websocket"
         headers={{
           Authorization:
-            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdGFyYnVja3MiLCJpZCI6MSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjMzNjcwMH0.vwZeywsGVXtdv1_SVTv0gGnytWlSs1v4hOJsUITZixgkuq55W7WaLy2VzOuRKODkM4X_NphAfIbxGDVml4bYCA",
+            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdGFyYnVja3MiLCJpZCI6MSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjUwNjcxOX0.PFVyJuhUcxKWPXop6YRC6nosELoZIAGDGaU2ctk75zseUstkYz6W-f08YzhAgGPdV9xbhbBqGKrmxZ0KVyYIOQ",
         }}
         // topics={["/topic/store-order-manage/1", ""]}
         onMessage={(msg) => {
@@ -43,7 +50,9 @@ export default function OrderList() {
         }}
         ref={$websocket}
       />
-      <OrderListItem />
+      {orderListData.map((item, key) => (
+        <OrderListItem order={item} id={key} onRemove={onRemove} />
+      ))}
     </div>
   );
 }

@@ -34,9 +34,10 @@ function ReviewListItem(props) {
     if (window.confirm("정말 삭제하시겠습니까? 삭제된 기록은 복구가 불가능합니다.")) {
       await deleteReview(
         reviewId,
-        (res) => console.log(res),
+        (res) => {console.log(res)
+        return res},
         (err) => console.log(err)
-        ).then(function (response) {
+        ).then((response) => {
           if (response.status === 200) {
             history.push('/mypage')
           }
