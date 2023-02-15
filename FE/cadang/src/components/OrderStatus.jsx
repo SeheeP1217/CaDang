@@ -1,11 +1,12 @@
-import * as React from "react"
-import Accordion from "@mui/material/Accordion"
-import AccordionSummary from "@mui/material/AccordionSummary"
-import AccordionDetails from "@mui/material/AccordionDetails"
-import Typography from "@mui/material/Typography"
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import { fontSize } from "@mui/system"
-import { Box } from "@mui/material"
+import * as React from "react";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { fontSize } from "@mui/system";
+import { Box, Grid } from "@mui/material";
+import CardMedia from "@mui/material/CardMedia";
 import payCompleteImg from "../assets/payComplete.png";
 import making from "../assets/making.png";
 import finished from "../assets/finished.png";
@@ -120,5 +121,5 @@ export default function OrderStatus() {
         </AccordionDetails>
       </Accordion>
     </div>
-  )
+  );
 }
