@@ -1,6 +1,6 @@
-import React, { useState } from "react"
-import { useHistory } from "react-router-dom"
-import axios from "axios"
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 import {
   Button,
   CssBaseline,
@@ -13,178 +13,144 @@ import {
   Box,
   Typography,
   Container,
-} from "@mui/material/"
-import { createTheme, ThemeProvider } from "@mui/material/styles"
-import styled from "styled-components"
-import ProfileImageUploader from "../../components/util/ProfileImageUploader"
-import default_image from "../../assets/default_image.png"
-import GoalSettingItem from "../../components/util/goalSettingItem"
+} from "@mui/material/";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import styled from "styled-components";
+import ModifyProfileImageUploader from "../../components/util/ModifyProfileImageUploader";
+import default_image from "../../assets/default_image.png";
+import GoalSettingItem from "../../components/util/goalSettingItem";
+import { useMemo } from "react";
+import { getUserProfile } from "../../api/user";
+import { useEffect } from "react";
 
 const UpdateProfilePage = () => {
-  const theme = createTheme()
-  // const [checked, setChecked] = useState(false)
-  const [username, setUserName] = useState("")
-  const [memberId, setMemberId] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [passwordState, setpasswordState] = useState("")
-  const [nickname, setNickname] = useState("")
-
-  const [usernameError, setUserNameError] = useState("")
-  const [memberIdError, setMemberIdError] = useState("")
-  const [emailError, setEmailError] = useState("")
-  const [passwordStateError, setPasswordStateError] = useState("")
-  const [passwordError, setPasswordError] = useState("")
-  const [nicknameError, setNicknameError] = useState("")
-  const [registerError, setRegisterError] = useState("")
   const history = useHistory()
+  const theme = createTheme();
+  const [userProfile, setuserProfile] = useState({
+    memberId: "",
+    username: "",
+    nickname: "",
+    email: "",
+    caffeGoal: 0,
+    sugarGoal: 0,
+    imgUrl: "",
+    isModified: 0,
+  });
 
-  const [caffeineGoal, setCaffeineGoal] = useState(400)
-  const [sugarGoal, setSugarGoal] = useState(25)
+  const [changedProfile, setchangedProfile] = useState({
+  nickname: "",
+  caffeGoal: 1000,
+  sugarGoal: 500,
+  img: "",
+  isModified: 0,
+  });
 
-  // const handleAgree = (event) => {
-  //   setChecked(event.target.checked)
-  // }
+  const [caffeineGoal, setCaffeineGoal] = useState(userProfile.caffeGoal)
+  const [sugarGoal, setSugarGoal] = useState(userProfile.sugarGoal)
+  const [modifiedImage, setModifiedImage] = useState({
+    image_file: "",
+    preview_URL: userProfile.imgUrl,
+  })
 
-  const [image, setImage] = useState()
+  useMemo(() => {
+    const getUserInfo = async () => {
+      await getUserProfile(
+        (res) => {
+          return res.data;
+        },
+        (err) => console.log(err)
+      ).then((data) => setuserProfile(data));
+    };
+    getUserInfo();
+  }, []);
 
-  const getImg = (image_file, preview_URL) => {
-    const newImage = { image_file, preview_URL }
-    setImage(newImage)
+  useEffect(() => {
+    setchangedProfile({
+      nickname: userProfile.nickname,
+      caffeGoal: userProfile.caffeGoal,
+      sugarGoal: userProfile.sugarGoal,
+      img: userProfile.imgUrl,
+      isModified: 0
+      })
+  }, [userProfile]);
+
+  console.log(userProfile);
+  console.log(changedProfile);
+
+  const onChangeCaffeineGoal = (e) => {
+    setCaffeineGoal({
+      ...changedProfile,
+      caffeGoal: e.target.value,
+  })
   }
 
-  const onhandlePost = async (data) => {
-    const { memberId, email, username, nickname, password } = data
+  const onChangeSugarGoal = (e) => {
+    setSugarGoal({
+      ...changedProfile,
+      sugarGoal: e.target.value,
+  })
+  }
 
-    const postData = {
-      username: username,
-      memberId: memberId,
-      password: password,
-      email: email,
-      nickname: nickname,
+  const getImg = (image_file, preview_URL) => {
+      const newImage = {
+        image_file: image_file,
+        preview_URL: preview_URL
+      }
+      setModifiedImage(newImage)
     }
 
-    const formData = new FormData()
-    formData.append("img", image.image_file)
-    formData.append("data", JSON.stringify(postData))
+  const changeImg = () => {
+    setchangedProfile({
+      ...changedProfile,
+      isModified: 1,
+  })
+  }
 
-    // post
+  const deleteImg = () => {
+    setchangedProfile({
+      ...changedProfile,
+      isModified: 2,
+  })
+  }
+
+  const onChangeNickname = (e) => {
+    setchangedProfile({
+      ...changedProfile,
+      nickname: e.target.value,
+  })
+  }
+
+  console.log(changedProfile)
+  console.log(modifiedImage.image_file)
+
+  const data = new FormData()
+  data.append("img", modifiedImage.image_file)
+
+  const modifyInfo = async () => {
     await axios
-      .post("http://i8a808.p.ssafy.io:8080/user/join", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-        params: postData,
+      .put("http://i8a808.p.ssafy.io:8080/user2/modify", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization:localStorage.getItem('login-token'),},
+        params: changedProfile,
       })
-      .then(function (response) {
+      .then((response) => {
         console.log(response, "성공")
-        history.push("/main")
+        // if (response.status === 200) {
+        //   history.push("/mypage")
+        // }
       })
       .catch(function (err) {
         console.log(err)
-        setRegisterError("회원가입에 실패하였습니다. 다시 한 번 확인해 주세요.")
       })
-  }
-  // 이름 유효성 검사
-  const usernameRegex = /^[가-힣a-zA-Z]+$/
-  const onChangeUserName = (e) => {
-    if (
-      !e.target.value ||
-      usernameRegex.test(e.target.value) ||
-      username.length < 1
-    )
-      setUserNameError(false)
-    else setUserNameError("올바른 이름을 입력해주세요.")
-    setUserName(e.target.value)
-  }
-
-  // 아이디 유효성 체크
-  const idRegex = /^[a-zA-Z0-9]+$/
-  const onChangeUserId = (e) => {
-    if (!e.target.value || idRegex.test(e.target.value) || memberId.length < 1)
-      setMemberIdError(false)
-    else setMemberIdError("영문자+숫자 조합으로 입력해주세요.")
-    setMemberId(e.target.value)
-  }
-
-  // 비밀번호 유효성 체크
-  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,20}$/
-  const onChangePassword = (e) => {
-    if (!e.target.value || passwordRegex.test(e.target.value))
-      setPasswordError(false)
-    else setPasswordError("숫자+영문자 조합으로 8~20자리로 입력해주세요.")
-
-    if (!passwordState || e.target.value === passwordState)
-      setPasswordStateError(false)
-    else setPasswordStateError("비밀번호가 일치하지 않습니다.")
-    setPassword(e.target.value)
-  }
-
-  // 비밀번호 같은지 체크
-  const onChangePasswordState = (e) => {
-    if (password === e.target.value) setPasswordStateError(false)
-    else setPasswordStateError("비밀번호가 일치하지 않습니다.")
-    setpasswordState(e.target.value)
-  }
-
-  // 이메일 유효성 체크
-  const emailRegex =
-    /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
-  const onChangeEmail = (e) => {
-    if (!e.target.value || emailRegex.test(e.target.value)) setEmailError(false)
-    else setEmailError("올바른 이메일 형식이 아닙니다.")
-    setEmail(e.target.value)
-  }
-
-  // 닉네임 유효성 검사
-  const nicknameRegex = /^[가-힣a-zA-Z0-9]+$/
-  const onChangeNickname = (e) => {
-    if (
-      !e.target.value ||
-      nicknameRegex.test(e.target.value) ||
-      nickname.length < 1
-    )
-      setNicknameError(false)
-    else setNicknameError("한글, 영어, 숫자만 사용 가능합니다.")
-    setNickname(e.target.value)
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-
-    const data = new FormData(e.currentTarget)
-    const joinData = {
-      username: data.get("username"),
-      memberId: data.get("memberId"),
-      password: data.get("password"),
-      passwordState: data.get("passwordState"),
-      email: data.get("email"),
-      nickname: data.get("nickname"),
-    }
-    const { username, memberId, password, passwordState, email, nickname } =
-      joinData
-
-    // 회원가입 동의 체크
-    // if (!checked) alert("회원가입 약관에 동의해주세요.")
-
-    if (
-      idRegex.test(memberId) &&
-      emailRegex.test(email) &&
-      passwordRegex.test(password) &&
-      password === passwordState &&
-      usernameRegex.test(username) &&
-      nicknameRegex.test(nickname)
-      // checked
-    ) {
-      onhandlePost(joinData)
-    }
   }
 
   return (
-    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 2,
+            marginTop: 5,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -193,82 +159,51 @@ const UpdateProfilePage = () => {
           <Typography component="h1" variant="h5">
             회원 정보 수정
           </Typography>
-          <ProfileImageUploader getImg={getImg}></ProfileImageUploader>
-          <Boxs
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 2 }}
-          >
+          <ModifyProfileImageUploader defaultImage={userProfile.imgUrl} getImg={getImg}
+          changeImg={changeImg}
+          deleteImg={deleteImg}
+          />
+          <Boxs component="form" noValidate sx={{ mt: 2 }}>
             <FormControl component="fieldset" variant="standard">
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="username"
-                    name="username"
-                    label="이름"
-                    // error={usernameError !== "" || false}
-                    onChange={onChangeUserName}
-                  />
+                  <Typography>이름</Typography>
+                  <TextField fullWidth disabled label={userProfile.username} />
                 </Grid>
-                <FormHelperTexts>{usernameError}</FormHelperTexts>
                 <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="memberId"
-                    name="memberId"
-                    label="아이디"
-                    // error={memberIdError !== "" || false}
-                    onChange={onChangeUserId}
-                  />
-                </Grid>
-                <FormHelperTexts>{memberIdError}</FormHelperTexts>
-
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    type="email"
-                    id="email"
-                    name="email"
-                    label="이메일 주소"
-                    onChange={onChangeEmail}
-                  />
+                  <Typography>아이디</Typography>
+                  <TextField fullWidth disabled label={userProfile.memberId} />
                 </Grid>
 
                 <Grid item xs={12}>
+                  <Typography>E-mail</Typography>
+                  <TextField fullWidth disabled label={userProfile.email} />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <Typography>닉네임</Typography>
                   <TextField
-                    required
                     fullWidth
-                    id="nickname"
-                    name="nickname"
-                    label="닉네임"
-                    // error={nicknameError !== "" || false}
+                    variant="outlined"
+                    defaultValue={userProfile.nickname}
                     onChange={onChangeNickname}
                   />
                 </Grid>
-                <FormHelperTexts>{nicknameError}</FormHelperTexts>
-                {/* <Grid item xs={12}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox onChange={handleAgree} color="primary" />
-                    }
-                    label="회원가입 약관에 동의합니다."
-                  />
-                </Grid> */}
               </Grid>
-              <Button fullWidth variant="contained" sx={{ mt: 3 }} size="large">
+              <Button fullWidth style={{backgroundColor:'#ffba00', color:'white'}} sx={{ mt: 3 }} size="large">
                 비밀번호 변경하기
               </Button>
-              <GoalSettingItem />
+              <GoalSettingItem 
+              caffeineGoal={caffeineGoal}
+              sugarGoal={sugarGoal}
+              onChangeCaffeineGoal={onChangeCaffeineGoal}
+              onChangeSugarGoal={onChangeSugarGoal}/>
               <Button
                 type="submit"
-                variant="contained"
+                style={{backgroundColor:'#ffba00', color:'white'}}
                 sx={{ mt: 3 }}
                 size="large"
+                onClick={modifyInfo}
               >
                 저장
               </Button>
@@ -279,25 +214,24 @@ const UpdateProfilePage = () => {
                 회원탈퇴
               </Button>
             </FormControl>
-            <FormHelperTexts>{registerError}</FormHelperTexts>
           </Boxs>
         </Box>
       </Container>
-    </ThemeProvider>
-  )
-}
+  );
+  
+};
 
 const SendButton = styled.button`
   background-color: #ffffff;
-`
+`;
 const FormHelperTexts = styled(FormHelperText)`
   width: 100%;
   padding-left: 16px;
   font-weight: 700 !important;
   color: #d32f2f !important;
-`
+`;
 
 const Boxs = styled(Box)`
   padding-bottom: 10px !important;
-`
-export default UpdateProfilePage
+`;
+export default UpdateProfilePage;

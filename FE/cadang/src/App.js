@@ -121,6 +121,7 @@ function App() {
         <Route exact path="/custom" component={DefaultContainer} />
         <Route exact path="/selectmenu" component={DefaultContainer} />
         <Route exact path="/review" component={DefaultContainer} />
+        <Route exact path="/update-profile" component={DefaultContainer} />
       </Switch>
     </BrowserRouter>
   )

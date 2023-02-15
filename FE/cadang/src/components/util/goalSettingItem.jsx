@@ -21,7 +21,8 @@ export default function goalSettingItem(props) {
         </Grid>
         <Grid item xs={6}>
         <TextField id="standard-basic" label="목표량(mg)" variant="standard"
-        onChange={props.onChangeCaffeineGoal}/>
+        onChange={props.onChangeCaffeineGoal}
+        defaultValue={props.caffeineGoal ? props.caffeineGoal: '400'}/>
         </Grid>
 
         <Grid
@@ -40,6 +41,7 @@ export default function goalSettingItem(props) {
         </Grid>
         <Grid item xs={6}>
         <TextField id="standard-basic" label="목표량(g)" variant="standard" 
+        defaultValue={props.sugarGoal ? props.sugarGoal : '25'}
         onChange={props.onChangeSugarGoal}/>
         </Grid>
       </Grid>
