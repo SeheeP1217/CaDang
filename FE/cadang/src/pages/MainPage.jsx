@@ -87,7 +87,7 @@ export default function MainPage() {
   return (
     <Box sx={{ mt: 3 }}>
       <TitleBox>
-        <Typography level="h3" fontSize="xl" fontWeight="xl">
+        <Typography level="h3" fontSize="22px" fontWeight="xl">
           오늘의 현황
         </Typography>
       </TitleBox>
@@ -98,7 +98,7 @@ export default function MainPage() {
       </Card>
       <OrderStatus />
       <TitleBox>
-        <Typography level="h3" fontSize="xl" fontWeight="xl">
+        <Typography level="h3" fontSize="22px" fontWeight="xl" marginTop="5px">
           음료 추천
         </Typography>
       </TitleBox>

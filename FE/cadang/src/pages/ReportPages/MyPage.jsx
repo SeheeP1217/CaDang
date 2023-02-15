@@ -100,13 +100,13 @@ function MyPage() {
   return (
     <>
       <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
-        <Box sx={{ backgroundColor: "#F9F6F2", paddingY: 0 }}>
+        <TitleBox>
           <Typography level="h3" fontSize="xl" fontWeight="xl">
             MyPage
           </Typography>
-        </Box>
+        </TitleBox>
       </div>
-      <Card sx={{ marginBottom: 2 }}>
+      <Card sx={{ mb: 2, pl: 1 }}>
         <Grid container textAlign="center">
           <Grid item xs={2} margin="auto">
             <Avatar src="/static/images/avatar/1.jpg" />
@@ -162,9 +162,9 @@ function MyPage() {
       </Stack>
 
       <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
-        <Box sx={{ backgroundColor: "#F9F6F2", paddingY: 0 }}>
+        <TitleBox sx={{ paddingY: 0 }}>
           <AutocompleteSearchBar label="메뉴, 카페명 검색" data={top100Films} />
-        </Box>
+        </TitleBox>
       </div>
       <Paper variant="outlined" sx={{ backgroundColor: "#fff3e0" }}>
         <Typography
@@ -210,6 +210,14 @@ const dailyData = [
     money: 2400,
   },
 ]
+
+const TitleBox = styled(Box)`
+  margin-top: 2px;
+  margin-left: 1px;
+  padding-top: 1px;
+  paddign-top: 2px;
+  border-bottom: 2px solid #ffab00 !important;
+`
 
 const top100Films = [
   { title: "아이스 아메리카노", year: 1994 },
