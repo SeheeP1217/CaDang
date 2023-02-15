@@ -49,6 +49,7 @@ export default function goalSettingItem(props) {
               label="목표량(mg)"
               variant="standard"
               onChange={props.onChangeCaffeineGoal}
+              defaultValue={props.caffeineGoal ? props.caffeineGoal: '400'}
               style={{ marginLeft: "10px" }}
               inputProps={{
                 style: {
@@ -86,6 +87,7 @@ export default function goalSettingItem(props) {
               label="목표량(g)"
               variant="standard"
               onChange={props.onChangeSugarGoal}
+              defaultValue={props.sugarGoal ? props.sugarGoal: '400'}
               style={{ marginLeft: "10px", fontFamily: "netmarble" }}
               inputProps={{
                 style: {

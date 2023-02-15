@@ -307,9 +307,18 @@ const RegisterPage = () => {
           nickname,
         },
       })
+        .then((response) => {
+          console.log(response)
+          return response
+        })
         .then((res) => {
-          console.log(res, "<<<")
-          history.push("/info")
+          if (res.headers.autorization) {
+            localStorage.setItem('login-token', res.headers.autorization)
+          }
+          if (res.status === 200) {
+            alert('축하합니다! 마실까 말까의 회원이 되셨습니다!')
+            history.push("/info")
+          }
         })
         .catch((err) => {
           console.error(err)

@@ -61,7 +61,7 @@ function ReviewListItem(props) {
             <Grid item xs={2} margin="auto">
               <Img
                 id={review.id}
-                alt="complex"
+                alt="drink"
                 src={review.photo}
                 sx={{ width: "90%", backgroundColor: "#fafafa" }}
               />
