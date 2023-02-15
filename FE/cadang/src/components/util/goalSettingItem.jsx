@@ -7,6 +7,7 @@ import styled from "styled-components"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 
 export default function goalSettingItem(props) {
+  console.log(props)
   const theme = createTheme({
     palette: {
       primary: {
@@ -33,7 +34,7 @@ export default function goalSettingItem(props) {
               alignItems: "center",
             }}
           >
-            <img src={coffeebean} alt={coffeebean} style={{ width: "30px" }} />
+            <img src={coffeebean} alt={coffeebean} style={{ width: "20%" }} />
             <Typography
               style={{
                 fontFamily: "netmarble",
@@ -49,7 +50,7 @@ export default function goalSettingItem(props) {
               label="목표량(mg)"
               variant="standard"
               onChange={props.onChangeCaffeineGoal}
-              defaultValue={props.caffeineGoal ? props.caffeineGoal: '400'}
+              defaultValue={props.caffeineGoal}
               style={{ marginLeft: "10px" }}
               inputProps={{
                 style: {
@@ -87,7 +88,7 @@ export default function goalSettingItem(props) {
               label="목표량(g)"
               variant="standard"
               onChange={props.onChangeSugarGoal}
-              defaultValue={props.sugarGoal ? props.sugarGoal: '25'}
+              defaultValue={props.sugarGoal}
               style={{ marginLeft: "10px", fontFamily: "netmarble" }}
               inputProps={{
                 style: {

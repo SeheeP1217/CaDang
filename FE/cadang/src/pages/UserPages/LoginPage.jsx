@@ -77,32 +77,25 @@ const LoginPage = () => {
     const postData = { memberId, password }
 
     await axios
-      .post("http://i8a808.p.ssafy.io:8080/login", postData, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        // console.log("//////////////")
-        // console.log(response.headers)
-        // console.log("//////////////")
-        console.log(response)
-        return response
-
-        // let headers = response.headers.authorization
-        // localStorage.setItem("token", headers)
-
-        // console.log(localStorage)
-        // history.push("/main")
-      })
-      .then((response) => {
-        if (response.headers.authorization) {
-          localStorage.setItem("login-token", response.headers.authorization)
-          console.log(data)
-        }
-        if (response.status === 200) {
-          alert("로그인에 성공하였습니다.")
+    .post("http://i8a808.p.ssafy.io:8080/login", postData, {
+      withCredentials: true,
+    })
+    .then(async (response) => {
+      console.log(response)
+      return response
+    })
+    .then(async (response) => {
+      if (response.headers.authorization) {
+        localStorage.setItem("login-token", response.headers.authorization)
+        console.log(data)
+      }
+      if (response.status === 200) {
+        alert("로그인에 성공하였습니다.")
+        setTimeout(() => {
           history.push("/main")
-        }
-      })
+        }, 1500)
+      }
+    })
       .catch(function (err) {
         console.log(err)
         console.log("로그인 안됨")

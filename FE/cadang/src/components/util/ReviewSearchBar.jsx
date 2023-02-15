@@ -10,12 +10,12 @@ import { Button, Grid } from "@mui/material";
 
 
 function ReviewSearchBar(props) {
-  console.log(props.data.recordList);
+  console.log(props);
   const [reviews, setReviews] = useState([])
 
   useEffect(() => {
     setReviews(props.data.recordList)
-  }, [props.data])
+  }, [props])
 
   return (
     <Grid container style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>

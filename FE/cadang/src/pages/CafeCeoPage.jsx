@@ -54,7 +54,7 @@ export default function CafeCeoPage() {
   // }, [drink]);
 
   return (
-    <Card style={{ background: "#FF6E6E" }}>
+    <Card style={{ background: "#FE9A2E" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }} mt={2}>
         <Tabs
           value={value}
