@@ -55,11 +55,11 @@ public class DataService {
     }
 
     @Transactional
-    public Long createDataByRegDate(Long userId, LocalDate date) {
+    public Data createDataByRegDate(Long userId, LocalDate date) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
-        Data saveData = dataRepository.save(new Data(user, date));
-        return saveData.getId();
+        Data saveData = dataRepository.saveAndFlush(new Data(user, date));
+        return saveData;
     }
 
 
@@ -180,8 +180,6 @@ public class DataService {
     }
 
     public MonthDataDto getMonthData(LocalDate date, Long userId) {
-        System.out.println("date = " + date);
-        System.out.println("userId = " + userId);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
         List<Data> monthData = dataRepository.findMonthData(date, userId);
@@ -233,7 +231,7 @@ public class DataService {
         log.info("날짜 = {}", findOrder.getRegDate().toLocalDate());
         log.info("사용자 아이디 = {}", findOrder.getUser().getId());
         Data updateData = dataRepository.findByUserAndDate(findOrder.getRegDate().toLocalDate(), findOrder.getUser().getId())
-                .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
+                .orElse(createDataByRegDate(findOrder.getUser().getId(), findOrder.getRegDate().toLocalDate()));
         updateData.setCaffeDaily(updateData.getCaffeDaily() + findOrder.getCaffeine());
         updateData.setSugarDaily(updateData.getSugarDaily() + findOrder.getSugar());
         updateData.setCalDaily(updateData.getCalDaily() + findOrder.getCal());
