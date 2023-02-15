@@ -11,6 +11,7 @@ import com.ssafy.cadang.repository.DrinkRepository;
 import com.ssafy.cadang.repository.RecordReposiotry;
 import com.ssafy.cadang.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @Transactional(readOnly = true)
 public class RecordService {
     private final RecordReposiotry recordReposiotry;
@@ -138,6 +140,7 @@ public class RecordService {
         if (findRecord.getOrderStatus() == OrderStatus.PICKUP && updateDto.getRegDate() != null) {
             throw new CustomException(ExceptionEnum.RECORD_NOT_ALLOWED_MODIFY);
         }
+
         // 해당 날짜 기록 삭제
         dataService.updateDataByDelete(findRecord);
 
@@ -145,7 +148,9 @@ public class RecordService {
         findRecord.setRegDate(localDateTime); // data 수정하기
         findRecord.setMemo(updateDto.getMemo());
         // 새로운 날짜에 기록 추가
+
         dataService.updateData(findRecord);
+
         findRecord.setPublic(updateDto.getIsPublic());
         if (updateDto.getIsModified() == 1) {
             // 수정
