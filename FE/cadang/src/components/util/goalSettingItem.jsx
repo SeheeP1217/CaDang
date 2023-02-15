@@ -1,48 +1,101 @@
-import * as React from "react";
-import { Box, Button, Grid } from "@mui/material";
-import TextField from "@mui/material/TextField";
+import * as React from "react"
+import { Box, Button, Grid, Typography } from "@mui/material"
+import TextField from "@mui/material/TextField"
+import coffeebean from "../../assets/coffeebean.png"
+import sugar from "../../assets/sugar.png"
+import styled from "styled-components"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
 
 export default function goalSettingItem(props) {
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#3A130C",
+      },
+    },
+    typography: {
+      fontFamily: "netmarble",
+    },
+  })
   return (
-    <Box width="90%" my={3} mx="auto">
-      <Grid container rowGap={2}>
-        <Grid
-          item
-          xs={6}
-          style={{
-            background: "#ffba00",
-            borderRadius: "10px",
-            textAlign: "center",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >☕ 카페인 목표량
-        </Grid>
-        <Grid item xs={6}>
-        <TextField id="standard-basic" label="목표량(mg)" variant="standard"
-        onChange={props.onChangeCaffeineGoal}/>
-        </Grid>
+    <ThemeProvider theme={theme}>
+      <Box width="90%" my={3} mx="auto">
+        <Grid container rowGap={2}>
+          <Grid
+            item
+            xs={6}
+            style={{
+              background: "#ffba00",
+              borderRadius: "10px",
+              textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img src={coffeebean} alt={coffeebean} style={{ width: "30px" }} />
+            <Typography
+              style={{
+                fontFamily: "netmarble",
+                fontSize: "20px",
+              }}
+            >
+              카페인 목표량
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="standard-basic"
+              label="목표량(mg)"
+              variant="standard"
+              onChange={props.onChangeCaffeineGoal}
+              style={{ marginLeft: "10px" }}
+              inputProps={{
+                style: {
+                  caretColor: "orange",
+                },
+              }}
+            />
+          </Grid>
 
-        <Grid
-          item
-          xs={6}
-          style={{
-            background: "#ffba00",
-            borderRadius: "10px",
-            textAlign: "center",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-        🍯 당 목표량
+          <Grid
+            item
+            xs={6}
+            style={{
+              background: "#ffba00",
+              borderRadius: "10px",
+              textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img src={sugar} alt={sugar} style={{ width: "30px" }} />
+            <Typography
+              style={{
+                fontFamily: "netmarble",
+                fontSize: "20px",
+              }}
+            >
+              당 목표량
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              id="standard-basic"
+              label="목표량(g)"
+              variant="standard"
+              onChange={props.onChangeSugarGoal}
+              style={{ marginLeft: "10px", fontFamily: "netmarble" }}
+              inputProps={{
+                style: {
+                  caretColor: "orange",
+                },
+              }}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-        <TextField id="standard-basic" label="목표량(g)" variant="standard" 
-        onChange={props.onChangeSugarGoal}/>
-        </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </ThemeProvider>
   )
 }
