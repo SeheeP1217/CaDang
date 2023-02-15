@@ -12,6 +12,7 @@ import Grid from "@mui/material/Grid"
 import { Card } from "@mui/material"
 import { Link } from "react-router-dom"
 import dayjs from "dayjs"
+import styled from "styled-components"
 
 // 검색바 import
 import AutocompleteSearchBar from "../../components/util/AutocompleteSearchBar"
@@ -121,22 +122,40 @@ function MyPage() {
       </Card>
       <Stack spacing={1}>
         <Button
-          sx={{ backgroundColor: "#ffba00" }}
+          sx={{
+            backgroundColor: "#ffba00",
+            color: "white",
+            fontFamily: "netmarble",
+            fontSize: "20px",
+            mt: "5px",
+            mb: "5px",
+            boxShadow: "2px 2px 2px 1px #FFab00",
+          }}
           component={Link}
           to="/payment-report"
           variant="filledTonal"
-          startIcon={<ContentPasteSearchIcon />}
-          endIcon={<ArrowForwardIosIcon />}
+          startIcon={
+            <ContentPasteSearchIcon sx={{ color: "white", fontSize: "30px" }} />
+          }
+          endIcon={<ArrowForwardIosIcon sx={{ color: "white" }} />}
         >
           주문 내역 보러가기
         </Button>
         <Button
-          sx={{ backgroundColor: "#ffba00" }}
+          sx={{
+            backgroundColor: "#ffba00",
+            color: "white",
+            fontFamily: "netmarble",
+            fontSize: "20px",
+            mt: "5px",
+            mb: "10px",
+            boxShadow: "2px 2px 2px 1px #FFab00",
+          }}
           component={Link}
           to="/report"
           variant="filledTonal"
-          startIcon={<AssessmentIcon />}
-          endIcon={<ArrowForwardIosIcon />}
+          startIcon={<AssessmentIcon sx={{ color: "white" }} />}
+          endIcon={<ArrowForwardIosIcon sx={{ color: "white" }} />}
         >
           내 리포트 보러가기
         </Button>
