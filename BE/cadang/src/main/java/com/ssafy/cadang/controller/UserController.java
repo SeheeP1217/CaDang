@@ -1,7 +1,6 @@
 package com.ssafy.cadang.controller;
 
 
-
 import com.ssafy.cadang.dto.user.EmailVerifyDto;
 import com.ssafy.cadang.dto.user.UserDto;
 import com.ssafy.cadang.dto.user.UserFindPassDto;
@@ -122,13 +121,13 @@ public class UserController {
 
     @GetMapping("/user/email/findpw")
     @Operation(summary = "비밀번호 찾기 시 이메일 인증번호 확인")
-    public ResponseEntity<?> verifyEmail(@RequestBody UserFindPassDto userFindPassDto) {
+    public ResponseEntity<?> verifyEmail(@RequestParam String email, @RequestParam String key) {
 
         logger.info("verifyEmail - 호출 {} ");
         logger.info(" 요청 시간 - {}", LocalDateTime.now());
 
-        if (emailService.verifyEmail(userFindPassDto.getEmail(), userFindPassDto.getKey())) {
-            Long id = userService.findByEmail(userFindPassDto.getEmail());
+        if (emailService.verifyEmail(email, key)) {
+            Long id = userService.findByEmail(email);
             EmailVerifyDto emailVerifyDto = EmailVerifyDto.builder()
                     .check(true)
                     .id(id)
