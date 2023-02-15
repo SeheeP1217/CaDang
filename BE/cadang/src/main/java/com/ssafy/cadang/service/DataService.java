@@ -230,8 +230,9 @@ public class DataService {
     public void updateData(Order findOrder) {
         log.info("날짜 = {}", findOrder.getRegDate().toLocalDate());
         log.info("사용자 아이디 = {}", findOrder.getUser().getId());
-        Data updateData = dataRepository.findByUserAndDate(findOrder.getRegDate().toLocalDate(), findOrder.getUser().getId())
-                .orElse(createDataByRegDate(findOrder.getUser().getId(), findOrder.getRegDate().toLocalDate()));
+        Optional<Data> optionalData = dataRepository.findByUserAndDate(findOrder.getRegDate().toLocalDate(), findOrder.getUser().getId());
+        Data updateData= optionalData.orElseGet(() -> createDataByRegDate(findOrder.getUser().getId(), findOrder.getRegDate().toLocalDate()));
+
         updateData.setCaffeDaily(updateData.getCaffeDaily() + findOrder.getCaffeine());
         updateData.setSugarDaily(updateData.getSugarDaily() + findOrder.getSugar());
         updateData.setCalDaily(updateData.getCalDaily() + findOrder.getCal());
