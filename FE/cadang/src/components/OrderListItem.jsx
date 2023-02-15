@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState, useMemo } from "react";
 import { Box, Grid, Card } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import Button from "@mui/material-next/Button";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import Divider from "@mui/material/Divider";
 import SockJsClient from "react-stomp";
 import { setOrderStatus } from "../api/cafeCeo";
@@ -182,16 +185,16 @@ export default function OrderListItem(props) {
     setPickup(false);
 
     if (props.order.orderStatus === "ACCEPT") {
-      pickupBtn.current.background = "#FF9E57";
+      // pickupBtn.current.background = "#FF9E57";
       setAccept(true);
       setComplete(false);
-      setPickup((pickup) => false);
+      setPickup(() => false);
     } else if (props.order.orderStatus === "COMPLETE") {
       setAccept(false);
       setComplete(true);
-      setPickup((pickup) => false);
+      setPickup(() => false);
     } else if (props.order.orderStatus === "PICKUP") {
-      pickupBtn.current.background = "FF9E57";
+      // pickupBtn.current.background = "FF9E57";
       setAccept(false);
       setComplete(false);
       // setPickup(true);
@@ -324,6 +327,16 @@ export default function OrderListItem(props) {
         >
           픽업 완료
         </Button>
+        {/* <RadioGroup
+          row
+          aria-labelledby="demo-row-radio-buttons-group-label"
+          name="row-radio-buttons-group"
+        >
+          <FormControlLabel value="female" control={<Radio />} label="음료 제조 중" />
+          <FormControlLabel value="male" control={<Radio />} label="제조 완료" />
+          <FormControlLabel value="other" control={<Radio />} label="픽업 완료" />
+          {/* <FormControlLabel value="disabled" disabled control={<Radio />} label="other" /> */}
+        {/* </RadioGroup> */}
       </Box>
       <Divider />
     </div>
