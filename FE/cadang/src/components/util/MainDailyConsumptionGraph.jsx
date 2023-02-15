@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { Grid, Typography } from "@mui/material"
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Rectangle } from "recharts"
+import coffeebean from "../../assets/coffeebean.png"
+import sugar from "../../assets/sugar.png"
 
 function MainDailyConsumptionGraph(props) {
   const chartData = props.data
@@ -52,7 +54,11 @@ function MainDailyConsumptionGraph(props) {
             {Number(chartData.caffeDaily)}mg / {chartData.caffeGoal}mg
           </Typography>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={0.2}></Grid>
+        <Grid item xs={0.5}>
+          <img src={coffeebean} alt="coffeebean" width="30px" />
+        </Grid>
+        <Grid item xs={11.3}>
           <BarChart
             layout="vertical"
             width={300}
@@ -100,7 +106,11 @@ function MainDailyConsumptionGraph(props) {
             {Number(chartData.sugarDaily)}g / {chartData.sugarGoal}g
           </Typography>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={0.2}></Grid>
+        <Grid item xs={0.5}>
+          <img src={sugar} alt="sugar" width="30px" />
+        </Grid>
+        <Grid item xs={11.3}>
           <BarChart
             layout="vertical"
             width={330}

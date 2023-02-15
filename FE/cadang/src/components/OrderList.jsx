@@ -9,6 +9,7 @@ import SockJsClient from "react-stomp";
 export default function OrderList() {
   const [orderListData, setOrderListData] = useState([]);
   const $websocket = useRef();
+
   // 픽업 완료했을 시 해당 주문의 아이템 삭제
   const onRemove = (idx) => {
     const newChild = orderListData;

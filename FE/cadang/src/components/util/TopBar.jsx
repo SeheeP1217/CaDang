@@ -5,7 +5,6 @@ import AppBar from "@mui/material/AppBar"
 import Toolbar from "@mui/material/Toolbar"
 import Box from "@mui/material/Box"
 import CssBaseline from "@mui/material/CssBaseline"
-import logo from "../../assets/logo.png"
 import logo222 from "../../assets/logo222.png"
 
 export default function TopBar() {

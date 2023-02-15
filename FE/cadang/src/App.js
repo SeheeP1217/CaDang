@@ -2,7 +2,7 @@ import LoginPage from "./pages/UserPages/LoginPage"
 import { BrowserRouter, Route, Switch } from "react-router-dom"
 import RegisterPage from "./pages/UserPages/RegisterPage"
 import * as React from "react"
-import logo from "./assets/logo.png"
+import logo222 from "./assets/logo222.png"
 import styled from "styled-components"
 import GlobalStyle from "./components/util/GlobalStyle"
 
@@ -45,8 +45,8 @@ function App() {
   const IntroContainer = () => (
     <div>
       {/* img fixed 옵션으로 바꿀지?? */}
-      <TopImage>
-        <img height={75} src={logo} alt="커피" />
+      <TopImage style={{ backgroundColor: "#FFEDDE", padding: "3px" }}>
+        <img height={75} src={logo222} alt="커피" />
       </TopImage>
       <Switch>
         <Route exact path="/error404" component={Error404Page} />
