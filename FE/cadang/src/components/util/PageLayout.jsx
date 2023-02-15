@@ -6,8 +6,9 @@ import styled from "styled-components"
 
 function PageLayout(props) {
   const MainLayout = styled.div(() => ({
-    backgroundColor: "#FFFFFF",
-    width: "95%",
+    backgroundColor: "#F9F6F2",
+    width: "100%",
+    padding: "5%",
     marginTop: 15,
     marginBottom: 60,
     marginLeft: "auto",

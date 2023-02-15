@@ -4,7 +4,7 @@ import dayGridPlugin from "@fullcalendar/daygrid"
 import interactionPlugin from "@fullcalendar/interaction"
 import coffeebean from "../assets/coffeebean.png"
 import coffeebeansugar from "../assets/coffeebeansugar.png"
-import sugar2 from "../assets/sugar2.png"
+import sugar from "../assets/sugar.png"
 import "./MyCalendar.css"
 import { Grid, Modal, Typography, Card, Button } from "@mui/material"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
@@ -88,7 +88,7 @@ class MyCalendar extends React.Component {
         } else if (item.caffeSuccess && !item.sugarSuccess) {
           return { date: item.date, url: coffeebean }
         } else if (!item.caffeSuccess && item.sugarSuccess) {
-          return { date: item.date, url: sugar2 }
+          return { date: item.date, url: sugar }
         }
       })
     console.log("aaaaaaaa", this.state.modalData.date)
@@ -149,7 +149,7 @@ class MyCalendar extends React.Component {
                       <Icon src={coffeebean}></Icon>
                       {this.state.modalData.caffeDaily}/
                       {this.state.modalData.caffeGoal}
-                      <Icon src={sugar2}></Icon>
+                      <Icon src={sugar}></Icon>
                       {this.state.modalData.sugarDaily}/
                       {this.state.modalData.sugarGoal}
                     </Typography>
