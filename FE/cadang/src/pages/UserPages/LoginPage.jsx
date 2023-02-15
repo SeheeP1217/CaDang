@@ -85,7 +85,7 @@ const LoginPage = () => {
         // console.log(response.headers)
         // console.log("//////////////")
         console.log(response)
-        return response;
+        return response
 
         // let headers = response.headers.authorization
         // localStorage.setItem("token", headers)
@@ -95,12 +95,12 @@ const LoginPage = () => {
       })
       .then((response) => {
         if (response.headers.authorization) {
-          localStorage.setItem('login-token', response.headers.authorization)
-          console.log(data);
+          localStorage.setItem("login-token", response.headers.authorization)
+          console.log(data)
         }
         if (response.status === 200) {
-          alert('로그인에 성공하였습니다.')
-          history.push('/main')
+          alert("로그인에 성공하였습니다.")
+          history.push("/main")
         }
       })
       .catch(function (err) {
@@ -175,6 +175,7 @@ const LoginPage = () => {
                     id="memberId"
                     name="memberId"
                     label="아이디"
+                    variant="standard"
                     // error={memberIdError !== "" || false}
                     onChange={onChangeUserId}
                   />
@@ -188,6 +189,7 @@ const LoginPage = () => {
                     id="password"
                     name="password"
                     label="비밀번호 (숫자+영문자+특수문자 8자리 이상)"
+                    variant="standard"
                     // error={passwordError !== "" || false}
                     onChange={onChangePassword}
                   />

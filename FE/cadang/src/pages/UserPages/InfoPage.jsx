@@ -8,6 +8,8 @@ import Button from "@mui/material-next/Button"
 import Stack from "@mui/material/Stack"
 import styled from "styled-components"
 import GoalSettingItem from "../../components/util/goalSettingItem"
+import coffeebean from "../../assets/coffeebean.png"
+import sugar from "../../assets/sugar.png"
 
 import ade from "../../assets/menus/ade.png"
 import americano from "../../assets/menus/americano.png"
@@ -18,6 +20,7 @@ import latte from "../../assets/menus/latte.png"
 import { useEffect } from "react"
 import { useHistory, Link } from "react-router-dom"
 import { setUserGoal } from "../../api/user"
+import { fontFamily } from "@mui/system"
 
 function InfoPage() {
   const history = useHistory()
@@ -59,55 +62,216 @@ function InfoPage() {
   return (
     <Paper elevation={2} sx={{ backgroundColor: "#F9F6F2", paddingTop: 1 }}>
       <Paper sx={{ width: "95%", paddingTop: 3, mx: "auto", mt: 1 }}>
-        <Box mx={2}>
+        <Grid mx={2}>
           <div>목표량을 정해 볼까요?</div>
           <div>카페인 일일 섭취 권고량은 400mg 입니다.</div>
           <div>당류 일일 섭취 권고량은 25g 입니다.</div>
-        </Box>
-        <Box sx={{ width: "100%" }}>
+        </Grid>
+        <Grid container sx={{ width: "100%", ml: 5, mt: 2 }}>
           <Grid
             container
             rowSpacing={1}
             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           >
-            <Grid item xs={6}>
-              <ListItem>
-                <img width="50%" src={americano} alt="americano" />
-                <ListItemText primary="아메리카노" secondary="140mg, 0g" />
-              </ListItem>
+            <Grid
+              container
+              xs={5}
+              alignItems="center"
+              spacing={1}
+              style={{ height: "110px" }}
+            >
+              <Grid item xs={4}>
+                <img width="130%" src={americano} alt="americano" />
+              </Grid>
+              <Grid item xs={8}>
+                <Typography style={{ whiteSpace: "normal", lineHeight: 1.2 }}>
+                  아메리카노
+                </Typography>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <img
+                    src={coffeebean}
+                    alt="coffeebean"
+                    style={{ width: "22px", height: "22px" }}
+                  />
+                  <Typography style={{ fontSize: "12px" }}>140mg</Typography>
+                </div>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <img
+                    src={sugar}
+                    alt="sugar"
+                    style={{ width: "22px", height: "22px" }}
+                  />
+                  <Typography style={{ fontSize: "12px" }}>0g</Typography>
+                </div>
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <ListItem>
-                <img width="50%" src={latte} alt="latte" />
-                <ListItemText primary="카페모카" secondary="140mg, 15.1g" />
-              </ListItem>
+
+            <Grid
+              container
+              xs={5}
+              alignItems="center"
+              spacing={1}
+              style={{ height: "110px" }}
+            >
+              <Grid item xs={4}>
+                <img width="130%" src={latte} alt="latte" />
+              </Grid>
+              <Grid item xs={8}>
+                <Typography style={{ whiteSpace: "normal", lineHeight: 1.2 }}>
+                  카페모카
+                </Typography>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <img
+                    src={coffeebean}
+                    alt="coffeebean"
+                    style={{ width: "22px", height: "22px" }}
+                  />
+                  <Typography style={{ fontSize: "12px" }}>140mg</Typography>
+                </div>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <img
+                    src={sugar}
+                    alt="sugar"
+                    style={{ width: "22px", height: "22px" }}
+                  />
+                  <Typography style={{ fontSize: "12px" }}>15.1g</Typography>
+                </div>
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <ListItem>
-                <img width="50%" src={frappe} alt="frappe" />
-                <ListItemText primary="스무디" secondary="140mg, 30~80g" />
-              </ListItem>
+
+            <Grid
+              container
+              xs={5}
+              alignItems="center"
+              spacing={1}
+              style={{ height: "110px" }}
+            >
+              <Grid item xs={4}>
+                <img width="130%" src={frappe} alt="frappe" />
+              </Grid>
+              <Grid item xs={8}>
+                <Typography style={{ whiteSpace: "normal", lineHeight: 1.2 }}>
+                  스무디
+                </Typography>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <img
+                    src={coffeebean}
+                    alt="coffeebean"
+                    style={{ width: "22px", height: "22px" }}
+                  />
+                  <Typography style={{ fontSize: "12px" }}>0~140mg</Typography>
+                </div>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <img
+                    src={sugar}
+                    alt="sugar"
+                    style={{ width: "22px", height: "22px" }}
+                  />
+                  <Typography style={{ fontSize: "12px" }}>30~80g</Typography>
+                </div>
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <ListItem>
-                <img width="50%" src={coke} alt="coke" />
-                <ListItemText primary="콜라" secondary="25mg, 11g" />
-              </ListItem>
+
+            <Grid
+              container
+              xs={5}
+              alignItems="center"
+              spacing={1}
+              style={{ height: "110px" }}
+            >
+              <Grid item xs={4}>
+                <img width="130%" src={coke} alt="coke" />
+              </Grid>
+              <Grid item xs={8}>
+                <Typography style={{ whiteSpace: "normal", lineHeight: 1.2 }}>
+                  콜라
+                </Typography>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <img
+                    src={coffeebean}
+                    alt="coffeebean"
+                    style={{ width: "22px", height: "22px" }}
+                  />
+                  <Typography style={{ fontSize: "12px" }}>25mg</Typography>
+                </div>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <img
+                    src={sugar}
+                    alt="sugar"
+                    style={{ width: "22px", height: "22px" }}
+                  />
+                  <Typography style={{ fontSize: "12px" }}>11g</Typography>
+                </div>
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <ListItem>
-                <img width="50%" src={juice} alt="juice" />
-                <ListItemText primary="과일주스" secondary="0mg, 8~12g" />
-              </ListItem>
+
+            <Grid
+              container
+              xs={5}
+              alignItems="center"
+              spacing={1}
+              style={{ height: "110px" }}
+            >
+              <Grid item xs={4}>
+                <img width="130%" src={juice} alt="juice" />
+              </Grid>
+              <Grid item xs={8}>
+                <Typography style={{ whiteSpace: "normal", lineHeight: 1.2 }}>
+                  과일주스
+                </Typography>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <img
+                    src={coffeebean}
+                    alt="coffeebean"
+                    style={{ width: "22px", height: "22px" }}
+                  />
+                  <Typography style={{ fontSize: "12px" }}>0mg</Typography>
+                </div>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <img
+                    src={sugar}
+                    alt="sugar"
+                    style={{ width: "22px", height: "22px" }}
+                  />
+                  <Typography style={{ fontSize: "12px" }}>8~12g</Typography>
+                </div>
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <ListItem>
-                <img width="50%" src={ade} alt="ade" />
-                <ListItemText primary="에이드" secondary="0mg, 42~62g" />
-              </ListItem>
+
+            <Grid
+              container
+              xs={5}
+              alignItems="center"
+              spacing={1}
+              style={{ height: "110px" }}
+            >
+              <Grid item xs={4}>
+                <img width="130%" src={ade} alt="ade" />
+              </Grid>
+              <Grid item xs={8}>
+                <Typography style={{ whiteSpace: "normal", lineHeight: 1.2 }}>
+                  에이드
+                </Typography>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <img
+                    src={coffeebean}
+                    alt="coffeebean"
+                    style={{ width: "22px", height: "22px" }}
+                  />
+                  <Typography style={{ fontSize: "12px" }}>0mg</Typography>
+                </div>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <img
+                    src={sugar}
+                    alt="sugar"
+                    style={{ width: "22px", height: "22px" }}
+                  />
+                  <Typography style={{ fontSize: "12px" }}>42~62g</Typography>
+                </div>
+              </Grid>
             </Grid>
           </Grid>
-        </Box>
+        </Grid>
       </Paper>
 
       <GoalSettingItem
@@ -117,17 +281,31 @@ function InfoPage() {
       <Stack spacing={1} width="50%" margin="auto">
         <Button
           variant="filledTonal"
-          sx={{ backgroundColor: "#ffba00" }}
+          sx={{
+            backgroundColor: "#ffab00",
+            color: "white",
+            fontSize: "20px",
+            fontFamily: "netmarble",
+          }}
           onMouseDown={setDrinkGoal}
         >
           입력완료
         </Button>
-        <Link to={"/main"}>
-          <Button variant="text">나중에 설정하기</Button>
-        </Link>
+        <Button
+          component={Link}
+          to="/main"
+          variant="text"
+          style={{ color: "black", fontFamily: "netmarble" }}
+        >
+          나중에 설정하기
+        </Button>
       </Stack>
     </Paper>
   )
 }
+
+const CaffeAmount = styled(Typography)`
+  font-family: netmarble;
+`
 
 export default InfoPage
