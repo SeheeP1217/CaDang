@@ -152,7 +152,7 @@ export default function OrderListItem(props) {
       // setCustomerId();
     } else if (status === "PICKUP") {
       console.log("현재 주문 현황 PICKUP인 경우 complete 상태: " + complete);
-      setPickup(false);
+      // setPickup(false);
       setTimeout(() => setComplete(false), 10);
       setTimeout(() => handleClickSendToPickup(), 500);
     }
@@ -208,7 +208,7 @@ export default function OrderListItem(props) {
         url="http://i8a808.p.ssafy.io:8080/websocket"
         headers={{
           Authorization:
-            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdGFyYnVja3MiLCJpZCI6MSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjQyMDE4M30.5fIcQRXCRCaddt8ekcw-8BIHHA7I6zQwUgQXy85yE9gbJ2UGBumnCyMssleEHg7G6XNW2fCHSKDuDKbB9PKiCA",
+            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdGFyYnVja3MiLCJpZCI6MSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjUwNjcxOX0.PFVyJuhUcxKWPXop6YRC6nosELoZIAGDGaU2ctk75zseUstkYz6W-f08YzhAgGPdV9xbhbBqGKrmxZ0KVyYIOQ",
         }}
         // topics={["/topic/store-order-manage/1", ""]}
         onMessage={(msg) => {
@@ -315,8 +315,8 @@ export default function OrderListItem(props) {
             border: "1px solid",
             borderColor: (theme) => (theme.palette.mode === "dark" ? "grey.800" : "grey.300"),
             borderRadius: 2,
-            background: "#FF9E57",
-            // background: pickup === true ? "grey.300" : "#FF9E57",s
+            // background: "#FF9E57",
+            background: pickup === true ? "grey.300" : "#FF9E57",
             fontSize: 12,
             fontWeight: "500",
           }}
