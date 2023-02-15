@@ -4,10 +4,10 @@ import { atom, selector } from "recoil";
 // 주문 등록 아이템 정보
 
 const item = {
-  drinkId: 0,
-  caffeine: 0,
+  drinkId: 1291,
+  caffeine: 250,
   sugar: 0,
-  cal: 0,
+  cal: 5,
   price: 0,
   shot: 0,
   whip: false,
@@ -16,9 +16,10 @@ const item = {
   vanilla: 0,
   hazelnut: 0,
   caramel: 0,
-  photo: "",
-  storeName: "",
-  storeId: 0,
+  photo:
+    "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[9200000000038]_20210430113202458.jpg",
+  storeName: "스타벅스 역삼대로",
+  storeId: 1,
 };
 
 const orderItem = atom({

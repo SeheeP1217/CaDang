@@ -15,7 +15,7 @@ export default function NewOrderListItem(props) {
   const onClickAccept = () => {
     console.log("수락 버튼 클릭!!!!!!!!!!!!!!!!!!!!!!!");
     // if (window.confirm(`${props.id + 1}번째 주문을 수락하시겠습니까?`))
-    if (alert(`${props.id + 1}번째 주문을 수락하셨습니다!`)) {
+    if (window.confirm(`${props.id + 1}번째 주문을 수락하시겠습니까?`)) {
       setStatus((accept) => "accept");
 
       const putOrder = async () => {
