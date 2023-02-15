@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @lombok.Data
 public class DayDataDto {
     private Long id;
-    private Long userId;
+    private String nickname;
     private LocalDate date;
     private long caffeGoal;
     private long sugarGoal;
@@ -24,7 +24,7 @@ public class DayDataDto {
 
     public DayDataDto(Data data) {
         id = data.getId();
-        userId = data.getUser().getId();
+        nickname = data.getUser().getNickname();
         date = data.getRegDate();
         caffeGoal = data.getCaffeGoal();
         sugarGoal = data.getSugarGoal();
