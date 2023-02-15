@@ -5,19 +5,38 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { fontSize } from "@mui/system";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { Box, Grid } from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
 import payCompleteImg from "../assets/payComplete.png";
 import making from "../assets/making.png";
 import finished from "../assets/finished.png";
+import SockJsClient from "react-stomp";
 
-export default function OrderStatus() {
+export default function OrderStatus(props) {
+  const $websocket = useRef();
+  const userId = props.userId;
+  console.log("OrderStatus 컴포넌트 안에서 props로 받아온 userId : " + userId);
+
   return (
     <div
       style={{
         marginTop: "5%",
       }}
     >
+      {/* 웹소켓 클라이언트 연결 */}
+      <SockJsClient
+        url="http://i8a808.p.ssafy.io:8080/websocket"
+        headers={{
+          Authorization: localStorage.getItem("login-token"),
+        }}
+        topics={["/topic/customer-order-manage/" + userId + "", ""]}
+        onMessage={(msg) => {
+          console.log(msg);
+          // setMsg(msg);
+        }}
+        ref={$websocket}
+      />
       {/* defaultExpanded 속성을 통해 AccordionDetails 보이게 하기 defaultExpanded="true" */}
       <Accordion defaultExpanded="true">
         <Box
