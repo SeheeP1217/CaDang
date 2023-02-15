@@ -9,15 +9,14 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Typography from "@mui/joy/Typography";
 import Avatar from "@mui/joy/Avatar";
 import Grid from "@mui/material/Grid";
-import { Card } from "@mui/material";
+import { Card, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import styled from "styled-components";
 
 // 검색바 import
 import ReviewSearchBar from "../../components/util/ReviewSearchBar";
-import Pagination from '@mui/material/Pagination';
-
+import Pagination from "@mui/material/Pagination";
 
 // 기록 리스트
 import List from "@mui/joy/List";
@@ -34,8 +33,8 @@ import { todayDashboard } from "../../api/main";
 import { useEffect } from "react";
 
 function MyPage() {
-  const [pageIndex, setPageIndex] = useState(1)
-  const [searchKeyword, setSearchKeyword] = useState("")
+  const [pageIndex, setPageIndex] = useState(1);
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   const [selectIndex, setSelectIndex] = useState(-1);
 
@@ -103,25 +102,45 @@ function MyPage() {
     console.log(review);
   }, []);
 
+  useEffect(() => {
+    const getReviews = async () => {
+      await userReview(
+        pageIndex,
+        (res) => {
+          return res.data;
+        },
+        (err) => console.log(err)
+      ).then((data) => setReview(data));
+    };
+    getReviews();
+    console.log(review);
+  }, [pageIndex]);
+
+  const getPageIndex = (idx) => {
+    setPageIndex(idx);
+  };
+
   // 검색어 Input
   const onChangeKeyword = (e) => {
-    setSearchKeyword(e.target.value)
-  }
+    setSearchKeyword(e.target.value);
+  };
+  console.log(searchKeyword);
 
   // 리뷰 검색 axios
   const getSearchedReviews = async () => {
-    await userReview(
-      pageIndex,
+    await userSearchReview(
+      1,
       searchKeyword,
       (res) => {
+        console.log(res);
         return res.data;
       },
       (err) => console.log(err)
     ).then((data) => setReview(data));
   };
 
-  console.log(searchKeyword)
-  console.log(review)
+  console.log(searchKeyword);
+  console.log(review);
 
   return (
     <div>
@@ -135,7 +154,7 @@ function MyPage() {
       <Card sx={{ mb: 2, pl: 1 }}>
         <Grid container textAlign="center">
           <Grid item xs={2} margin="auto">
-            <Avatar style={{ width: '70' }} src={dashboard.image} />
+            <Avatar style={{ width: "70" }} src={dashboard.image} />
             <Typography>{dashboard.nickname}</Typography>
           </Grid>
           <Grid item xs={10}>
@@ -193,7 +212,27 @@ function MyPage() {
       >
         <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
           <TitleBox sx={{ paddingY: 0 }}>
-            <ReviewSearchBar label="메뉴, 카페명 검색" data={review} getSearchedReviews={getSearchedReviews} onChangeKeyword={onChangeKeyword} />
+            <TextField
+              id="outlined-basic"
+              label="메뉴명 검색"
+              variant="outlined"
+              size="small"
+              onChange={onChangeKeyword}
+              style={{ marginTop: 10, marginLeft: 3}}
+            />
+            <Button
+              onMouseDown={getSearchedReviews}
+              sx={{
+                backgroundColor: "#3A130C",
+                color: "white",
+                fontFamily: "netmarble",
+                fontSize: "15px",
+                margin: 1,
+              }}
+            >
+              검색
+            </Button>
+            {/* <ReviewSearchBar label="메뉴, 카페명 검색" data={review} getSearchedReviews={getSearchedReviews} onChangeKeyword={onChangeKeyword} /> */}
           </TitleBox>
         </div>
         <Typography
@@ -212,9 +251,14 @@ function MyPage() {
             selectIndex={selectIndex}
             onClick={getModifyReviewIndex}
           />
-              <Stack spacing={2}>
-      <Pagination style={{margin: 'auto'}} count={5} shape="rounded" />
-    </Stack>
+          <Stack spacing={2}>
+            <Pagination
+              style={{ margin: "auto" }}
+              count={review.totalPage}
+              shape="rounded"
+              onChange={(e, value) => getPageIndex(value)}
+            />
+          </Stack>
         </List>
       </Paper>
     </div>
@@ -222,7 +266,6 @@ function MyPage() {
 }
 
 export default MyPage;
-
 
 const TitleBox = styled(Box)`
   margin-top: 2px;
