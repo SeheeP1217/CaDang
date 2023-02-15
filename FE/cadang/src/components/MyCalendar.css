@@ -60,7 +60,7 @@
 }
 
 .fc-daygrid-day-frame {
-  height: 50px;
+  height: 53px;
   line-height: 10px;
 }
 
@@ -69,6 +69,9 @@
   padding-left: 0px;
 }
 
+.fc-daygrid-day-number {
+  padding-bottom: 0px !important;
+}
 .fc-event-main {
   /* max-width: 100%;
   max-height: 100%;
