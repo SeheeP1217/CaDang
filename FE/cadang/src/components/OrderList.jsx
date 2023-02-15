@@ -51,6 +51,7 @@ export default function OrderList() {
         }}
         ref={$websocket}
       />
+      {orderListData.length === 0 && <h2>진행 중인 주문이 없습니다.</h2>}
       {orderListData.map((item, key) => (
         <OrderListItem order={item} id={key} onRemove={onRemove} />
       ))}
