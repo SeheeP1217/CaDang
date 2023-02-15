@@ -10,6 +10,7 @@ import java.time.LocalDate;
 public class DayDataDto {
     private Long id;
     private String nickname;
+    private String image;
     private LocalDate date;
     private long caffeGoal;
     private long sugarGoal;
@@ -25,6 +26,7 @@ public class DayDataDto {
     public DayDataDto(Data data) {
         id = data.getId();
         nickname = data.getUser().getNickname();
+        image = "http://i8a808.p.ssafy.io/images/profile/" + data.getUser().getImgUrl();
         date = data.getRegDate();
         caffeGoal = data.getCaffeGoal();
         sugarGoal = data.getSugarGoal();
