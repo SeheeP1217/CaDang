@@ -4,7 +4,7 @@ import { Paper, Box, Grid, Card } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import Button from "@mui/material-next/Button";
 import Divider from "@mui/material/Divider";
-import { newOrderResponse } from "../api/cafeCeo";
+import { setOrderStatus } from "../api/cafeCeo";
 
 export default function NewOrderListItem(props) {
   const [drinkItem, setDrinkItem] = useState();
@@ -13,14 +13,13 @@ export default function NewOrderListItem(props) {
   const onClickAccept = () => {
     console.log("수락 버튼 클릭!!!!!!!!!!!!!!!!!!!!!!!");
 
-    if (window.confirm(`${props.id}번째 주문을 수락하시겠습니까?`)) {
+    if (window.confirm(`${props.id+1}번째 주문을 수락하시겠습니까?`)) {
       props.deleteChild(props.id);
     }
 
     const putOrder = async () => {
-      await newOrderResponse(
+      await setOrderStatus(
         drinkItem.orderId,
-        drinkItem.customerId,
         "ACCEPT",
         (res) => {
           console.log(res.data);
@@ -36,14 +35,13 @@ export default function NewOrderListItem(props) {
   const onClickCancel = () => {
     console.log("거절 버튼 클릭!!!!!!!!!!!!!!!!!!!!");
 
-    if (window.confirm(`${props.id}번째 주문을 거절하시겠습니까?`)) {
+    if (window.confirm(`${props.id+1}번째 주문을 거절하시겠습니까?`)) {
       props.deleteChild(props.id);
     }
 
     const putOrder = async () => {
-      await newOrderResponse(
+      await setOrderStatus(
         drinkItem.orderId,
-        drinkItem.customerId,
         "CANCEL",
         (res) => {
           console.log(res.data);

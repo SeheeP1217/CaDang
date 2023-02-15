@@ -5,15 +5,15 @@ import MonthAmount from "./MonthAmont"
 import MonthRank from "./MonthRank"
 
 import { dataMonth } from "../api/report"
-import { useRecoilValue } from "recoil"
-import { todayDate } from "../recoil/atom/user"
+import dayjs from "dayjs"
 
 export default function MonthlyReportData() {
-  const date = useRecoilValue(todayDate)
+  const date = dayjs(new Date()).format("YYYY-MM-DD")
+
   const [month, setMonth] = useState({
     monthDataList: [
       {
-        date: "2023-02-10",
+        date: "",
         caffeDaily: 0,
         sugarDaily: 0,
         caffeSuccess: true,
@@ -52,13 +52,18 @@ export default function MonthlyReportData() {
   const sugarRanking = month.sugarRanking
   const caffeRanking = month.caffeRanking
   const totalPrice = month.totalPrice
+  console.log(month, "aaaaaaaaaaa")
 
   return (
     <div>
       <Container component="main" maxWidth="xs">
         <MyCalendar monthDataList={monthDataList} />
-        <MonthAmount totalPrice={totalPrice}/>
-        <MonthRank favRanking={favRanking} sugarRanking={sugarRanking} caffeRanking={caffeRanking}/>
+        <MonthAmount totalPrice={totalPrice} />
+        <MonthRank
+          favRanking={favRanking}
+          sugarRanking={sugarRanking}
+          caffeRanking={caffeRanking}
+        />
       </Container>
     </div>
   )

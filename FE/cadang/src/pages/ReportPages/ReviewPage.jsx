@@ -135,9 +135,7 @@ const ReviewPage = () => {
       .put("http://i8a808.p.ssafy.io:8080/record", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzanNqbGltIiwiaWQiOjIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NzYzMzI5MTZ9.EmP0DkZs6vpdCNfOocU_eCCHZTpK5mjDYKJn-XXAbr4-pa0o86jgRWN4apbk5-DecBmH0Ye2XhhjT5anSDoslw",
-        },
+          Authorization:localStorage.getItem('login-token'),},
         params: modifyData,
       })
       .then(function (response) {

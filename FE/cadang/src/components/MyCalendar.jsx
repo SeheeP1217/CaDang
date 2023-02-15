@@ -6,11 +6,60 @@ import coffeebean from "../assets/coffeebean.png"
 import coffeebeansugar from "../assets/coffeebeansugar.png"
 import sugar2 from "../assets/sugar2.png"
 import "./MyCalendar.css"
-import { Grid } from "@mui/material"
+import { Grid, Modal, Typography, Card, Button } from "@mui/material"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
+import styled from "styled-components"
+import dayjs from "dayjs"
 
 class MyCalendar extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      changeDate: dayjs().format("YYYY-MM-DD"),
+      showModal: false,
+      modalData: {},
+    }
+  }
+  dateChangeHandler = (num) => {
+    this.setState({
+      changeDate: dayjs(this.state.changeDate)
+        .add(num, "day")
+        .format("YYYY-MM-DD"),
+    })
+  }
+
+  handleModal = (clickedData) => {
+    this.setState({
+      showModal: !this.state.showModal,
+      modalData: clickedData,
+    })
+  }
+  handleOpen = (date) => {
+    const data = this.props.monthDataList.find((item) => item.date === date)
+    this.setState({
+      open: true,
+      modalData: data,
+    })
+  }
+
+  handleClose = () => {
+    this.setState({
+      open: false,
+      modalData: null,
+    })
+  }
+
   render() {
-    // console.log("props 받아온 데이터", this.props.monthDataList)
+    const theme = createTheme({
+      palette: {
+        primary: {
+          main: "#3A130C",
+        },
+      },
+      typography: {
+        fontFamily: "netmarble",
+      },
+    })
 
     // Event Render Function To Get Images and Titles
     function renderEventContent(eventInfo) {
@@ -22,7 +71,6 @@ class MyCalendar extends React.Component {
     }
 
     const events = this.props.monthDataList
-
       .filter((item) => {
         if (item.caffeSuccess && item.sugarSuccess) {
           return true
@@ -43,47 +91,98 @@ class MyCalendar extends React.Component {
           return { date: item.date, url: sugar2 }
         }
       })
+    console.log("aaaaaaaa", this.state.modalData.date)
     return (
-      <Grid className="maincontainer">
-        <FullCalendar
-          plugins={[dayGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-          fixedWeekCount={false}
-          header={{
-            left: "prev",
-            center: "title",
-            right: "next today",
-          }}
-          titleFormat={function (date) {
-            const year = date.date.year
-            const month = date.date.month + 1
-            console.log("년월", year, month)
-            return year + "년 " + month + "월"
-          }}
-          dateClick={function () {
-            alert("날짜 클릭 시 기록 표시 추가 예정!!")
-          }}
-          eventContent={renderEventContent}
-          contentHeight="auto"
-          events={events}
-          // events={[
-          //   {
-          //     date: "2023-02-13",
-          //     url: coffeebean,
-          //   },
-          //   {
-          //     date: "2023-02-08",
-          //     url: coffeebeansugar,
-          //   },
-          //   {
-          //     date: "2023-02-01",
-          //     url: sugar2,
-          //   },
-          // ]}
-        />
-      </Grid>
+      <ThemeProvider theme={theme}>
+        <Grid className="maincontainer">
+          <FullCalendar
+            plugins={[dayGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            fixedWeekCount={false}
+            titleFormat={function (date) {
+              const year = date.date.year
+              const month = date.date.month + 1
+              return year + "년 " + month + "월"
+            }}
+            dateClick={(info) => {
+              const clickedDate = info.dateStr
+              const clickedData = this.props.monthDataList.find(
+                (item) => item.date === clickedDate
+              )
+              this.handleModal(clickedData)
+            }}
+            eventContent={renderEventContent}
+            contentHeight="auto"
+            events={events}
+          />
+
+          <Modal
+            open={this.state.showModal}
+            onClose={this.handleModal}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              "& .MuiPaper-root": {
+                width: "80%",
+                backgroundColor: "#fff",
+                boxShadow: 24,
+                padding: "10px",
+                borderRadius: "10px",
+              },
+            }}
+          >
+            {this.state.modalData && (
+              <ModalCard>
+                <Date>{this.state.modalData.date} 섭취량</Date>
+                <Grid>
+                  {this.state.modalData ? (
+                    <Typography
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Icon src={coffeebean}></Icon>
+                      {this.state.modalData.caffeDaily}/
+                      {this.state.modalData.caffeGoal}
+                      <Icon src={sugar2}></Icon>
+                      {this.state.modalData.sugarDaily}/
+                      {this.state.modalData.sugarGoal}
+                    </Typography>
+                  ) : (
+                    <Typography>
+                      <h2 id="modal-modal-title">데이터 없음</h2>
+                      <p id="modal-modal-description">
+                        해당 일자에 대한 데이터가 없습니다.
+                      </p>
+                    </Typography>
+                  )}
+                </Grid>
+              </ModalCard>
+            )}
+          </Modal>
+        </Grid>
+      </ThemeProvider>
     )
   }
 }
 
+const Icon = styled.img`
+  width: 40px !important;
+`
+
+const ModalCard = styled(Card)`
+  border: 5px solid #3a130c !important;
+  border: 10px solid #ffba00 !important;
+  font-family: netmarble !important;
+`
+
+const Date = styled.h2`
+  margin-top: 3px !important;
+  border-bottom: 5px solid #3a130c !important;
+`
 export default MyCalendar
