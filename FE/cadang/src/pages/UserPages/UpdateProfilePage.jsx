@@ -234,9 +234,10 @@ const UpdateProfilePage = () => {
                 </Grid>
               </Grid>
 
+
               <GoalSettingItem
-                caffeineGoal={userProfile.caffeGoal}
-                sugarGoal={userProfile.sugarGoal}
+                caffeGoal={changedProfile.caffeGoal}
+                sugarGoal={changedProfile.sugarGoal}
                 changedProfile={changedProfile}
                 onChangeCaffeineGoal={onChangeCaffeineGoal}
                 onChangeSugarGoal={onChangeSugarGoal}

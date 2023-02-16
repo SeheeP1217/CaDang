@@ -283,8 +283,11 @@ function InfoPage() {
         </Paper>
 
         <GoalSettingItem
+          sugarGoal = {25}
+          caffeGoal = {400}
           onChangeCaffeineGoal={onChangeCaffeineGoal}
           onChangeSugarGoal={onChangeSugarGoal}
+
         />
         <Stack spacing={1} width="50%" margin="auto">
           <Button

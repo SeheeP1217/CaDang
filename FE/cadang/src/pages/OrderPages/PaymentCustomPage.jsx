@@ -277,11 +277,14 @@ function PaymentCustomPage(props) {
       await cafeDrinkData(
         franchiseId,
         drinkName,
+        location.state.drinkItem.storeName,
         (res) => {
           console.log(res.data);
           return res.data;
         },
-        (err) => console.log(err)
+        (err) => {
+          console.log("와!! 개같이 실패!!!!" + err)
+        }
       ).then((data) => setDrinkDetail(data));
     };
     getCustomData();
