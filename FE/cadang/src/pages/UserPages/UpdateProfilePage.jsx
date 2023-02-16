@@ -220,7 +220,6 @@ const UpdateProfilePage = () => {
                   />
                 </Grid>
               </Grid>
-            </Grid>
             <Button
               fullWidth
               style={{ backgroundColor: "#ffba00", color: "white" }}
