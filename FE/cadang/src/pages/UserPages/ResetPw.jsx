@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Link, useHistory } from "react-router-dom"
 import axios from "axios"
 import {
@@ -21,11 +21,7 @@ import {
 } from "@mui/material/styles"
 import styled from "styled-components"
 
-
-const ResetPwPage = (props) => {
-  console.log("props", props.memberId)
-  const memberId = props.memberId
-
+const ResetPwPage = (location) => {
   const theme = createTheme({
     palette: {
       primary: {
@@ -36,6 +32,11 @@ const ResetPwPage = (props) => {
       fontFamily: "netmarble",
     },
   })
+  const [memberId, setMemberId] = useState(-1)
+  useEffect(() => {
+    console.log(location.location.props.response.data.id, "/////////")
+    setMemberId(location.location.props.response.data.id)
+  }, [])
 
   const [password, setPassword] = useState("")
   const [passwordState, setpasswordState] = useState("")
@@ -78,9 +79,10 @@ const ResetPwPage = (props) => {
       axios({
         method: "put",
         url: "http://i8a808.p.ssafy.io:8080/user/newpass",
-        data: {
-          memberId,
-          password,
+        headers: { "Content-Type": "application/json" },
+        params: {
+          memberId: memberId,
+          password: password,
         },
       })
         .then((res) => {
@@ -89,7 +91,7 @@ const ResetPwPage = (props) => {
         })
         .catch((err) => {
           console.error(err)
-          console.log(memberId, password)
+          // console.log(memberId, password)
         })
     }
   }

@@ -1,24 +1,24 @@
-import React, { useMemo, useState, useEffect } from "react"
-import { Box, Card, Typography } from "@mui/material"
-import Button from "@mui/material-next/Button"
-import FabButton from "../../components/util/FabButton"
-import { Link } from "react-router-dom"
+import React, { useMemo, useState, useEffect } from "react";
+import { Box, Card, Typography } from "@mui/material";
+import Button from "@mui/material-next/Button";
+import FabButton from "../../components/util/FabButton";
+import { Link } from "react-router-dom";
 
-import DailyConsumptionGraph from "../../components/util/DailyConsumptionGraph"
-import ItemFiltering from "../../components/util/ItemFiltering"
-import DailyOtherInfo from "../../components/DailyOtherInfo"
+import DailyConsumptionGraph from "../../components/util/DailyConsumptionGraph";
+import ItemFiltering from "../../components/util/ItemFiltering";
+import DailyOtherInfo from "../../components/DailyOtherInfo";
 
-import { cafeDrinkList } from "../../api/order"
-import { useRecoilValue } from "recoil"
-import { todayDate } from "../../recoil/atom/user"
+import { cafeDrinkList } from "../../api/order";
+import { useRecoilValue } from "recoil";
+import { todayDate } from "../../recoil/atom/user";
 
 function SelectMenuPage(props) {
-  const date = useRecoilValue(todayDate)
-  const [storeName, setStoreName] = useState(props.location.state.cafe)
+  const date = useRecoilValue(todayDate);
+  const [storeName, setStoreName] = useState(props.location.state.cafe);
 
   useEffect(() => {
-    setStoreName(props.location.state.cafe)
-  }, [storeName])
+    setStoreName(props.location.state.cafe);
+  }, [storeName]);
 
   // const [possible, setPossible] = useState([])
   // const [impossible, setImpossible] = useState([])
@@ -39,14 +39,14 @@ function SelectMenuPage(props) {
     franchiseId: -1,
     storeName: storeName,
     cnt: 0,
-  })
+  });
 
   const getSelectedDrink = (selectDrink) => {
     setSelectDrinkInfo({
       ...selectDrink,
       storeName: storeName,
-    })
-  }
+    });
+  };
 
   const [menu, setMenu] = useState({
     drinkableDrinks: [
@@ -101,29 +101,29 @@ function SelectMenuPage(props) {
     franchiseId: 0,
     storeId: 0,
     storeName: "",
-  })
-  const consumptionInfo = menu.dayDataDto
+  });
+  const consumptionInfo = menu.dayDataDto;
   const [changedOtherInfo, setChangedOtherInfo] = useState({
     money: 0,
     cal: 0,
-  })
+  });
   useMemo(() => {
     const getMenus = async () => {
       await cafeDrinkList(
         date,
         storeName,
         (res) => {
-          console.log("Response was successful:", res.data)
-          setMenu(res.data)
+          console.log("Response was successful:", res.data);
+          setMenu(res.data);
         },
         (err) => {
-          console.log(err)
+          console.log(err);
         }
-      )
-    }
+      );
+    };
 
-    getMenus()
-  }, [])
+    getMenus();
+  }, []);
   // console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", menu);
 
   // useEffect(() => {
@@ -137,16 +137,24 @@ function SelectMenuPage(props) {
     setChangedOtherInfo({
       money: selectDrinkInfo.price,
       cal: selectDrinkInfo.cal,
-    })
-  }, [selectDrinkInfo])
+    });
+  }, [selectDrinkInfo]);
 
   const finalData = {
     franchiseId: menu.franchiseId,
     franchiseName: storeName,
     drink: selectDrinkInfo,
     branch: "",
-  }
-  console.log(selectDrinkInfo)
+  };
+  console.log("**** selctDrinkInfo : " + selectDrinkInfo);
+
+  const nextPage = (event) => {
+    console.log("next Page 이동을 위한 클릭!!!!");
+    if (selectDrinkInfo.drinkId === -1) {
+      event.preventDefault();
+      alert("음료를 선택해 주세요🙏");
+    }
+  };
 
   return (
     <body>
@@ -176,9 +184,7 @@ function SelectMenuPage(props) {
               changedOtherInfo={changedOtherInfo}
             ></DailyOtherInfo>
           </Card>
-          <Card sx={{ marginY: 2 }}>
-            {/* <DailyConsumptionGraph data={afterSelectData} /> */}
-          </Card>
+          <Card sx={{ marginY: 2 }}>{/* <DailyConsumptionGraph data={afterSelectData} /> */}</Card>
         </Box>
       </div>
       <ItemFiltering menu={menu} getSelectedDrink={getSelectedDrink} />
@@ -188,11 +194,12 @@ function SelectMenuPage(props) {
           pathname: `/payment/custom`,
           state: { drinkItem: selectDrinkInfo },
         }}
+        onClick={nextPage}
       >
         <FabButton />
       </Link>
     </body>
-  )
+  );
 }
 
-export default SelectMenuPage
+export default SelectMenuPage;

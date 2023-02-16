@@ -44,7 +44,7 @@ export default function OrderList() {
         url="http://i8a808.p.ssafy.io:8080/websocket"
         headers={{
           Authorization:
-            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdGFyYnVja3MiLCJpZCI6MSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjUwNjcxOX0.PFVyJuhUcxKWPXop6YRC6nosELoZIAGDGaU2ctk75zseUstkYz6W-f08YzhAgGPdV9xbhbBqGKrmxZ0KVyYIOQ",
+            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdGFyYnVja3MiLCJpZCI6MSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjU5MzMyMH0.9ISQMm4P66vHdnknIa6HUdjTOItihxa8adZW39_VFIlqEo2ObRpRgMW95pIBNblrQouZDSNmy9DioCmeU3csow",
         }}
         // topics={["/topic/store-order-manage/1", ""]}
         onMessage={(msg) => {
