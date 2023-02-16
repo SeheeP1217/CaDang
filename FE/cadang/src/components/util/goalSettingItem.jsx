@@ -56,7 +56,7 @@ export default function GoalSettingItem(props) {
               placeholder="목표량(mg)"
               variant="standard"
               onChange={props.onChangeCaffeineGoal}
-              value={props.caffeineGoal}
+              value={props.changedProfile.caffeGoal}
               style={{ marginLeft: "10px" }}
               inputProps={{
                 style: {
@@ -85,7 +85,7 @@ export default function GoalSettingItem(props) {
                 fontSize: "20px",
               }}
             >
-              당 목표량
+              당  목표량
             </Typography>
           </Grid>
           <Grid item xs={6}>
@@ -94,7 +94,7 @@ export default function GoalSettingItem(props) {
               placeholder="목표량(g)"
               variant="standard"
               onChange={props.onChangeSugarGoal}
-              value={props.sugarGoal}
+              value={props.changedProfile.sugarGoal}
               style={{ marginLeft: "10px", fontFamily: "netmarble" }}
               inputProps={{
                 style: {
