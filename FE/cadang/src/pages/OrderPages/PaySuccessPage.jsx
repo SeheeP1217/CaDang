@@ -15,22 +15,21 @@ import { Client, Frame } from "stompjs";
 import SockJsClient from "react-stomp";
 
 export default function PaySuccessPage() {
-  const item = useRecoilValue(orderItem);
+  // const item = useRecoilValue(orderItem);
   const [msg, setMsg] = useState("");
-  const [storeId, setStoreId] = useState(1);
-
+  const [drinkAtom, setDrinkAtom] = useRecoilState(orderItem);
+  const [storeId, setStoreId] = useState(drinkAtom.storeId);
   const $websocket = useRef();
+  console.log("drinkId : " + drinkAtom.drinkId);
+  // console.log("drinkId : " + drinkAtom.storeId);
   // const handleMsg = (msg) => {
   //   console.log(msg);
   // };
 
   const handleClickSendTo = () => {
-    $websocket.current.sendMessage(
-      "/message/order-request/" + storeId + "",
-      "주문이 들어왔습니다."
-    );
+    $websocket.current.sendMessage("/message/order-request/" + 1 + "", "주문이 들어왔습니다.");
     console.log("send to server");
-    console.log(item);
+    // console.log("drinkId : " + drinkAtom.drinkId);
   };
 
   // const handleClickSendTemplate = () => {
@@ -41,21 +40,7 @@ export default function PaySuccessPage() {
   //   $websocket.current.sendMessage("/message/order-request/1", msg);
   // };
 
-  const orderRegist = async () => {
-    await order(
-      item,
-      (res) => {
-        console.log("=======!!!!!!!!!!!!!!=========");
-        console.log(res.data);
-        return res.data;
-      },
-      (err) => console.log(err)
-    ).then((data) => setStoreId(data));
-  };
-
   useMemo(() => {
-    orderRegist();
-
     setTimeout(() => handleClickSendTo(), 1000);
   }, []);
 

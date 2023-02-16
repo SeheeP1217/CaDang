@@ -45,13 +45,13 @@ export default function GoalSettingItem(props) {
             <Typography
               style={{
                 fontFamily: "netmarble",
-                fontSize: "20px",
+                fontSize: "18px",
               }}
             >
               카페인 목표량
             </Typography>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <TextField
               id="standard-basic"
               placeholder="목표량(mg)"
@@ -62,9 +62,13 @@ export default function GoalSettingItem(props) {
               inputProps={{
                 style: {
                   caretColor: "orange",
+                  textAlign: "center",
                 },
               }}
             />
+          </Grid>
+          <Grid item xs={2}>
+            mg
           </Grid>
 
           <Grid
@@ -83,26 +87,35 @@ export default function GoalSettingItem(props) {
             <Typography
               style={{
                 fontFamily: "netmarble",
-                fontSize: "20px",
+                fontSize: "18px",
               }}
             >
-              당  목표량
+              당 목표량
             </Typography>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <TextField
               id="standard-basic"
               placeholder="목표량(g)"
               variant="standard"
               onChange={props.onChangeSugarGoal}
+
               value={props?.sugarGoal}
-              style={{ marginLeft: "10px", fontFamily: "netmarble" }}
+              style={{
+                marginLeft: "10px",
+                fontFamily: "netmarble",
+              }}
+
               inputProps={{
                 style: {
                   caretColor: "orange",
+                  textAlign: "center",
                 },
               }}
             />
+          </Grid>
+          <Grid item xs={2}>
+            g
           </Grid>
         </Grid>
       </Box>
