@@ -19,6 +19,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles"
 import styled from "styled-components"
 import ProfileImageUploader from "../../components/util/ProfileImageUploader"
 import default_image from "../../assets/default_image.png"
+import LoadingPage from "../LoadingPage"
+
 // import netmarbleM from "../../assets/fonts/netmarble/netmarbleM"
 
 const RegisterPage = () => {
@@ -63,6 +65,8 @@ const RegisterPage = () => {
     setImgfile(() => image_file)
     setPrevUrl(() => preview_URL)
   }
+  const [loading, setLoading] = useState(false)
+  const [loginError, setLoginError] = useState("")
 
   // const onhandlePost = async (data) => {
   //   const { memberId, email, username, nickname, password } = data
@@ -307,17 +311,50 @@ const RegisterPage = () => {
           nickname,
         },
       })
-        .then((response) => {
-          console.log(response)
-          return response
-        })
+        // .then((response) => {
+        //   console.log(response)
+        //   return response
+        // })
         .then((res) => {
           if (res.headers.autorization) {
-            localStorage.setItem('login-token', res.headers.autorization)
+            localStorage.setItem("login-token", res.headers.autorization)
           }
           if (res.status === 200) {
-            alert('축하합니다! 마실까 말까의 회원이 되셨습니다!')
-            history.push("/info")
+            alert("축하합니다! 마실까 말까의 회원이 되셨습니다!")
+            const postData = { memberId, password }
+            setLoading(true) // axios 호출 전 로딩페이지를 띄우기 위한 state 처리
+            axios
+              .post("http://i8a808.p.ssafy.io:8080/login", postData, {
+                withCredentials: true,
+              })
+              .then(async (response) => {
+                console.log(response)
+
+                return response
+              })
+              .then(async (response) => {
+                if (response.headers.authorization) {
+                  localStorage.setItem(
+                    "login-token",
+                    response.headers.authorization
+                  )
+                }
+                if (response.status === 200) {
+                  setLoading(false)
+                  setTimeout(() => {
+                    history.push("/info")
+                    window.location.reload()
+                  }, 800)
+                }
+              })
+              .catch(function (err) {
+                console.log(err)
+                console.log("로그인 안됨")
+                console.log(postData)
+                setLoginError(
+                  "로그인에 실패하였습니다. 다시 한 번 확인해 주세요"
+                )
+              })
           }
         })
         .catch((err) => {
@@ -340,64 +377,118 @@ const RegisterPage = () => {
   })
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 1,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <TitleCard>
-            <Typography component="h1" variant="h4">
-              회원가입
-            </Typography>
-          </TitleCard>
-          <Boxs
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 0 }}
+      {loading === true ? (
+        <LoadingPage />
+      ) : (
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 1,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            <FormControl component="fieldset" variant="standard">
-              <BackCard>
-                <Grid container spacing={1} m={0}>
-                  <ImageContainer>
-                    <ProfileImageUploader
-                      getImg={getImg}
-                      style="grid-column: 1 / span 2; grid-row: 1 / 3;"
-                    ></ProfileImageUploader>
-                  </ImageContainer>
-                  <Grid item xs={7}>
-                    <Grid>
+            <TitleCard>
+              <Typography component="h1" variant="h4">
+                회원가입
+              </Typography>
+            </TitleCard>
+            <Boxs
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 0 }}
+            >
+              <FormControl component="fieldset" variant="standard">
+                <BackCard>
+                  <Grid container spacing={1} m={0}>
+                    <ImageContainer>
+                      <ProfileImageUploader
+                        getImg={getImg}
+                        style="grid-column: 1 / span 2; grid-row: 1 / 3;"
+                      ></ProfileImageUploader>
+                    </ImageContainer>
+                    <Grid item xs={7}>
+                      <Grid>
+                        <TextField
+                          required
+                          fullWidth
+                          id="username"
+                          name="username"
+                          label="이름"
+                          variant="standard"
+                          onChange={onChangeUserName}
+                          inputProps={{
+                            style: {
+                              caretColor: "orange",
+                            },
+                          }}
+                        />
+                        <FormHelperTexts>{usernameError}</FormHelperTexts>
+                      </Grid>
+                      <Grid sx={{ mt: 1.5 }}>
+                        <TextField
+                          required
+                          fullWidth
+                          id="nickname"
+                          name="nickname"
+                          label="닉네임"
+                          variant="standard"
+                          // error={nicknameError !== "" || false}
+                          onChange={onChangeNickname}
+                          inputProps={{
+                            style: {
+                              caretColor: "orange",
+                            },
+                          }}
+                        />
+                      </Grid>
+                      <FormHelperTexts>{nicknameError}</FormHelperTexts>
+                    </Grid>
+
+                    <Grid item xs={8.5}>
                       <TextField
                         required
                         fullWidth
-                        id="username"
-                        name="username"
-                        label="이름"
+                        id="memberId"
+                        name="memberId"
+                        label="아이디"
                         variant="standard"
-                        onChange={onChangeUserName}
+                        // error={memberIdError !== "" || false}
+                        onChange={onChangeUserId}
                         inputProps={{
                           style: {
                             caretColor: "orange",
                           },
                         }}
                       />
-                      <FormHelperTexts>{usernameError}</FormHelperTexts>
                     </Grid>
-                    <Grid sx={{ mt: 1.5 }}>
+                    <Grid item xs={3}>
+                      <BackButton
+                        type="click"
+                        onClick={handleId}
+                        fullWidth
+                        variant="contained"
+                        size="small"
+                      >
+                        중복 <br />
+                        확인하기
+                      </BackButton>
+                    </Grid>
+                    <FormHelperTexts>{memberIdError}</FormHelperTexts>
+                    <Grid item xs={11.5}>
                       <TextField
                         required
                         fullWidth
-                        id="nickname"
-                        name="nickname"
-                        label="닉네임"
+                        type="password"
+                        id="password"
+                        name="password"
                         variant="standard"
-                        // error={nicknameError !== "" || false}
-                        onChange={onChangeNickname}
+                        label="비밀번호 (숫자+영문자+특수문자 8자리 이상)"
+                        // error={passwordError !== "" || false}
+                        onChange={onChangePassword}
                         inputProps={{
                           style: {
                             caretColor: "orange",
@@ -405,139 +496,88 @@ const RegisterPage = () => {
                         }}
                       />
                     </Grid>
-                    <FormHelperTexts>{nicknameError}</FormHelperTexts>
-                  </Grid>
+                    <FormHelperTexts>{passwordError}</FormHelperTexts>
+                    <Grid item xs={11.5}>
+                      <TextField
+                        required
+                        fullWidth
+                        type="password"
+                        id="passwordState"
+                        name="passwordState"
+                        label="비밀번호 재입력"
+                        variant="standard"
+                        // error={passwordStateError !== "" || false}
+                        onChange={onChangePasswordState}
+                        inputProps={{
+                          style: {
+                            caretColor: "orange",
+                          },
+                        }}
+                      />
+                    </Grid>
+                    <FormHelperTexts>{passwordStateError}</FormHelperTexts>
+                    <Grid item xs={8.5}>
+                      <TextField
+                        required
+                        fullWidth
+                        type="email"
+                        id="email"
+                        name="email"
+                        variant="standard"
+                        label="이메일 주소"
+                        onChange={onChangeEmail}
+                        inputProps={{
+                          style: {
+                            caretColor: "orange",
+                          },
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={3}>
+                      <BackButton
+                        noValidate
+                        type="click"
+                        onClick={handleEmail}
+                        fullWidth
+                        variant="contained"
+                        size="small"
+                      >
+                        인증번호 보내기
+                      </BackButton>
+                    </Grid>
+                    <FormHelperTexts>{emailError}</FormHelperTexts>
+                    <Grid item xs={8.5}>
+                      <TextField
+                        required
+                        fullWidth
+                        type="key"
+                        id="key"
+                        name="key"
+                        label="인증번호"
+                        variant="standard"
+                        onChange={onChangeKey}
+                        inputProps={{
+                          style: {
+                            caretColor: "orange",
+                          },
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={3}>
+                      <BackButton
+                        noValidate
+                        type="click"
+                        onClick={handleEmailNumber}
+                        fullWidth
+                        variant="contained"
+                        size="medium"
+                        style={{ height: "57.5px" }}
+                      >
+                        확인
+                      </BackButton>
+                    </Grid>
 
-                  <Grid item xs={8.5}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="memberId"
-                      name="memberId"
-                      label="아이디"
-                      variant="standard"
-                      // error={memberIdError !== "" || false}
-                      onChange={onChangeUserId}
-                      inputProps={{
-                        style: {
-                          caretColor: "orange",
-                        },
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <BackButton
-                      type="click"
-                      onClick={handleId}
-                      fullWidth
-                      variant="contained"
-                      size="small"
-                    >
-                      중복 <br />
-                      확인하기
-                    </BackButton>
-                  </Grid>
-                  <FormHelperTexts>{memberIdError}</FormHelperTexts>
-                  <Grid item xs={11.5}>
-                    <TextField
-                      required
-                      fullWidth
-                      type="password"
-                      id="password"
-                      name="password"
-                      variant="standard"
-                      label="비밀번호 (숫자+영문자+특수문자 8자리 이상)"
-                      // error={passwordError !== "" || false}
-                      onChange={onChangePassword}
-                      inputProps={{
-                        style: {
-                          caretColor: "orange",
-                        },
-                      }}
-                    />
-                  </Grid>
-                  <FormHelperTexts>{passwordError}</FormHelperTexts>
-                  <Grid item xs={11.5}>
-                    <TextField
-                      required
-                      fullWidth
-                      type="password"
-                      id="passwordState"
-                      name="passwordState"
-                      label="비밀번호 재입력"
-                      variant="standard"
-                      // error={passwordStateError !== "" || false}
-                      onChange={onChangePasswordState}
-                      inputProps={{
-                        style: {
-                          caretColor: "orange",
-                        },
-                      }}
-                    />
-                  </Grid>
-                  <FormHelperTexts>{passwordStateError}</FormHelperTexts>
-                  <Grid item xs={8.5}>
-                    <TextField
-                      required
-                      fullWidth
-                      type="email"
-                      id="email"
-                      name="email"
-                      variant="standard"
-                      label="이메일 주소"
-                      onChange={onChangeEmail}
-                      inputProps={{
-                        style: {
-                          caretColor: "orange",
-                        },
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <BackButton
-                      noValidate
-                      type="click"
-                      onClick={handleEmail}
-                      fullWidth
-                      variant="contained"
-                      size="small"
-                    >
-                      인증번호 보내기
-                    </BackButton>
-                  </Grid>
-                  <FormHelperTexts>{emailError}</FormHelperTexts>
-                  <Grid item xs={8.5}>
-                    <TextField
-                      required
-                      fullWidth
-                      type="key"
-                      id="key"
-                      name="key"
-                      label="인증번호"
-                      variant="standard"
-                      onChange={onChangeKey}
-                      inputProps={{
-                        style: {
-                          caretColor: "orange",
-                        },
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <BackButton
-                      noValidate
-                      type="click"
-                      onClick={handleEmailNumber}
-                      fullWidth
-                      variant="contained"
-                      size="medium"
-                      style={{ height: "57.5px" }}
-                    >
-                      확인
-                    </BackButton>
-                  </Grid>
-
-                  {/* <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                   <FormControlLabel
                     control={
                       <Checkbox onChange={handleAgree} color="primary" />
@@ -545,25 +585,26 @@ const RegisterPage = () => {
                     label="회원가입 약관에 동의합니다."
                   />
                 </Grid> */}
-                </Grid>
-              </BackCard>
-              <SendButton
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 2, mb: 1 }}
-                size="large"
-              >
-                가입하기
-              </SendButton>
-            </FormControl>
-            <FormHelperTexts>{registerError}</FormHelperTexts>
-            <Button component={Link} to="/sign-in" variant="text">
-              이미 회원이라면? 로그인 하러 가기
-            </Button>
-          </Boxs>
-        </Box>
-      </Container>
+                  </Grid>
+                </BackCard>
+                <SendButton
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 2, mb: 1 }}
+                  size="large"
+                >
+                  가입하기
+                </SendButton>
+              </FormControl>
+              <FormHelperTexts>{registerError}</FormHelperTexts>
+              <Button component={Link} to="/sign-in" variant="text">
+                이미 회원이라면? 로그인 하러 가기
+              </Button>
+            </Boxs>
+          </Box>
+        </Container>
+      )}
     </ThemeProvider>
   )
 }

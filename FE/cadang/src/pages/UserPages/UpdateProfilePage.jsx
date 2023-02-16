@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from "react"
+import { Link, useHistory } from "react-router-dom"
+import axios from "axios"
 import {
   Button,
   CssBaseline,
@@ -13,15 +13,15 @@ import {
   Box,
   Typography,
   Container,
-} from "@mui/material/";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import styled from "styled-components";
-import ModifyProfileImageUploader from "../../components/util/ModifyProfileImageUploader";
-import default_image from "../../assets/default_image.png";
-import GoalSettingItem from "../../components/util/goalSettingItem";
-import { useMemo } from "react";
-import { getUserProfile } from "../../api/user";
-import { useEffect } from "react";
+} from "@mui/material/"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
+import styled from "styled-components"
+import ModifyProfileImageUploader from "../../components/util/ModifyProfileImageUploader"
+import default_image from "../../assets/default_image.png"
+import GoalSettingItem from "../../components/util/goalSettingItem"
+import { useMemo } from "react"
+import { getUserProfile } from "../../api/user"
+import { useEffect } from "react"
 
 const UpdateProfilePage = () => {
   const history = useHistory()
@@ -37,16 +37,16 @@ const UpdateProfilePage = () => {
     sugarGoal: 0,
     imgUrl: "",
     isModified: 0,
-  });
+  })
 
   // 변경 정보 보낼 변수 선언
   const [changedProfile, setchangedProfile] = useState({
-  nickname: "",
-  caffeGoal: 1000,
-  sugarGoal: 500,
-  img: "",
-  isModified: 0,
-  });
+    nickname: "",
+    caffeGoal: 1000,
+    sugarGoal: 500,
+    img: "",
+    isModified: 0,
+  })
 
   // 변화값 담을 변수
   const [modifiedImage, setModifiedImage] = useState({
@@ -58,13 +58,13 @@ const UpdateProfilePage = () => {
     const getUserInfo = async () => {
       await getUserProfile(
         (res) => {
-          return res.data;
+          return res.data
         },
         (err) => console.log(err)
-      ).then((data) => setuserProfile(data));
-    };
-    getUserInfo();
-  }, []);
+      ).then((data) => setuserProfile(data))
+    }
+    getUserInfo()
+  }, [])
 
   useEffect(() => {
     setchangedProfile({
@@ -72,19 +72,19 @@ const UpdateProfilePage = () => {
       caffeGoal: userProfile.caffeGoal,
       sugarGoal: userProfile.sugarGoal,
       img: userProfile.imgUrl,
-      isModified: 0
-      })
-  }, [userProfile]);
+      isModified: 0,
+    })
+  }, [userProfile])
 
-  console.log(userProfile);
-  console.log(changedProfile);
+  console.log(userProfile)
+  console.log(changedProfile)
 
-  // 카페인 목표량 
+  // 카페인 목표량
   const onChangeCaffeineGoal = (e) => {
     setchangedProfile({
       ...changedProfile,
       caffeGoal: e.target.value,
-  })
+    })
   }
 
   // 당 목표량
@@ -92,29 +92,29 @@ const UpdateProfilePage = () => {
     setchangedProfile({
       ...changedProfile,
       sugarGoal: e.target.value,
-  })
+    })
   }
 
   // 프로필 이미지 변경 확인
   const getImg = (image_file, preview_URL) => {
-      const newImage = {
-        image_file: image_file,
-        preview_URL: preview_URL
-      }
-      setModifiedImage(newImage)
+    const newImage = {
+      image_file: image_file,
+      preview_URL: preview_URL,
     }
+    setModifiedImage(newImage)
+  }
   const changeImg = () => {
     setchangedProfile({
       ...changedProfile,
       isModified: 1,
-  })
+    })
   }
 
   const deleteImg = () => {
     setchangedProfile({
       ...changedProfile,
       isModified: 2,
-  })
+    })
   }
 
   // 닉네임 변경 확인
@@ -122,16 +122,19 @@ const UpdateProfilePage = () => {
     setchangedProfile({
       ...changedProfile,
       nickname: e.target.value,
-  })
+    })
   }
 
   const data = new FormData()
-  data.append("img", modifiedImage.image_file)
+  if (modifiedImage.image_file !== null){
+    data.append("img", modifiedImage.image_file)
+  }
   data.append("nickname", changedProfile.nickname)
   data.append("caffeGoal", changedProfile.caffeGoal)
   data.append("sugarGoal", changedProfile.sugarGoal)
   data.append("isModified", changedProfile.isModified)
 
+  console.log(data.img)
   const modifyInfo = async (e) => {
     e.preventDefault()
     await axios
@@ -139,14 +142,14 @@ const UpdateProfilePage = () => {
         headers: {
           "Content-Type": "multipart/form-data",
           // "Content-Type": "application/json",
-          Authorization:localStorage.getItem('login-token'),
+          Authorization: localStorage.getItem("login-token"),
         },
         // params: changedProfile,
       })
       .then((response) => {
         console.log(response, "성공")
         if (response.status === 200) {
-          alert('정보가 성공적으로 변경되었습니다.')
+          alert("정보가 성공적으로 변경되었습니다.")
           history.push("/mypage")
         }
       })
@@ -155,21 +158,39 @@ const UpdateProfilePage = () => {
       })
   }
 
+  const handleLogout = async (e) => {
+    e.preventDefault()
+    await axios
+      .post("http://i8a808.p.ssafy.io:8080/user2/logout", null, {
+        headers: { Authorization: localStorage.getItem("login-token") },
+      })
+      .then((response) => {
+        console.log(response, "성공")
+        alert("로그아웃 되었습니다")
+        history.push("/")
+      })
+      .catch(function (err) {
+        console.log(err)
+      })
+  }
+
   return (
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 5,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Typography component="h1" variant="h5">
-            회원 정보 수정
-          </Typography>
-          <ModifyProfileImageUploader defaultImage={userProfile.imgUrl} getImg={getImg}
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 5,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Typography component="h1" variant="h5">
+          회원 정보 수정
+        </Typography>
+        <ModifyProfileImageUploader
+          defaultImage={userProfile.imgUrl}
+          getImg={getImg}
           changeImg={changeImg}
           deleteImg={deleteImg}
           />
@@ -194,53 +215,69 @@ const UpdateProfilePage = () => {
                   <Typography>닉네임</Typography>
                   <TextField
                     fullWidth
-                    defaultValue={userProfile.nickname}
+                    value={userProfile.nickname}
                     onChange={onChangeNickname}
                   />
                 </Grid>
               </Grid>
-              <Button fullWidth style={{backgroundColor:'#ffba00', color:'white'}} sx={{ mt: 3 }} size="large">
-                비밀번호 변경하기
-              </Button>
-              <GoalSettingItem 
+            </Grid>
+            <Button
+              fullWidth
+              style={{ backgroundColor: "#ffba00", color: "white" }}
+              sx={{ mt: 3 }}
+              size="large"
+            >
+              비밀번호 변경하기
+            </Button>
+            <GoalSettingItem
               caffeineGoal={userProfile.caffeGoal}
               sugarGoal={userProfile.sugarGoal}
               onChangeCaffeineGoal={onChangeCaffeineGoal}
-              onChangeSugarGoal={onChangeSugarGoal}/>
-              <Button
-                type="submit"
-                style={{backgroundColor:'#ffba00', color:'white'}}
-                sx={{ mt: 3 }}
-                size="large"
-                onClick={modifyInfo}
-              >
-                저장
-              </Button>
-              <Button variant="contanined" sx={{ mt: 3 }}>
-                로그아웃
-              </Button>
-              <Button variant="contanined" sx={{ mt: 3 }}>
-                회원탈퇴
-              </Button>
-            </FormControl>
-          </Boxs>
-        </Box>
-      </Container>
-  );
-  
-};
+              onChangeSugarGoal={onChangeSugarGoal}
+            />
+            <Button
+              type="submit"
+              style={{ backgroundColor: "#ffba00", color: "white" }}
+              sx={{ mt: 3 }}
+              size="large"
+              onClick={modifyInfo}
+            >
+              저장
+            </Button>
+            <Button
+              variant="contanined"
+              sx={{ mt: 3 }}
+              type="submit"
+              onClick={handleLogout}
+            >
+              로그아웃
+            </Button>
+            <Button
+              variant="contanined"
+              sx={{ mt: 1 }}
+              component={Link}
+              to="/user-withdrawal"
+            >
+              회원탈퇴
+            </Button>
+          </FormControl>
+        </Boxs>
+      </Box>
+    </Container>
+  )
+}
 
 const SendButton = styled.button`
   background-color: #ffffff;
-`;
+`
 const FormHelperTexts = styled(FormHelperText)`
   width: 100%;
   padding-left: 16px;
   font-weight: 700 !important;
   color: #d32f2f !important;
-`;
+`
 
 const Boxs = styled(Box)`
   padding-bottom: 10px !important;
-`;
-export default UpdateProfilePage;
+`
+export default UpdateProfilePage
