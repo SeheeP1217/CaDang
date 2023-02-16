@@ -283,7 +283,7 @@ function PaymentCustomPage(props) {
           return res.data;
         },
         (err) => {
-          console.log("와!! 개같이 실패!!!!" + err)
+          console.log("와!! 개같이 실패!!!!" + err);
         }
       ).then((data) => setDrinkDetail(data));
     };
@@ -381,7 +381,7 @@ function PaymentCustomPage(props) {
       <Grid item>
         <Link
           style={{ textDecoration: "none" }}
-          to={{ pathname: `/payment`, state: { orderDetail, drinkItem } }}
+          to={{ pathname: `/payment`, state: { orderDetail, drinkItem, drinkDetail } }}
         >
           <Button
             variant="contained"
