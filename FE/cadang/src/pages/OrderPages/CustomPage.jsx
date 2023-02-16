@@ -118,7 +118,7 @@ function CustomPage() {
       whip: basicDrink.whip,
       sugarContent: "BASIC",
       storeName: location.state.franchiseName,
-    })
+    });
   }, [basicDrink])
   // console.log("this", basicDrink)
   // console.log("this", orderDetail)
@@ -129,6 +129,14 @@ function CustomPage() {
       money: orderDetail.price,
       cal: orderDetail.cal,
     })
+  }, [orderDetail])
+
+  // 전체 가격, 칼로리 변동량 계산
+  useEffect(() => {
+    setChangedOtherInfo({
+      money: orderDetail.price,
+      cal: orderDetail.cal,
+    });
   }, [orderDetail])
 
   // 기존 daily + 선택음료 데이터 계산(젤 작은 사이즈 & 노옵션)

@@ -18,6 +18,7 @@ const ReviewPage = () => {
   const location = useLocation();
   const reviewId = location.state.review.id;
   const originImg = location.state.review.photo;
+  console.log(originImg)
 
   const [reviewDetail, setreviewDetail] = useState({
     reviewDetail: [
