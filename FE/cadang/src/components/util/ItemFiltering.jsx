@@ -42,6 +42,7 @@ function ItemFiltering(props) {
         sugar: "sugar",
         cal: "cal",
         price: "price",
+        cnt: "cnt",
       };
       const sortProperty = types[type];
       const sorted = [...showData].sort((a, b) => a[sortProperty] - b[sortProperty]);
@@ -70,6 +71,7 @@ function ItemFiltering(props) {
               <option value="sugar">낮은 당순</option>
               <option value="cal">낮은 칼로리순</option>
               <option value="price">낮은 가격순</option>
+              <option value="cnt">많이 마신순</option>
             </NativeSelect>
           </FormControl>
         </Grid>
