@@ -8,11 +8,15 @@ import CardMedia from "@mui/material/CardMedia";
 import kakaopay from "../../assets/payment_icon_yellow_large.png";
 import Button from "@mui/material-next/Button";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { orderItem } from "../../recoil/atom/paymentItem";
 
-export default function PaymentPage(props) {
+export default function PaymentPage() {
+  const location = useLocation()
+  const orderDetail = location.state.orderDetail
+  const drinkItem = location.state.drinkItem
+  console.log(orderDetail)
   const kakaoPayDiv = useRef();
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -21,29 +25,28 @@ export default function PaymentPage(props) {
     textAlign: "center",
     color: "000000",
   }));
-  const [drink, setDrink] = useState({
-    drinkId: 0,
-    caffeine: 0,
-    sugar: 0,
-    cal: 0,
-    price: 0,
-    shot: 0,
-    whip: false,
-    sugarContent: "BASIC",
-    syrup: 0,
-    vanilla: 0,
-    hazelnut: 0,
-    caramel: 0,
-    photo: "",
-    storeName: "",
-    storeId: 0,
-  });
+  // const [drink, setDrink] = useState({
+  //   drinkId: 0,
+  //   caffeine: 0,
+  //   sugar: 0,
+  //   cal: 0,
+  //   price: 0,
+  //   shot: 0,
+  //   whip: false,
+  //   sugarContent: "BASIC",
+  //   syrup: 0,
+  //   vanilla: 0,
+  //   hazelnut: 0,
+  //   caramel: 0,
+  //   photo: "",
+  //   storeName: "",
+  //   storeId: 0,
+  // });
   // 이전 페이지에서 받아오 props 더미 데이터로 우선 세팅
   // const drink = {
-  console.log(props.status);
+  // console.log(props.status);
   // };
 
-  console.log("이전 페이지로부터 " + props.location.drinkId);
   const setDrinkAtom = useSetRecoilState(orderItem);
 
   const [payItem, setPayItem] = useState({
@@ -66,10 +69,10 @@ export default function PaymentPage(props) {
     },
   });
 
-  useEffect(() => {
-    setDrinkAtom(drink);
-    console.log(drink);
-  }, []);
+  // useEffect(() => {
+  //   setDrinkAtom(drink);
+  //   console.log(drink);
+  // }, []);
 
   const onClickKakaopay = (event) => {
     console.log("카카오페이 결제하러 가기!!!!!!!!!!!!");
@@ -138,7 +141,7 @@ export default function PaymentPage(props) {
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Item sx={{ fontWeight: "700" }}>카페명 지점명</Item>
+            <Item sx={{ fontWeight: "700" }}>{drinkItem.storeName}</Item>
           </Grid>
           {/* <Grid item xs={4}>
             <Item style={{ fontWeight: "700" }}>강남점</Item>
@@ -147,10 +150,10 @@ export default function PaymentPage(props) {
       </Box>
       {/* =============================================== */}
       <div style={{ marginTop: "3%" }}>
-        <DrinkMenuItem />
+        <DrinkMenuItem drinkItem={drinkItem}/>
       </div>
       {/* 주문 음료에 대한 메뉴 이름과 추가 메뉴에 대한 추가 금액 */}
-      <PaymentMoney />
+      <PaymentMoney drinkItem={drinkItem} />
       {/* ======================================== */}
       <Card style={{ background: "#ffffff" }} sx={{ p: 1, mt: "3%" }}>
         <Grid container>
@@ -173,7 +176,7 @@ export default function PaymentPage(props) {
                 fontWeight: "700",
               }}
             >
-              5500원
+              {orderDetail.price} 원
             </Typography>
           </Grid>
         </Grid>

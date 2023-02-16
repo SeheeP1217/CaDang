@@ -44,7 +44,7 @@ const UpdateProfilePage = () => {
   nickname: "",
   caffeGoal: 1000,
   sugarGoal: 500,
-  img: "",
+  img: null,
   isModified: 0,
   });
 
@@ -71,7 +71,7 @@ const UpdateProfilePage = () => {
       nickname: userProfile.nickname,
       caffeGoal: userProfile.caffeGoal,
       sugarGoal: userProfile.sugarGoal,
-      img: userProfile.imgUrl,
+      img: null,
       isModified: 0
       })
   }, [userProfile]);
@@ -126,12 +126,15 @@ const UpdateProfilePage = () => {
   }
 
   const data = new FormData()
-  data.append("img", modifiedImage.image_file)
+  if (modifiedImage.image_file !== null){
+    data.append("img", modifiedImage.image_file)
+  }
   data.append("nickname", changedProfile.nickname)
   data.append("caffeGoal", changedProfile.caffeGoal)
   data.append("sugarGoal", changedProfile.sugarGoal)
   data.append("isModified", changedProfile.isModified)
 
+  console.log(data.img)
   const modifyInfo = async (e) => {
     e.preventDefault()
     await axios
@@ -194,7 +197,7 @@ const UpdateProfilePage = () => {
                   <Typography>닉네임</Typography>
                   <TextField
                     fullWidth
-                    defaultValue={userProfile.nickname}
+                    value={userProfile.nickname}
                     onChange={onChangeNickname}
                   />
                 </Grid>
