@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react"
 import { Link } from "react-router-dom"
 
-import { Box, Grid } from "@mui/material"
+import { Box, Divider, Grid, Card } from "@mui/material"
 import { Typography, Button } from "@mui/joy"
 import SearchIcon from "@mui/icons-material/Search"
 import MenuListItem from "../../components/util/MenuListItem"
@@ -54,8 +54,8 @@ function DrinkAddPage() {
     franchiseId: null,
     storeName: null,
     cnt: 0,
-  });
-  const [next, setNext] = useState(false);
+  })
+  const [next, setNext] = useState(false)
 
   // input data 반영
   const getSelectedFranchise = (selectCafe) => {
@@ -92,36 +92,43 @@ function DrinkAddPage() {
     branch: branchOptionInput,
   }
 
-  console.log("*** FinalData : " + selectedDrink.drinkId);
+  console.log("*** FinalData : " + selectedDrink.drinkId)
 
   const nextPage = (event) => {
-    console.log("next Page 이동을 위한 클릭!!!! : " + finalData.drink.drinkId);
+    console.log("next Page 이동을 위한 클릭!!!! : " + finalData.drink.drinkId)
     if (next === false) {
-      event.preventDefault();
-      alert("음료를 선택해 주세요🙏");
+      event.preventDefault()
+      alert("음료를 선택해 주세요🙏")
     }
   }
 
   return (
     <div>
       <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
-        <Box sx={{ backgroundColor: "#F9F6F2", paddingY: 0.3 }}>
+        <Card
+          sx={{
+            backgroundColor: "#F9F6F2",
+            paddingY: 0.3,
+            paddingX: 0.4,
+          }}
+        >
           <Typography level="h3" fontSize="xl" fontWeight="xl">
             메뉴검색
           </Typography>
 
-          <Grid container alignItems="center" textAlign="center">
-            <Grid item xs={2}>
+          <Grid container xs={12} alignItems="center" textAlign="center">
+            <Grid item xs={1.2}>
               카페
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={4.5}>
               <AutocompleteSearchBar
                 label="카페 검색"
                 data={cafeList}
                 getSelectedFranchise={getSelectedFranchise}
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={0.5}></Grid>
+            <Grid item xs={1.5}>
               <Typography>지점</Typography>
             </Grid>
             <Grid item xs={4}>
@@ -134,11 +141,12 @@ function DrinkAddPage() {
                 onChange={onChangeBranchInput}
               />
             </Grid>
-
-            <Grid item xs={2}>
+          </Grid>
+          <Grid container xs={12}>
+            <Grid item xs={1.5}>
               <Typography>메뉴</Typography>
             </Grid>
-            <Grid item xs={10}>
+            <Grid item xs={7.5}>
               <TextField
                 id="outlined-basic"
                 label="메뉴명 검색"
@@ -147,19 +155,31 @@ function DrinkAddPage() {
                 onChange={onChangeKeywordInput}
               />
             </Grid>
+            <Grid item xs={3}>
+              <Button
+                fullWidth
+                variant="solid"
+                startDecorator={<SearchIcon />}
+                onClick={getSearchResult}
+                style={{ padding: "0px" }}
+              >
+                검색
+              </Button>
+            </Grid>
           </Grid>
-          <Button
-            fullWidth
-            variant="solid"
-            startDecorator={<SearchIcon />}
-            onClick={getSearchResult}
-          >
-            검색
-          </Button>
-        </Box>
+
+          <Divider />
+        </Card>
       </div>
-      <MenuListItem data={resultItem} getSelectedDrink={getSelectedDrink} setNext={setNext} />
-      <Link to={{ pathname: `/custom`, state: { finalData } }} onClick={nextPage}>
+      <MenuListItem
+        data={resultItem}
+        getSelectedDrink={getSelectedDrink}
+        setNext={setNext}
+      />
+      <Link
+        to={{ pathname: `/custom`, state: { finalData } }}
+        onClick={nextPage}
+      >
         <FabButton />
       </Link>
     </div>
