@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useCallback, useRef } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import { Paper, Box, Grid, Card } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import DrinkMenuItem from "../../components/util/DrinkMenuItem";
@@ -11,12 +11,23 @@ import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { orderItem } from "../../recoil/atom/paymentItem";
+import { order } from "../../api/pay";
 
 export default function PaymentPage() {
-  const location = useLocation()
-  const orderDetail = location.state.orderDetail
-  const drinkItem = location.state.drinkItem
-  console.log(orderDetail)
+  const location = useLocation();
+  const orderDetail = location.state.orderDetail;
+  const drinkItem = location.state.drinkItem;
+  console.log("orderDetail-drinkId : " + orderDetail.drinkId);
+  console.log("orderDetail-caffeine : " + orderDetail.caffeine);
+  console.log("orderDetail-sugar : " + orderDetail.sugar);
+  console.log("orderDetail-cal : " + orderDetail.cal);
+  console.log("orderDetail-price : " + orderDetail.price);
+  console.log("orderDetail-shot : " + orderDetail.shot);
+  console.log("orderDetail-whip : " + orderDetail.whip);
+  console.log("orderDetail-sugarContent : " + orderDetail.sugarContent);
+  console.log("drinkItem-img : " + drinkItem.img);
+  console.log("drinkItem-storeName : " + drinkItem.storeName);
+  console.log("drinkItem : " + drinkItem.storeId);
   const kakaoPayDiv = useRef();
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -25,30 +36,40 @@ export default function PaymentPage() {
     textAlign: "center",
     color: "000000",
   }));
-  // const [drink, setDrink] = useState({
-  //   drinkId: 0,
-  //   caffeine: 0,
-  //   sugar: 0,
-  //   cal: 0,
-  //   price: 0,
-  //   shot: 0,
-  //   whip: false,
-  //   sugarContent: "BASIC",
-  //   syrup: 0,
-  //   vanilla: 0,
-  //   hazelnut: 0,
-  //   caramel: 0,
-  //   photo: "",
-  //   storeName: "",
-  //   storeId: 0,
-  // });
-  // 이전 페이지에서 받아오 props 더미 데이터로 우선 세팅
-  // const drink = {
-  // console.log(props.status);
-  // };
 
-  const setDrinkAtom = useSetRecoilState(orderItem);
+  const item = {
+    drinkId: 0,
+    caffeine: 0,
+    sugar: 0,
+    cal: 0,
+    price: 0,
+    shot: 0,
+    whip: false,
+    sugarContent: "BASIC",
+    syrup: 0,
+    vanilla: 0,
+    hazelnut: 0,
+    caramel: 0,
+    photo: "",
+    storeName: "",
+    storeId: 0,
+  };
 
+  const orderRegist = async () => {
+    await order(
+      orderDetail,
+      (res) => {
+        console.log("=======!!!!!!!!!!!!!!=========");
+        console.log(res.data);
+        return res.data;
+      },
+      (err) => console.log(err)
+    ).then((data) => setDrinkAtom(orderDetail));
+  };
+
+  const [drinkAtom, setDrinkAtom] = useRecoilState(orderItem);
+  setDrinkAtom(orderDetail);
+  console.log("drinkAtom !!!!!!!!! : " + drinkAtom.sugarContent);
   const [payItem, setPayItem] = useState({
     // 응답에서 가져올 값들
     next_redirect_pc_url: "",
@@ -58,10 +79,10 @@ export default function PaymentPage() {
       cid: "TC0ONETIME",
       partner_order_id: "partner_order_id",
       partner_user_id: "partner_user_id",
-      item_name: "아이스 아메리카노",
+      item_name: drinkItem.drinkName,
       quantity: 1,
-      total_amount: 5000,
-      vat_amount: 500,
+      total_amount: orderDetail.price,
+      vat_amount: orderDetail.price * 0.1,
       tax_free_amount: 0,
       approval_url: "http://localhost:3000/pay-success",
       fail_url: "http://localhost:3000/pay-fail",
@@ -100,8 +121,10 @@ export default function PaymentPage() {
         console.log(response.data.next_redirect_pc_url);
 
         if (response.status == 200) {
+          orderRegist();
           // 결제가 가능하다면 결제 페이지로 새로운 창 뜨게 함
-
+          // <Link to="response.data.next_redirect_pc_url" />;
+          console.log("orderDetail ==> " + orderDetail.drinkId);
           window.open(response.data.next_redirect_pc_url);
         } else if (response.status == 404) {
           // 404 에러라면
@@ -150,7 +173,7 @@ export default function PaymentPage() {
       </Box>
       {/* =============================================== */}
       <div style={{ marginTop: "3%" }}>
-        <DrinkMenuItem drinkItem={drinkItem}/>
+        <DrinkMenuItem drinkItem={drinkItem} />
       </div>
       {/* 주문 음료에 대한 메뉴 이름과 추가 메뉴에 대한 추가 금액 */}
       <PaymentMoney drinkItem={drinkItem} />
