@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useMemo } from "react"
+import { Link } from "react-router-dom"
 
-import { Box, Grid } from "@mui/material";
-import { Typography, Button } from "@mui/joy";
-import SearchIcon from "@mui/icons-material/Search";
-import MenuListItem from "../../components/util/MenuListItem";
-import FabButton from "../../components/util/FabButton";
+import { Box, Grid } from "@mui/material"
+import { Typography, Button } from "@mui/joy"
+import SearchIcon from "@mui/icons-material/Search"
+import MenuListItem from "../../components/util/MenuListItem"
+import FabButton from "../../components/util/FabButton"
 
 // 검색바
-import TextField from "@mui/material/TextField";
-import AutocompleteSearchBar from "../../components/util/AutocompleteSearchBar";
-import { searchDrinkMenu } from "../../api/order";
+import TextField from "@mui/material/TextField"
+import AutocompleteSearchBar from "../../components/util/AutocompleteSearchBar"
+import { searchDrinkMenu } from "../../api/order"
 
 function DrinkAddPage() {
   //console.log(cafeList);
@@ -19,9 +19,9 @@ function DrinkAddPage() {
   const [selectedFranchise, setSelectedFranchise] = useState({
     id: 0,
     franchiseName: "",
-  });
-  const [branchOptionInput, setbranchOptionInput] = useState("");
-  const [keywordInput, setkeywordInput] = useState("");
+  })
+  const [branchOptionInput, setbranchOptionInput] = useState("")
+  const [keywordInput, setkeywordInput] = useState("")
 
   const [resultItem, setResultItem] = useState({
     drinkId: -1,
@@ -38,7 +38,7 @@ function DrinkAddPage() {
     franchiseId: -1,
     storeName: "",
     cnt: -1,
-  });
+  })
   const [selectedDrink, setSelectedDrink] = useState({
     drinkId: null,
     drinkName: "",
@@ -54,52 +54,52 @@ function DrinkAddPage() {
     franchiseId: null,
     storeName: null,
     cnt: 0,
-  });
+  })
 
   // input data 반영
   const getSelectedFranchise = (selectCafe) => {
-    setSelectedFranchise(selectCafe);
-  };
+    setSelectedFranchise(selectCafe)
+  }
 
   const onChangeKeywordInput = (e) => {
-    setkeywordInput(e.target.value);
-  };
+    setkeywordInput(e.target.value)
+  }
 
   const onChangeBranchInput = (e) => {
-    setbranchOptionInput(e.target.value);
-  };
+    setbranchOptionInput(e.target.value)
+  }
 
   const getSearchResult = async () => {
     await searchDrinkMenu(
       selectedFranchise.id,
       keywordInput,
       (res) => {
-        return res.data;
+        return res.data
       },
       (err) => console.log(err)
-    ).then((data) => setResultItem(data));
-  };
+    ).then((data) => setResultItem(data))
+  }
 
   const getSelectedDrink = (selectDrink) => {
-    setSelectedDrink(selectDrink);
-  };
+    setSelectedDrink(selectDrink)
+  }
 
   const finalData = {
     franchiseId: selectedFranchise.id,
     franchiseName: selectedFranchise.franchiseName,
     drink: selectedDrink,
     branch: branchOptionInput,
-  };
+  }
 
-  console.log("*** FinalData : " + finalData);
+  console.log("*** FinalData : " + finalData)
 
   const nextPage = (event) => {
-    console.log("next Page 이동을 위한 클릭!!!!");
+    console.log("next Page 이동을 위한 클릭!!!!")
     if (finalData.drink.drinkId === null) {
-      event.preventDefault();
-      alert("음료를 선택해 주세요🙏");
+      event.preventDefault()
+      alert("음료를 선택해 주세요🙏")
     }
-  };
+  }
 
   return (
     <div>
@@ -158,11 +158,14 @@ function DrinkAddPage() {
         </Box>
       </div>
       <MenuListItem data={resultItem} getSelectedDrink={getSelectedDrink} />
-      <Link to={{ pathname: `/custom`, state: { finalData } }} onClick={nextPage}>
+      <Link
+        to={{ pathname: `/custom`, state: { finalData } }}
+        onClick={nextPage}
+      >
         <FabButton />
       </Link>
     </div>
-  );
+  )
 }
 
 const cafeList = [
@@ -177,6 +180,6 @@ const cafeList = [
   { id: 6, franchiseName: "파스쿠찌" },
   { id: 1, franchiseName: "폴바셋" },
   { id: 11, franchiseName: "할리스" },
-];
+]
 
-export default DrinkAddPage;
+export default DrinkAddPage

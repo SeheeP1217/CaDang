@@ -57,7 +57,7 @@ function FirstPage() {
             }}
           />
         </Grid>
-        <Grid container sx={{ mt: 12 }} zIndex={1}>
+        <Grid container zIndex={1}>
           <Stack spacing={1} width="50%" margin="auto">
             <Button
               component={Link}
@@ -75,6 +75,8 @@ function FirstPage() {
                 backgroundColor: "#3A130C",
                 color: "white",
                 fontFamily: "netmarble",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
               }}
             >
               ☕ 한잔 하러 가기
@@ -86,9 +88,10 @@ function FirstPage() {
               style={{
                 position: "absolute",
                 top: "85%",
-                left: "20%",
                 color: "white",
                 fontFamily: "netmarble",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
               }}
             >
               이미 회원이라면? 로그인
