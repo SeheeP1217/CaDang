@@ -11,7 +11,7 @@ export default function PaymentMoney(props) {
         component="span"
         sx={{ display: "block", fontSize: 18, fontWeight: "700" }}
       >
-        {props.drinkItem.storeName}
+        주문 음료
       </Box>
       <Card sx={{ mt: "3%", p: 1 }}>
         <Grid container>

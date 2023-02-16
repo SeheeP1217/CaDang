@@ -17,17 +17,14 @@ export default function PaymentPage() {
   const location = useLocation();
   const orderDetail = location.state.orderDetail;
   const drinkItem = location.state.drinkItem;
-  console.log("orderDetail-drinkId : " + orderDetail.drinkId);
-  console.log("orderDetail-caffeine : " + orderDetail.caffeine);
-  console.log("orderDetail-sugar : " + orderDetail.sugar);
-  console.log("orderDetail-cal : " + orderDetail.cal);
-  console.log("orderDetail-price : " + orderDetail.price);
-  console.log("orderDetail-shot : " + orderDetail.shot);
-  console.log("orderDetail-whip : " + orderDetail.whip);
-  console.log("orderDetail-sugarContent : " + orderDetail.sugarContent);
-  console.log("drinkItem-img : " + drinkItem.img);
-  console.log("drinkItem-storeName : " + drinkItem.storeName);
-  console.log("drinkItem : " + drinkItem.storeId);
+  const storeId = location.state.drinkDetail.storeId;
+
+  console.log("storeId : " + storeId);
+  console.log("orderDetail-syrup : " + orderDetail.syrup);
+  console.log("orderDetail-vanilla : " + orderDetail.vanilla);
+  console.log("orderDetail-hazelnut : " + orderDetail.hazelnut);
+  console.log("orderDetail-caramel : " + orderDetail.caramel);
+
   const kakaoPayDiv = useRef();
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -38,33 +35,33 @@ export default function PaymentPage() {
   }));
 
   const item = {
-    drinkId: 0,
-    caffeine: 0,
-    sugar: 0,
-    cal: 0,
-    price: 0,
-    shot: 0,
-    whip: false,
-    sugarContent: "BASIC",
+    drinkId: orderDetail.drinkId,
+    caffeine: orderDetail.caffeine,
+    sugar: orderDetail.sugar,
+    cal: orderDetail.cal,
+    price: orderDetail.price,
+    shot: orderDetail.shot,
+    whip: orderDetail.whip,
+    sugarContent: orderDetail.sugarContent,
     syrup: 0,
     vanilla: 0,
     hazelnut: 0,
     caramel: 0,
-    photo: "",
-    storeName: "",
-    storeId: 0,
+    photo: drinkItem.img,
+    storeName: drinkItem.storeName,
+    storeId: storeId,
   };
 
   const orderRegist = async () => {
     await order(
-      orderDetail,
+      item,
       (res) => {
         console.log("=======!!!!!!!!!!!!!!=========");
         console.log(res.data);
         return res.data;
       },
       (err) => console.log(err)
-    ).then((data) => setDrinkAtom(orderDetail));
+    ).then((data) => setDrinkAtom());
   };
 
   const [drinkAtom, setDrinkAtom] = useRecoilState(orderItem);

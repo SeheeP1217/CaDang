@@ -40,21 +40,7 @@ export default function PaySuccessPage() {
   //   $websocket.current.sendMessage("/message/order-request/1", msg);
   // };
 
-  const orderRegist = async () => {
-    await order(
-      drinkAtom,
-      (res) => {
-        console.log("=======!!!!!!!!!!!!!!=========");
-        console.log(res.data);
-        return res.data;
-      },
-      (err) => console.log(err)
-    ).then((data) => setStoreId(data));
-  };
-
   useMemo(() => {
-    // orderRegist();
-
     setTimeout(() => handleClickSendTo(), 1000);
   }, []);
 
