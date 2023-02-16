@@ -12,7 +12,7 @@ const ModifyProfileImageUploader = (props) => {
       ? `http://i8a808.p.ssafy.io/images/profile/${props.defaultImage}`
       : default_image
   const [imageStatus, setImageStatus] = useState({
-    image_file: "",
+    image_file: null,
     preview_URL: originalImage,
   })
 
@@ -20,10 +20,10 @@ const ModifyProfileImageUploader = (props) => {
 
   useEffect(() => {
     setImageStatus({
-      image_file: "",
+      image_file: null,
       preview_URL: originalImage,
     })
-  }, [])
+  }, [props.defaultImage])
   console.log(imageStatus.image_file)
 
   useEffect(
@@ -54,7 +54,7 @@ const ModifyProfileImageUploader = (props) => {
     // createObjectURL()을 통해 생성한 기존 URL을 폐기
     URL.revokeObjectURL(imageStatus.preview_URL)
     setImageStatus({
-      image_file: "",
+      image_file: null,
       preview_URL: default_image,
     })
     props.deleteImg()

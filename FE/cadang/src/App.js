@@ -42,7 +42,7 @@ function App() {
     <div>
       <Route exact path="/" component={IntroPage}></Route>
     </div>
-  )
+  );
   const IntroContainer = () => (
     <div>
       {/* img fixed 옵션으로 바꿀지?? */}
@@ -63,7 +63,7 @@ function App() {
         <Route exact path="/reset-pw" component={ResetPwPage} />
       </Switch>
     </div>
-  )
+  );
 
   // NavBar 필요한 페이지 정의
   const DefaultContainer = () => (
@@ -95,7 +95,7 @@ function App() {
         <Route exact path="/user-withdrawal" component={UserWithdrawalPage} />
       </Switch>
     </PageLayout>
-  )
+  );
 
   // Intro 페이지는 Nav 없는곳으로 렌더링
   return (
@@ -125,13 +125,13 @@ function App() {
         <Route exact path="/update-profile" component={DefaultContainer} />
       </Switch>
     </BrowserRouter>
-  )
+  );
 }
 
 const TopImage = styled.div`
   background-image: #350e0b !important;
   // background-color: #f5f0e8 !important;
   // background-color: #A28F70 !important;
-`
+`;
 
-export default App
+export default App;

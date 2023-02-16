@@ -5,8 +5,9 @@ import coffeebean from "../../assets/coffeebean.png"
 import sugar from "../../assets/sugar.png"
 import styled from "styled-components"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
+import { useEffect } from "react"
 
-export default function goalSettingItem(props) {
+export default function GoalSettingItem(props) {
   console.log(props)
   const theme = createTheme({
     palette: {
@@ -18,6 +19,11 @@ export default function goalSettingItem(props) {
       fontFamily: "netmarble",
     },
   })
+
+  // useEffect(()=> {
+
+  // }, [props])
+
   return (
     <ThemeProvider theme={theme}>
       <Box width="90%" my={3} mx="auto">
@@ -47,10 +53,10 @@ export default function goalSettingItem(props) {
           <Grid item xs={6}>
             <TextField
               id="standard-basic"
-              label="목표량(mg)"
+              placeholder="목표량(mg)"
               variant="standard"
               onChange={props.onChangeCaffeineGoal}
-              defaultValue={props.caffeineGoal}
+              value={props.changedProfile.caffeGoal}
               style={{ marginLeft: "10px" }}
               inputProps={{
                 style: {
@@ -79,16 +85,16 @@ export default function goalSettingItem(props) {
                 fontSize: "20px",
               }}
             >
-              당 목표량
+              당  목표량
             </Typography>
           </Grid>
           <Grid item xs={6}>
             <TextField
               id="standard-basic"
-              label="목표량(g)"
+              placeholder="목표량(g)"
               variant="standard"
               onChange={props.onChangeSugarGoal}
-              defaultValue={props.sugarGoal}
+              value={props.changedProfile.sugarGoal}
               style={{ marginLeft: "10px", fontFamily: "netmarble" }}
               inputProps={{
                 style: {

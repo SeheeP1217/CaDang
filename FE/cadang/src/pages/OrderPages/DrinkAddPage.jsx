@@ -54,7 +54,8 @@ function DrinkAddPage() {
     franchiseId: null,
     storeName: null,
     cnt: 0,
-  })
+  });
+  const [next, setNext] = useState(false);
 
   // input data 반영
   const getSelectedFranchise = (selectCafe) => {
@@ -91,13 +92,13 @@ function DrinkAddPage() {
     branch: branchOptionInput,
   }
 
-  console.log("*** FinalData : " + finalData)
+  console.log("*** FinalData : " + selectedDrink.drinkId);
 
   const nextPage = (event) => {
-    console.log("next Page 이동을 위한 클릭!!!!")
-    if (finalData.drink.drinkId === null) {
-      event.preventDefault()
-      alert("음료를 선택해 주세요🙏")
+    console.log("next Page 이동을 위한 클릭!!!! : " + finalData.drink.drinkId);
+    if (next === false) {
+      event.preventDefault();
+      alert("음료를 선택해 주세요🙏");
     }
   }
 
@@ -157,11 +158,8 @@ function DrinkAddPage() {
           </Button>
         </Box>
       </div>
-      <MenuListItem data={resultItem} getSelectedDrink={getSelectedDrink} />
-      <Link
-        to={{ pathname: `/custom`, state: { finalData } }}
-        onClick={nextPage}
-      >
+      <MenuListItem data={resultItem} getSelectedDrink={getSelectedDrink} setNext={setNext} />
+      <Link to={{ pathname: `/custom`, state: { finalData } }} onClick={nextPage}>
         <FabButton />
       </Link>
     </div>
