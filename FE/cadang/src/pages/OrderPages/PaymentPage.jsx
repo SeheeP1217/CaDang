@@ -81,9 +81,9 @@ export default function PaymentPage() {
       total_amount: orderDetail.price,
       vat_amount: orderDetail.price * 0.1,
       tax_free_amount: 0,
-      approval_url: "http://localhost:3000/pay-success",
-      fail_url: "http://localhost:3000/pay-fail",
-      cancel_url: "http://localhost:3000/main",
+      approval_url: "http://i8a808.p.ssafy.io/pay-success",
+      fail_url: "http://i8a808.p.ssafy.io/pay-fail",
+      cancel_url: "http://i8a808.p.ssafy.io/main",
     },
   });
 
