@@ -18,8 +18,8 @@ import DailyOtherInfo from "../../components/DailyOtherInfo";
 function PaymentCustomPage(props) {
   const location = useLocation();
   const history = useHistory();
+  console.log(props.location.state)
   const drinkItem = props.location.state.drinkItem;
-  console.log(drinkItem);
   const franchiseId = props.location.state.drinkItem.franchiseId;
   const drinkName = props.location.state.drinkItem.drinkName;
   const [drinkDetail, setDrinkDetail] = useState({
@@ -73,6 +73,10 @@ function PaymentCustomPage(props) {
     money: 0,
     cal: 0,
   });
+
+  console.log(drinkDetail.optionDtos);
+
+  // 다음 페이지에 넘겨줄 정보
   const [orderDetail, setOrderDetail] = useState({
     drinkId: basicDrink.drinkId,
     regDate: dayjs().format("YYYY-MM-DD"),
@@ -89,7 +93,19 @@ function PaymentCustomPage(props) {
     caramel: 0,
     memo: "",
     storeName: location.state.franchiseName,
+    
   });
+
+  // 결제창 띄우는 정보 추가 선언
+  // const [priceDetail, setPriceDetail] = useState({
+  //   sizePrice: basicDrink.price,
+  //   shotPrice: orderDetail.shot * drinkDetail.optionDtos[1].price,
+  //   whipPrice: orderDetail.whip * drinkDetail.optionDtos[0].price,
+  //   syrupPrice: orderDetail.syrup * drinkDetail.optionDtos[2].price,
+  //   vanillaPrice: orderDetail.vanilla * drinkDetail.optionDtos[4].price,
+  //   hazelnutPrice: orderDetail.hazelnut * drinkDetail.optionDtos[3].price,
+  //   caramelPrice: orderDetail.caramel * drinkDetail.optionDtos[5].price,
+  // })
 
   // 선택한 음료 정보로 orderDetail 초기화
   useEffect(() => {
@@ -115,6 +131,20 @@ function PaymentCustomPage(props) {
       cal: orderDetail.cal,
     });
   }, [orderDetail]);
+
+  // priceDetail 업데이트
+  // useEffect(() => {
+  //   setPriceDetail({
+  //   ...priceDetail,
+  //   shotPrice: orderDetail.shot * drinkDetail.optionDtos[1].price,
+  //   whipPrice: orderDetail.whip * drinkDetail.optionDtos[0].price,
+  //   syrupPrice: orderDetail.syrup * drinkDetail.optionDtos[2].price,
+  //   vanillaPrice: orderDetail.vanilla * drinkDetail.optionDtos[4].price,
+  //   hazelnutPrice: orderDetail.hazelnut * drinkDetail.optionDtos[3].price,
+  //   caramelPrice: orderDetail.caramel * drinkDetail.optionDtos[5].price,
+  // })
+  // }, [orderDetail])
+
 
   // 기존 daily + 선택음료 데이터 계산(젤 작은 사이즈 & 노옵션)
   const withoutCustom = {
@@ -150,13 +180,14 @@ function PaymentCustomPage(props) {
       const updateOption = drinkDetail.optionDtos.find(
         (option) => option.type.toLowerCase() === field
       );
-
       if (updateOption.type.toLowerCase() === "whip") {
         // 휘핑 옵션 (true면 더하고 false면 마이너스 + 기존 휘핑 상태에서 변동될때만)
         if (orderDetail.whip !== value) {
           setOrderDetail({
             ...orderDetail,
             whip: value,
+            // 휘핑 가격 변화량 저장해줌
+            whipPrice: value * updateOption.price,
             caffeine: value
               ? orderDetail["caffeine"] + value * updateOption.caffeine
               : Math.max(orderDetail["caffeine"] - updateOption.caffeine, 0),
@@ -180,6 +211,8 @@ function PaymentCustomPage(props) {
           sugar: Math.max(orderDetail["sugar"] + value * updateOption.sugar, 0),
           cal: Math.max(orderDetail["cal"] + value * updateOption.cal, 0),
           price: Math.max(orderDetail["price"] + value * updateOption.price, 0),
+          // caffeine
+
         });
       }
     }
@@ -202,6 +235,10 @@ function PaymentCustomPage(props) {
       hazelnut: 0,
       caramel: 0,
     });
+  //   setPriceDetail({
+  //     ...priceDetail,
+  //     sizePrice: drinkDetail.drinkResponseDtos[index].price,
+  // })
   };
 
   // 당도 어카냐........사이즈 기준 커스텀 전 당 + 휘핑시럽등 당 들어가는 애들 현재 다 더해서 0.5, 1, 1.5 리턴해야하나?
@@ -298,6 +335,8 @@ function PaymentCustomPage(props) {
     color: "000000",
   }));
 
+  console.log(orderDetail)
+  
   return (
     <div>
       <Typography level="h3" fontSize="xl" fontWeight="xl">
@@ -340,7 +379,7 @@ function PaymentCustomPage(props) {
       <Grid item>
         <Link
           style={{ textDecoration: "none" }}
-          to={{ pathname: `/payment`, state: { orderDetail } }}
+          to={{ pathname: `/payment`, state: { orderDetail, drinkItem } }}
         >
           <Button
             variant="contained"

@@ -126,12 +126,15 @@ const UpdateProfilePage = () => {
   }
 
   const data = new FormData()
-  data.append("img", modifiedImage.image_file)
+  if (modifiedImage.image_file !== null){
+    data.append("img", modifiedImage.image_file)
+  }
   data.append("nickname", changedProfile.nickname)
   data.append("caffeGoal", changedProfile.caffeGoal)
   data.append("sugarGoal", changedProfile.sugarGoal)
   data.append("isModified", changedProfile.isModified)
 
+  console.log(data.img)
   const modifyInfo = async (e) => {
     e.preventDefault()
     await axios
@@ -190,31 +193,32 @@ const UpdateProfilePage = () => {
           getImg={getImg}
           changeImg={changeImg}
           deleteImg={deleteImg}
-        />
-        <Boxs component="form" noValidate sx={{ mt: 2 }}>
-          <FormControl component="fieldset" variant="standard">
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography>이름</Typography>
-                <TextField fullWidth disabled label={userProfile.username} />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography>아이디</Typography>
-                <TextField fullWidth disabled label={userProfile.memberId} />
-              </Grid>
+          />
+          <Boxs component="form" noValidate sx={{ mt: 2 }}>
+            <FormControl component="fieldset" variant="standard">
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Typography>이름</Typography>
+                  <TextField fullWidth disabled label={userProfile.username} />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography>아이디</Typography>
+                  <TextField fullWidth disabled label={userProfile.memberId} />
+                </Grid>
 
-              <Grid item xs={12}>
-                <Typography>E-mail</Typography>
-                <TextField fullWidth disabled label={userProfile.email} />
-              </Grid>
+                <Grid item xs={12}>
+                  <Typography>E-mail</Typography>
+                  <TextField fullWidth disabled label={userProfile.email} />
+                </Grid>
 
-              <Grid item xs={12}>
-                <Typography>닉네임</Typography>
-                <TextField
-                  fullWidth
-                  defaultValue={userProfile.nickname}
-                  onChange={onChangeNickname}
-                />
+                <Grid item xs={12}>
+                  <Typography>닉네임</Typography>
+                  <TextField
+                    fullWidth
+                    value={userProfile.nickname}
+                    onChange={onChangeNickname}
+                  />
+                </Grid>
               </Grid>
             </Grid>
             <Button
