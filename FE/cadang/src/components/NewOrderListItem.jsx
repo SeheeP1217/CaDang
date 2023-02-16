@@ -159,10 +159,10 @@ export default function NewOrderListItem(props) {
               sx={{
                 fontWeight: "500",
                 display: "inline",
-                fontSize: 1,
+                fontSize: 13,
               }}
             >
-              샷 :{drinkItem.shot}
+              샷 추가 + 1 / 헤이즐넛시럽 추가 + 1{/* 샷 :{drinkItem.shot} */}
             </Typography>
           )}
         </Grid>
