@@ -106,3 +106,7 @@
   background-color: #3a130c !important;
   border-radius: 8px;
 }
+
+.fc-day-header {
+  border: none !important;
+}

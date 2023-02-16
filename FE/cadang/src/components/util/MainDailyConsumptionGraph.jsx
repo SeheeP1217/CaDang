@@ -3,6 +3,7 @@ import { Grid, Typography } from "@mui/material"
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Rectangle } from "recharts"
 import coffeebean from "../../assets/coffeebean.png"
 import sugar from "../../assets/sugar.png"
+import "./MainDailyConsumptionGraph.css"
 
 function MainDailyConsumptionGraph(props) {
   const chartData = props.data
