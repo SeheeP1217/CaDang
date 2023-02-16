@@ -85,7 +85,7 @@ export default function GoalSettingItem(props) {
                 fontSize: "20px",
               }}
             >
-              당  목표량
+              당 목표량
             </Typography>
           </Grid>
           <Grid item xs={6}>

@@ -126,7 +126,7 @@ const UpdateProfilePage = () => {
   }
 
   const data = new FormData()
-  if (modifiedImage.image_file !== null){
+  if (modifiedImage.image_file !== null) {
     data.append("img", modifiedImage.image_file)
   }
   data.append("nickname", changedProfile.nickname)
@@ -193,41 +193,34 @@ const UpdateProfilePage = () => {
           getImg={getImg}
           changeImg={changeImg}
           deleteImg={deleteImg}
-          />
-          <Boxs component="form" noValidate sx={{ mt: 2 }}>
-            <FormControl component="fieldset" variant="standard">
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Typography>이름</Typography>
-                  <TextField fullWidth disabled label={userProfile.username} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography>아이디</Typography>
-                  <TextField fullWidth disabled label={userProfile.memberId} />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <Typography>E-mail</Typography>
-                  <TextField fullWidth disabled label={userProfile.email} />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <Typography>닉네임</Typography>
-                  <TextField
-                    fullWidth
-                    value={changedProfile.nickname}
-                    onChange={onChangeNickname}
-                  />
-                </Grid>
+        />
+        <Boxs component="form" noValidate sx={{ mt: 2 }}>
+          <FormControl component="fieldset" variant="standard">
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography>이름</Typography>
+                <TextField fullWidth disabled label={userProfile.username} />
               </Grid>
-            <Button
-              fullWidth
-              style={{ backgroundColor: "#ffba00", color: "white" }}
-              sx={{ mt: 3 }}
-              size="large"
-            >
-              비밀번호 변경하기
-            </Button>
+              <Grid item xs={12}>
+                <Typography>아이디</Typography>
+                <TextField fullWidth disabled label={userProfile.memberId} />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Typography>E-mail</Typography>
+                <TextField fullWidth disabled label={userProfile.email} />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Typography>닉네임</Typography>
+                <TextField
+                  fullWidth
+                  value={changedProfile.nickname}
+                  onChange={onChangeNickname}
+                />
+              </Grid>
+            </Grid>
+
             <GoalSettingItem
               caffeineGoal={userProfile.caffeGoal}
               sugarGoal={userProfile.sugarGoal}
