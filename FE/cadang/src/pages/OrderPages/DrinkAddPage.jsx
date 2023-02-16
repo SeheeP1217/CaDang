@@ -54,7 +54,7 @@ function DrinkAddPage() {
     franchiseId: null,
     storeName: null,
     cnt: 0,
-  })
+  });
 
   // input data 반영
   const getSelectedFranchise = (selectCafe) => {
@@ -89,9 +89,17 @@ function DrinkAddPage() {
     franchiseName: selectedFranchise.franchiseName,
     drink: selectedDrink,
     branch: branchOptionInput,
-  }
+  };
 
-  console.log(finalData);
+  console.log("*** FinalData : " + finalData);
+
+  const nextPage = (event) => {
+    console.log("next Page 이동을 위한 클릭!!!!");
+    if (finalData.drink.drinkId === null) {
+      event.preventDefault();
+      alert("음료를 선택해 주세요🙏");
+    }
+  };
 
   return (
     <div>
@@ -150,7 +158,7 @@ function DrinkAddPage() {
         </Box>
       </div>
       <MenuListItem data={resultItem} getSelectedDrink={getSelectedDrink} />
-      <Link to={{ pathname: `/custom`, state: { finalData } }}>
+      <Link to={{ pathname: `/custom`, state: { finalData } }} onClick={nextPage}>
         <FabButton />
       </Link>
     </div>

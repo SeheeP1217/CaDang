@@ -32,6 +32,7 @@ import PayFailPage from "./pages/OrderPages/PayFail"
 import DailyConsumptionGraph from "./components/util/DailyConsumptionGraph"
 import ResetPwPage from "./pages/UserPages/ResetPw"
 import PaymentCustomPage from "./pages/OrderPages/PaymentCustomPage"
+import UserWithdrawalPage from "./pages/UserPages/UserWithdrawalPage"
 
 function App() {
   // const [{ user }, dispatch] = useStateValue();
@@ -92,6 +93,7 @@ function App() {
           path="/daily-consumption-graph"
           component={DailyConsumptionGraph}
         />
+        <Route exact path="/user-withdrawal" component={UserWithdrawalPage} />
       </Switch>
     </PageLayout>
   )

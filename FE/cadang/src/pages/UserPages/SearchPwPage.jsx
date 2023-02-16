@@ -113,7 +113,7 @@ const SearchPwPage = () => {
       .then((response) => {
         console.log(response, "성공")
         // alert("인증이 완료되었습니다.")
-        history.push(`/reset-pw/${memberId}`)
+        history.push({ pathname: "/reset-pw", props: { response } })
       })
       .catch(function (err) {
         console.log(err)
@@ -196,7 +196,6 @@ const SearchPwPage = () => {
                     fullWidth
                     variant="contained"
                     size="medium"
-                    memberId={memberId}
                   >
                     확인
                   </SendButton>
