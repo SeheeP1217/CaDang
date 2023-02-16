@@ -13,6 +13,7 @@ import {
   Box,
   Typography,
   Container,
+  Card,
 } from "@mui/material/"
 import {
   createTheme,
@@ -133,9 +134,11 @@ const SearchPwPage = () => {
             alignItems: "center",
           }}
         >
-          <Typography component="h1" variant="h5">
-            비밀번호 찾기
-          </Typography>
+          <TitleCard>
+            <Typography component="h1" variant="h5">
+              비밀번호 찾기
+            </Typography>
+          </TitleCard>
           <Boxs component="form" noValidate sx={{ mt: 2 }}>
             <FormControl component="fieldset" variant="standard">
               <Grid container spacing={2}>
@@ -172,7 +175,9 @@ const SearchPwPage = () => {
                     variant="contained"
                     size="small"
                   >
-                    인증번호 보내기
+                    인증번호
+                    <br />
+                    보내기
                   </SendButton>
                 </Grid>
                 <FormHelperTexts>{emailError}</FormHelperTexts>
@@ -223,7 +228,16 @@ const FormHelperTexts = styled(FormHelperText)`
 const Boxs = styled(Box)`
   padding-bottom: 10px !important;
 `
-
+const TitleCard = styled(Card)`
+  border: 2px solid #ffba00 !important;
+  padding: 3px !important;
+  padding-right: 9px !important;
+  padding-left: 9px !important;
+  border-radius: 10px !important;
+  background-color: white !important;
+  margin-bottom: 10px !important;
+  color: #ffba00 !important;
+`
 const SendButton = styled(Button)`
   background-color: #ffba00 !important;
 `

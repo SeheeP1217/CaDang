@@ -57,7 +57,6 @@ function App() {
         <Route exact path="/sign-up" component={RegisterPage} />
         <Route exact path="/info" component={InfoPage} />
         <Route exact path="/cafe-ceo-order" component={CafeCeoPage} />
-        <GlobalStyle />
 
         <Route exact path="/search-id" component={SearchIdPage} />
         <Route exact path="/search-pw" component={SearchPwPage} />
@@ -109,9 +108,9 @@ function App() {
         <Route exact path="/image-signup" component={IntroContainer} />
         <Route exact path="/info" component={IntroContainer} />
         <Route exact path="/cafe-ceo-order" component={IntroContainer} />
-        <Route exact path="/search-id" component={SearchIdPage} />
-        <Route exact path="/search-pw" component={SearchPwPage} />
-        <Route exact path="/reset-pw" component={ResetPwPage} />
+        <Route exact path="/search-id" component={IntroContainer} />
+        <Route exact path="/search-pw" component={IntroContainer} />
+        <Route exact path="/reset-pw" component={IntroContainer} />
 
         <Route exact path="/error404" component={IntroContainer} />
         <Route exact path="/error500" component={IntroContainer} />
