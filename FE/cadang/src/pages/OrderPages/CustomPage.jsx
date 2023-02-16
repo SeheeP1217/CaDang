@@ -317,60 +317,58 @@ function CustomPage() {
   }))
 
   return (
-    <ThemeProvider theme={theme}>
-      <div>
-        <Typography level="h3" fontSize="xl" fontWeight="xl">
-          Custom
-        </Typography>
-        <Grid container>
-          <Box sx={{ flexGrow: 1 }} marginTop={1}>
-            <Grid container spacing={2}>
-              <Grid item xs={8}>
-                <Item sx={{ fontWeight: "700" }}>
-                  {location.state.finalData.franchiseName}
-                </Item>
-              </Grid>
-              <Grid item xs={4}>
-                <Item style={{ fontWeight: "700" }}>
-                  {location.state.finalData.branch
-                    ? location.state.finalData.branch
-                    : "-"}
-                </Item>
-              </Grid>
-              <Grid item xs={12}>
-                <CustomDrinkMenuItem
-                  data={location.state.finalData}
-                  getRecordDate={getRecordDate}
-                />
-              </Grid>
+    <div>
+      <Typography level="h3" fontSize="xl" fontWeight="xl">
+        Custom
+      </Typography>
+      <Grid container>
+        <Box sx={{ flexGrow: 1 }} marginTop={1}>
+          <Grid container spacing={2}>
+            <Grid item xs={8}>
+              <Item sx={{ fontWeight: "700" }}>
+                {location.state.finalData.franchiseName}
+              </Item>
             </Grid>
-          </Box>
-        </Grid>
-        {/* 현황 */}
-        <Card>
-          <DailyConsumptionGraph
-            selectDrinkInfo={changeInfo}
-            consumptionInfo={withoutCustom}
-          />
-          <DailyOtherInfo
-            data={drinkDetail.dayDataDto}
-            changedOtherInfo={changedOtherInfo}
-          ></DailyOtherInfo>
-        </Card>
-
-        <CustomOption
-          drinkDetail={drinkDetail}
-          orderDetail={orderDetail}
-          onClickOptionChangeHandler={onClickOptionChangeHandler}
-          onClickSizeChangeHandler={onClickSizeChangeHandler}
-          onclickSugarContentHandler={onclickSugarContentHandler}
+            <Grid item xs={4}>
+              <Item style={{ fontWeight: "700" }}>
+                {location.state.finalData.branch
+                  ? location.state.finalData.branch
+                  : "-"}
+              </Item>
+            </Grid>
+            <Grid item xs={12}>
+              <CustomDrinkMenuItem
+                data={location.state.finalData}
+                getRecordDate={getRecordDate}
+              />
+            </Grid>
+          </Grid>
+        </Box>
+      </Grid>
+      {/* 현황 */}
+      <Card>
+        <DailyConsumptionGraph
+          selectDrinkInfo={changeInfo}
+          consumptionInfo={withoutCustom}
         />
+        <DailyOtherInfo
+          data={drinkDetail.dayDataDto}
+          changedOtherInfo={changedOtherInfo}
+        ></DailyOtherInfo>
+      </Card>
 
-        <Grid item>
-          <Button onClick={addDrinkRecord}>주문하기</Button>
-        </Grid>
-      </div>
-    </ThemeProvider>
+      <CustomOption
+        drinkDetail={drinkDetail}
+        orderDetail={orderDetail}
+        onClickOptionChangeHandler={onClickOptionChangeHandler}
+        onClickSizeChangeHandler={onClickSizeChangeHandler}
+        onclickSugarContentHandler={onclickSugarContentHandler}
+      />
+
+      <Grid item>
+        <Button onClick={addDrinkRecord}>주문하기</Button>
+      </Grid>
+    </div>
   )
 }
 
