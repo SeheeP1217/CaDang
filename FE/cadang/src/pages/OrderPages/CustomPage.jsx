@@ -13,11 +13,12 @@ import DailyConsumptionGraph from "../../components/util/DailyConsumptionGraph"
 import CustomDrinkMenuItem from "../../components/util/CustomDrinkMenuItem"
 import CustomOption from "../../components/CustomOption"
 
-import { cafeDrinkData, newDrinkRecord } from "../../api/order"
+import { cafeDrinkCustomData, newDrinkRecord } from "../../api/order"
 import DailyOtherInfo from "../../components/DailyOtherInfo"
 
 function CustomPage() {
   const location = useLocation()
+  console.log(location)
   const history = useHistory()
   const theme = createTheme({
     palette: {
@@ -119,8 +120,8 @@ function CustomPage() {
       storeName: location.state.franchiseName,
     })
   }, [basicDrink])
-  console.log("this", basicDrink)
-  console.log("this", orderDetail)
+  // console.log("this", basicDrink)
+  // console.log("this", orderDetail)
 
   // 전체 가격, 칼로리 변동량 계산
   useEffect(() => {
@@ -260,14 +261,20 @@ function CustomPage() {
 
   useMemo(() => {
     const getCustomData = async () => {
-      await cafeDrinkData(
+      await cafeDrinkCustomData(
         franchiseId,
         drinkName,
         (res) => {
+          console.log("this is what i wanted" + res)
           return res.data
         },
         (err) => console.log(err)
-      ).then((data) => setDrinkDetail(data))
+      ).then((data) => {
+        console.log("Ended with good RESPONSE")
+        console.log(data)
+
+        setDrinkDetail(data)
+      })
     }
     getCustomData()
   }, [])
