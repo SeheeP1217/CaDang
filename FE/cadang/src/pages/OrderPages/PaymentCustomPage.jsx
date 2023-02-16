@@ -18,7 +18,7 @@ import DailyOtherInfo from "../../components/DailyOtherInfo";
 function PaymentCustomPage(props) {
   const location = useLocation();
   const history = useHistory();
-  console.log(props.location.state)
+  console.log(location)
   const drinkItem = props.location.state.drinkItem;
   const franchiseId = props.location.state.drinkItem.franchiseId;
   const drinkName = props.location.state.drinkItem.drinkName;
@@ -74,7 +74,7 @@ function PaymentCustomPage(props) {
     cal: 0,
   });
 
-  console.log(drinkDetail.optionDtos);
+  console.log(drinkDetail);
 
   // 다음 페이지에 넘겨줄 정보
   const [orderDetail, setOrderDetail] = useState({
@@ -280,10 +280,14 @@ function PaymentCustomPage(props) {
       await cafeDrinkData(
         franchiseId,
         drinkName,
+        location.state.drinkItem.storeName,
         (res) => {
+          console.log(res)
           return res.data;
         },
-        (err) => console.log(err)
+        (err) => {
+          console.log("와!! 개같이 실패!!!!" + err)
+        }
       ).then((data) => setDrinkDetail(data));
     };
     getCustomData();

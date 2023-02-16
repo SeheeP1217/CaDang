@@ -229,8 +229,8 @@ const UpdateProfilePage = () => {
               비밀번호 변경하기
             </Button>
             <GoalSettingItem
-              caffeineGoal={userProfile.caffeGoal}
-              sugarGoal={userProfile.sugarGoal}
+              sugarGoal = {changedProfile.sugarGoal}
+              caffeGoal = {changedProfile.caffeGoal}
               changedProfile={changedProfile}
               onChangeCaffeineGoal={onChangeCaffeineGoal}
               onChangeSugarGoal={onChangeSugarGoal}

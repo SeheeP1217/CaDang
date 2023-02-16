@@ -8,6 +8,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { useEffect } from "react"
 
 export default function GoalSettingItem(props) {
+  
   console.log(props)
   const theme = createTheme({
     palette: {
@@ -56,7 +57,7 @@ export default function GoalSettingItem(props) {
               placeholder="목표량(mg)"
               variant="standard"
               onChange={props.onChangeCaffeineGoal}
-              value={props.changedProfile.caffeGoal}
+              value={props?.caffeGoal}
               style={{ marginLeft: "10px" }}
               inputProps={{
                 style: {
@@ -94,7 +95,7 @@ export default function GoalSettingItem(props) {
               placeholder="목표량(g)"
               variant="standard"
               onChange={props.onChangeSugarGoal}
-              value={props.changedProfile.sugarGoal}
+              value={props?.sugarGoal}
               style={{ marginLeft: "10px", fontFamily: "netmarble" }}
               inputProps={{
                 style: {
