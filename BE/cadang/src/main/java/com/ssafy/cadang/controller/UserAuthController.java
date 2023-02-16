@@ -84,7 +84,6 @@ public class UserAuthController {
 
         Long id = Long.valueOf(request.getAttribute("userId").toString());
 
-
         userAuthService.modifyUserInfo(userModifyDto, id);
         dataService.updateGoal(id);
 

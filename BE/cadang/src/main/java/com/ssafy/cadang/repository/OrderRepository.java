@@ -11,8 +11,6 @@ import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-
-//    @EntityGraph(attributePaths = {"drink"})  --> 아래의 패치조인과 join fetch o.drink d를 빼고 이걸 넣어줘도 됨
     @Query(" select o from Order o join fetch o.drink d where o.user.id=:userId order by o.regDate DESC")
     List<Order> findAllByUserid(@Param("userId") Long userId);   //고객 주문 내역 조회
 

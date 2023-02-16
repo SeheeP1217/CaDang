@@ -50,7 +50,6 @@ public enum ExceptionEnum {
 
 
 
-
     private final HttpStatus httpStatus;
     private final String errorCode;
     private final String message;
