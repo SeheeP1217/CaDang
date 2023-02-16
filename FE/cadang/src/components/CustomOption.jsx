@@ -9,6 +9,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { Card, Grid, Divider } from "@mui/material";
 import Typography from "@mui/joy/Typography";
+import { useEffect } from "react";
 
 function CustomOption(props) {
   const defaultInfo = props.drinkDetail.drinkResponseDtos;
@@ -18,9 +19,12 @@ function CustomOption(props) {
   const [cupSize, setCupSize] = useState(0);
   const [isWhiped, setIsWhiped] = useState(defaultInfo[0].whip);
   const [howTasty, setHowTasty] = useState(orderInfo.sugarContent);
-  console.log(defaultInfo);
   console.log(isWhiped);
-  console.log(howTasty);
+
+  useEffect(() => {
+
+  }, [props])
+  
   return (
     <div>
       <Divider>custom</Divider>
@@ -95,10 +99,10 @@ function CustomOption(props) {
           <Grid item xs={8} alignItems="center">
             {isWhiped === null ? (
               <ButtonGroup size="small">
-                <Button value={false} variant="disabled">
+                <Button variant="disabled">
                   X
                 </Button>
-                <Button value={true} variant="disabled">
+                <Button variant="disabled">
                   O
                 </Button>
               </ButtonGroup>
