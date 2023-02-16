@@ -77,7 +77,16 @@ const ImageModifier = (props) => {
         style={{ display: "none" }}
       />
       <ImgWrapper className="img-wrapper">
-        <ImgSpace src={imagestatus.preview_URL} alt="img" />
+        <ImgSpace
+          src={imagestatus.preview_URL}
+          alt="img"
+          style={{
+            borderRadius: "100%",
+            width: "100px",
+            height: "100px",
+            objectFit: "cover",
+          }}
+        />
       </ImgWrapper>
 
       <div className="upload-button">
