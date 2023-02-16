@@ -18,7 +18,6 @@ import DailyOtherInfo from "../../components/DailyOtherInfo";
 function PaymentCustomPage(props) {
   const location = useLocation();
   const history = useHistory();
-  console.log(props.location.state);
   const drinkItem = props.location.state.drinkItem;
   const franchiseId = props.location.state.drinkItem.franchiseId;
   const drinkName = props.location.state.drinkItem.drinkName;
@@ -181,6 +180,9 @@ function PaymentCustomPage(props) {
       if (updateOption.type.toLowerCase() === "whip") {
         // 휘핑 옵션 (true면 더하고 false면 마이너스 + 기존 휘핑 상태에서 변동될때만)
         if (orderDetail.whip !== value) {
+          // 휘핑의 이런저런 경우 고려한 가격 변동량
+          const whipChangePrice =
+          (basicDrink.whip === false || value === true) ? 500 : (basicDrink.whip === false) || value === false ? -500 : 0;
           setOrderDetail({
             ...orderDetail,
             whip: value,
@@ -195,9 +197,11 @@ function PaymentCustomPage(props) {
             cal: value
               ? orderDetail["cal"] + value * updateOption.cal
               : Math.max(orderDetail["cal"] - updateOption.cal, 0),
-            price: value
-              ? orderDetail["price"] + value * updateOption.price
-              : Math.max(orderDetail["price"] - updateOption.price, 0),
+            // price: value
+            //  ? orderDetail["price"] + value * updateOption.price
+            //  : Math.max(orderDetail["price"] - updateOption.price, 0),
+
+            price: Math.max(orderDetail["price"] + whipChangePrice, 0)
           });
         }
       } else {
@@ -237,7 +241,7 @@ function PaymentCustomPage(props) {
     //     sizePrice: drinkDetail.drinkResponseDtos[index].price,
     // })
   };
-
+  console.log(basicDrink.whip)
   // 당도 어카냐........사이즈 기준 커스텀 전 당 + 휘핑시럽등 당 들어가는 애들 현재 다 더해서 0.5, 1, 1.5 리턴해야하나?
   const onclickSugarContentHandler = (type, value) => {
     const nowSize = drinkDetail.drinkResponseDtos.find(
@@ -258,18 +262,21 @@ function PaymentCustomPage(props) {
     const caramelOption = drinkDetail.optionDtos.find(
       (option) => option.type.toLowerCase() === "caramel"
     );
-    const standardSugar =
-      nowSize.sugar +
-      whipOption.sugar * orderDetail.whip +
-      syrupOption.sugar * orderDetail.syrup +
-      vanillaOption.sugar * orderDetail.vanilla +
-      hazelnutOption.sugar * orderDetail.hazelnut +
-      caramelOption.sugar * orderDetail.caramel;
-    setOrderDetail({
-      ...orderDetail,
-      sugar: standardSugar * value,
-      sugarContent: type,
-    });
+    let standardSugar =
+    nowSize.sugar +
+    syrupOption.sugar * orderDetail.syrup +
+    vanillaOption.sugar * orderDetail.vanilla +
+    hazelnutOption.sugar * orderDetail.hazelnut +
+    caramelOption.sugar * orderDetail.caramel;
+  // 휘핑이 기본으로 들어간 음료에서는 당도 조절시 휘핑을 옵션으로 고려하면 안됨 (예외처리)
+   if (basicDrink.whip === false) {
+     standardSugar += whipOption.sugar * orderDetail.whip;
+   }
+  setOrderDetail({
+    ...orderDetail,
+    sugar: standardSugar * value,
+    sugarContent: type,
+  });
   };
 
   useMemo(() => {
@@ -283,7 +290,7 @@ function PaymentCustomPage(props) {
           return res.data;
         },
         (err) => {
-          console.log("와!! 개같이 실패!!!!" + err);
+          console.log(err);
         }
       ).then((data) => setDrinkDetail(data));
     };
