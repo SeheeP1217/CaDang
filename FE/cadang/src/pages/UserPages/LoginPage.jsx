@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from "react"
+import { Link, useHistory } from "react-router-dom"
+import axios from "axios"
 import {
   Button,
   CssBaseline,
@@ -14,14 +14,14 @@ import {
   Typography,
   Container,
   Card,
-} from "@mui/material/";
+} from "@mui/material/"
 import {
   createTheme,
   ThemeProvider,
   // CreateMUIStyled,
-} from "@mui/material/styles";
-import styled from "styled-components";
-import LoadingPage from "../LoadingPage";
+} from "@mui/material/styles"
+import styled from "styled-components"
+import LoadingPage from "../LoadingPage"
 
 // mui의 css 우선순위가 높기때문에 important를 설정 - 실무하다 보면 종종 발생 우선순위 문제
 const FormHelperTexts = styled(FormHelperText)`
@@ -29,11 +29,11 @@ const FormHelperTexts = styled(FormHelperText)`
   padding-left: 16px;
   font-weight: 700 !important;
   color: #d32f2f !important;
-`;
+`
 
 const Boxs = styled(Box)`
   padding-bottom: 40px !important;
-`;
+`
 
 // const StyledButton = styled.button`
 //   padding: 6px 12px;
@@ -64,83 +64,84 @@ const LoginPage = () => {
     typography: {
       fontFamily: "netmarble",
     },
-  });
+  })
   // const [checked, setChecked] = useState(false)
-  const [memberId, setMemberId] = useState("");
-  const [password, setPassword] = useState("");
-  const [memberIdError, setMemberIdError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [loginError, setLoginError] = useState("");
-  const history = useHistory();
-  const [loading, setLoading] = useState(false);
+  const [memberId, setMemberId] = useState("")
+  const [password, setPassword] = useState("")
+  const [memberIdError, setMemberIdError] = useState("")
+  const [passwordError, setPasswordError] = useState("")
+  const [loginError, setLoginError] = useState("")
+  const history = useHistory()
+  const [loading, setLoading] = useState(false)
 
   const onhandlePost = async (data) => {
-    const { memberId, password } = data;
-    const postData = { memberId, password };
-    setLoading(true); // axios 호출 전 로딩페이지를 띄우기 위한 state 처리
+    const { memberId, password } = data
+    const postData = { memberId, password }
+    setLoading(true) // axios 호출 전 로딩페이지를 띄우기 위한 state 처리
     await axios
       .post("http://i8a808.p.ssafy.io:8080/login", postData, {
         withCredentials: true,
       })
       .then(async (response) => {
-        console.log(response);
+        console.log(response)
 
-        return response;
+        return response
       })
       .then(async (response) => {
         if (response.headers.authorization) {
-          localStorage.setItem("login-token", response.headers.authorization);
-          console.log(data);
+          localStorage.setItem("login-token", response.headers.authorization)
+          console.log(data)
         }
         if (response.status === 200) {
-          setLoading(false);
+          setLoading(false)
           // alert("로그인에 성공하였습니다.");
-          history.push("/main");
-          window.location.reload();
+          history.push("/main")
+          window.location.reload()
           // setTimeout(() => {
           //   history.push("/main");
           // }, 800);
         }
       })
       .catch(function (err) {
-        console.log(err);
-        console.log("로그인 안됨");
-        console.log(postData);
-        setLoginError("로그인에 실패하였습니다. 다시 한 번 확인해 주세요");
-      });
-  };
+        console.log(err)
+        console.log("로그인 안됨")
+        console.log(postData)
+        setLoginError("로그인에 실패하였습니다. 다시 한 번 확인해 주세요")
+      })
+  }
 
-  const idRegex = /^[a-zA-Z0-9]+$/;
+  const idRegex = /^[a-zA-Z0-9]+$/
   const onChangeUserId = (e) => {
     if (!e.target.value || idRegex.test(e.target.value) || memberId.length < 1)
-      setMemberIdError(false);
-    else setMemberIdError("영문자+숫자 조합으로 입력해주세요.");
-    setMemberId(e.target.value);
-  };
+      setMemberIdError(false)
+    else setMemberIdError("영문자+숫자 조합으로 입력해주세요.")
+    setMemberId(e.target.value)
+  }
 
-  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,20}$/;
+  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,20}$/
   const onChangePassword = (e) => {
-    if (!e.target.value || passwordRegex.test(e.target.value)) setPasswordError(false);
-    else setPasswordError("숫자+영문자 조합으로 8~20자리로 입력해주세요.");
-  };
+    if (!e.target.value || passwordRegex.test(e.target.value))
+      setPasswordError(false)
+    else setPasswordError("숫자+영문자 조합으로 8~20자리로 입력해주세요.")
+  }
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const data = new FormData(e.currentTarget);
+    const data = new FormData(e.currentTarget)
     const joinData = {
       memberId: data.get("memberId"),
       password: data.get("password"),
-    };
-    const { memberId, password } = joinData;
+    }
+    const { memberId, password } = joinData
 
     if (
       idRegex.test(memberId) &&
       passwordRegex.test(password)
       // checked
     ) {
-      onhandlePost(joinData);
+      onhandlePost(joinData)
     }
-  };
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -162,7 +163,12 @@ const LoginPage = () => {
                 로그인
               </Typography>
             </TitleCard>
-            <Boxs component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Boxs
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 3 }}
+            >
               <FormControl component="fieldset" variant="standard">
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
@@ -204,7 +210,7 @@ const LoginPage = () => {
                 >
                   LOGIN
                 </SendButton>
-                <Grid>
+                <Grid style={{ textAlign: "center" }}>
                   <Button component={Link} to="/search-id" variant="text">
                     아이디 찾기
                   </Button>
@@ -224,8 +230,8 @@ const LoginPage = () => {
         </Container>
       )}
     </ThemeProvider>
-  );
-};
+  )
+}
 
 const TitleCard = styled(Card)`
   border: 2px solid #ffba00 !important;
@@ -236,9 +242,9 @@ const TitleCard = styled(Card)`
   background-color: white !important;
   margin-bottom: 10px !important;
   color: #ffba00 !important;
-`;
+`
 const SendButton = styled(Button)`
   background-color: #ffba00 !important;
-`;
+`
 
-export default LoginPage;
+export default LoginPage

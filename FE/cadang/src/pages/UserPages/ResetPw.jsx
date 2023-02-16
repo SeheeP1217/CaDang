@@ -13,6 +13,7 @@ import {
   Box,
   Typography,
   Container,
+  Card,
 } from "@mui/material/"
 import {
   createTheme,
@@ -107,9 +108,11 @@ const ResetPwPage = (location) => {
             alignItems: "center",
           }}
         >
-          <Typography component="h1" variant="h5">
-            비밀번호 재설정
-          </Typography>
+          <TitleCard>
+            <Typography component="h1" variant="h5">
+              비밀번호 재설정
+            </Typography>
+          </TitleCard>
           <Boxs
             component="form"
             noValidate
@@ -158,6 +161,14 @@ const ResetPwPage = (location) => {
                   </SendButton>
                 </Grid>
               </Grid>
+              <Button
+                component={Link}
+                to="/sign-in"
+                variant="text"
+                style={{ marginTop: "5px" }}
+              >
+                로그인 하러 가기
+              </Button>
             </FormControl>
           </Boxs>
         </Box>
@@ -176,7 +187,16 @@ const FormHelperTexts = styled(FormHelperText)`
 const Boxs = styled(Box)`
   padding-bottom: 10px !important;
 `
-
+const TitleCard = styled(Card)`
+  border: 2px solid #ffba00 !important;
+  padding: 3px !important;
+  padding-right: 9px !important;
+  padding-left: 9px !important;
+  border-radius: 10px !important;
+  background-color: white !important;
+  margin-bottom: 10px !important;
+  color: #ffba00 !important;
+`
 const SendButton = styled(Button)`
   background-color: #ffba00 !important;
 `

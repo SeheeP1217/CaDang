@@ -7,8 +7,10 @@ import AddAPhotoIcon from "@mui/icons-material/AddAPhoto"
 import { useLocation } from "react-router-dom"
 
 const ModifyProfileImageUploader = (props) => {
-
-  const originalImage = (props.defaultImage !== "") ? `http://i8a808.p.ssafy.io/images/profile/${props.defaultImage}` : default_image
+  const originalImage =
+    props.defaultImage !== ""
+      ? `http://i8a808.p.ssafy.io/images/profile/${props.defaultImage}`
+      : default_image
   const [imageStatus, setImageStatus] = useState({
     image_file: null,
     preview_URL: originalImage,
@@ -20,8 +22,8 @@ const ModifyProfileImageUploader = (props) => {
     setImageStatus({
       image_file: null,
       preview_URL: originalImage,
-    });
-  }, [props.defaultImage]);
+    })
+  }, [props.defaultImage])
   console.log(imageStatus.image_file)
 
   useEffect(
@@ -29,9 +31,9 @@ const ModifyProfileImageUploader = (props) => {
       props.getImg(imageStatus.image_file, imageStatus.preview_URL)
     },
     [imageStatus]
-    )
+  )
   console.log(imageStatus.image_file)
-  console.log(typeof(imageStatus.image_file))
+  console.log(typeof imageStatus.image_file)
 
   console.log(imageStatus.preview_URL)
 
@@ -43,9 +45,8 @@ const ModifyProfileImageUploader = (props) => {
       setImageStatus(() => ({
         image_file: e.target.files[0],
         preview_URL: preview_URL,
-      }),
-      );
-      props.changeImg();
+      }))
+      props.changeImg()
     }
   }
 
@@ -55,8 +56,8 @@ const ModifyProfileImageUploader = (props) => {
     setImageStatus({
       image_file: null,
       preview_URL: default_image,
-    });
-    props.deleteImg();
+    })
+    props.deleteImg()
   }
 
   useEffect(() => {
@@ -66,7 +67,6 @@ const ModifyProfileImageUploader = (props) => {
     }
   }, [])
   console.log(imageStatus.preview_URL)
-
 
   return (
     <UploaderWrapper className="uploader-wrapper">
@@ -85,6 +85,12 @@ const ModifyProfileImageUploader = (props) => {
           src={imageStatus.preview_URL}
           alt="img"
           onClick={() => inputRef.click()}
+          style={{
+            borderRadius: "100%",
+            width: "100px",
+            height: "100px",
+            objectFit: "cover",
+          }}
         />
       </ImgWrapper>
       <div className="upload-button">
