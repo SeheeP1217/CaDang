@@ -1,39 +1,39 @@
-import React, { useState, useEffect } from "react";
-import MenuListItem from "./MenuListItem";
-import Switch from "@mui/material/Switch";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import NativeSelect from "@mui/material/NativeSelect";
-import { Paper, Grid, Divider, Card, List } from "@mui/material";
+import React, { useState, useEffect } from "react"
+import MenuListItem from "./MenuListItem"
+import Switch from "@mui/material/Switch"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import FormControl from "@mui/material/FormControl"
+import NativeSelect from "@mui/material/NativeSelect"
+import { Paper, Grid, Divider, Card, List } from "@mui/material"
 
 function ItemFiltering(props) {
-  const ListData = props.menu;
+  const ListData = props.menu
   // console.log("ListData", ListData.drinkableDrinks)
-  const [filter, setFilter] = useState(true);
-  const [sortType, setSortType] = useState("caffeine");
-  console.log(sortType);
-  const [next, setNext] = useState(false);
+  const [filter, setFilter] = useState(true)
+  const [sortType, setSortType] = useState("caffeine")
+  console.log(sortType)
+  const [next, setNext] = useState(false)
 
-  const [showData, setShowData] = useState([]);
+  const [showData, setShowData] = useState([])
   function onClickFilter() {
     if (filter === false) {
-      setShowData(() => ListData.drinkableDrinks);
-      setFilter(() => true);
+      setShowData(() => ListData.drinkableDrinks)
+      setFilter(() => true)
     } else if (filter === true) {
-      setShowData(() => ListData.allDrinks);
-      setFilter(() => false);
+      setShowData(() => ListData.allDrinks)
+      setFilter(() => false)
     }
   }
   /* eslint-disable */
   useEffect(() => {
     if (filter === false) {
-      setShowData(() => ListData.drinkableDrinks);
-      setFilter(() => true);
+      setShowData(() => ListData.drinkableDrinks)
+      setFilter(() => true)
     } else if (filter === true) {
-      setShowData(() => ListData.allDrinks);
-      setFilter(() => false);
+      setShowData(() => ListData.allDrinks)
+      setFilter(() => false)
     }
-  }, [ListData.drinkableDrinks]);
+  }, [ListData.drinkableDrinks])
 
   useEffect(() => {
     const sortArray = (type) => {
@@ -43,23 +43,34 @@ function ItemFiltering(props) {
         cal: "cal",
         price: "price",
         cnt: "cnt",
-      };
-      const sortProperty = types[type];
-      const sorted = [...showData].sort((a, b) => a[sortProperty] - b[sortProperty]);
-      const reverseSorted = [...showData].sort((a, b) => b[sortProperty] - a[sortProperty]);
-      if (type === types.cnt) {
-        setShowData(reverseSorted);
-      } else {
-        setShowData(sorted);
       }
-    };
+      const sortProperty = types[type]
+      const sorted = [...showData].sort(
+        (a, b) => a[sortProperty] - b[sortProperty]
+      )
+      const reverseSorted = [...showData].sort(
+        (a, b) => b[sortProperty] - a[sortProperty]
+      )
+      console.log(sorted)
+      console.log(type)
+      if (type === types.cnt) {
+        setShowData(reverseSorted)
+      } else {
+        setShowData(sorted)
+      }
+    }
 
-    sortArray(sortType);
-  }, [sortType, filter]);
+    sortArray(sortType)
+  }, [sortType, filter])
 
   return (
     <Card>
-      <Grid container sx={{ display: "flex" }} justifyContent="end" alignItems="center">
+      <Grid
+        container
+        sx={{ display: "flex" }}
+        justifyContent="end"
+        alignItems="center"
+      >
         <Grid item>
           <FormControlLabel
             control={<Switch defaultChecked />}
@@ -67,10 +78,14 @@ function ItemFiltering(props) {
             labelPlacement="end"
             margin="0"
             onClick={onClickFilter}
+            color="secondary"
           />
 
           <FormControl size="small" sx={{ paddingTop: 1 }}>
-            <NativeSelect defaultValue="caffeine" onChange={(e) => setSortType(e.target.value)}>
+            <NativeSelect
+              defaultValue="caffeine"
+              onChange={(e) => setSortType(e.target.value)}
+            >
               <option value="caffeine">낮은 카페인순</option>
               <option value="sugar">낮은 당순</option>
               <option value="cal">낮은 칼로리순</option>
@@ -88,7 +103,7 @@ function ItemFiltering(props) {
         </Grid>
       </Grid>
     </Card>
-  );
+  )
 }
 
 const menuData = [
@@ -109,6 +124,6 @@ const menuData = [
     cal: 100,
     price: 4500,
   },
-];
+]
 
-export default ItemFiltering;
+export default ItemFiltering

@@ -1,14 +1,75 @@
-import { Card, Grid } from "@mui/material"
+import React, { useEffect, useMemo, useState, useCallback, useRef } from "react";
+import { Box, Grid, Card, Divider } from "@mui/material";
+import Typography from "@mui/joy/Typography";
 
-export default function PaymentRecord() {
+export default function PaymentRecord(props) {
+  const regDate = props.order.regDate;
+  const formattedRegDate = new Date(regDate).toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   return (
     <div>
-      <Card>
-        <p>픽업완료</p>
-        <h4>매머드커피 역삼언주로점</h4>
-        <h3>아이스 아메리카노 1600원</h3>
-        <p>2월 5일</p>
+      <Box
+        style={{ marginTop: "3%" }}
+        component="span"
+        sx={{ ml: 2, display: "block", fontSize: 18, fontWeight: "700" }}
+      >
+        픽업 완료
+      </Box>
+      <Divider />
+      <Card sx={{ mt: "3%", p: 1 }}>
+        <Grid container sx={{}}>
+          {/* ================================================= */}
+          <Grid item xs={12} sx={{ ml: 1, display: "flex", justifyContent: "flex-start" }}>
+            <Typography
+              sx={{
+                fontWeight: "700",
+                display: "inline",
+                fontSize: 15,
+                pb: 0.5,
+              }}
+            >
+              {props.order.storeName}
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sx={{ ml: 1, boxShadow: 0, display: "flex", justifyContent: "flex-start" }}
+          >
+            <Typography
+              sx={{
+                fontWeight: "700",
+                display: "inline",
+                fontSize: 15,
+                pb: 0.5,
+              }}
+            >
+              {props.order.drinkName} {props.order.drinkPrice}원
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sx={{ ml: 1, boxShadow: 0, display: "flex", justifyContent: "flex-start" }}
+          >
+            <Typography
+              sx={{
+                fontWeight: "700",
+                display: "inline",
+                fontSize: 15,
+                pb: 0.5,
+              }}
+            >
+              {formattedRegDate}
+            </Typography>
+          </Grid>
+          {/* =============================================== */}
+        </Grid>
       </Card>
     </div>
-  )
+  );
 }

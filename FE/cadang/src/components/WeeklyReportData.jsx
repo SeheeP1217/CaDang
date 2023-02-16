@@ -9,7 +9,7 @@ import { Paper, Grid, Card } from "@mui/material"
 import Typography from "@mui/material/Typography"
 import Box from "@mui/material/Box"
 import sugar from "../assets/sugar.png"
-import caffeine from "../assets/caffeine.png"
+import coffeebean from "../assets/coffeebean.png"
 import styled from "styled-components"
 
 import { getWeeklyData, getGraphData } from "../api/report"
@@ -159,7 +159,7 @@ function WeeklyReportData(props) {
       >
         {/* 이미지 크기 제한 어케 하징......... */}
         <Tab
-          icon={<img width="15%" src={caffeine} alt="caffeine" />}
+          icon={<img width="15%" src={coffeebean} alt="coffeebean" />}
           iconPosition="start"
           label="카페인"
           {...a11yProps(0)}
@@ -194,10 +194,10 @@ function WeeklyReportData(props) {
             </Grid>
             <Grid item xs={6}>
               <Typography style={{ textAlign: "center" }}>
-                <ListItemDecorator>☕</ListItemDecorator>{" "}
+                {<img width="15%" src={coffeebean} alt="coffeebean" />}{" "}
                 {weeklyData.todayCaffe}
-                mg
-                <ListItemDecorator>🧂</ListItemDecorator>{" "}
+                mg{"   "}
+                {<img width="15%" src={sugar} alt="sugar" />}{" "}
                 {weeklyData.todaySugar}g
               </Typography>
             </Grid>
@@ -206,10 +206,19 @@ function WeeklyReportData(props) {
 
         <Box variant="outlined" style={{ backgroundColor: "#FFF2F2" }}>
           <Typography varient="body1">
-            <div>지난주 대비 카페인 섭취량이</div>
-            <div> {weeklyData.dayCaffeGap} 늘었습니다</div>
-            <div>지난주 대비 당 섭취량이</div>
-            <div> {weeklyData.daySugarGap} 늘었습니다</div>
+            <div>지난주 같은 요일보다 카페인 섭취량이</div>
+
+            <div>
+              {weeklyData.dayCaffeGap > 0
+                ? weeklyData.dayCaffeGap + " mg만큼 늘었습니다"
+                : -1 * weeklyData.dayCaffeGap + " mg만큼 줄었습니다"}
+            </div>
+            <div>지난주 같은 요일보다 당 섭취량이</div>
+            <div>
+              {weeklyData.daySugarGap > 0
+                ? weeklyData.daySugarGap + " g만큼 늘었습니다"
+                : -1 * weeklyData.daySugarGap + " g만큼 줄었습니다"}
+            </div>
           </Typography>
         </Box>
         <br />
@@ -220,9 +229,9 @@ function WeeklyReportData(props) {
             </Grid>
             <Grid item xs={6}>
               <Typography style={{ textAlign: "center" }}>
-                <ListItemDecorator>☕</ListItemDecorator>{" "}
-                {weeklyData.thisWeekCaffe}mg
-                <ListItemDecorator>🧂</ListItemDecorator>{" "}
+                {<img width="15%" src={coffeebean} alt="coffeebean" />}{" "}
+                {weeklyData.thisWeekCaffe}mg{" "}
+                {<img width="15%" src={sugar} alt="sugar" />}{" "}
                 {weeklyData.thisWeekSugar}g
               </Typography>
             </Grid>
@@ -232,9 +241,17 @@ function WeeklyReportData(props) {
         <Paper variant="outlined" style={{ backgroundColor: "#FFF2F2" }}>
           <Typography varient="body1">
             <div>지난주 대비 카페인 섭취량이</div>
-            <div> {weeklyData.weekCaffeGap} 늘었습니다</div>
+            <div>
+              {weeklyData.weekCaffeGap > 0
+                ? weeklyData.weekCaffeGap + " mg만큼 늘었습니다"
+                : -1 * weeklyData.weekCaffeGap + " mg만큼 줄었습니다"}
+            </div>
             <div>지난주 대비 당 섭취량이</div>
-            <div> {weeklyData.weekSugarGap} 늘었습니다</div>
+            <div>
+              {weeklyData.weekSugarGap > 0
+                ? weeklyData.weekSugarGap + " g만큼 늘었습니다"
+                : -1 * weeklyData.weekSugarGap + " g만큼 줄었습니다"}
+            </div>
           </Typography>
         </Paper>
         <br />

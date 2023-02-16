@@ -1,5 +1,6 @@
 .recharts-layer .recharts-bar {
   width: 1px !important;
+  background-color: black !important;
 }
 
 .recharts-layer .recharts-bar-rectangles {

@@ -153,7 +153,11 @@ export default function NewOrderListItem(props) {
           )}
         </Grid>
 
-        <Grid item xs={12} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-start" }}>
+        <Grid
+          item
+          xs={12}
+          sx={{ mt: 1, boxShadow: 0, display: "flex", justifyContent: "flex-start" }}
+        >
           {drinkItem !== undefined && (
             <Typography
               sx={{
@@ -162,7 +166,8 @@ export default function NewOrderListItem(props) {
                 fontSize: 13,
               }}
             >
-              샷 추가 + 1 / 헤이즐넛시럽 추가 + 1{/* 샷 :{drinkItem.shot} */}
+              샷:{drinkItem.shot} / 시럽:{drinkItem.syrup} / 바닐라 시럽:{drinkItem.vanilla} /
+              헤이즐넛 시럽:{drinkItem.hazelnut}
             </Typography>
           )}
         </Grid>
