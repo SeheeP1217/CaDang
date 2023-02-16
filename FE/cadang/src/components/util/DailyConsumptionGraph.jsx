@@ -145,7 +145,9 @@ function DailyConsumptionGraph(props) {
         <Typography style={{ fontFamily: "netmarble" }}>
           {Number(props.consumptionInfo.sugarDaily)}
           {props.selectDrinkInfo.sugar
-            ? ` + ${Number(props.selectDrinkInfo.sugar)}`
+            ? props.selectDrinkInfo.sugar > 0
+              ? ` + ${Number(props.selectDrinkInfo.sugar)}`
+              : ` - ${Number(-(props.selectDrinkInfo.sugar))}`
             : ""}
           g / {props.consumptionInfo.sugarGoal}g
         </Typography>
