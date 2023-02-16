@@ -3,7 +3,9 @@ import { Paper, Box, Grid, Card } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/joy/Typography";
 
-export default function PaymentMoney() {
+export default function PaymentMoney(props) {
+  const finalOrder = [];
+
   return (
     <div>
       <Box
@@ -15,6 +17,7 @@ export default function PaymentMoney() {
       </Box>
       <Card sx={{ mt: "3%", p: 1 }}>
         <Grid container>
+          {/* ================================================= */}
           <Grid item xs={8} sx={{ display: "flex", justifyContent: "flex-start" }}>
             <Typography
               sx={{
@@ -23,7 +26,7 @@ export default function PaymentMoney() {
                 fontSize: 18,
               }}
             >
-              아이스 아메리카노
+              props로 받아온 주문 음료
             </Typography>
           </Grid>
           <Grid item xs={4} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}>
@@ -37,52 +40,7 @@ export default function PaymentMoney() {
               +4500원
             </Typography>
           </Grid>
-
-          <Grid item xs={8} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-start" }}>
-            <Typography
-              sx={{
-                fontWeight: "700",
-                display: "inline",
-                fontSize: 18,
-              }}
-            >
-              샷 추가
-            </Typography>
-          </Grid>
-          <Grid item xs={4} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}>
-            <Typography
-              sx={{
-                display: "inline",
-                fontSize: 18,
-                fontWeight: "700",
-              }}
-            >
-              +500원
-            </Typography>
-          </Grid>
-
-          <Grid item xs={8} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-start" }}>
-            <Typography
-              sx={{
-                display: "inline",
-                fontSize: 18,
-                fontWeight: "700",
-              }}
-            >
-              헤이즐넛 시럽
-            </Typography>
-          </Grid>
-          <Grid item xs={4} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}>
-            <Typography
-              sx={{
-                display: "inline",
-                fontSize: 18,
-                fontWeight: "700",
-              }}
-            >
-              +500원
-            </Typography>
-          </Grid>
+          {/* =============================================== */}
         </Grid>
       </Card>
     </div>
