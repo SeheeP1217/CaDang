@@ -6,6 +6,7 @@ import logoDrink from "../assets/logo-drink.png";
 import drinkGrey from "../assets/drink-gray.png";
 import payCompleteImg from "../assets/payComplete.png";
 import making from "../assets/making.png";
+import arrowIcon from "../assets/arrowIcon.png";
 import finished from "../assets/finished.png";
 import { useEffect, useRef, useState, useMemo } from "react";
 import { Box, Grid } from "@mui/material";
@@ -26,8 +27,8 @@ export default function OrderStatusChild(props) {
         {props.drink.drinkName} - {props.drink.storeName}
       </Typography>
       <Box>
-        <Grid container sx={{}}>
-          <Grid item xs={4} sx={{ display: "flex" }}>
+        <Grid container sx={{ mt: 1 }}>
+          <Grid item xs={3} sx={{ display: "flex" }}>
             {props.drink.orderStatus === "REQUEST" ? (
               <CardMedia
                 component="img"
@@ -46,12 +47,21 @@ export default function OrderStatusChild(props) {
               />
             )}
           </Grid>
-          <Grid item xs={4} sx={{ boxShadow: 0, display: "flex" }}>
+          <Grid item xs={1.5} sx={{ display: "flex" }}>
+            <CardMedia
+              component="img"
+              style={{ objectFit: "fill" }}
+              sx={{ height: 30, mt: 3, ml: 1.4 }}
+              image={arrowIcon}
+              alt="arrowIcon"
+            />
+          </Grid>
+          <Grid item xs={3} sx={{ boxShadow: 0, display: "flex" }}>
             {props.drink.orderStatus === "ACCEPT" ? (
               <CardMedia
                 component="img"
                 style={{ objectFit: "fill" }}
-                sx={{ width: 50, height: 64, ml: 2, mt: 1 }}
+                sx={{ width: 50, height: 62, ml: 2, mt: 1 }}
                 image={coffeePot}
                 alt="coffeePot"
               />
@@ -59,18 +69,27 @@ export default function OrderStatusChild(props) {
               <CardMedia
                 component="img"
                 style={{ objectFit: "fill" }}
-                sx={{ width: 50, height: 64, ml: 2, mt: 1 }}
+                sx={{ width: 50, height: 60, ml: 2, mt: 1 }}
                 image={coffeePotGrey}
                 alt="coffeePotGrey"
               />
             )}
           </Grid>
-          <Grid item xs={4} sx={{ boxShadow: 0, display: "flex" }}>
+          <Grid item xs={1.5} sx={{ display: "flex" }}>
+            <CardMedia
+              component="img"
+              style={{ objectFit: "fill" }}
+              sx={{ height: 30, mt: 3, ml: 1.4 }}
+              image={arrowIcon}
+              alt="arrowIcon"
+            />
+          </Grid>
+          <Grid item xs={3} sx={{ boxShadow: 0, display: "flex" }}>
             {props.drink.orderStatus === "COMPLETE" ? (
               <CardMedia
                 component="img"
                 style={{ objectFit: "fill" }}
-                sx={{ width: 50, ml: 1.5 }}
+                sx={{ width: 50, height: 60, ml: 1.5 }}
                 image={logoDrink}
                 alt="logoDrink"
               />
@@ -78,7 +97,7 @@ export default function OrderStatusChild(props) {
               <CardMedia
                 component="img"
                 style={{ objectFit: "fill" }}
-                sx={{ width: 50, ml: 1.5 }}
+                sx={{ width: 50, height: 60, ml: 1.5 }}
                 image={drinkGrey}
                 alt="drinkGrey"
               />
@@ -94,7 +113,7 @@ export default function OrderStatusChild(props) {
               fontSize: "16px",
               fontWeight: "xl",
               level: "h3",
-              m: 0,
+              ml: 1,
             }}
           >
             결제 완료
@@ -107,7 +126,7 @@ export default function OrderStatusChild(props) {
               fontSize: "16px",
               fontWeight: "xl",
               level: "h3",
-              m: 0,
+              ml: 1.7,
             }}
           >
             제조 중
@@ -120,7 +139,7 @@ export default function OrderStatusChild(props) {
               fontSize: "16px",
               fontWeight: "xl",
               level: "h3",
-              m: 0,
+              ml: 1.7,
             }}
           >
             제조 완료
