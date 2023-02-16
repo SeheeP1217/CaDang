@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@Tag(name = "유저 권한", description = "유저 권한이 필요한 api 입니다.")
+@Tag(name = "회원", description = "권한이 필요한 api 입니다.")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user2")

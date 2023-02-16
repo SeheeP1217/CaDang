@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@Tag(name = "권한 없음", description = "권한이 필요하지않은 api 입니다.")
+@Tag(name = "회원", description = "권한이 필요하지않은 api 입니다.")
 @RestController
 @RequiredArgsConstructor
 @Slf4j
