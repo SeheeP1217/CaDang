@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components"
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 
@@ -35,6 +35,6 @@ const GlobalStyle = createGlobalStyle`
   span {
     font-family: "netmarble", "Helvetica"
   }
-`
+`;
 
-export default GlobalStyle
+export default GlobalStyle;
