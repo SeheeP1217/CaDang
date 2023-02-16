@@ -1,46 +1,46 @@
-import * as React from "react";
-import { useMemo, useState } from "react";
-import Button from "@mui/material-next/Button";
+import * as React from "react"
+import { useMemo, useState } from "react"
+import Button from "@mui/material-next/Button"
 // import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
-import ContentPasteSearchIcon from "@mui/icons-material/ContentPasteSearch";
-import AssessmentIcon from "@mui/icons-material/Assessment";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import Typography from "@mui/joy/Typography";
-import Avatar from "@mui/joy/Avatar";
-import Grid from "@mui/material/Grid";
-import { Card, TextField } from "@mui/material";
-import { Link } from "react-router-dom";
-import dayjs from "dayjs";
-import styled from "styled-components";
+import Stack from "@mui/material/Stack"
+import ContentPasteSearchIcon from "@mui/icons-material/ContentPasteSearch"
+import AssessmentIcon from "@mui/icons-material/Assessment"
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos"
+import Typography from "@mui/joy/Typography"
+import Avatar from "@mui/joy/Avatar"
+import Grid from "@mui/material/Grid"
+import { Card, TextField } from "@mui/material"
+import { Link } from "react-router-dom"
+import dayjs from "dayjs"
+import styled from "styled-components"
 
 // 검색바 import
-import ReviewSearchBar from "../../components/util/ReviewSearchBar";
-import Pagination from "@mui/material/Pagination";
+import ReviewSearchBar from "../../components/util/ReviewSearchBar"
+import Pagination from "@mui/material/Pagination"
 
 // 기록 리스트
-import List from "@mui/joy/List";
-import Paper from "@mui/material/Paper";
+import List from "@mui/joy/List"
+import Paper from "@mui/material/Paper"
 
-import MainDailyConsumptionGraph from "../../components/util/MainDailyConsumptionGraph";
-import MainDailyOtherInfo from "../../components/MainDailyOtherInfo";
-import ReviewListItem from "../../components/ReviewListItem";
-import { Box } from "@mui/system";
+import MainDailyConsumptionGraph from "../../components/util/MainDailyConsumptionGraph"
+import MainDailyOtherInfo from "../../components/MainDailyOtherInfo"
+import ReviewListItem from "../../components/ReviewListItem"
+import { Box } from "@mui/system"
 
 // api
-import { userReview, userSearchReview } from "../../api/report";
-import { todayDashboard } from "../../api/main";
-import { useEffect } from "react";
+import { userReview, userSearchReview } from "../../api/report"
+import { todayDashboard } from "../../api/main"
+import { useEffect } from "react"
 
 function MyPage() {
-  const [pageIndex, setPageIndex] = useState(1);
-  const [searchKeyword, setSearchKeyword] = useState("");
+  const [pageIndex, setPageIndex] = useState(1)
+  const [searchKeyword, setSearchKeyword] = useState("")
 
-  const [selectIndex, setSelectIndex] = useState(-1);
+  const [selectIndex, setSelectIndex] = useState(-1)
 
   const getModifyReviewIndex = (selectIndexId) => {
-    setSelectIndex(selectIndexId);
-  };
+    setSelectIndex(selectIndexId)
+  }
 
   const [review, setReview] = useState({
     recordList: [
@@ -58,7 +58,7 @@ function MyPage() {
         public: true,
       },
     ],
-  });
+  })
 
   const [dashboard, setDashboard] = useState({
     userId: 0,
@@ -73,58 +73,58 @@ function MyPage() {
     moneyDaily: 0,
     caffeSuccess: true,
     sugarSuccess: true,
-  });
+  })
 
-  console.log(dashboard);
+  console.log(dashboard)
 
   useMemo(() => {
     const getDashboard = async () => {
       await todayDashboard(
         dayjs().format("YYYY-MM-DD"),
         (res) => {
-          return res.data;
+          return res.data
         },
         (err) => console.log(err)
-      ).then((data) => setDashboard(data));
-    };
+      ).then((data) => setDashboard(data))
+    }
 
     const getReviews = async () => {
       await userReview(
         pageIndex,
         (res) => {
-          return res.data;
+          return res.data
         },
         (err) => console.log(err)
-      ).then((data) => setReview(data));
-    };
-    getReviews();
-    getDashboard();
-    console.log(review);
-  }, []);
+      ).then((data) => setReview(data))
+    }
+    getReviews()
+    getDashboard()
+    console.log(review)
+  }, [])
 
   useEffect(() => {
     const getReviews = async () => {
       await userReview(
         pageIndex,
         (res) => {
-          return res.data;
+          return res.data
         },
         (err) => console.log(err)
-      ).then((data) => setReview(data));
-    };
-    getReviews();
-    console.log(review);
-  }, [pageIndex]);
+      ).then((data) => setReview(data))
+    }
+    getReviews()
+    console.log(review)
+  }, [pageIndex])
 
   const getPageIndex = (idx) => {
-    setPageIndex(idx);
-  };
+    setPageIndex(idx)
+  }
 
   // 검색어 Input
   const onChangeKeyword = (e) => {
-    setSearchKeyword(e.target.value);
-  };
-  console.log(searchKeyword);
+    setSearchKeyword(e.target.value)
+  }
+  console.log(searchKeyword)
 
   // 리뷰 검색 axios
   const getSearchedReviews = async () => {
@@ -132,25 +132,23 @@ function MyPage() {
       1,
       searchKeyword,
       (res) => {
-        console.log(res);
-        return res.data;
+        console.log(res)
+        return res.data
       },
       (err) => console.log(err)
-    ).then((data) => setReview(data));
-  };
+    ).then((data) => setReview(data))
+  }
 
-  console.log(searchKeyword);
-  console.log(review);
+  console.log(searchKeyword)
+  console.log(review)
 
   return (
     <div>
-      <div style={{ position: "sticky", top: 0 }}>
-        <TitleBox>
-          <Typography level="h3" fontSize="xl" fontWeight="xl">
-            MyPage
-          </Typography>
-        </TitleBox>
-      </div>
+      <TitleBox>
+        <Typography level="h3" fontSize="xl" fontWeight="xl">
+          MyPage
+        </Typography>
+      </TitleBox>
       <Card sx={{ mb: 2, pl: 1 }}>
         <Grid container textAlign="center">
           <Grid item xs={2} margin="auto">
@@ -210,31 +208,29 @@ function MyPage() {
         variant="outlined"
         sx={{ backgroundColor: "#fff3e0", marginTop: 2 }}
       >
-        <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
-          <TitleBox sx={{ paddingY: 0 }}>
-            <TextField
-              id="outlined-basic"
-              label="메뉴명 검색"
-              variant="outlined"
-              size="small"
-              onChange={onChangeKeyword}
-              style={{ marginTop: 10, marginLeft: 3}}
-            />
-            <Button
-              onMouseDown={getSearchedReviews}
-              sx={{
-                backgroundColor: "#3A130C",
-                color: "white",
-                fontFamily: "netmarble",
-                fontSize: "15px",
-                margin: 1,
-              }}
-            >
-              검색
-            </Button>
-            {/* <ReviewSearchBar label="메뉴, 카페명 검색" data={review} getSearchedReviews={getSearchedReviews} onChangeKeyword={onChangeKeyword} /> */}
-          </TitleBox>
-        </div>
+        <TitleBox sx={{ paddingY: 0 }}>
+          <TextField
+            id="outlined-basic"
+            label="메뉴명 검색"
+            variant="outlined"
+            size="small"
+            onChange={onChangeKeyword}
+            style={{ marginTop: 10, marginLeft: 3 }}
+          />
+          <Button
+            onMouseDown={getSearchedReviews}
+            sx={{
+              backgroundColor: "#3A130C",
+              color: "white",
+              fontFamily: "netmarble",
+              fontSize: "15px",
+              margin: 1,
+            }}
+          >
+            검색
+          </Button>
+          {/* <ReviewSearchBar label="메뉴, 카페명 검색" data={review} getSearchedReviews={getSearchedReviews} onChangeKeyword={onChangeKeyword} /> */}
+        </TitleBox>
         <Typography
           level="body4"
           fontWeight="xl"
@@ -262,10 +258,10 @@ function MyPage() {
         </List>
       </Paper>
     </div>
-  );
+  )
 }
 
-export default MyPage;
+export default MyPage
 
 const TitleBox = styled(Box)`
   margin-top: 2px;
@@ -273,9 +269,9 @@ const TitleBox = styled(Box)`
   padding-top: 1px;
   paddign-top: 2px;
   border-bottom: 2px solid #ffab00 !important;
-`;
+`
 
 const ImageContainer = styled(Grid)`
   grid-template-columns: 3fr 7fr;
   grid-template-rows: repeat(2, 1fr);
-`;
+`
