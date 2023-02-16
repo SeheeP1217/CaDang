@@ -40,7 +40,6 @@ public class DataService {
     public Long createData(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
-//        log.info("user {}", user.getId());
         Data saveData = dataRepository.save(new Data(user));
         return saveData.getId();
 
@@ -92,7 +91,7 @@ public class DataService {
         int lastCaffeSum = getCaffeSum(lastWeekData);
         int lastSugarSum = getSugarSum(lastWeekData);
 
-//    이번주 데이터 합
+        // 이번주 데이터 합
         int thisCaffeSum = getCaffeSum(thisWeekList);
         int thisSugarSum = getSugarSum(thisWeekList);
 
@@ -117,7 +116,6 @@ public class DataService {
     public DayDataDto getOneByDate(LocalDate date, Long userId) {
         Data data = dataRepository.findByUserAndDate(date, userId)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
-
         return new DayDataDto(data);
     }
 
@@ -199,7 +197,6 @@ public class DataService {
 
 
         List<DayDataDtoByMonth> daydatas = toMonThDto(monthData);
-
 
         return MonthDataDto.builder()
                 .monthDataList(daydatas)

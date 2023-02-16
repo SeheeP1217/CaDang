@@ -28,7 +28,6 @@ public class RecordSaveRequestDto {
     private Integer vanilla;
     private Integer hazelnut;
     private Integer caramel;
-//    private String image_url;
     // ---------- 기록 주문 공통
 
     private String memo;
