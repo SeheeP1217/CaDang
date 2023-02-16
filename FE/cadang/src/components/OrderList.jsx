@@ -27,7 +27,7 @@ export default function OrderList() {
     const getOrderList = async () => {
       await orderList(
         (res) => {
-          console.log(res.data);
+          // console.log(res.data);
           return res.data;
         },
         (err) => console.log(err)
@@ -44,7 +44,7 @@ export default function OrderList() {
         url="http://i8a808.p.ssafy.io:8080/websocket"
         headers={{
           Authorization:
-            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdGFyYnVja3MiLCJpZCI6MSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjU5MzMyMH0.9ISQMm4P66vHdnknIa6HUdjTOItihxa8adZW39_VFIlqEo2ObRpRgMW95pIBNblrQouZDSNmy9DioCmeU3csow",
+            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdGFyYnVja3MiLCJpZCI6MSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3ODY5OTk0N30.KscIzJVF58sS4AizYHiZ0RkzAQrvV8xBozt-1KW8IjT1xpE68rdMpeLywndPwaAlHDm6WNLEhwC1-gy8cNzO4Q",
         }}
         // topics={["/topic/store-order-manage/1", ""]}
         onMessage={(msg) => {

@@ -18,7 +18,7 @@ import DailyOtherInfo from "../../components/DailyOtherInfo";
 function PaymentCustomPage(props) {
   const location = useLocation();
   const history = useHistory();
-  console.log(props.location.state)
+  console.log(props.location.state);
   const drinkItem = props.location.state.drinkItem;
   const franchiseId = props.location.state.drinkItem.franchiseId;
   const drinkName = props.location.state.drinkItem.drinkName;
@@ -73,10 +73,10 @@ function PaymentCustomPage(props) {
     money: 0,
     cal: 0,
   });
-
   console.log(drinkDetail.optionDtos);
 
   // 다음 페이지에 넘겨줄 정보
+
   const [orderDetail, setOrderDetail] = useState({
     drinkId: basicDrink.drinkId,
     regDate: dayjs().format("YYYY-MM-DD"),
@@ -93,7 +93,6 @@ function PaymentCustomPage(props) {
     caramel: 0,
     memo: "",
     storeName: location.state.franchiseName,
-    
   });
 
   // 결제창 띄우는 정보 추가 선언
@@ -144,7 +143,6 @@ function PaymentCustomPage(props) {
   //   caramelPrice: orderDetail.caramel * drinkDetail.optionDtos[5].price,
   // })
   // }, [orderDetail])
-
 
   // 기존 daily + 선택음료 데이터 계산(젤 작은 사이즈 & 노옵션)
   const withoutCustom = {
@@ -212,7 +210,6 @@ function PaymentCustomPage(props) {
           cal: Math.max(orderDetail["cal"] + value * updateOption.cal, 0),
           price: Math.max(orderDetail["price"] + value * updateOption.price, 0),
           // caffeine
-
         });
       }
     }
@@ -235,10 +232,10 @@ function PaymentCustomPage(props) {
       hazelnut: 0,
       caramel: 0,
     });
-  //   setPriceDetail({
-  //     ...priceDetail,
-  //     sizePrice: drinkDetail.drinkResponseDtos[index].price,
-  // })
+    //   setPriceDetail({
+    //     ...priceDetail,
+    //     sizePrice: drinkDetail.drinkResponseDtos[index].price,
+    // })
   };
 
   // 당도 어카냐........사이즈 기준 커스텀 전 당 + 휘핑시럽등 당 들어가는 애들 현재 다 더해서 0.5, 1, 1.5 리턴해야하나?
@@ -280,13 +277,18 @@ function PaymentCustomPage(props) {
       await cafeDrinkData(
         franchiseId,
         drinkName,
+        location.state.drinkItem.storeName,
         (res) => {
+          console.log(res.data);
           return res.data;
         },
-        (err) => console.log(err)
+        (err) => {
+          console.log("와!! 개같이 실패!!!!" + err);
+        }
       ).then((data) => setDrinkDetail(data));
     };
     getCustomData();
+    console.log("storeId : " + drinkDetail.storeId);
   }, []);
 
   console.log(orderDetail);
@@ -335,8 +337,8 @@ function PaymentCustomPage(props) {
     color: "000000",
   }));
 
-  console.log(orderDetail)
-  
+  console.log(orderDetail);
+
   return (
     <div>
       <Typography level="h3" fontSize="xl" fontWeight="xl">
@@ -379,7 +381,7 @@ function PaymentCustomPage(props) {
       <Grid item>
         <Link
           style={{ textDecoration: "none" }}
-          to={{ pathname: `/payment`, state: { orderDetail, drinkItem } }}
+          to={{ pathname: `/payment`, state: { orderDetail, drinkItem, drinkDetail } }}
         >
           <Button
             variant="contained"

@@ -13,12 +13,13 @@ const api = axios.create({
 
 // camelCase로 함수 선언, ()
 //커스텀 페이지 음료 상세정보 조회
-async function cafeDrinkData(franchiseId, drinkName, success, fail) {
+async function cafeDrinkData(franchiseId, drinkName, storeName, success, fail) {
   const res = await api
-    .get(`/cafe/drink-record`, {
+    .get(`/cafe/drink`, {
       params: {
         franchiseId: franchiseId,
         drinkName: drinkName,
+        storeName: storeName,
       },
     })
     .then(success)
