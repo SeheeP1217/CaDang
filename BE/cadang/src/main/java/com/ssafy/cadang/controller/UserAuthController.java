@@ -9,6 +9,7 @@ import com.ssafy.cadang.dto.user.UserPassChangeDto;
 import com.ssafy.cadang.service.DataService;
 import com.ssafy.cadang.service.UserAuthService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+@Tag(name = "유저 권한", description = "유저 권한이 필요한 api 입니다.")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user2")

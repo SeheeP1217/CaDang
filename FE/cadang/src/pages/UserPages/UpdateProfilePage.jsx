@@ -135,7 +135,7 @@ const UpdateProfilePage = () => {
   const modifyInfo = async (e) => {
     e.preventDefault()
     await axios
-      .put("http://i8a808.p.ssafy.io:8080/user2/modify", data, {
+      .put("http://localhost:8080/user2/modify", data, {
         headers: {
           "Content-Type": "multipart/form-data",
           // "Content-Type": "application/json",
