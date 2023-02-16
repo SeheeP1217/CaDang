@@ -18,35 +18,34 @@ const ReviewPage = () => {
   const location = useLocation();
   const reviewId = location.state.review.id;
   const originImg = location.state.review.photo;
-  console.log(originImg)
-  console.log(location.state.review)
 
   const [reviewDetail, setreviewDetail] = useState({
     reviewDetail: [
       {
         id: 0,
         photo: "",
-        drinkName: "string",
+        drinkName: "0",
         caffeine: 0,
         sugar: 0,
         cal: 0,
         price: 0,
-        regDate: "2023-02-08T10:57:49.450Z",
-        memo: "string",
-        size: "string",
+        regDate: "0",
+        memo: "0",
+        size: "0",
         shot: 0,
-        whip: true,
+        whip: null,
         sugarContent: "LESS",
         syrup: 0,
         vanilla: 0,
         caramel: 0,
         hazelnut: 0,
-        orderStatus: "REQUEST",
-        defaultUrl: "string",
+        orderStatus: "",
+        defaultUrl: "",
       },
     ],
   });
 
+  console.log(dayjs(reviewDetail.regDate).format("YYYY-MM-DD"))
   const [modifyDate, setmodifyDate] = useState(dayjs(reviewDetail.regDate).format("YYYY-MM-DD"));
   const [modifyIsPublic, setmodifyIsPublic] = useState(true);
   const [modifyMemo, setModifyMemo] = useState(reviewDetail.memo);
@@ -55,6 +54,7 @@ const ReviewPage = () => {
     preview_URL: originImg,
   });
 
+  console.log(modifyDate)
   useMemo(() => {
     const getReviewDetails = async () => {
       await userReviewDetail(
@@ -68,8 +68,6 @@ const ReviewPage = () => {
     getReviewDetails();
   }, [reviewId]);
 
-  console.log(modifyImage)
-
 
   useEffect(() => {
     setmodifyDate(dayjs(reviewDetail.regDate).format("YYYY-MM-DD"))
@@ -78,11 +76,10 @@ const ReviewPage = () => {
       image_file: "",
       preview_URL: originImg,
     })
-  }, [location.state])
+  }, [reviewDetail])
 
 
   console.log(reviewDetail);
-  console.log(originImg);
   const [isModified, setIsModified] = useState(0);
 
   /////////날짜 변경 확인
@@ -119,14 +116,14 @@ const ReviewPage = () => {
     isModified: isModified,
   }
 
+
+  console.log(modifyData)
   const formData = new FormData()
   if (modifyImage.image_file) {
     formData.append("image", modifyImage.image_file)
   }
   formData.append("data", JSON.stringify(modifyData))
 
-  console.log(formData)
-  console.log(modifyData)
 
   const modifyReviewDetailRecord = async () => {
     await axios

@@ -75,7 +75,6 @@ function MyPage() {
     sugarSuccess: true,
   })
 
-  console.log(dashboard)
 
   useMemo(() => {
     const getDashboard = async () => {
@@ -124,7 +123,6 @@ function MyPage() {
   const onChangeKeyword = (e) => {
     setSearchKeyword(e.target.value)
   }
-  console.log(searchKeyword)
 
   // 리뷰 검색 axios
   const getSearchedReviews = async () => {
@@ -139,8 +137,6 @@ function MyPage() {
     ).then((data) => setReview(data))
   }
 
-  console.log(searchKeyword)
-  console.log(review)
 
   return (
     <div>

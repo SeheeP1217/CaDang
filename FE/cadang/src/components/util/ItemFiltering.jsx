@@ -46,8 +46,14 @@ function ItemFiltering(props) {
       };
       const sortProperty = types[type];
       const sorted = [...showData].sort((a, b) => a[sortProperty] - b[sortProperty]);
+      const reverseSorted = [...showData].sort((a, b) => b[sortProperty] - a[sortProperty]);
       console.log(sorted);
-      setShowData(sorted);
+      console.log(type)
+      if (type === types.cnt) {
+        setShowData(reverseSorted);
+      } else {
+        setShowData(sorted);
+      }
     };
 
     sortArray(sortType);
