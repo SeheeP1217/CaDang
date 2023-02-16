@@ -12,7 +12,6 @@ const api = axios.create({
 })
 
 // camelCase로 함수 선언, ()
-//커스텀 페이지 음료 상세정보 조회
 async function cafeDrinkData(franchiseId, drinkName, storeName, success, fail) {
   const res = await api
     .get(`/cafe/drink`, {
@@ -20,6 +19,20 @@ async function cafeDrinkData(franchiseId, drinkName, storeName, success, fail) {
         franchiseId: franchiseId,
         drinkName: drinkName,
         storeName: storeName,
+      },
+    })
+    .then(success)
+    .catch(fail)
+  return res
+}
+
+//커스텀 페이지 음료 상세정보 조회
+async function cafeDrinkCustomData(franchiseId, drinkName, success, fail) {
+  const res = await api
+    .get(`/cafe/drink-record`, {
+      params: {
+        franchiseId: franchiseId,
+        drinkName: drinkName,
       },
     })
     .then(success)
@@ -69,4 +82,5 @@ export {
   getAllCafeList,
   searchDrinkMenu,
   newDrinkRecord,
+  cafeDrinkCustomData,
 }
