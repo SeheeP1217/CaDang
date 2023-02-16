@@ -79,7 +79,7 @@ function FirstPage() {
                 transform: "translate(-50%, -50%)",
               }}
             >
-              ☕ 한잔 하러 가기
+              ☕ 한 잔 하러 가기
             </Button>
             <Button
               component={Link}
@@ -92,6 +92,7 @@ function FirstPage() {
                 fontFamily: "netmarble",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
+                padding: "0px",
               }}
             >
               이미 회원이라면? 로그인

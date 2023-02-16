@@ -11,7 +11,7 @@ function DatePickerComponent(props) {
   const location = useLocation()
   const recordDate = location.state.review.regDate
   const [value, setValue] = React.useState(dayjs(recordDate).format("YYYY-MM-DD"))
-  // console.log(recordDate)
+  console.log(recordDate)
   // console.log(value)
   return (
     <div>

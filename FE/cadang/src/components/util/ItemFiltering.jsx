@@ -42,11 +42,18 @@ function ItemFiltering(props) {
         sugar: "sugar",
         cal: "cal",
         price: "price",
+        cnt: "cnt",
       };
       const sortProperty = types[type];
       const sorted = [...showData].sort((a, b) => a[sortProperty] - b[sortProperty]);
+      const reverseSorted = [...showData].sort((a, b) => b[sortProperty] - a[sortProperty]);
       console.log(sorted);
-      setShowData(sorted);
+      console.log(type)
+      if (type === types.cnt) {
+        setShowData(reverseSorted);
+      } else {
+        setShowData(sorted);
+      }
     };
 
     sortArray(sortType);
@@ -70,6 +77,7 @@ function ItemFiltering(props) {
               <option value="sugar">낮은 당순</option>
               <option value="cal">낮은 칼로리순</option>
               <option value="price">낮은 가격순</option>
+              <option value="cnt">많이 마신순</option>
             </NativeSelect>
           </FormControl>
         </Grid>

@@ -38,7 +38,17 @@ function MainDailyConsumptionGraph(props) {
       },
     ])
   }, [chartData])
+  const [caffeineSuccess, setCaffeinSuccess] = useState(true)
+  const [sugarSuccess, setSugarSuccess] = useState(true)
+  useEffect(() => {
+    if (chartData.caffeDaily > Number(chartData.caffeGoal)) {
+      setCaffeinSuccess(false)
+    } else setCaffeinSuccess(true)
 
+    if (chartData.sugarDaily > Number(chartData.sugarGoal)) {
+      setSugarSuccess(false)
+    } else setSugarSuccess(true)
+  }, [chartData.caffeDaily, chartData.sugarDaily])
   return (
     <div>
       <Grid
@@ -90,7 +100,7 @@ function MainDailyConsumptionGraph(props) {
             <Bar
               dataKey="consumption"
               stackId="a"
-              fill="#3A130C"
+              fill={caffeineSuccess === true ? "#3A130C" : "#ff0000"}
               background={{ fill: "#eee", radius: 20 }}
               radius={20}
             ></Bar>
@@ -142,7 +152,7 @@ function MainDailyConsumptionGraph(props) {
             <Bar
               dataKey="consumption"
               stackId="a"
-              fill="#3A130C"
+              fill={sugarSuccess === true ? "#3A130C" : "#ff0000"}
               background={{ fill: "#eee", radius: 20 }}
               radius={20}
             />

@@ -12,38 +12,27 @@ function ModifyReviewInfo(props) {
   // const location = useLocation()
   // console.log(location)
   //console.log(props.data)
-  const detail = props.data
+  const [detail, setDetail] = useState(props.data)
+
+  useEffect(() => {
+    setDetail(props.data)
+  }, [props])
   const image = props.image
-  console.log("현재 이미지", image)
   // console.log(props.recordDate)
 
   // if (location.state.review !== undefined) {
   //   const review = location.state.review
-
+  console.log(detail)
   return (
     <Card>
       <Grid container sx={{ display: "flex" }}>
         <Grid item margin="auto">
-          {/* <Badge
-              badgeContent="변경"
-              color="primary"
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-            > */}
           <ImageModifier
             getImg={props.getImg}
             changeImg={props.changeImg}
             deleteImg={props.deleteImg}
             beforeModifyImage={image}
           ></ImageModifier>
-          {/* <Img
-                alt="no Image"
-                src={review.image}
-                sx={{ width: "70%", backgroundColor: "#fafafa" }}
-              /> */}
-          {/* </Badge> */}
         </Grid>
         <Grid item margin="auto">
           <Grid item xs>

@@ -13,6 +13,7 @@ import {
   Box,
   Typography,
   Container,
+  Card,
 } from "@mui/material/"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import styled from "styled-components"
@@ -25,7 +26,16 @@ import { useEffect } from "react"
 
 const UpdateProfilePage = () => {
   const history = useHistory()
-  const theme = createTheme()
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#3A130C",
+      },
+    },
+    typography: {
+      fontFamily: "netmarble",
+    },
+  })
 
   // 기존 프로필 불러오기
   const [userProfile, setuserProfile] = useState({
@@ -126,7 +136,7 @@ const UpdateProfilePage = () => {
   }
 
   const data = new FormData()
-  if (modifiedImage.image_file !== null){
+  if (modifiedImage.image_file !== null) {
     data.append("img", modifiedImage.image_file)
   }
   data.append("nickname", changedProfile.nickname)
@@ -175,28 +185,31 @@ const UpdateProfilePage = () => {
   }
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Box
-        sx={{
-          marginTop: 5,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Typography component="h1" variant="h5">
-          회원 정보 수정
-        </Typography>
-        <ModifyProfileImageUploader
-          defaultImage={userProfile.imgUrl}
-          getImg={getImg}
-          changeImg={changeImg}
-          deleteImg={deleteImg}
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 2,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <TitleCard>
+            <Typography component="h1" variant="h5">
+              회원 정보 수정
+            </Typography>
+          </TitleCard>
+          <ModifyProfileImageUploader
+            defaultImage={userProfile.imgUrl}
+            getImg={getImg}
+            changeImg={changeImg}
+            deleteImg={deleteImg}
           />
           <Boxs component="form" noValidate sx={{ mt: 2 }}>
             <FormControl component="fieldset" variant="standard">
-              <Grid container spacing={2}>
+              <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <Typography>이름</Typography>
                   <TextField fullWidth disabled label={userProfile.username} />
@@ -220,56 +233,46 @@ const UpdateProfilePage = () => {
                   />
                 </Grid>
               </Grid>
-            <Button
-              fullWidth
-              style={{ backgroundColor: "#ffba00", color: "white" }}
-              sx={{ mt: 3 }}
-              size="large"
-            >
-              비밀번호 변경하기
-            </Button>
-            <GoalSettingItem
-              caffeineGoal={userProfile.caffeGoal}
-              sugarGoal={userProfile.sugarGoal}
-              changedProfile={changedProfile}
-              onChangeCaffeineGoal={onChangeCaffeineGoal}
-              onChangeSugarGoal={onChangeSugarGoal}
-            />
-            <Button
-              type="submit"
-              style={{ backgroundColor: "#ffba00", color: "white" }}
-              sx={{ mt: 3 }}
-              size="large"
-              onClick={modifyInfo}
-            >
-              저장
-            </Button>
-            <Button
-              variant="contanined"
-              sx={{ mt: 3 }}
-              type="submit"
-              onClick={handleLogout}
-            >
-              로그아웃
-            </Button>
-            <Button
-              variant="contanined"
-              sx={{ mt: 1 }}
-              component={Link}
-              to="/user-withdrawal"
-            >
-              회원탈퇴
-            </Button>
-          </FormControl>
-        </Boxs>
-      </Box>
-    </Container>
+
+              <GoalSettingItem
+                caffeineGoal={userProfile.caffeGoal}
+                sugarGoal={userProfile.sugarGoal}
+                changedProfile={changedProfile}
+                onChangeCaffeineGoal={onChangeCaffeineGoal}
+                onChangeSugarGoal={onChangeSugarGoal}
+              />
+              <Button
+                type="submit"
+                style={{ backgroundColor: "#ffba00", color: "white" }}
+                sx={{ mt: 3 }}
+                size="large"
+                onClick={modifyInfo}
+              >
+                <Typography fontSize={"20px"}>저장하기</Typography>
+              </Button>
+              <Button
+                variant="contanined"
+                sx={{ mt: 3 }}
+                type="submit"
+                onClick={handleLogout}
+              >
+                로그아웃
+              </Button>
+              <Button
+                variant="contanined"
+                component={Link}
+                to="/user-withdrawal"
+              >
+                회원탈퇴
+              </Button>
+            </FormControl>
+          </Boxs>
+        </Box>
+      </Container>
+    </ThemeProvider>
   )
 }
 
-const SendButton = styled.button`
-  background-color: #ffffff;
-`
 const FormHelperTexts = styled(FormHelperText)`
   width: 100%;
   padding-left: 16px;
@@ -279,5 +282,19 @@ const FormHelperTexts = styled(FormHelperText)`
 
 const Boxs = styled(Box)`
   padding-bottom: 10px !important;
+`
+
+const TitleCard = styled(Card)`
+  border: 2px solid #ffba00 !important;
+  padding: 3px !important;
+  padding-right: 9px !important;
+  padding-left: 9px !important;
+  border-radius: 10px !important;
+  background-color: white !important;
+  margin-bottom: 10px !important;
+  color: #ffba00 !important;
+`
+const SendButton = styled(Button)`
+  background-color: #ffba00 !important;
 `
 export default UpdateProfilePage
