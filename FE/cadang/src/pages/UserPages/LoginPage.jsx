@@ -96,6 +96,7 @@ const LoginPage = () => {
           setLoading(false);
           // alert("로그인에 성공하였습니다.");
           history.push("/main");
+          window.location.reload();
           // setTimeout(() => {
           //   history.push("/main");
           // }, 800);

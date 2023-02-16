@@ -4,8 +4,6 @@ import { styled } from "@mui/material/styles";
 import Typography from "@mui/joy/Typography";
 
 export default function PaymentMoney(props) {
-  const finalOrder = [];
-
   return (
     <div>
       <Box
@@ -13,7 +11,7 @@ export default function PaymentMoney(props) {
         component="span"
         sx={{ display: "block", fontSize: 18, fontWeight: "700" }}
       >
-        주문 음료
+        {props.drinkItem.storeName}
       </Box>
       <Card sx={{ mt: "3%", p: 1 }}>
         <Grid container>
@@ -26,7 +24,7 @@ export default function PaymentMoney(props) {
                 fontSize: 18,
               }}
             >
-              props로 받아온 주문 음료
+              {props.drinkItem.drinkName}
             </Typography>
           </Grid>
           <Grid item xs={4} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}>
@@ -37,7 +35,7 @@ export default function PaymentMoney(props) {
                 fontSize: 18,
               }}
             >
-              +4500원
+              +{props.drinkItem.price}원
             </Typography>
           </Grid>
           {/* =============================================== */}
