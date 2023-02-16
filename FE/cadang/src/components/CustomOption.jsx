@@ -95,10 +95,10 @@ function CustomOption(props) {
           <Grid item xs={8} alignItems="center">
             {isWhiped === null ? (
               <ButtonGroup size="small">
-                <Button value={false} variant="disabled">
+                <Button variant="disabled">
                   X
                 </Button>
-                <Button value={true} variant="disabled">
+                <Button variant="disabled">
                   O
                 </Button>
               </ButtonGroup>

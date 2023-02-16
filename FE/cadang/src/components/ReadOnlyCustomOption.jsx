@@ -7,6 +7,7 @@ import { Card, Grid, Divider } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 
 function ReadOnlyCustomOption(props) {
+  console.log(props.data)
   const custom = props.data
   return (
     <div>
@@ -18,7 +19,7 @@ function ReadOnlyCustomOption(props) {
           <Grid item xs={4}>샷</Grid>
           <Grid item xs={8}>{custom.shot}</Grid>
           <Grid item xs={4}>휘핑</Grid>
-          <Grid item xs={8}>{custom.whip}</Grid>
+          <Grid item xs={8}>{custom.whip ? "O" : "X"}</Grid>
           <Grid item xs={4}>당도</Grid>
           <Grid item xs={8}>{custom.sugarContent}</Grid>
           <Grid item xs={4}>시럽</Grid>

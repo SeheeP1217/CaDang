@@ -37,7 +37,7 @@ function PaymentCustomPage(props) {
         cal: 0,
         price: 0,
         shot: 0,
-        whip: null,
+        whip: -1,
         franchiseId: 0,
         storeName: "",
         cnt: 0,
