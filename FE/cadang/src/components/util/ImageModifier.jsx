@@ -11,7 +11,7 @@ const ImageModifier = (props) => {
 
   const [imagestatus, setImageStatus] = useState({
     image_file: "",
-    preview_URL: beforeModifyImage,
+    preview_URL: beforeModifyImage.preview_URL,
   })
 
   let inputRef

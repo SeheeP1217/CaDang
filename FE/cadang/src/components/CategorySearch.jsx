@@ -21,7 +21,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function CategorySearch() {
-  const history = useHistory()
+  const history = useHistory();
   const [list, setList] = useState([]);
   const [clickCafe, setClickCafe] = useState("");
   const [cafeMenu, setCafeMenu] = useState([]);
@@ -51,18 +51,16 @@ export default function CategorySearch() {
   // };
 
   const onCheckCafe = (cafe) => {
-    const cafeWords = cafe.split(' ')
-    const firstWord = cafeWords[0]
-    const isCafeInList = cafeList.some((item) => item.franchiseName.includes(firstWord))
-    console.log(firstWord)
+    const cafeWords = cafe.split(" ");
+    const firstWord = cafeWords[0];
+    const isCafeInList = cafeList.some((item) => item.franchiseName.includes(firstWord));
+    console.log(firstWord);
     if (isCafeInList) {
-      history.push({ pathname: '/selectmenu', state: {cafe}})
+      history.push({ pathname: "/selectmenu", state: { cafe } });
     } else {
-      alert('아직 제휴 카페가 아닙니다:(')
+      alert("아직 제휴 카페가 아닙니다:(");
     }
-  }
-
-  
+  };
 
   // const [location, setLocation] = useState();
 
@@ -282,7 +280,8 @@ export default function CategorySearch() {
     function displayPlaces(places) {
       // 몇번째 카테고리가 선택되어 있는지 얻어옵니다
       // 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
-      let order = document.getElementById(currCategory).getAttribute("data-order");
+      // let order = document.getElementById(currCategory).getAttribute("data-order");
+      let order = 4;
 
       setList(list.concat(places));
       // setList([ ...list, places ]);
@@ -448,7 +447,7 @@ export default function CategorySearch() {
             paddingLeft: "3%",
             paddingRight: "3%",
             height: "300px",
-            marginTop: "8%",
+            marginTop: "2%",
           }}
         >
           <div
@@ -461,9 +460,9 @@ export default function CategorySearch() {
             }}
           />
           <div id="category">
-            <li id="CE7" data-order="4">
+            {/* <li id="CE7" data-order="4">
               <button className="category_bg cafe">카페</button>
-            </li>
+            </li> */}
           </div>
           {/* <p id="result"></p> */}
 
@@ -494,7 +493,7 @@ export default function CategorySearch() {
             </Grid>
           </Card> */}
 
-          <Box sx={{ width: "100%" }}>
+          <Box sx={{ width: "100%", mt: 2 }}>
             <Stack spacing={1}>
               {list.length !== 0
                 ? list.map((element, i) => (

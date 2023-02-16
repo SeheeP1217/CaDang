@@ -21,29 +21,17 @@ import {
 } from "@mui/material/styles"
 import styled from "styled-components"
 
-import { findPwd } from "../../api/user"
-
-// const StyledButton = styled.button`
-//   padding: 6px 12px;
-//   border-radius: 8px;
-//   font-size: 1rem;
-//   line-height: 1.5;
-//   border: 1px solid lightgray;
-
-//   color: ${(props) => props.color || "gray"};
-//   background: ${(props) => props.background || "white"};
-
-//   ${(props) =>
-//     props.primary &&
-//     css`
-//       color: white;
-//       background: navy;
-//       border-color: navy;
-//     `}
-// `
-
 const SearchPwPage = () => {
-  const theme = createTheme()
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#3A130C",
+      },
+    },
+    typography: {
+      fontFamily: "netmarble",
+    },
+  })
 
   const [memberId, setMemberId] = useState("")
   const [email, setEmail] = useState("")
@@ -51,7 +39,7 @@ const SearchPwPage = () => {
   const [memberIdError, setMemberIdError] = useState("")
   const [emailError, setEmailError] = useState("")
   const [keyError, setKeyError] = useState("")
-  const history = useState()
+  const history = useHistory()
 
   // 아이디 유효성 체크
   const idRegex = /^[a-zA-Z0-9]+$/
@@ -103,48 +91,34 @@ const SearchPwPage = () => {
         console.log(memberId, email)
       })
   }
-  // const [checkEmail, setCheckEmail] = useState({
-  //   email: "",
-  //   memberId: "",
-  // })
-
-  // const handleEmail = async () => {
-  //   await findPwd(
-  //     memberId,
-  //     email,
-  //     (res) => {
-  //       console.log("aaaaaaaaaaa")
-  //       return res.data
-  //     },
-  //     (err) => console.log(err)
-  //   ).then((data) => setCheckEmail(data))
-  // }
 
   // 이메일 인증번호 확인하기
-  const emailNumberCheck = async (data) => {
-    data = { key, email }
+  const handleEmailNumber = (e) => {
+    e.preventDefault()
+
+    const params = {
+      email: email,
+      key: key,
+    }
+    console.log("aaa", email, key)
+    console.log(params)
     axios
-      .get("http://i8a808.p.ssafy.io:8080/user/email/findpw", {
-        params: { key: key, email: email },
-      })
-      .then(function (response) {
+      .get(
+        "http://i8a808.p.ssafy.io:8080/user/email/findpw",
+        { params: params },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+      .then((response) => {
         console.log(response, "성공")
-        alert("인증이 완료되었습니다.")
-        history.push("/reset-pw")
+        // alert("인증이 완료되었습니다.")
+        history.push(`/reset-pw/${memberId}`)
       })
       .catch(function (err) {
         console.log(err)
-        alert("인증번호가 틀렸습니다.")
+        console.log("인증번호가 틀렸습니다.")
       })
-  }
-
-  const handleEmailNumber = (e) => {
-    const data = new FormData(e.currentTarget[0])
-    const joinData = {
-      key: data.get("key"),
-      email: data.get("email"),
-    }
-    emailNumberCheck(joinData)
   }
 
   return (
@@ -174,6 +148,7 @@ const SearchPwPage = () => {
                     label="아이디"
                     // error={memberIdError !== "" || false}
                     onChange={onChangeUserId}
+                    variant="standard"
                   />
                 </Grid>
                 <Grid item xs={8.5}>
@@ -185,10 +160,11 @@ const SearchPwPage = () => {
                     name="email"
                     label="이메일 주소"
                     onChange={onChangeEmail}
+                    variant="standard"
                   />
                 </Grid>
                 <Grid item xs={3.5}>
-                  <Button
+                  <SendButton
                     noValidate
                     type="click"
                     onClick={handleEmail}
@@ -197,7 +173,7 @@ const SearchPwPage = () => {
                     size="small"
                   >
                     인증번호 보내기
-                  </Button>
+                  </SendButton>
                 </Grid>
                 <FormHelperTexts>{emailError}</FormHelperTexts>
                 <Grid item xs={8.5}>
@@ -209,19 +185,21 @@ const SearchPwPage = () => {
                     name="key"
                     label="인증번호"
                     onChange={onChangeKey}
+                    variant="standard"
                   />
                 </Grid>
                 <Grid item xs={3.5}>
-                  <Button
+                  <SendButton
                     noValidate
                     type="click"
                     onClick={handleEmailNumber}
                     fullWidth
                     variant="contained"
                     size="medium"
+                    memberId={memberId}
                   >
                     확인
-                  </Button>
+                  </SendButton>
                 </Grid>
               </Grid>
             </FormControl>
@@ -245,5 +223,9 @@ const FormHelperTexts = styled(FormHelperText)`
 
 const Boxs = styled(Box)`
   padding-bottom: 10px !important;
+`
+
+const SendButton = styled(Button)`
+  background-color: #ffba00 !important;
 `
 export default SearchPwPage

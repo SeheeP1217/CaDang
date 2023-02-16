@@ -9,6 +9,7 @@ import com.ssafy.cadang.service.EmailServiceImpl;
 import com.ssafy.cadang.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -26,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+@Tag(name = "회원", description = "권한이 필요하지않은 api 입니다.")
 @RestController
 @RequiredArgsConstructor
 @Slf4j

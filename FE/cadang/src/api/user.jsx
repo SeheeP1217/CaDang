@@ -33,4 +33,22 @@ async function setUserGoal(caffeGoal, sugarGoal, success, fail) {
   return res;
 }
 
-export { findPwd, setUserGoal } ;
+// 유저 프로필 가져오기
+async function getUserProfile( success, fail) {
+  const res = await api
+    .get(`/user2/myinfo`)
+    .then(success)
+    .catch(fail);
+  return res;
+}
+
+
+// async function setNewInfo(data, changedProfile, success, fail) {
+//   const res = await api
+//     .put(`/user2/modify`, data, )
+//     .then(success)
+//     .catch(fail);
+//   return res;
+// }
+
+export { findPwd, setUserGoal, getUserProfile } ;

@@ -5,19 +5,91 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { fontSize } from "@mui/system";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { Box, Grid } from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
+import { cardGrey } from "../assets/card-gray.png";
+import { card } from "../assets/card.png";
+import { coffeePot } from "../assets/coffeepot.png";
+import { coffeePotGrey } from "../assets/coffeepot-gray.png";
+import { logoDrink } from "../assets/logo-drink.png";
+import { drinkGrey } from "../assets/drink-gray.png";
 import payCompleteImg from "../assets/payComplete.png";
 import making from "../assets/making.png";
 import finished from "../assets/finished.png";
+import drinkImg from "../assets/drink.png";
+import SockJsClient from "react-stomp";
+import { nowOrderStatus } from "../api/main";
+import OrderStatusChild from "./OrderStatusChild";
 
-export default function OrderStatus() {
+export default function OrderStatus(props) {
+  const $websocket = useRef();
+  const [data, setData] = useState([]);
+  const [drink, setDrink] = useState([]);
+  const userId = props.userId;
+  console.log("OrderStatus 컴포넌트 안에서 props로 받아온 userId : " + userId);
+  const [msg, setMsg] = useState(""); // 웹소켓 통신으로 받아온 msg
+
+  const getOrderStatus = async () => {
+    await nowOrderStatus(
+      (res) => {
+        console.log(res.data);
+        return res.data;
+      },
+      (err) => console.log(err)
+    ).then((data) => setData(data));
+  };
+
+  // 컴포넌트 렌더링 되기 전 : 사용자의 현재 주문 상태가 있는지 확인
+  // /get 요청으로 api 통신
+  useMemo(() => {
+    getOrderStatus();
+  }, []);
+
+  useEffect(() => {});
+
+  useEffect(() => {
+    data.map((item, key) => {
+      console.log("현재 주문 현황 통신 후 받아온 데이터 : " + item.drinkName);
+    });
+    setDrink(data);
+  }, [data]);
+
+  useEffect(() => {
+    if (msg === "주문이 수락 혹은 거절됐습니다.") {
+      console.log(msg);
+      getOrderStatus();
+      console.log("drink의 크기 : " + drink.length);
+    } else if (msg === "음료 제조가 완료됐습니다.") {
+      console.log(msg);
+      getOrderStatus();
+    } else if (msg === "음료가 픽업 완료됐습니다.") {
+      console.log(msg);
+      getOrderStatus();
+    }
+  }, [msg]);
+
   return (
     <div
       style={{
         marginTop: "5%",
       }}
     >
+      {/* 웹소켓 클라이언트 연결 */}
+      <div>
+        <SockJsClient
+          url="http://i8a808.p.ssafy.io:8080/websocket"
+          headers={{
+            Authorization: localStorage.getItem("login-token"),
+          }}
+          topics={["/topic/customer-order-manage/" + userId + "", ""]}
+          onMessage={(msg) => {
+            console.log("웹소켓 통신으로 받아온 메시지: " + msg);
+            setMsg(msg);
+          }}
+          ref={$websocket}
+        />
+      </div>
       {/* defaultExpanded 속성을 통해 AccordionDetails 보이게 하기 defaultExpanded="true" */}
       <Accordion defaultExpanded="true">
         <Box
@@ -49,75 +121,29 @@ export default function OrderStatus() {
           </AccordionSummary>
         </Box>
         <AccordionDetails>
-          <Typography
-            sx={{
-              fontWeight: "700",
-              display: "inline",
-              fontSize: 18,
-            }}
-          >
-            음료 이름 - 주문한 카페명 지점
-          </Typography>
-          <Box>
-            <Grid container sx={{ mt: 1 }}>
-              <Grid item xs={4} sx={{ display: "flex" }}>
-                {/* <Typography
-                  sx={{
-                    fontWeight: "700",
-                    display: "inline",
-                    fontSize: 18,
-                  }}
-                >
-                  결제 완료
-                </Typography> */}
-                <CardMedia
-                  component="img"
-                  sx={{ width: 50, ml: 3 }}
-                  image={payCompleteImg}
-                  alt="payCompleteImg"
-                />
-                {/* <img
-                  alt="paysuccess"
-                  src={payCompleteImg}
-                  style={{ objectFit: "fill" }}
-                  width="50"
-                /> */}
+          {data.length === 0 && (
+            <Grid container sx={{ mt: 0, display: "flex", justifyContent: "center" }}>
+              <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+                <CardMedia component="img" sx={{ width: 80 }} image={drinkImg} alt="payImg" />
               </Grid>
-              <Grid item xs={4} sx={{ boxShadow: 0, display: "flex" }}>
-                <CardMedia component="img" sx={{ width: 50, ml: 2 }} image={making} alt="making" />
-                {/* <img alt="making" src={making} style={{ objectFit: "fill" }} width="50" /> */}
-                {/* <Typography
-                  sx={{
-                    fontWeight: "700",
-                    display: "inline",
-                    fontSize: 18,
-                    mt: "1%",
-                  }}
-                >
-                  제조 중
-                </Typography> */}
-              </Grid>
-              <Grid item xs={4} sx={{ boxShadow: 0, display: "flex" }}>
-                <CardMedia
-                  component="img"
-                  sx={{ width: 50, ml: 1 }}
-                  image={finished}
-                  alt="finished"
-                />
-                {/* <img alt="finished" src={finished} style={{ objectFit: "fill" }} width="50" /> */}
-                {/* <Typography
-                  sx={{
-                    fontWeight: "700",
-                    display: "inline",
-                    fontSize: 18,
-                    mt: "1%",
-                  }}
-                >
-                  제조 완료
-                </Typography> */}
-              </Grid>
+              <Typography
+                sx={{
+                  fontFamily: "netmarble",
+                  fontSize: "20px",
+                  fontWeight: "xl",
+                  level: "h3",
+                  m: 0,
+                  mt: 1,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                아직 주문한 음료가 없습니다🙏
+              </Typography>
             </Grid>
-          </Box>
+          )}
+          {data.length !== 0 &&
+            data.map((item, key) => <OrderStatusChild drink={item} key={key} />)}
         </AccordionDetails>
       </Accordion>
     </div>
