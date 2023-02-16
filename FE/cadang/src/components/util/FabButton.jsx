@@ -1,12 +1,13 @@
-import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
+import Fab from "@mui/material/Fab"
+import AddIcon from "@mui/icons-material/Add"
 
 function FabButton() {
   const fabStyle = {
     position: "fixed",
     bottom: 70,
     right: 16,
-  };
+    backgroundColor: "#ffab00",
+  }
 
   return (
     <div>
@@ -14,7 +15,7 @@ function FabButton() {
         <AddIcon />
       </Fab>
     </div>
-  );
+  )
 }
 
-export default FabButton;
+export default FabButton

@@ -69,6 +69,8 @@ export default function OrderListItem(props) {
 
       // 음료를 손님이 픽업 완료해갔다면 음료 리스트에서 삭제하기
       props.onRemove(props.id);
+
+      // window.location.reload();
     }
   };
 
@@ -96,6 +98,7 @@ export default function OrderListItem(props) {
       putOrder();
 
       console.log("putOrder() 후 : 서버로부터 받아온 customerId => " + id);
+    } else {
     }
   };
 
@@ -103,6 +106,7 @@ export default function OrderListItem(props) {
   const onClickPickUp = () => {
     console.log("픽업 완료 버튼 클릭!!!!!!!!!!!!!!");
     setComplete(false);
+    setTimeout(() => (pickupBtn.current.style.backgroundColor = "#FF9E57"), 10);
     // setPickup(true);
 
     if (window.confirm("손님이 픽업 완료했습니까?")) {
@@ -121,6 +125,7 @@ export default function OrderListItem(props) {
       };
 
       putOrder();
+    } else {
     }
   };
 

@@ -19,6 +19,7 @@ const ReviewPage = () => {
   const reviewId = location.state.review.id;
   const originImg = location.state.review.photo;
   console.log(originImg)
+  console.log(location.state.review)
 
   const [reviewDetail, setreviewDetail] = useState({
     reviewDetail: [
@@ -41,7 +42,7 @@ const ReviewPage = () => {
         caramel: 0,
         hazelnut: 0,
         orderStatus: "REQUEST",
-        efaultUrl: "string",
+        defaultUrl: "string",
       },
     ],
   });
@@ -49,7 +50,7 @@ const ReviewPage = () => {
   const [modifyDate, setmodifyDate] = useState(dayjs(reviewDetail.regDate).format("YYYY-MM-DD"));
   const [modifyIsPublic, setmodifyIsPublic] = useState(true);
   const [modifyMemo, setModifyMemo] = useState(reviewDetail.memo);
-  const [modifyImage, setImage] = useState({
+  const [modifyImage, setModifyImage] = useState({
     image_file: "",
     preview_URL: originImg,
   });
@@ -67,14 +68,17 @@ const ReviewPage = () => {
     getReviewDetails();
   }, [reviewId]);
 
+  console.log(modifyImage)
+
+
   useEffect(() => {
     setmodifyDate(dayjs(reviewDetail.regDate).format("YYYY-MM-DD"))
     setModifyMemo(reviewDetail.memo)
-    setImage({
+    setModifyImage({
       image_file: "",
       preview_URL: originImg,
     })
-  }, [reviewDetail])
+  }, [location.state])
 
 
   console.log(reviewDetail);
@@ -86,16 +90,10 @@ const ReviewPage = () => {
     setmodifyDate(newValue)
   }
 
-  // use
-  // useEffect(() => {
-  //   getRecordDate();
-  //   console.log(modifyDate)
-  // }, [modifyDate]);
-
   /////////이미지 변경 확인
   const getImg = (image_file, preview_URL) => {
     const newImage = { image_file, preview_URL }
-    setImage(newImage)
+    setModifyImage(newImage)
   }
 
   const changeImg = () => {

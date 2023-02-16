@@ -1,29 +1,40 @@
-import * as React from "react";
-import { useMemo, useState, useEffect } from "react";
+import * as React from "react"
+import { useMemo, useState, useEffect } from "react"
 
-import { Paper, Box, Grid, Card } from "@mui/material";
-import Typography from "@mui/joy/Typography";
-import { styled } from "@mui/material/styles";
-import Button from "@mui/material/Button";
-import { Link, useLocation, useHistory } from "react-router-dom";
-import dayjs from "dayjs";
+import { Paper, Box, Grid, Card } from "@mui/material"
+import Typography from "@mui/joy/Typography"
+import { styled } from "@mui/material/styles"
+import Button from "@mui/material/Button"
+import { Link, useLocation, useHistory } from "react-router-dom"
+import dayjs from "dayjs"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
 
-import DailyConsumptionGraph from "../../components/util/DailyConsumptionGraph";
-import CustomDrinkMenuItem from "../../components/util/CustomDrinkMenuItem";
-import CustomOption from "../../components/CustomOption";
+import DailyConsumptionGraph from "../../components/util/DailyConsumptionGraph"
+import CustomDrinkMenuItem from "../../components/util/CustomDrinkMenuItem"
+import CustomOption from "../../components/CustomOption"
 
-import { cafeDrinkData, newDrinkRecord } from "../../api/order";
-import DailyOtherInfo from "../../components/DailyOtherInfo";
+import { cafeDrinkData, newDrinkRecord } from "../../api/order"
+import DailyOtherInfo from "../../components/DailyOtherInfo"
 
 function CustomPage() {
   const location = useLocation()
   const history = useHistory()
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#3A130C",
+      },
+    },
+    typography: {
+      fontFamily: "netmarble",
+    },
+  })
 
   // 페이지 편집용 변수쓰
   // const franchiseId = 9;
   // const drinkName = '캐모마일 블렌드 티 핫 (HOT)';
-  const franchiseId = location.state.finalData.franchiseId;
-  const drinkName = location.state.finalData.drink.drinkName;
+  const franchiseId = location.state.finalData.franchiseId
+  const drinkName = location.state.finalData.drink.drinkName
   const [drinkDetail, setDrinkDetail] = useState({
     storeId: 0,
     storeName: "",
@@ -69,7 +80,7 @@ function CustomPage() {
       caffeSuccess: true,
       sugarSuccess: true,
     },
-  });
+  })
   const basicDrink = drinkDetail.drinkResponseDtos[0]
   const [changedOtherInfo, setChangedOtherInfo] = useState({
     money: 0,
@@ -91,12 +102,12 @@ function CustomPage() {
     caramel: 0,
     memo: "",
     storeName: location.state.franchiseName,
-  });
+  })
 
   // 선택한 음료 정보로 orderDetail 초기화
   useEffect(() => {
     setOrderDetail({
-      ...orderDetail, 
+      ...orderDetail,
       drinkId: basicDrink.drinkId,
       caffeine: basicDrink.caffeine,
       sugar: basicDrink.sugar,
@@ -106,7 +117,7 @@ function CustomPage() {
       whip: basicDrink.whip,
       sugarContent: "BASIC",
       storeName: location.state.franchiseName,
-    });
+    })
   }, [basicDrink])
   console.log("this", basicDrink)
   console.log("this", orderDetail)
@@ -116,7 +127,7 @@ function CustomPage() {
     setChangedOtherInfo({
       money: orderDetail.price,
       cal: orderDetail.cal,
-    });
+    })
   }, [orderDetail])
 
   // 기존 daily + 선택음료 데이터 계산(젤 작은 사이즈 & 노옵션)
@@ -127,7 +138,6 @@ function CustomPage() {
     sugarDaily: drinkDetail.dayDataDto.sugarDaily + basicDrink.sugar,
     calDaily: drinkDetail.dayDataDto.calDaily + basicDrink.cal,
     moneyDaily: drinkDetail.dayDataDto.moneyDaily + basicDrink.price,
-
   }
 
   //커스텀 변경시 변화량 계산
@@ -141,50 +151,63 @@ function CustomPage() {
   // 섭취일(날짜) 변경 반영
   const getRecordDate = (newValue) => {
     setOrderDetail({
-      ...orderDetail, 
+      ...orderDetail,
       regDate: newValue,
     })
-  };
+  }
 
   // 영양성분에 옵션정보 반영
   const onClickOptionChangeHandler = (field, value) => {
     console.log(field, value)
     if (orderDetail[field] + value >= 0) {
       // 변경하는 값의 field명과 type이름이 일치하는 옵션 선언
-      const updateOption = drinkDetail.optionDtos.find(option => option.type.toLowerCase() === field)
+      const updateOption = drinkDetail.optionDtos.find(
+        (option) => option.type.toLowerCase() === field
+      )
 
-      if (updateOption.type.toLowerCase() === 'whip') {
+      if (updateOption.type.toLowerCase() === "whip") {
         // 휘핑 옵션 (true면 더하고 false면 마이너스 + 기존 휘핑 상태에서 변동될때만)
         if (orderDetail.whip !== value) {
           setOrderDetail({
-            ...orderDetail, 
+            ...orderDetail,
             whip: value,
-            caffeine: value ? orderDetail['caffeine'] + (value * updateOption.caffeine) : Math.max(orderDetail['caffeine'] - updateOption.caffeine, 0),
-            sugar: value ? orderDetail['sugar'] + (value * updateOption.sugar) : Math.max(orderDetail['sugar'] - updateOption.sugar, 0),
-            cal: value ? orderDetail['cal'] + (value * updateOption.cal) : Math.max(orderDetail['cal'] - updateOption.cal, 0),
-            price: value ? orderDetail['price'] + (value * updateOption.price) : Math.max(orderDetail['price'] - updateOption.price, 0),
-          });
+            caffeine: value
+              ? orderDetail["caffeine"] + value * updateOption.caffeine
+              : Math.max(orderDetail["caffeine"] - updateOption.caffeine, 0),
+            sugar: value
+              ? orderDetail["sugar"] + value * updateOption.sugar
+              : Math.max(orderDetail["sugar"] - updateOption.sugar, 0),
+            cal: value
+              ? orderDetail["cal"] + value * updateOption.cal
+              : Math.max(orderDetail["cal"] - updateOption.cal, 0),
+            price: value
+              ? orderDetail["price"] + value * updateOption.price
+              : Math.max(orderDetail["price"] - updateOption.price, 0),
+          })
         }
       } else {
         // 나머지 옵션
         setOrderDetail({
-          ...orderDetail, 
+          ...orderDetail,
           [field]: orderDetail[field] + value,
-          caffeine: Math.max(orderDetail['caffeine'] + (value * updateOption.caffeine), 0),
-          sugar: Math.max(orderDetail['sugar'] + (value * updateOption.sugar), 0),
-          cal: Math.max(orderDetail['cal'] + (value * updateOption.cal), 0),
-          price: Math.max(orderDetail['price'] + (value * updateOption.price), 0),
+          caffeine: Math.max(
+            orderDetail["caffeine"] + value * updateOption.caffeine,
+            0
+          ),
+          sugar: Math.max(orderDetail["sugar"] + value * updateOption.sugar, 0),
+          cal: Math.max(orderDetail["cal"] + value * updateOption.cal, 0),
+          price: Math.max(orderDetail["price"] + value * updateOption.price, 0),
         })
       }
     }
   }
-  
-  const [ sizeButton, setSizeButton ] = useState(0)
+
+  const [sizeButton, setSizeButton] = useState(0)
   // 사이즈 변경에 따른 옵션 초기화(전체 옵션 초기화(만약 남기고 싶은거 있으면 onClickOptionHandler처럼 초기값 앞에 더해줘야함))
   const onClickSizeChangeHandler = (index) => {
     setSizeButton(index)
     setOrderDetail({
-      ...orderDetail, 
+      ...orderDetail,
       drinkId: drinkDetail.drinkResponseDtos[index].drinkId,
       caffeine: drinkDetail.drinkResponseDtos[index].caffeine,
       sugar: drinkDetail.drinkResponseDtos[index].sugar,
@@ -203,18 +226,31 @@ function CustomPage() {
 
   // 당도 어카냐........사이즈 기준 커스텀 전 당 + 휘핑시럽등 당 들어가는 애들 현재 다 더해서 0.5, 1, 1.5 리턴해야하나?
   const onclickSugarContentHandler = (type, value) => {
-    const nowSize = drinkDetail.drinkResponseDtos.find(drink => drink.drinkId === orderDetail.drinkId)
-    const whipOption = drinkDetail.optionDtos.find(option => option.type.toLowerCase() === 'whip')
-    const syrupOption = drinkDetail.optionDtos.find(option => option.type.toLowerCase() === 'syrup')
-    const vanillaOption = drinkDetail.optionDtos.find(option => option.type.toLowerCase() === 'vanilla')
-    const hazelnutOption = drinkDetail.optionDtos.find(option => option.type.toLowerCase() === 'hazelnut')
-    const caramelOption = drinkDetail.optionDtos.find(option => option.type.toLowerCase() === 'caramel')
-    const standardSugar = (nowSize.sugar 
-    + (whipOption.sugar * orderDetail.whip) 
-    + (syrupOption.sugar * orderDetail.syrup) 
-    + (vanillaOption.sugar * orderDetail.vanilla) 
-    + (hazelnutOption.sugar * orderDetail.hazelnut) 
-    + (caramelOption.sugar * orderDetail.caramel) )
+    const nowSize = drinkDetail.drinkResponseDtos.find(
+      (drink) => drink.drinkId === orderDetail.drinkId
+    )
+    const whipOption = drinkDetail.optionDtos.find(
+      (option) => option.type.toLowerCase() === "whip"
+    )
+    const syrupOption = drinkDetail.optionDtos.find(
+      (option) => option.type.toLowerCase() === "syrup"
+    )
+    const vanillaOption = drinkDetail.optionDtos.find(
+      (option) => option.type.toLowerCase() === "vanilla"
+    )
+    const hazelnutOption = drinkDetail.optionDtos.find(
+      (option) => option.type.toLowerCase() === "hazelnut"
+    )
+    const caramelOption = drinkDetail.optionDtos.find(
+      (option) => option.type.toLowerCase() === "caramel"
+    )
+    const standardSugar =
+      nowSize.sugar +
+      whipOption.sugar * orderDetail.whip +
+      syrupOption.sugar * orderDetail.syrup +
+      vanillaOption.sugar * orderDetail.vanilla +
+      hazelnutOption.sugar * orderDetail.hazelnut +
+      caramelOption.sugar * orderDetail.caramel
     setOrderDetail({
       ...orderDetail,
       sugar: standardSugar * value,
@@ -228,13 +264,13 @@ function CustomPage() {
         franchiseId,
         drinkName,
         (res) => {
-          return res.data;
+          return res.data
         },
         (err) => console.log(err)
-        ).then((data) => setDrinkDetail(data));
-      };
-      getCustomData();
-    }, []);
+      ).then((data) => setDrinkDetail(data))
+    }
+    getCustomData()
+  }, [])
 
   console.log(orderDetail)
   console.log(withoutCustom)
@@ -248,15 +284,18 @@ function CustomPage() {
       cal: orderDetail.cal - basicDrink.cal,
     })
   }, [orderDetail])
-  
 
   // 기록 등록 axios
   const addDrinkRecord = async () => {
     await newDrinkRecord(
       orderDetail,
-      (res) => {console.log(res);
-      return res},
-      (err) => {console.log(err)},
+      (res) => {
+        console.log(res)
+        return res
+      },
+      (err) => {
+        console.log(err)
+      }
     )
       .then((response) => {
         console.log(response)
@@ -265,9 +304,9 @@ function CustomPage() {
         }
       })
       .catch(function (err) {
-        console.log(err);
-      });
-  };
+        console.log(err)
+      })
+  }
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -275,7 +314,7 @@ function CustomPage() {
     padding: theme.spacing(1),
     textAlign: "center",
     color: "000000",
-  }));
+  }))
 
   return (
     <div>
@@ -286,13 +325,22 @@ function CustomPage() {
         <Box sx={{ flexGrow: 1 }} marginTop={1}>
           <Grid container spacing={2}>
             <Grid item xs={8}>
-              <Item sx={{ fontWeight: "700" }}>{location.state.finalData.franchiseName}</Item>
+              <Item sx={{ fontWeight: "700" }}>
+                {location.state.finalData.franchiseName}
+              </Item>
             </Grid>
             <Grid item xs={4}>
-              <Item style={{ fontWeight: "700" }}>{location.state.finalData.branch ? location.state.finalData.branch : '-'}</Item>
+              <Item style={{ fontWeight: "700" }}>
+                {location.state.finalData.branch
+                  ? location.state.finalData.branch
+                  : "-"}
+              </Item>
             </Grid>
             <Grid item xs={12}>
-              <CustomDrinkMenuItem data={location.state.finalData} getRecordDate={getRecordDate}/>
+              <CustomDrinkMenuItem
+                data={location.state.finalData}
+                getRecordDate={getRecordDate}
+              />
             </Grid>
           </Grid>
         </Box>
@@ -303,23 +351,25 @@ function CustomPage() {
           selectDrinkInfo={changeInfo}
           consumptionInfo={withoutCustom}
         />
-        <DailyOtherInfo data={drinkDetail.dayDataDto} changedOtherInfo={changedOtherInfo}></DailyOtherInfo>
+        <DailyOtherInfo
+          data={drinkDetail.dayDataDto}
+          changedOtherInfo={changedOtherInfo}
+        ></DailyOtherInfo>
       </Card>
 
-      <CustomOption drinkDetail={drinkDetail} orderDetail={orderDetail} 
+      <CustomOption
+        drinkDetail={drinkDetail}
+        orderDetail={orderDetail}
         onClickOptionChangeHandler={onClickOptionChangeHandler}
         onClickSizeChangeHandler={onClickSizeChangeHandler}
         onclickSugarContentHandler={onclickSugarContentHandler}
-        />
+      />
 
       <Grid item>
-        <Button onClick={addDrinkRecord}>
-          주문하기
-        </Button>
+        <Button onClick={addDrinkRecord}>주문하기</Button>
       </Grid>
     </div>
-  );
+  )
 }
 
-
-export default CustomPage;
+export default CustomPage

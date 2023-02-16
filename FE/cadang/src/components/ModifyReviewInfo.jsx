@@ -3,7 +3,6 @@ import { useState, useEffect } from "react"
 import Grid from "@mui/material/Grid"
 import Typography from "@mui/material/Typography"
 import { Card } from "@mui/material"
-import Badge from "@mui/material/Badge"
 // import { useLocation } from "react-router-dom"
 import DatePickerComponent from "./DatePickerComponent"
 
@@ -15,7 +14,7 @@ function ModifyReviewInfo(props) {
   //console.log(props.data)
   const detail = props.data
   const image = props.image
-  // console.log("현재 이미지", image)
+  console.log("현재 이미지", image)
   // console.log(props.recordDate)
 
   // if (location.state.review !== undefined) {

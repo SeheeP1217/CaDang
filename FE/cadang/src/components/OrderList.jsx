@@ -5,10 +5,13 @@ import Typography from "@mui/joy/Typography";
 import OrderListItem from "./OrderListItem";
 import { orderList } from "../api/cafeCeo";
 import SockJsClient from "react-stomp";
+import CardMedia from "@mui/material/CardMedia";
+import drinkImg from "../assets/drink.png";
 
 export default function OrderList() {
   const [orderListData, setOrderListData] = useState([]);
   const $websocket = useRef();
+
   // 픽업 완료했을 시 해당 주문의 아이템 삭제
   const onRemove = (idx) => {
     const newChild = orderListData;
@@ -41,7 +44,7 @@ export default function OrderList() {
         url="http://i8a808.p.ssafy.io:8080/websocket"
         headers={{
           Authorization:
-            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdGFyYnVja3MiLCJpZCI6MSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjUwNjcxOX0.PFVyJuhUcxKWPXop6YRC6nosELoZIAGDGaU2ctk75zseUstkYz6W-f08YzhAgGPdV9xbhbBqGKrmxZ0KVyYIOQ",
+            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdGFyYnVja3MiLCJpZCI6MSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjU5MzMyMH0.9ISQMm4P66vHdnknIa6HUdjTOItihxa8adZW39_VFIlqEo2ObRpRgMW95pIBNblrQouZDSNmy9DioCmeU3csow",
         }}
         // topics={["/topic/store-order-manage/1", ""]}
         onMessage={(msg) => {
@@ -50,6 +53,27 @@ export default function OrderList() {
         }}
         ref={$websocket}
       />
+      {orderListData.length === 0 && (
+        <Grid container sx={{ mt: 0, display: "flex", justifyContent: "center" }}>
+          <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+            <CardMedia component="img" sx={{ width: 80 }} image={drinkImg} alt="payImg" />
+          </Grid>
+          <Typography
+            sx={{
+              fontFamily: "netmarble",
+              fontSize: "20px",
+              fontWeight: "xl",
+              level: "h3",
+              m: 0,
+              mt: 1,
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            진행 중인 주문이 없습니다.🙏
+          </Typography>
+        </Grid>
+      )}
       {orderListData.map((item, key) => (
         <OrderListItem order={item} id={key} onRemove={onRemove} />
       ))}

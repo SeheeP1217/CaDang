@@ -1,0 +1,4 @@
+.recharts-tooltip-wrapper {
+  display: none;
+  pointer-events: none;
+}
