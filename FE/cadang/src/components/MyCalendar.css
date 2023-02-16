@@ -29,8 +29,8 @@
 }
 
 .fc-event {
-  background-color: transparent;
-  border: transparent;
+  background-color: transparent !important;
+  border: transparent !important;
   height: 50px;
 }
 
