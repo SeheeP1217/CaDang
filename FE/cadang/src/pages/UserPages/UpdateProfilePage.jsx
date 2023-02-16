@@ -41,10 +41,10 @@ const UpdateProfilePage = () => {
 
   // 변경 정보 보낼 변수 선언
   const [changedProfile, setchangedProfile] = useState({
-    nickname: "",
-    caffeGoal: 1000,
-    sugarGoal: 500,
-    img: "",
+    nickname: userProfile.nickname,
+    caffeGoal: userProfile.caffeGoal,
+    sugarGoal: userProfile.sugarGoal,
+    img: userProfile.imgUrl,
     isModified: 0,
   })
 
@@ -215,7 +215,7 @@ const UpdateProfilePage = () => {
                   <Typography>닉네임</Typography>
                   <TextField
                     fullWidth
-                    value={userProfile.nickname}
+                    value={changedProfile.nickname}
                     onChange={onChangeNickname}
                   />
                 </Grid>
@@ -231,6 +231,7 @@ const UpdateProfilePage = () => {
             <GoalSettingItem
               caffeineGoal={userProfile.caffeGoal}
               sugarGoal={userProfile.sugarGoal}
+              changedProfile={changedProfile}
               onChangeCaffeineGoal={onChangeCaffeineGoal}
               onChangeSugarGoal={onChangeSugarGoal}
             />
