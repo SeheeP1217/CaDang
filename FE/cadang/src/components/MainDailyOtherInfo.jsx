@@ -18,10 +18,10 @@ function MainDailyOtherInfo(props) {
           <Grid item xs={1.5}>
             <img src={calories} alt="calories" width="30px" />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             {props.data.calDaily} Kcal
           </Grid>
-          <Grid item xs={1.5} />
+          <Grid item xs={0.5} />
         </Grid>
       )}
     </List>

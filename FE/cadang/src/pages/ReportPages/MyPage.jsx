@@ -12,6 +12,7 @@ import Grid from "@mui/material/Grid"
 import { Card, TextField } from "@mui/material"
 import { Link } from "react-router-dom"
 import dayjs from "dayjs"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
 import styled from "styled-components"
 
 // 검색바 import
@@ -33,6 +34,16 @@ import { todayDashboard } from "../../api/main"
 import { useEffect } from "react"
 
 function MyPage() {
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#3A130C",
+      },
+    },
+    typography: {
+      fontFamily: "netmarble",
+    },
+  })
   const [pageIndex, setPageIndex] = useState(1)
   const [searchKeyword, setSearchKeyword] = useState("")
 
@@ -74,7 +85,6 @@ function MyPage() {
     caffeSuccess: true,
     sugarSuccess: true,
   })
-
 
   useMemo(() => {
     const getDashboard = async () => {
@@ -137,7 +147,6 @@ function MyPage() {
     ).then((data) => setReview(data))
   }
 
-
   return (
     <div>
       <TitleBox>
@@ -145,17 +154,29 @@ function MyPage() {
           MyPage
         </Typography>
       </TitleBox>
-      <Card sx={{ mb: 2, pl: 1 }}>
+      <Card sx={{ mb: 2 }}>
         <Grid container textAlign="center">
-          <Grid item xs={2} margin="auto">
-            <Avatar style={{ width: "70" }} src={dashboard.image} />
-            <Typography>{dashboard.nickname}</Typography>
+          <Grid item xs={3} padding="12px">
+            <Avatar
+              style={{
+                width: "100px",
+                height: "100px",
+                margin: "2px",
+                textAlign: "center",
+              }}
+              src={dashboard.image}
+            />
           </Grid>
-          <Grid item xs={10}>
-            <MainDailyConsumptionGraph data={dashboard} />
+          <Grid item xs={9} style={{ paddingTop: "22px" }}>
+            <Typography style={{ textAlign: "center", paddingLeft: "14px" }}>
+              {dashboard.nickname} 님이
+              <br />
+              오늘 섭취한 양이에요
+            </Typography>
+            <MainDailyOtherInfo data={dashboard} />
           </Grid>
           <Grid item xs={12}>
-            <MainDailyOtherInfo data={dashboard} />
+            <MainDailyConsumptionGraph data={dashboard} />
           </Grid>
         </Grid>
       </Card>
@@ -199,18 +220,24 @@ function MyPage() {
           내 리포트 보러가기
         </Button>
       </Stack>
-
       <Paper
         variant="outlined"
         sx={{ backgroundColor: "#fff3e0", marginTop: 2 }}
       >
         <TitleBox sx={{ paddingY: 0 }}>
-          <TextField
+          <InputTextBox
             id="outlined-basic"
             label="메뉴명 검색"
             variant="outlined"
             size="small"
             onChange={onChangeKeyword}
+            InputProps={{
+              classes: {
+                root: {
+                  borderColor: "#ffab00",
+                },
+              },
+            }}
             style={{ marginTop: 10, marginLeft: 3 }}
           />
           <Button
@@ -270,4 +297,8 @@ const TitleBox = styled(Box)`
 const ImageContainer = styled(Grid)`
   grid-template-columns: 3fr 7fr;
   grid-template-rows: repeat(2, 1fr);
+`
+
+const InputTextBox = styled(TextField)`
+  border-color: #ffab00;
 `

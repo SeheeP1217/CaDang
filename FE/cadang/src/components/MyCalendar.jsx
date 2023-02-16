@@ -109,7 +109,11 @@ class MyCalendar extends React.Component {
               const clickedData = this.props.monthDataList.find(
                 (item) => item.date === clickedDate
               )
-              this.handleModal(clickedData)
+              if (clickedData) {
+                this.handleModal(clickedData)
+              } else {
+                alert("해당 일자에 대한 기록이 없습니다.")
+              }
             }}
             eventContent={renderEventContent}
             contentHeight="auto"
