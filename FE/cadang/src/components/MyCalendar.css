@@ -11,7 +11,7 @@
 }
 /* 요일 형식 */
 .fc .fc-col-header-cell-cushion {
-  color: black !important;
+  color: white !important;
   text-decoration: none;
   font-weight: bolder;
   font-family: "netmarble";
@@ -29,8 +29,8 @@
 }
 
 .fc-event {
-  background-color: transparent;
-  border: transparent;
+  background-color: transparent !important;
+  border: transparent !important;
   height: 50px;
 }
 
@@ -51,16 +51,16 @@
   margin: auto;
   display: flex;
   justify-content: center;
-  margin-top: 25px;
+  margin-top: 10px;
 }
 
 .fc-button-primary {
-  border-color: bisque !important;
-  background-color: bisque !important;
+  border-color: #ffba00 !important;
+  background-color: #ffba00 !important;
 }
 
 .fc-daygrid-day-frame {
-  height: 55px;
+  height: 53px;
   line-height: 10px;
 }
 
@@ -69,6 +69,9 @@
   padding-left: 0px;
 }
 
+.fc-daygrid-day-number {
+  padding-bottom: 0px !important;
+}
 .fc-event-main {
   /* max-width: 100%;
   max-height: 100%;
@@ -90,10 +93,20 @@
   margin: 0px;
 }
 
-/* .fc-toolbar-title {
-  font-size: medium;
-} */
-
 .fc-toolbar-title {
-  font-size: 24px !important;
+  font-size: 20px !important;
+}
+
+.fc-day-today {
+  border: 2px solid #ffba00 !important;
+  background-color: transparent !important;
+}
+
+.fc-col-header-cell {
+  background-color: #3a130c !important;
+  border-radius: 8px;
+}
+
+.fc-day-header {
+  border: none !important;
 }

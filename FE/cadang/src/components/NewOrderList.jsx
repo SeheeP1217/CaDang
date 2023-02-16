@@ -3,18 +3,33 @@ import PropTypes from "prop-types";
 import NewOrderListItem from "./NewOrderListItem.jsx";
 import SockJsClient from "react-stomp";
 import { newOrderCheck } from "../api/cafeCeo";
+import Typography from "@mui/joy/Typography";
+import { Grid } from "@mui/material";
+import CardMedia from "@mui/material/CardMedia";
+import drinkImg from "../assets/drink.png";
 
 export default function NewOrderList() {
   const $websocket = useRef();
   const [msg, setMsg] = useState("");
   const [data, setData] = useState([]);
   const [drinks, setDrinks] = useState([]);
+  const [userId, setUserId] = useState(0);
 
   console.log("NewOrderList !!!!!!!!!!!!! " + drinks);
   // if (!Array.isArray(props)) {
   //   console.log(props + " !!!!!!!null??????");
   //   return null;
   // }
+
+  const handleClickSendToMsg = () => {
+    if (userId !== 0) {
+      $websocket.current.sendMessage(
+        "/message/order-response/" + userId + "",
+        "주문이 수락 혹은 거절됐습니다."
+      );
+      console.log("send to server : 주문이 수락 혹은 거절됐습니다.");
+    }
+  };
 
   const deleteChild = (idx) => {
     const newChild = drinks;
@@ -82,36 +97,72 @@ export default function NewOrderList() {
     setDrinks(data);
   }, [data]);
 
+  useEffect(() => {
+    console.log("하위 컴포넌트에서 set한 userId : " + userId);
+
+    // 웹소켓 통신하기 !!!!!!!!!
+    setTimeout(() => handleClickSendToMsg(), 30);
+
+    setTimeout(() => setUserId(0), 30);
+  }, [userId]);
+
   // if (drinks.length === 0) {
   //   return <h2>신규 주문이 없습니다.</h2>;
   // }
 
   return (
     <div>
-      <SockJsClient
-        url="http://i8a808.p.ssafy.io:8080/websocket"
-        headers={{
-          Authorization:
-            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdGFyYnVja3MiLCJpZCI6MSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3NjMzNjcwMH0.vwZeywsGVXtdv1_SVTv0gGnytWlSs1v4hOJsUITZixgkuq55W7WaLy2VzOuRKODkM4X_NphAfIbxGDVml4bYCA",
-        }}
-        topics={["/topic/store-order-manage/1", ""]}
-        onMessage={(msg) => {
-          // console.log(msg);
-          setMsg(msg);
-        }}
-        ref={$websocket}
-      />
+      {/* 웹소켓 연결 클라이언트 */}
+      <div>
+        <SockJsClient
+          url="http://i8a808.p.ssafy.io:8080/websocket"
+          headers={{
+            Authorization:
+              "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdGFyYnVja3MiLCJpZCI6MSwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTY3ODY5OTk0N30.KscIzJVF58sS4AizYHiZ0RkzAQrvV8xBozt-1KW8IjT1xpE68rdMpeLywndPwaAlHDm6WNLEhwC1-gy8cNzO4Q",
+          }}
+          topics={["/topic/store-order-manage/1", ""]}
+          onMessage={(msg) => {
+            console.log(msg);
+            setMsg(msg);
+          }}
+          ref={$websocket}
+        />
+      </div>
       {/* drinks.length !== 0 && */}
-      {/* {drinks.length === 0 ? (
-        <h2>신규 주문이 없습니다.</h2>
+      {drinks.length === 0 ? (
+        <Grid container sx={{ mt: 0, display: "flex", justifyContent: "center" }}>
+          <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+            <CardMedia component="img" sx={{ width: 80 }} image={drinkImg} alt="payImg" />
+          </Grid>
+          <Typography
+            sx={{
+              fontFamily: "netmarble",
+              fontSize: "20px",
+              fontWeight: "xl",
+              level: "h3",
+              m: 0,
+              mt: 1,
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            신규 주문이 없습니다.🙏
+          </Typography>
+        </Grid>
       ) : (
         drinks.map((item, key) => (
-          <NewOrderListItem drink={item} onRemove={onRemove} id={key} deleteChild={deleteChild} />
+          <NewOrderListItem
+            drink={item}
+            onRemove={onRemove}
+            id={key}
+            deleteChild={deleteChild}
+            setUserId={setUserId}
+          />
         ))
-      )} */}
-      {drinks.map((item, key) => (
+      )}
+      {/* {drinks.map((item, key) => (
         <NewOrderListItem drink={item} onRemove={onRemove} id={key} deleteChild={deleteChild} />
-      ))}
+      ))} */}
     </div>
   );
 }

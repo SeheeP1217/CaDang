@@ -1,14 +1,13 @@
-body {
-  background: #ffffff !important;
-}
-
 .appBar {
   box-sizing: border-box !important;
 
   position: absolute !important;
 
-  background: #fff4e6 !important;
-  border-bottom: 1px solid #000000 !important;
+  background: #FFEDDE !important;
+  /* background: #fee7d3 !important; */
+  /* background: #f9f6f2 !important; */
+  /* border-bottom: 1px solid #000000 !important; */
+  /* background: linear-gradient(45deg, white 30%, #ffba00); */
 }
 .logoText {
   color: #000000 !important;

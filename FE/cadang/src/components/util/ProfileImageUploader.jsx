@@ -68,6 +68,12 @@ const ProfileImageUploader = ({ getImg }) => {
           src={imagestatus.preview_URL}
           alt="img"
           onClick={() => inputRef.click()}
+          style={{
+            borderRadius: "100%",
+            width: "100px",
+            height: "100px",
+            objectFit: "cover",
+          }}
         />
       </ImgWrapper>
       <div className="upload-button">

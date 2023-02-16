@@ -21,6 +21,7 @@ import {
   // CreateMUIStyled,
 } from "@mui/material/styles"
 import styled from "styled-components"
+import LoadingPage from "../LoadingPage"
 
 // mui의 css 우선순위가 높기때문에 important를 설정 - 실무하다 보면 종종 발생 우선순위 문제
 const FormHelperTexts = styled(FormHelperText)`
@@ -71,25 +72,35 @@ const LoginPage = () => {
   const [passwordError, setPasswordError] = useState("")
   const [loginError, setLoginError] = useState("")
   const history = useHistory()
+  const [loading, setLoading] = useState(false)
 
   const onhandlePost = async (data) => {
     const { memberId, password } = data
     const postData = { memberId, password }
-
+    setLoading(true) // axios 호출 전 로딩페이지를 띄우기 위한 state 처리
     await axios
       .post("http://i8a808.p.ssafy.io:8080/login", postData, {
         withCredentials: true,
       })
-      .then(function (response) {
-        console.log("//////////////")
-        console.log(response.headers)
-        console.log("//////////////")
+      .then(async (response) => {
+        console.log(response)
 
-        let headers = response.headers.authorization
-        localStorage.setItem("token", headers)
-
-        console.log(localStorage)
-        history.push("/main")
+        return response
+      })
+      .then(async (response) => {
+        if (response.headers.authorization) {
+          localStorage.setItem("login-token", response.headers.authorization)
+          console.log(data)
+        }
+        if (response.status === 200) {
+          setLoading(false)
+          // alert("로그인에 성공하였습니다.");
+          history.push("/main")
+          window.location.reload()
+          // setTimeout(() => {
+          //   history.push("/main");
+          // }, 800);
+        }
       })
       .catch(function (err) {
         console.log(err)
@@ -98,6 +109,7 @@ const LoginPage = () => {
         setLoginError("로그인에 실패하였습니다. 다시 한 번 확인해 주세요")
       })
   }
+
   const idRegex = /^[a-zA-Z0-9]+$/
   const onChangeUserId = (e) => {
     if (!e.target.value || idRegex.test(e.target.value) || memberId.length < 1)
@@ -133,84 +145,90 @@ const LoginPage = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <TitleCard>
-            <Typography component="h1" variant="h4">
-              로그인
-            </Typography>
-          </TitleCard>
-          <Boxs
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
+      {loading === true ? (
+        <LoadingPage />
+      ) : (
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            <FormControl component="fieldset" variant="standard">
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="memberId"
-                    name="memberId"
-                    label="아이디"
-                    // error={memberIdError !== "" || false}
-                    onChange={onChangeUserId}
-                  />
+            <TitleCard>
+              <Typography component="h1" variant="h4">
+                로그인
+              </Typography>
+            </TitleCard>
+            <Boxs
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 3 }}
+            >
+              <FormControl component="fieldset" variant="standard">
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      id="memberId"
+                      name="memberId"
+                      label="아이디"
+                      variant="standard"
+                      // error={memberIdError !== "" || false}
+                      onChange={onChangeUserId}
+                    />
+                  </Grid>
+                  <FormHelperTexts>{memberIdError}</FormHelperTexts>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      type="password"
+                      id="password"
+                      name="password"
+                      label="비밀번호 (숫자+영문자+특수문자 8자리 이상)"
+                      variant="standard"
+                      // error={passwordError !== "" || false}
+                      onChange={onChangePassword}
+                    />
+                  </Grid>
+                  {/* <FormHelperTexts>{setPasswordError}</FormHelperTexts> */}
                 </Grid>
-                <FormHelperTexts>{memberIdError}</FormHelperTexts>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    type="password"
-                    id="password"
-                    name="password"
-                    label="비밀번호 (숫자+영문자+특수문자 8자리 이상)"
-                    // error={passwordError !== "" || false}
-                    onChange={onChangePassword}
-                  />
-                </Grid>
-                {/* <FormHelperTexts>{setPasswordError}</FormHelperTexts> */}
-              </Grid>
 
-              <SendButton
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                size="large"
-                className="button"
-              >
-                LOGIN
-              </SendButton>
-              <Grid>
-                <Button component={Link} to="/search-id" variant="text">
-                  아이디 찾기
-                </Button>
-                |
-                <Button component={Link} to="/search-pw" variant="text">
-                  비밀번호 찾기
-                </Button>
-                |
-                <Button component={Link} to="/sign-up" variant="text">
-                  회원가입
-                </Button>
-              </Grid>
-            </FormControl>
-            <FormHelperTexts>{loginError}</FormHelperTexts>
-          </Boxs>
-        </Box>
-      </Container>
+                <SendButton
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                  size="large"
+                  className="button"
+                >
+                  LOGIN
+                </SendButton>
+                <Grid style={{ textAlign: "center" }}>
+                  <Button component={Link} to="/search-id" variant="text">
+                    아이디 찾기
+                  </Button>
+                  |
+                  <Button component={Link} to="/search-pw" variant="text">
+                    비밀번호 찾기
+                  </Button>
+                  |
+                  <Button component={Link} to="/sign-up" variant="text">
+                    회원가입
+                  </Button>
+                </Grid>
+              </FormControl>
+              <FormHelperTexts>{loginError}</FormHelperTexts>
+            </Boxs>
+          </Box>
+        </Container>
+      )}
     </ThemeProvider>
   )
 }

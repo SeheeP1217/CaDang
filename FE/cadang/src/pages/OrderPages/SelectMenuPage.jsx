@@ -1,7 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { Box, Card } from "@mui/material";
+import { Box, Card, Typography } from "@mui/material";
 import Button from "@mui/material-next/Button";
-import Typography from "@mui/joy/Typography";
 import FabButton from "../../components/util/FabButton";
 import { Link } from "react-router-dom";
 
@@ -13,9 +12,13 @@ import { cafeDrinkList } from "../../api/order";
 import { useRecoilValue } from "recoil";
 import { todayDate } from "../../recoil/atom/user";
 
-function SelectMenuPage() {
+function SelectMenuPage(props) {
   const date = useRecoilValue(todayDate);
-  const storeName = "스타벅스 역삼대로점";
+  const [storeName, setStoreName] = useState(props.location.state.cafe);
+
+  useEffect(() => {
+    setStoreName(props.location.state.cafe);
+  }, [storeName]);
 
   // const [possible, setPossible] = useState([])
   // const [impossible, setImpossible] = useState([])
@@ -34,12 +37,15 @@ function SelectMenuPage() {
     shot: null,
     whip: null,
     franchiseId: -1,
-    storeName: null,
+    storeName: storeName,
     cnt: 0,
   });
 
   const getSelectedDrink = (selectDrink) => {
-    setSelectDrinkInfo(selectDrink);
+    setSelectDrinkInfo({
+      ...selectDrink,
+      storeName: storeName,
+    });
   };
 
   const [menu, setMenu] = useState({
@@ -100,7 +106,7 @@ function SelectMenuPage() {
   const [changedOtherInfo, setChangedOtherInfo] = useState({
     money: 0,
     cal: 0,
-  })
+  });
   useMemo(() => {
     const getMenus = async () => {
       await cafeDrinkList(
@@ -132,44 +138,64 @@ function SelectMenuPage() {
       money: selectDrinkInfo.price,
       cal: selectDrinkInfo.cal,
     });
-  }, [selectDrinkInfo])
+  }, [selectDrinkInfo]);
 
   const finalData = {
     franchiseId: menu.franchiseId,
     franchiseName: storeName,
     drink: selectDrinkInfo,
     branch: "",
-  }
+  };
+  console.log("**** selctDrinkInfo : " + selectDrinkInfo);
+
+  const nextPage = (event) => {
+    console.log("next Page 이동을 위한 클릭!!!!");
+    if (selectDrinkInfo.drinkId === -1) {
+      event.preventDefault();
+      alert("음료를 선택해 주세요🙏");
+    }
+  };
 
   return (
     <body>
       <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
         <Box sx={{ backgroundColor: "#F9F6F2", paddingY: 0.3 }}>
-          <Typography level="h3" fontSize="xl" fontWeight="xl">
-            메뉴선택
-          </Typography>
           <Box sx={{ flexGrow: 1 }} textAlign="center">
-            <Card>
-              {storeName} / 320m
-              <Button>상세 페이지</Button>
+            <Card style={{ height: "36px" }}>
+              <Typography
+                style={{
+                  fontFamily: "netmarble",
+                  fontSize: "22px",
+                  margin: "auto",
+                }}
+              >
+                {storeName} | 320m
+                {/* <Button>상세 페이지</Button> */}
+              </Typography>
             </Card>
           </Box>
-          <Card style={{marginTop: 15}}>
+          <Card style={{ marginTop: 15 }}>
             <DailyConsumptionGraph
               selectDrinkInfo={selectDrinkInfo}
               consumptionInfo={consumptionInfo}
             />
-            <DailyOtherInfo data={menu.dayDataDto} changedOtherInfo={changedOtherInfo}></DailyOtherInfo>
+            <DailyOtherInfo
+              data={menu.dayDataDto}
+              changedOtherInfo={changedOtherInfo}
+            ></DailyOtherInfo>
           </Card>
-          <Card sx={{ marginY: 2 }}>
-            {/* <DailyConsumptionGraph data={afterSelectData} /> */}
-          </Card>
+          <Card sx={{ marginY: 2 }}>{/* <DailyConsumptionGraph data={afterSelectData} /> */}</Card>
         </Box>
       </div>
-          <ItemFiltering menu={menu} getSelectedDrink={getSelectedDrink} />
+      <ItemFiltering menu={menu} getSelectedDrink={getSelectedDrink} />
       {/* {drinkItem !== undefined && <Typography>{drinkItem.caffeine}mg</Typography>} */}
-
-      <Link to={{ pathname: `/custom`, state: { finalData } }}>
+      <Link
+        to={{
+          pathname: `/payment/custom`,
+          state: { drinkItem: selectDrinkInfo },
+        }}
+        onClick={nextPage}
+      >
         <FabButton />
       </Link>
     </body>

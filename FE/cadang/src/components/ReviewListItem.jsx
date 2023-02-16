@@ -12,6 +12,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteReview } from "../api/report";
 
+
 const Img = styled("img")({
   margin: "auto",
   display: "block",
@@ -34,9 +35,10 @@ function ReviewListItem(props) {
     if (window.confirm("정말 삭제하시겠습니까? 삭제된 기록은 복구가 불가능합니다.")) {
       await deleteReview(
         reviewId,
-        (res) => console.log(res),
+        (res) => {console.log(res)
+        return res},
         (err) => console.log(err)
-        ).then(function (response) {
+        ).then((response) => {
           if (response.status === 200) {
             history.push('/mypage')
           }
@@ -60,7 +62,7 @@ function ReviewListItem(props) {
             <Grid item xs={2} margin="auto">
               <Img
                 id={review.id}
-                alt="complex"
+                alt="drink"
                 src={review.photo}
                 sx={{ width: "90%", backgroundColor: "#fafafa" }}
               />
@@ -86,9 +88,6 @@ function ReviewListItem(props) {
                   {/* <Link to={{ pathname: `/review/${review.id}`, state:{review} }}> */}
                   <Link to={{ pathname: `/review/${review.id}`, state:{review} }}>
                   <IconButton
-                    // component={Link}
-                    // to={`/review/${review.id}`}
-                    // state={review}
                     style={{ padding: 0 }}
                     >
                     <EditOutlinedIcon />

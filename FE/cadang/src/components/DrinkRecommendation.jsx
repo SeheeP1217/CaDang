@@ -53,9 +53,9 @@ function DrinkRecommendation() {
   };
 
   const onChangeDrink = (event) => {
-    console.log("음료 새로 추천 !!!!!!!!!");
+    // console.log("음료 새로 추천 !!!!!!!!!");
     const item = getRandomIndex(drinkList.length);
-    console.log(item);
+    // console.log(item);
     setDrinkItem(item);
   };
 
@@ -82,8 +82,8 @@ function DrinkRecommendation() {
         setList([...list, cafe]);
       });
 
-    console.log(list);
-    console.log("---------------");
+    // console.log(list);
+    // console.log("---------------");
 
     // 음료 추천 통신 api 사용
 
@@ -92,8 +92,8 @@ function DrinkRecommendation() {
         cafe,
         dateString,
         (res) => {
-          console.log("=======!!!!!!!!!!!!!!=========");
-          console.log(res.data);
+          // console.log("=======!!!!!!!!!!!!!!=========");
+          // console.log(res.data);
           return res.data;
         },
         (err) => console.log(err)
@@ -101,18 +101,18 @@ function DrinkRecommendation() {
     };
 
     getDrinks();
-    console.log("drinkList" + drinkList);
+    // console.log("drinkList" + drinkList);
     const item = getRandomIndex(drinkList.length);
-    console.log(item);
+    // console.log(item);
     setDrinkItem(item);
     setLoad(true);
-    console.log(dateString);
+    // console.log(dateString);
   };
 
   useEffect(() => {
     // 1. 현재 날짜 세팅
     setToday(dateString);
-    console.log(today);
+    // console.log(today);
 
     axios
       .get(
@@ -127,8 +127,8 @@ function DrinkRecommendation() {
         setList([...list, cafe]);
       });
 
-    console.log(list);
-    console.log("---------------");
+    // console.log(list);
+    // console.log("---------------");
 
     // 음료 추천 통신 api 사용
 
@@ -137,8 +137,8 @@ function DrinkRecommendation() {
         cafe,
         dateString,
         (res) => {
-          console.log("=======!!!!!!!!!!!!!!=========");
-          console.log(res.data);
+          // console.log("=======!!!!!!!!!!!!!!=========");
+          // console.log(res.data);
           return res.data;
         },
         (err) => console.log(err)
@@ -146,9 +146,9 @@ function DrinkRecommendation() {
     };
 
     getDrinks();
-    console.log("drinkList" + drinkList);
+    // console.log("drinkList" + drinkList);
     const item = getRandomIndex(drinkList.length);
-    console.log(item);
+    // console.log(item);
     setDrinkItem(item);
     setLoad(true);
     setToday(dateString);
@@ -158,21 +158,23 @@ function DrinkRecommendation() {
     function settingCafe() {
       const temp = list[0];
 
-      if (temp !== undefined) temp.map((element, i) => console.log(temp[i].place_name));
-
-      if (temp !== undefined) temp.map((element, i) => container.push(element.place_name));
-
+      if (temp !== undefined) {
+        temp.map((element, i) => console.log(temp[i].place_name));
+      }
+      if (temp !== undefined) {
+        temp.map((element, i) => container.push(element.place_name));
+      }
       setCafe([...container]);
       // if (temp !== undefined)
       //   temp.map((element, i) => setCafe([...cafe, temp[i].place_name]));
     }
 
     settingCafe();
-    console.log(list);
+    // console.log(list);
   }, [list]);
 
   useEffect(() => {
-    console.log("**************서버로 보내는 카페 리스트 : "+cafe);
+    // console.log("**************서버로 보내는 카페 리스트 : "+cafe);
 
     const getDrinks = async () => {
       await recommendDrinks(
@@ -180,7 +182,7 @@ function DrinkRecommendation() {
         dateString,
         (res) => {
           if (res.data !== undefined) {
-            console.log(res.data);
+            // console.log(res.data);
             // setDrinkList(data);
             // res.data.map((element,i) => drinkList.push(element));
           }
@@ -194,10 +196,10 @@ function DrinkRecommendation() {
   }, [cafe]);
 
   useEffect(() => {
-    console.log("===drinkList: " + drinkList);
+    // console.log("===drinkList: " + drinkList);
 
     const item = getRandomIndex(drinkList.length);
-    console.log(item);
+    // console.log(item);
     setDrinkItem(item);
   }, [drinkList]);
 
@@ -224,10 +226,10 @@ function DrinkRecommendation() {
             textAlign: "center",
           }}
         >
-          <Grid item>
+          <Grid item xs={12}>
             {drinkItem !== undefined && <Typography>{drinkItem.storeName}</Typography>}
           </Grid>
-          <Grid item>
+          <Grid item xs={12}>
             {drinkItem !== undefined && (
               <Typography>오늘은 {drinkItem.drinkName} 어떨까요?</Typography>
             )}
@@ -254,9 +256,9 @@ function DrinkRecommendation() {
             textAlign: "center",
           }}
         >
-          <Button component={Link} to="/custom" size="small">
-            주문하러 가기
-          </Button>
+          <Link to={{ pathname: `/payment/custom`, state: { drinkItem } }}>
+            <Button size="small">주문하러 가기</Button>
+          </Link>
         </Grid>
       </Card>
     </div>

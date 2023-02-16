@@ -25,35 +25,37 @@ const ReviewPage = () => {
       {
         id: 0,
         photo: "",
-        drinkName: "string",
+        drinkName: "0",
         caffeine: 0,
         sugar: 0,
         cal: 0,
         price: 0,
-        regDate: "2023-02-08T10:57:49.450Z",
-        memo: "string",
-        size: "string",
+        regDate: "0",
+        memo: "0",
+        size: "0",
         shot: 0,
-        whip: true,
+        whip: null,
         sugarContent: "LESS",
         syrup: 0,
         vanilla: 0,
         caramel: 0,
         hazelnut: 0,
-        orderStatus: "REQUEST",
-        efaultUrl: "string",
+        orderStatus: "",
+        defaultUrl: "",
       },
     ],
   });
 
+  console.log(dayjs(reviewDetail.regDate).format("YYYY-MM-DD"))
   const [modifyDate, setmodifyDate] = useState(dayjs(reviewDetail.regDate).format("YYYY-MM-DD"));
   const [modifyIsPublic, setmodifyIsPublic] = useState(true);
   const [modifyMemo, setModifyMemo] = useState(reviewDetail.memo);
-  const [modifyImage, setImage] = useState({
+  const [modifyImage, setModifyImage] = useState({
     image_file: "",
     preview_URL: originImg,
   });
 
+  console.log(modifyDate)
   useMemo(() => {
     const getReviewDetails = async () => {
       await userReviewDetail(
@@ -67,10 +69,11 @@ const ReviewPage = () => {
     getReviewDetails();
   }, [reviewId]);
 
+
   useEffect(() => {
     setmodifyDate(dayjs(reviewDetail.regDate).format("YYYY-MM-DD"))
     setModifyMemo(reviewDetail.memo)
-    setImage({
+    setModifyImage({
       image_file: "",
       preview_URL: originImg,
     })
@@ -78,7 +81,6 @@ const ReviewPage = () => {
 
 
   console.log(reviewDetail);
-  console.log(originImg);
   const [isModified, setIsModified] = useState(0);
 
   /////////날짜 변경 확인
@@ -86,16 +88,10 @@ const ReviewPage = () => {
     setmodifyDate(newValue)
   }
 
-  // use
-  // useEffect(() => {
-  //   getRecordDate();
-  //   console.log(modifyDate)
-  // }, [modifyDate]);
-
   /////////이미지 변경 확인
   const getImg = (image_file, preview_URL) => {
     const newImage = { image_file, preview_URL }
-    setImage(newImage)
+    setModifyImage(newImage)
   }
 
   const changeImg = () => {
@@ -121,23 +117,21 @@ const ReviewPage = () => {
     isModified: isModified,
   }
 
+
+  console.log(modifyData)
   const formData = new FormData()
   if (modifyImage.image_file) {
     formData.append("image", modifyImage.image_file)
   }
   formData.append("data", JSON.stringify(modifyData))
 
-  console.log(formData)
-  console.log(modifyData)
 
   const modifyReviewDetailRecord = async () => {
     await axios
       .put("http://i8a808.p.ssafy.io:8080/record", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzanNqbGltIiwiaWQiOjIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2NzYzMzI5MTZ9.EmP0DkZs6vpdCNfOocU_eCCHZTpK5mjDYKJn-XXAbr4-pa0o86jgRWN4apbk5-DecBmH0Ye2XhhjT5anSDoslw",
-        },
+          Authorization:localStorage.getItem('login-token'),},
         params: modifyData,
       })
       .then(function (response) {

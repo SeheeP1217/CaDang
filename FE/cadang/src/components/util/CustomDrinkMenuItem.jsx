@@ -15,7 +15,6 @@ export default function CustomDrinkMenuItem(props) {
         component="img"
         sx={{ width: 110 }}
         image={props.data.drink.img}
-        alt="Live from space album cover"
       />
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent sx={{ flex: "1 0 auto" }}>

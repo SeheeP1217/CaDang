@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Link, useHistory } from "react-router-dom"
 import axios from "axios"
 import {
@@ -13,6 +13,7 @@ import {
   Box,
   Typography,
   Container,
+  Card,
 } from "@mui/material/"
 import {
   createTheme,
@@ -21,27 +22,22 @@ import {
 } from "@mui/material/styles"
 import styled from "styled-components"
 
-// const StyledButton = styled.button`
-//   padding: 6px 12px;
-//   border-radius: 8px;
-//   font-size: 1rem;
-//   line-height: 1.5;
-//   border: 1px solid lightgray;
-
-//   color: ${(props) => props.color || "gray"};
-//   background: ${(props) => props.background || "white"};
-
-//   ${(props) =>
-//     props.primary &&
-//     css`
-//       color: white;
-//       background: navy;
-//       border-color: navy;
-//     `}
-// `
-
-const ResetPwPage = () => {
-  const theme = createTheme()
+const ResetPwPage = (location) => {
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#3A130C",
+      },
+    },
+    typography: {
+      fontFamily: "netmarble",
+    },
+  })
+  const [memberId, setMemberId] = useState(-1)
+  useEffect(() => {
+    console.log(location.location.props.response.data.id, "/////////")
+    setMemberId(location.location.props.response.data.id)
+  }, [])
 
   const [password, setPassword] = useState("")
   const [passwordState, setpasswordState] = useState("")
@@ -71,10 +67,9 @@ const ResetPwPage = () => {
     setpasswordState(e.target.value)
   }
 
-  const memberId = "6"
-  console.log(memberId)
+  // const memberId = "6"
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e, memberId) => {
     e.preventDefault()
     if (
       passwordRegex.test(password) &&
@@ -85,9 +80,10 @@ const ResetPwPage = () => {
       axios({
         method: "put",
         url: "http://i8a808.p.ssafy.io:8080/user/newpass",
-        data: {
-          memberId,
-          password,
+        headers: { "Content-Type": "application/json" },
+        params: {
+          memberId: memberId,
+          password: password,
         },
       })
         .then((res) => {
@@ -96,7 +92,7 @@ const ResetPwPage = () => {
         })
         .catch((err) => {
           console.error(err)
-          console.log(memberId, password)
+          // console.log(memberId, password)
         })
     }
   }
@@ -112,13 +108,15 @@ const ResetPwPage = () => {
             alignItems: "center",
           }}
         >
-          <Typography component="h1" variant="h5">
-            비밀번호 재설정
-          </Typography>
+          <TitleCard>
+            <Typography component="h1" variant="h5">
+              비밀번호 재설정
+            </Typography>
+          </TitleCard>
           <Boxs
             component="form"
             noValidate
-            onSubmit={handleSubmit}
+            onClick={(e) => handleSubmit(e, memberId)}
             sx={{ mt: 2 }}
           >
             <FormControl component="fieldset" variant="standard">
@@ -133,6 +131,7 @@ const ResetPwPage = () => {
                     label="비밀번호 (숫자+영문자+특수문자 8자리 이상)"
                     // error={passwordError !== "" || false}
                     onChange={onChangePassword}
+                    variant="standard"
                   />
                 </Grid>
                 <FormHelperTexts>{passwordError}</FormHelperTexts>
@@ -146,11 +145,12 @@ const ResetPwPage = () => {
                     label="비밀번호 재입력"
                     // error={passwordStateError !== "" || false}
                     onChange={onChangePasswordState}
+                    variant="standard"
                   />
                   <FormHelperTexts>{passwordStateError}</FormHelperTexts>
                 </Grid>
                 <Grid item xs={12}>
-                  <Button
+                  <SendButton
                     type="submit"
                     fullWidth
                     variant="contained"
@@ -158,9 +158,17 @@ const ResetPwPage = () => {
                     size="large"
                   >
                     비밀번호 재설정하기
-                  </Button>
+                  </SendButton>
                 </Grid>
               </Grid>
+              <Button
+                component={Link}
+                to="/sign-in"
+                variant="text"
+                style={{ marginTop: "5px" }}
+              >
+                로그인 하러 가기
+              </Button>
             </FormControl>
           </Boxs>
         </Box>
@@ -178,5 +186,18 @@ const FormHelperTexts = styled(FormHelperText)`
 
 const Boxs = styled(Box)`
   padding-bottom: 10px !important;
+`
+const TitleCard = styled(Card)`
+  border: 2px solid #ffba00 !important;
+  padding: 3px !important;
+  padding-right: 9px !important;
+  padding-left: 9px !important;
+  border-radius: 10px !important;
+  background-color: white !important;
+  margin-bottom: 10px !important;
+  color: #ffba00 !important;
+`
+const SendButton = styled(Button)`
+  background-color: #ffba00 !important;
 `
 export default ResetPwPage

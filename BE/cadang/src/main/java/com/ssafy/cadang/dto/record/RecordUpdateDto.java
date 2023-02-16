@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class RecordUpdateDto {
     private Long id;
-
     private String regDate;
     private Boolean isPublic;
     private String memo;

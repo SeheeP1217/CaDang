@@ -4,65 +4,117 @@ import { Paper, Box, Grid, Card } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import Button from "@mui/material-next/Button";
 import Divider from "@mui/material/Divider";
-import { newOrderResponse } from "../api/cafeCeo";
+import { setOrderStatus } from "../api/cafeCeo";
+import SockJsClient from "react-stomp";
 
 export default function NewOrderListItem(props) {
   const [drinkItem, setDrinkItem] = useState();
-  const [userId, setUserId] = useState("");
+  const [status, setStatus] = useState("none");
+  // const [userId, setUserId] = useState(0);
 
   const onClickAccept = () => {
     console.log("수락 버튼 클릭!!!!!!!!!!!!!!!!!!!!!!!");
+    // if (window.confirm(`${props.id + 1}번째 주문을 수락하시겠습니까?`))
+    if (window.confirm(`${props.id + 1}번째 주문을 수락하시겠습니까?`)) {
+      setStatus((accept) => "accept");
 
-    if (window.confirm(`${props.id}번째 주문을 수락하시겠습니까?`)) {
+      const putOrder = async () => {
+        await setOrderStatus(
+          drinkItem.orderId,
+          "ACCEPT",
+          (res) => {
+            console.log(res.data);
+            return res.data;
+          },
+          (err) => console.log(err)
+        ).then((data) => {
+          props.setUserId((userId) => data);
+          setStatus((status) => "accept");
+        });
+      };
+
+      putOrder();
+
+      console.log("현재 주문 상태 : " + status);
+
+      if (status === "accept") {
+        console.log("userId 값이 바뀌었을 때 작동하는 useEffect() : " + status);
+        // setTimeout(() => handleClickSendToAccept(), 30);
+      } else if (status === "cancel") {
+        console.log("userId 값이 바뀌었을 때 작동하는 useEffect() : " + status);
+        // setTimeout(() => handleClickSendToCancel(), 30);
+      }
+
       props.deleteChild(props.id);
+    } else {
     }
-
-    const putOrder = async () => {
-      await newOrderResponse(
-        drinkItem.orderId,
-        drinkItem.customerId,
-        "ACCEPT",
-        (res) => {
-          console.log(res.data);
-          return res.data;
-        },
-        (err) => console.log(err)
-      ).then((data) => setUserId(data));
-    };
-
-    putOrder();
   };
 
   const onClickCancel = () => {
     console.log("거절 버튼 클릭!!!!!!!!!!!!!!!!!!!!");
 
-    if (window.confirm(`${props.id}번째 주문을 거절하시겠습니까?`)) {
+    if (window.confirm(`${props.id + 1}번째 주문을 거절하시겠습니까?`)) {
+      setStatus((accept) => "cancel");
+
+      const putOrder = async () => {
+        await setOrderStatus(
+          drinkItem.orderId,
+          "CANCEL",
+          (res) => {
+            console.log(res.data);
+            return res.data;
+          },
+          (err) => console.log(err)
+        ).then((data) => {
+          props.setUserId((userId) => data);
+          setStatus((status) => "cancel");
+        });
+      };
+
+      putOrder();
+
+      // console.log("서버로부터 받아온 userId : " + userId);
+      console.log("현재 주문 상태 : " + status);
+
+      if (status === "accept") {
+        console.log("userId 값이 바뀌었을 때 작동하는 useEffect() : " + status);
+        // setTimeout(() => handleClickSendToAccept(), 30);
+      } else if (status === "cancel") {
+        console.log("userId 값이 바뀌었을 때 작동하는 useEffect() : " + status);
+        // setTimeout(() => handleClickSendToCancel(), 30);
+      }
+
       props.deleteChild(props.id);
     }
-
-    const putOrder = async () => {
-      await newOrderResponse(
-        drinkItem.orderId,
-        drinkItem.customerId,
-        "CANCEL",
-        (res) => {
-          console.log(res.data);
-          return res.data;
-        },
-        (err) => console.log(err)
-      ).then((data) => setUserId(data));
-    };
-
-    putOrder();
   };
 
   useMemo(() => {
     setDrinkItem(props.drink);
   }, []);
 
+  // useEffect(() => {
+  //   // console.log("서버로부터 받아온 userId : " + userId);
+  //   console.log("현재 주문 상태 : " + status);
+
+  //   if (status === "accept") {
+  //     console.log("userId 값이 바뀌었을 때 작동하는 useEffect() : " + status);
+  //     // setTimeout(() => handleClickSendToAccept(), 50);
+  //   } else if (status === "cancel") {
+  //     console.log("userId 값이 바뀌었을 때 작동하는 useEffect() : " + status);
+  //     // setTimeout(() => handleClickSendToCancel(), 50);
+  //   }
+  // }, [userId]);
+
   useEffect(() => {
-    console.log("서버로부터 받아온 userId : " + userId);
-  }, [userId]);
+    console.log("status 상태 바뀐건가아ㅏㅇ아ㅏ아앙?");
+    if (status === "accept") {
+      console.log(status);
+      // setTimeout(() => handleClickSendToAccept(), 50);
+    } else if (status === "cancel") {
+      console.log(status);
+      // setTimeout(() => handleClickSendToCancel(), 50);
+    }
+  }, [status]);
 
   useEffect(() => {
     setDrinkItem(props.drink);
@@ -107,10 +159,10 @@ export default function NewOrderListItem(props) {
               sx={{
                 fontWeight: "500",
                 display: "inline",
-                fontSize: 1,
+                fontSize: 13,
               }}
             >
-              샷 :{drinkItem.shot}
+              샷 추가 + 1 / 헤이즐넛시럽 추가 + 1{/* 샷 :{drinkItem.shot} */}
             </Typography>
           )}
         </Grid>

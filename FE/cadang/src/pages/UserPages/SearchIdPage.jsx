@@ -13,6 +13,7 @@ import {
   Box,
   Typography,
   Container,
+  Card,
 } from "@mui/material/"
 import {
   createTheme,
@@ -41,7 +42,16 @@ import styled from "styled-components"
 // `
 
 const SearchIdPage = () => {
-  const theme = createTheme()
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#3A130C",
+      },
+    },
+    typography: {
+      fontFamily: "netmarble",
+    },
+  })
   // const [checked, setChecked] = useState(false)
   const [username, setUserName] = useState("")
   const [email, setEmail] = useState("")
@@ -119,9 +129,11 @@ const SearchIdPage = () => {
             alignItems: "center",
           }}
         >
-          <Typography component="h1" variant="h5">
-            아이디 찾기
-          </Typography>
+          <TitleCard>
+            <Typography component="h1" variant="h4">
+              아이디 찾기
+            </Typography>
+          </TitleCard>
           <Boxs
             component="form"
             noValidate
@@ -139,6 +151,7 @@ const SearchIdPage = () => {
                     label="이름"
                     // error={usernameError !== "" || false}
                     onChange={onChangeUserName}
+                    variant="standard"
                   />
                 </Grid>
                 <FormHelperTexts>{usernameError}</FormHelperTexts>
@@ -151,12 +164,13 @@ const SearchIdPage = () => {
                     name="email"
                     label="이메일 주소"
                     onChange={onChangeEmail}
+                    variant="standard"
                   />
                 </Grid>
                 <FormHelperTexts>{emailError}</FormHelperTexts>
               </Grid>
 
-              <Button
+              <SendButton
                 type="submit"
                 fullWidth
                 variant="contained"
@@ -165,14 +179,14 @@ const SearchIdPage = () => {
                 className="button"
               >
                 찾기
-              </Button>
-              <Grid>
-                <Button component={Link} to="/search-pw" variant="text">
-                  비밀번호 찾기
-                </Button>
-                |
+              </SendButton>
+              <Grid style={{ textAlign: "center" }}>
                 <Button component={Link} to="/sign-in" variant="text">
                   로그인
+                </Button>
+                |
+                <Button component={Link} to="/search-pw" variant="text">
+                  비밀번호 찾기
                 </Button>
               </Grid>
             </FormControl>
@@ -195,4 +209,17 @@ const Boxs = styled(Box)`
   padding-bottom: 40px !important;
 `
 
+const TitleCard = styled(Card)`
+  border: 2px solid #ffba00 !important;
+  padding: 3px !important;
+  padding-right: 9px !important;
+  padding-left: 9px !important;
+  border-radius: 10px !important;
+  background-color: white !important;
+  margin-bottom: 10px !important;
+  color: #ffba00 !important;
+`
+const SendButton = styled(Button)`
+  background-color: #ffba00 !important;
+`
 export default SearchIdPage

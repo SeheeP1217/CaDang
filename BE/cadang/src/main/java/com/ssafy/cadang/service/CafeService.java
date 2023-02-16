@@ -31,11 +31,19 @@ public class CafeService {
 
     public DrinksForCafeDto getDrinkByStoreName(Long userId, LocalDate date, String storeName) {
 
-        System.out.println("userId : " +userId + " storeName : "+storeName + " date : " +date);
         DrinksForCafeDto drinksForCafeDto;    // 카페 별 음료 목록 담을 객체
 
-        Store findStore = storeRepository.findStoreByStoreName(storeName)
-                .orElseThrow(() -> new CustomException(ExceptionEnum.STORE_NOT_FOUND));
+        Boolean hasStore = storeRepository.findStoreByStoreName(storeName).isPresent();
+        Store findStore;
+        if(hasStore){
+            findStore = storeRepository.findStoreByStoreName(storeName).get();
+        }else{
+            String franchiseName = storeName.split(" ")[0];
+            Franchise findFranchise = franchiseRepository.findFranchiseByfranchiseName(franchiseName)
+                    .orElseThrow(() -> new CustomException(ExceptionEnum.FRANCHISE_NOT_FOUND));
+            Store newStore = new Store(findFranchise, storeName);
+            findStore = storeRepository.save(newStore);
+        }
 
         // 프론트에서 다음 로직을 위해 사용할 데이터(가게id, 프랜차이즈id) 초기화
         Long franchiseId = findStore.getFranchise().getId();
@@ -44,15 +52,12 @@ public class CafeService {
         Data data = dataRepository.findByUserAndDate(date, userId)     // 목표량 충족 리스트 만들기 위해 오늘 data 받아옴
                 .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
 
-
         DayDataDto dayDataDto = new DayDataDto(data);
 
         long caffeRest = (long)data.getCaffeGoal() - data.getCaffeDaily();    // 카페인 잔여량 계산
         if(caffeRest < 0L) caffeRest = 0L;
         long sugarRest = (long)data.getSugarGoal() - data.getSugarDaily();    // 당 잔여량 계산
         if(sugarRest < 0L) sugarRest = 0L;
-
-        System.out.println("caffeRest : "+caffeRest + " sugarRest :" + sugarRest);
 
         List<DrinkNumCheckDto> drinkNumCheckDtos    // 유저가 주문해서 마신 음료의 마신 회수 조회
                 = drinkRepository.findByUserIdAndStoreNameAndOrderStatus(userId, storeName, OrderStatus.CANCEL);
@@ -219,8 +224,6 @@ public class CafeService {
                 .map((o) -> new OptionDto(o))
                 .collect(Collectors.toList());
 
-
         return new DrinkDetailDto(drinkResponseDtos, optionDtos, dayDataDto);
     }
-
 }

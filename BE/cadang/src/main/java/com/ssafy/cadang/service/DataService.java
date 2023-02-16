@@ -40,7 +40,6 @@ public class DataService {
     public Long createData(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
-//        log.info("user {}", user.getId());
         Data saveData = dataRepository.save(new Data(user));
         return saveData.getId();
 
@@ -55,11 +54,11 @@ public class DataService {
     }
 
     @Transactional
-    public Long createDataByRegDate(Long userId, LocalDate date) {
+    public Data createDataByRegDate(Long userId, LocalDate date) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
-        Data saveData = dataRepository.save(new Data(user, date));
-        return saveData.getId();
+        Data saveData = dataRepository.saveAndFlush(new Data(user, date));
+        return saveData;
     }
 
 
@@ -92,7 +91,7 @@ public class DataService {
         int lastCaffeSum = getCaffeSum(lastWeekData);
         int lastSugarSum = getSugarSum(lastWeekData);
 
-//    이번주 데이터 합
+        // 이번주 데이터 합
         int thisCaffeSum = getCaffeSum(thisWeekList);
         int thisSugarSum = getSugarSum(thisWeekList);
 
@@ -117,7 +116,6 @@ public class DataService {
     public DayDataDto getOneByDate(LocalDate date, Long userId) {
         Data data = dataRepository.findByUserAndDate(date, userId)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
-
         return new DayDataDto(data);
     }
 
@@ -180,8 +178,6 @@ public class DataService {
     }
 
     public MonthDataDto getMonthData(LocalDate date, Long userId) {
-        System.out.println("date = " + date);
-        System.out.println("userId = " + userId);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionEnum.USER_NOT_FOUND));
         List<Data> monthData = dataRepository.findMonthData(date, userId);
@@ -191,17 +187,16 @@ public class DataService {
 
         boolean hasNext = dataRepository.existsByRegDateGreaterThan(endDate, userId);
         boolean hasPrevious = dataRepository.existsByRegDateLessThan(startDate, userId);
-        System.out.println("hasNext = " + hasNext);
-        System.out.println("hasPrevious = " + hasPrevious);
+        log.info("hasNext = {}", hasNext);
+        log.info("hasPrevious = {}", hasPrevious);
 
         int month = date.getMonthValue();
         int year = date.getYear();
         int sumByUserAndMonth = recordReposiotry.findSumByUserAndMonth(userId, month, year, recordStatus);
-        System.out.println("sumByUserAndMonth = " + sumByUserAndMonth);
+        log.info("sumByUserAndMonth = {}", sumByUserAndMonth);
 
 
         List<DayDataDtoByMonth> daydatas = toMonThDto(monthData);
-
 
         return MonthDataDto.builder()
                 .monthDataList(daydatas)
@@ -232,8 +227,9 @@ public class DataService {
     public void updateData(Order findOrder) {
         log.info("날짜 = {}", findOrder.getRegDate().toLocalDate());
         log.info("사용자 아이디 = {}", findOrder.getUser().getId());
-        Data updateData = dataRepository.findByUserAndDate(findOrder.getRegDate().toLocalDate(), findOrder.getUser().getId())
-                .orElseThrow(() -> new CustomException(ExceptionEnum.DATA_NOT_FOUND));
+        Optional<Data> optionalData = dataRepository.findByUserAndDate(findOrder.getRegDate().toLocalDate(), findOrder.getUser().getId());
+        Data updateData= optionalData.orElseGet(() -> createDataByRegDate(findOrder.getUser().getId(), findOrder.getRegDate().toLocalDate()));
+
         updateData.setCaffeDaily(updateData.getCaffeDaily() + findOrder.getCaffeine());
         updateData.setSugarDaily(updateData.getSugarDaily() + findOrder.getSugar());
         updateData.setCalDaily(updateData.getCalDaily() + findOrder.getCal());
@@ -274,6 +270,8 @@ public class DataService {
                 .map(m -> DayDataDtoByMonth.builder()
                         .date(m.getRegDate())
                         .caffeDaily(m.getCaffeDaily())
+                        .caffeGoal(m.getCaffeGoal())
+                        .sugarGoal(m.getSugarGoal())
                         .sugarDaily(m.getSugarDaily())
                         .caffeSuccess(m.isCaffeSuccess())
                         .sugarSuccess(m.isSugarSuccess())

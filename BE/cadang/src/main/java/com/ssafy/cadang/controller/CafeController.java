@@ -114,23 +114,4 @@ public class CafeController {
 
         return new ResponseEntity<DrinkDetailDto>(drinkDetailDto, HttpStatus.ACCEPTED);
     }
-
-
-
-
-//    @GetMapping("/option/{franchiseId}")
-//    @Operation(summary = "옵션 정보 조회", description = "프렌차이즈별 각 옵션의 정보를 조회합니다.")
-//    public ResponseEntity<List<OptionDto>> getOptionInfoByFranchiseId(@PathVariable Long franchiseId){
-//
-//        logger.info("getOptionInfoByFranchiseId - 호출 {} ");
-//        logger.info(" 요청 시간 - {}", LocalDateTime.now());
-//
-//        List<OptionDto> optionDtos = cafeService.findOptionsByFranchiseId(franchiseId);
-//
-//        logger.info("응답 결과 - {}", optionDtos.toString());
-//
-//        return new ResponseEntity<List<OptionDto>>(optionDtos, HttpStatus.ACCEPTED);
-//    }
-
-
 }
