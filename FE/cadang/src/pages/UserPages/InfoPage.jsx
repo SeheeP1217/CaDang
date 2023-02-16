@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import Typography from "@mui/joy/Typography"
 import { Paper, Box, Grid } from "@mui/material"
 import ListItem from "@mui/material/ListItem"
@@ -42,6 +42,7 @@ function InfoPage() {
 
   const setDrinkGoal = async () => {
     // setLoading(true)
+
     await setUserGoal(
       caffeineGoal,
       sugarGoal,

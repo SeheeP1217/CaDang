@@ -341,10 +341,10 @@ const RegisterPage = () => {
                 }
                 if (response.status === 200) {
                   setLoading(false)
-                  // alert("로그인에 성공하였습니다.");
-                  // setTimeout(() => {
-                  //   history.push("/main");
-                  // }, 800);
+                  setTimeout(() => {
+                    history.push("/info")
+                    window.location.reload()
+                  }, 800)
                 }
               })
               .catch(function (err) {
@@ -355,7 +355,6 @@ const RegisterPage = () => {
                   "로그인에 실패하였습니다. 다시 한 번 확인해 주세요"
                 )
               })
-            history.push("/info")
           }
         })
         .catch((err) => {
