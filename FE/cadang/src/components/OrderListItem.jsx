@@ -254,7 +254,11 @@ export default function OrderListItem(props) {
           )}
         </Grid>
 
-        <Grid item xs={12} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-start" }}>
+        <Grid
+          item
+          xs={12}
+          sx={{ mt: 1, boxShadow: 0, display: "flex", justifyContent: "flex-start" }}
+        >
           <Typography
             sx={{
               fontWeight: "500",
@@ -262,7 +266,8 @@ export default function OrderListItem(props) {
               fontSize: 13,
             }}
           >
-            샷 추가 + 1 / 헤이즐넛시럽 추가 + 1
+            샷:{orderItem.shot} / 시럽:{orderItem.syrup} / 바닐라 시럽:{orderItem.vanilla} /
+            헤이즐넛 시럽:{orderItem.hazelnut}
           </Typography>
         </Grid>
       </Grid>
