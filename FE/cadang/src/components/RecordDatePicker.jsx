@@ -16,7 +16,7 @@ function RecordDatePicker(props) {
           onChange={(newValue) => {
             setValue(newValue);
             props.getRecordDate(dayjs(newValue.$d).format("YYYY-MM-DD"));
-            console.log(dayjs(newValue.$d).format("YYYY-MM-DD"));
+            // console.log(dayjs(newValue.$d).format("YYYY-MM-DD"));
           }}
           renderInput={(params) => <TextField {...params} />}
         />

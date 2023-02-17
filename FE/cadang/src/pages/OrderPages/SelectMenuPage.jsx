@@ -114,11 +114,11 @@ function SelectMenuPage(props) {
         date,
         storeName,
         (res) => {
-          console.log("Response was successful:", res.data);
+          // console.log("Response was successful:", res.data);
           setMenu(res.data);
         },
         (err) => {
-          console.log(err);
+          // console.log(err);
         }
       );
     };
@@ -147,10 +147,10 @@ function SelectMenuPage(props) {
     drink: selectDrinkInfo,
     branch: "",
   };
-  console.log("**** selctDrinkInfo : " + selectDrinkInfo);
+  // console.log("**** selctDrinkInfo : " + selectDrinkInfo);
 
   const nextPage = (event) => {
-    console.log("next Page 이동을 위한 클릭!!!!");
+    // console.log("next Page 이동을 위한 클릭!!!!");
     if (selectDrinkInfo.drinkId === -1) {
       event.preventDefault();
       alert("음료를 선택해 주세요🙏");

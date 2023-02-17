@@ -8,10 +8,6 @@ import { Card, Paper } from "@mui/material"
 import IconButton from "@mui/material/IconButton"
 import { Link, useHistory } from "react-router-dom"
 
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined"
-import DeleteIcon from "@mui/icons-material/Delete"
-import { deleteReview } from "../api/report"
-
 const Img = styled("img")({
   margin: "auto",
   display: "block",
@@ -19,12 +15,12 @@ const Img = styled("img")({
 })
 
 function ReviewListItem(props) {
-  const history = useHistory()
+  const history = useHistory();
   const onModifyClickHandler = (event) => {
-    console.log(event.target.parentElement.parentElement.id)
-    props.onClick(event.target.parentElement.parentElement.id)
-    console.log(props.selectIndex)
-  }
+    // console.log(event.target.parentElement.parentElement.id);
+    props.onClick(event.target.parentElement.parentElement.id);
+    // console.log(props.selectIndex);
+  };
 
   useEffect(() => {
     console.log(props.selectIndex)
@@ -39,25 +35,25 @@ function ReviewListItem(props) {
       await deleteReview(
         reviewId,
         (res) => {
-          console.log(res)
-          return res
+          console.log(res);
+          return res;
         },
         (err) => console.log(err)
       )
         .then((response) => {
           if (response.status === 200) {
-            history.push("/mypage")
+            history.push("/mypage");
           }
         })
         .catch(function (err) {
-          console.log(err)
-        })
+          console.log(err);
+        });
     }
-  }
-  console.log(props.reviews)
-  const reviewDatas = props.reviews.recordList
+  };
+  console.log(props.reviews);
+  const reviewDatas = props.reviews.recordList;
   if (!reviewDatas || !reviewDatas.length) {
-    return <div>아직 기록이 없어요:(</div>
+    return <div>아직 기록이 없어요:(</div>;
   }
   return (
     <Card elevation={1} sx={{ backgroundColor: "#fafafa", margin: "3px" }}>
