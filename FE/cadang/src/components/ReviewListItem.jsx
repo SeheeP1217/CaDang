@@ -4,14 +4,13 @@ import { useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { Paper } from "@mui/material";
+import { Card, Paper } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { Link, useHistory } from "react-router-dom";
 
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteReview } from "../api/report";
-
 
 const Img = styled("img")({
   margin: "auto",
@@ -20,11 +19,11 @@ const Img = styled("img")({
 });
 
 function ReviewListItem(props) {
-  const history = useHistory()
+  const history = useHistory();
   const onModifyClickHandler = (event) => {
-    console.log(event.target.parentElement.parentElement.id);
+    // console.log(event.target.parentElement.parentElement.id);
     props.onClick(event.target.parentElement.parentElement.id);
-    console.log(props.selectIndex);
+    // console.log(props.selectIndex);
   };
 
   useEffect(() => {
@@ -35,26 +34,29 @@ function ReviewListItem(props) {
     if (window.confirm("정말 삭제하시겠습니까? 삭제된 기록은 복구가 불가능합니다.")) {
       await deleteReview(
         reviewId,
-        (res) => {console.log(res)
-        return res},
+        (res) => {
+          console.log(res);
+          return res;
+        },
         (err) => console.log(err)
-        ).then((response) => {
+      )
+        .then((response) => {
           if (response.status === 200) {
-            history.push('/mypage')
+            history.push("/mypage");
           }
         })
-        .catch(function(err) {
-          console.log(err)
-        })
-      }
+        .catch(function (err) {
+          console.log(err);
+        });
+    }
   };
   console.log(props.reviews);
   const reviewDatas = props.reviews.recordList;
   if (!reviewDatas || !reviewDatas.length) {
-    return (<div>아직 기록이 없어요:(</div>)
+    return <div>아직 기록이 없어요:(</div>;
   }
   return (
-    <Paper elevation={1} sx={{ backgroundColor: "#fafafa", margin: "3px" }}>
+    <Card elevation={1} sx={{ backgroundColor: "#fafafa", margin: "3px" }}>
       {reviewDatas.map((review) => {
         //console.log(review)
         return (
@@ -74,8 +76,7 @@ function ReviewListItem(props) {
                     {review.drinkName}
                   </Typography>
                   <Typography variant="body2">
-                    {review.caffeine} / {review.sugar} / {review.cal} /
-                    {review.price} 
+                    {review.caffeine} / {review.sugar} / {review.cal} /{review.price}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     {review.memo}
@@ -84,15 +85,15 @@ function ReviewListItem(props) {
               </Grid>
               <Grid>
                 <Grid justifyContent="space-between" alignItems="center">
-                  <Typography variant="subtitle1">{dayjs(review.regDate).format("YY/MM/DD")}</Typography>
+                  <Typography variant="subtitle1">
+                    {dayjs(review.regDate).format("YY/MM/DD")}
+                  </Typography>
                   {/* <Link to={{ pathname: `/review/${review.id}`, state:{review} }}> */}
-                  <Link to={{ pathname: `/review/${review.id}`, state:{review} }}>
-                  <IconButton
-                    style={{ padding: 0 }}
-                    >
-                    <EditOutlinedIcon />
-                  </IconButton>
-                    </Link>
+                  <Link to={{ pathname: `/review/${review.id}`, state: { review } }}>
+                    <IconButton style={{ padding: 0 }}>
+                      <EditOutlinedIcon />
+                    </IconButton>
+                  </Link>
                   <IconButton onClick={() => deleteReviewRecord(review.id)}>
                     <DeleteIcon />
                   </IconButton>
@@ -102,7 +103,7 @@ function ReviewListItem(props) {
           </Grid>
         );
       })}
-    </Paper>
+    </Card>
   );
 }
 

@@ -1,28 +1,28 @@
-import * as React from "react"
-import { useState, useEffect } from "react"
-import Grid from "@mui/material/Grid"
-import Typography from "@mui/material/Typography"
-import { Card } from "@mui/material"
+import * as React from "react";
+import { useState, useEffect } from "react";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import { Card } from "@mui/material";
 // import { useLocation } from "react-router-dom"
-import DatePickerComponent from "./DatePickerComponent"
+import DatePickerComponent from "./DatePickerComponent";
 
-import ImageModifier from "./util/ImageModifier"
+import ImageModifier from "./util/ImageModifier";
 
 function ModifyReviewInfo(props) {
   // const location = useLocation()
   // console.log(location)
   //console.log(props.data)
-  const [detail, setDetail] = useState(props.data)
+  const [detail, setDetail] = useState(props.data);
 
   useEffect(() => {
-    setDetail(props.data)
-  }, [props])
-  const image = props.image
+    setDetail(props.data);
+  }, [props]);
+  const image = props.image;
   // console.log(props.recordDate)
 
   // if (location.state.review !== undefined) {
   //   const review = location.state.review
-  console.log(detail)
+  // console.log(detail)
   return (
     <Card>
       <Grid container sx={{ display: "flex" }}>
@@ -43,8 +43,7 @@ function ModifyReviewInfo(props) {
               {detail.drinkName}
             </Typography>
             <Typography variant="body2">
-              {detail.caffeine}mg / {detail.sugar}g / {detail.cal}Kcal /{" "}
-              {detail.price}원
+              {detail.caffeine}mg / {detail.sugar}g / {detail.cal}Kcal / {detail.price}원
             </Typography>
             <DatePickerComponent
               recordDate={props.recordDate}
@@ -54,10 +53,9 @@ function ModifyReviewInfo(props) {
           <Grid></Grid>
         </Grid>
       </Grid>
-
     </Card>
-  )
+  );
 }
 // }
 
-export default ModifyReviewInfo
+export default ModifyReviewInfo;

@@ -15,6 +15,7 @@ import { todayDate } from "../../recoil/atom/user";
 function SelectMenuPage(props) {
   const date = useRecoilValue(todayDate);
   const [storeName, setStoreName] = useState(props.location.state.cafe);
+  const distance = props.location.state.dist;
 
   useEffect(() => {
     setStoreName(props.location.state.cafe);
@@ -113,11 +114,11 @@ function SelectMenuPage(props) {
         date,
         storeName,
         (res) => {
-          console.log("Response was successful:", res.data);
+          // console.log("Response was successful:", res.data);
           setMenu(res.data);
         },
         (err) => {
-          console.log(err);
+          // console.log(err);
         }
       );
     };
@@ -146,10 +147,10 @@ function SelectMenuPage(props) {
     drink: selectDrinkInfo,
     branch: "",
   };
-  console.log("**** selctDrinkInfo : " + selectDrinkInfo);
+  // console.log("**** selctDrinkInfo : " + selectDrinkInfo);
 
   const nextPage = (event) => {
-    console.log("next Page 이동을 위한 클릭!!!!");
+    // console.log("next Page 이동을 위한 클릭!!!!");
     if (selectDrinkInfo.drinkId === -1) {
       event.preventDefault();
       alert("음료를 선택해 주세요🙏");
@@ -169,8 +170,7 @@ function SelectMenuPage(props) {
                   margin: "auto",
                 }}
               >
-                {storeName} | 320m
-                {/* <Button>상세 페이지</Button> */}
+                {storeName} | {distance}m{/* <Button>상세 페이지</Button> */}
               </Typography>
             </Card>
           </Box>
