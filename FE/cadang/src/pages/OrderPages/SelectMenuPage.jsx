@@ -15,6 +15,7 @@ import { todayDate } from "../../recoil/atom/user";
 function SelectMenuPage(props) {
   const date = useRecoilValue(todayDate);
   const [storeName, setStoreName] = useState(props.location.state.cafe);
+  const distance = props.location.state.dist;
 
   useEffect(() => {
     setStoreName(props.location.state.cafe);
@@ -169,8 +170,7 @@ function SelectMenuPage(props) {
                   margin: "auto",
                 }}
               >
-                {storeName} | 320m
-                {/* <Button>상세 페이지</Button> */}
+                {storeName} | {distance}m{/* <Button>상세 페이지</Button> */}
               </Typography>
             </Card>
           </Box>
