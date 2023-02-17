@@ -81,7 +81,7 @@ SSAFY 8기 2학기 공통프로젝트
 
 [erd](https://www.erdcloud.com/d/RMHMvGSh9P6B2hRiX)
 
-![Untitled](img/Untitled%204.png)
+![Untitled](img/ERD_r1.png)
 
 [API 명세서](https://www.notion.so/3-3-API-376a88be5d1244638107329c3f7b9161)
 
