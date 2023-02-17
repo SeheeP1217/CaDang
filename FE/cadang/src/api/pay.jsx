@@ -12,9 +12,16 @@ const api = axios.create({
   },
 });
 
+// 고객 주문 등록
 async function order(item, success, fail) {
   const res = await api.post(`/order`, item).then(success).catch(fail);
   return res;
 }
 
-export { order };
+// 고객 주문 내역 조회
+async function orderList(success, fail) {
+  const res = await api.get(`/order/list`).then(success).catch(fail);
+  return res;
+}
+
+export { order, orderList };

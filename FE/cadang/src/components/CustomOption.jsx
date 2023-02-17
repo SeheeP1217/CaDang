@@ -16,15 +16,16 @@ function CustomOption(props) {
   const optionInfo = props.drinkDetail.optionDtos;
   const orderInfo = props.orderDetail;
 
+  console.log(orderInfo)
   const [cupSize, setCupSize] = useState(0);
   const [isWhiped, setIsWhiped] = useState(defaultInfo[0].whip);
   const [howTasty, setHowTasty] = useState(orderInfo.sugarContent);
   console.log(isWhiped);
 
   useEffect(() => {
-
+    setIsWhiped(defaultInfo[0].whip)
   }, [props])
-  
+
   return (
     <div>
       <Divider>custom</Divider>
@@ -37,12 +38,14 @@ function CustomOption(props) {
             margin: "auto",
             justifyContent: "center",
             alignItems: "center",
+            marginY: 2,
+            marginInlineStart: 2,
           }}
         >
-          <Grid item xs={4}>
+          <Grid item xs={3}>
             사이즈
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={9}>
             <ButtonGroup
               exclusive
               size="small"
@@ -67,10 +70,10 @@ function CustomOption(props) {
               })}
             </ButtonGroup>
           </Grid>
-          <Grid item xs={4} textAlign="center" margin="auto">
+          <Grid item xs={3} textAlign="center" margin="auto">
             샷
           </Grid>
-          <Grid item xs={8} alignItems="center">
+          <Grid item xs={9} alignItems="center">
             <ButtonGroup variant="outlined" size="small">
               <IconButton
                 style={{color: '#3A130C'}}
@@ -93,10 +96,10 @@ function CustomOption(props) {
               </IconButton>
             </ButtonGroup>
           </Grid>
-          <Grid item xs={4} textAlign="center" margin="auto">
+          <Grid item xs={3} textAlign="center" margin="auto">
             휘핑
           </Grid>
-          <Grid item xs={8} alignItems="center">
+          <Grid item xs={9} alignItems="center" style={{marginBottom: 10, marginTop: 10}}>
             {isWhiped === null ? (
               <ButtonGroup size="small">
                 <Button variant="disabled">
@@ -109,7 +112,7 @@ function CustomOption(props) {
             ) : (
               <ButtonGroup variant="outlined" size="small">
                 <Button
-                  style={{color: '#3A130C'}}  
+                  style={{ backgroundColor: isWhiped !== true ? "#ffba00" : "white" }}
                   value={false}
                   variant={isWhiped ? "outlined" : "contained"}
                   onClick={() => {
@@ -120,7 +123,7 @@ function CustomOption(props) {
                   X
                 </Button>
                 <Button
-                  style={{color: '#3A130C'}}
+                  style={{ backgroundColor: isWhiped === true ? "#ffba00" : "white" }}
                   value={true}
                   variant={isWhiped ? "contained" : "outlined"}
                   onClick={() => {
@@ -133,10 +136,11 @@ function CustomOption(props) {
               </ButtonGroup>
             )}
           </Grid>
-          <Grid item xs={4} textAlign="center" margin="auto">
+
+          <Grid item xs={3} textAlign="center" margin="auto">
             당도
           </Grid>
-          <Grid item xs={8} alignItems="center">
+          <Grid item xs={9} alignItems="center">
             <ButtonGroup variant="outlined" size="small">
               <Button
                 variant={howTasty === "LESS" ? "contained" : "outlined"}
@@ -171,10 +175,10 @@ function CustomOption(props) {
               </Button>
             </ButtonGroup>
           </Grid>
-          <Grid item xs={4} textAlign="center" margin="auto">
+          <Grid item xs={3} textAlign="center" margin="auto">
             시럽
           </Grid>
-          <Grid item xs={8} alignItems="center">
+          <Grid item xs={9} alignItems="center">
             <ButtonGroup variant="outlined" size="small">
               <IconButton
                 style={{color: '#3A130C'}}
@@ -197,10 +201,10 @@ function CustomOption(props) {
               </IconButton>
             </ButtonGroup>
           </Grid>
-          <Grid item xs={4} textAlign="center" margin="auto">
+          <Grid item xs={3} textAlign="center" margin="auto" style={{fontSize: 14}}>
             헤이즐넛 시럽
           </Grid>
-          <Grid item xs={8} alignItems="center">
+          <Grid item xs={9} alignItems="center">
             <ButtonGroup variant="outlined" size="small">
               <IconButton
                 style={{color: '#3A130C'}}
@@ -223,10 +227,10 @@ function CustomOption(props) {
               </IconButton>
             </ButtonGroup>
           </Grid>
-          <Grid item xs={4} textAlign="center" margin="auto">
+          <Grid item xs={3} textAlign="center" margin="auto">
             바닐라 시럽
           </Grid>
-          <Grid item xs={8} alignItems="center">
+          <Grid item xs={9} alignItems="center">
             <ButtonGroup variant="outlined" size="small">
               <IconButton
                 style={{color: '#3A130C'}}
@@ -249,10 +253,10 @@ function CustomOption(props) {
               </IconButton>
             </ButtonGroup>
           </Grid>
-          <Grid item xs={4} textAlign="center" margin="auto">
+          <Grid item xs={3} textAlign="center" margin="auto">
             카라멜 시럽
           </Grid>
-          <Grid item xs={8} alignItems="center">
+          <Grid item xs={9} alignItems="center">
             <ButtonGroup variant="outlined" size="small">
               <IconButton
                 style={{color: '#3A130C'}}
