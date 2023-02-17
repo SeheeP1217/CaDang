@@ -1,27 +1,25 @@
-import React, { useState, useEffect, useMemo } from "react"
-import { Link } from "react-router-dom"
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-import { Box, Divider, Grid, Card } from "@mui/material"
-import { Typography, Button } from "@mui/joy"
-import SearchIcon from "@mui/icons-material/Search"
-import MenuListItem from "../../components/util/MenuListItem"
-import FabButton from "../../components/util/FabButton"
+import { Box, Divider, Grid, Card } from "@mui/material";
+import { Typography, Button } from "@mui/joy";
+import SearchIcon from "@mui/icons-material/Search";
+import MenuListItem from "../../components/util/MenuListItem";
+import FabButton from "../../components/util/FabButton";
 
 // 검색바
-import TextField from "@mui/material/TextField"
-import AutocompleteSearchBar from "../../components/util/AutocompleteSearchBar"
-import { searchDrinkMenu } from "../../api/order"
+import TextField from "@mui/material/TextField";
+import AutocompleteSearchBar from "../../components/util/AutocompleteSearchBar";
+import { searchDrinkMenu } from "../../api/order";
 
 function DrinkAddPage() {
-  //console.log(cafeList);
-
   // 검색어 변수 설정
   const [selectedFranchise, setSelectedFranchise] = useState({
     id: 0,
     franchiseName: "",
-  })
-  const [branchOptionInput, setbranchOptionInput] = useState("")
-  const [keywordInput, setkeywordInput] = useState("")
+  });
+  const [branchOptionInput, setbranchOptionInput] = useState("");
+  const [keywordInput, setkeywordInput] = useState("");
 
   const [resultItem, setResultItem] = useState({
     drinkId: -1,
@@ -38,7 +36,7 @@ function DrinkAddPage() {
     franchiseId: -1,
     storeName: "",
     cnt: -1,
-  })
+  });
   const [selectedDrink, setSelectedDrink] = useState({
     drinkId: null,
     drinkName: "",
@@ -54,62 +52,64 @@ function DrinkAddPage() {
     franchiseId: null,
     storeName: null,
     cnt: 0,
-  })
-  const [next, setNext] = useState(false)
+  });
+  const [next, setNext] = useState(false);
 
   // input data 반영
   const getSelectedFranchise = (selectCafe) => {
-    setSelectedFranchise(selectCafe)
-  }
+    setSelectedFranchise(selectCafe);
+  };
 
   const onChangeKeywordInput = (e) => {
-    setkeywordInput(e.target.value)
-  }
+    setkeywordInput(e.target.value);
+  };
 
   const onChangeBranchInput = (e) => {
-    setbranchOptionInput(e.target.value)
-  }
+    setbranchOptionInput(e.target.value);
+  };
 
   const getSearchResult = async () => {
     await searchDrinkMenu(
       selectedFranchise.id,
       keywordInput,
       (res) => {
-        return res.data
+        return res.data;
       },
       (err) => console.log(err)
-    ).then((data) => setResultItem(data))
-  }
+    ).then((data) => setResultItem(data));
+  };
 
   const getSelectedDrink = (selectDrink) => {
-    setSelectedDrink(selectDrink)
-  }
+    setSelectedDrink(selectDrink);
+  };
 
   const finalData = {
     franchiseId: selectedFranchise.id,
     franchiseName: selectedFranchise.franchiseName,
     drink: selectedDrink,
     branch: branchOptionInput,
-  }
+  };
 
-  console.log("*** FinalData : " + selectedDrink.drinkId)
+  console.log("*** FinalData : " + selectedDrink.drinkId);
 
   const nextPage = (event) => {
-    console.log("next Page 이동을 위한 클릭!!!! : " + finalData.drink.drinkId)
+    console.log("next Page 이동을 위한 클릭!!!! : " + finalData.drink.drinkId);
     if (next === false) {
-      event.preventDefault()
-      alert("음료를 선택해 주세요🙏")
+      event.preventDefault();
+      alert("음료를 선택해 주세요🙏");
     }
-  }
+  };
 
   return (
     <div>
       <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
         <Card
           sx={{
-            backgroundColor: "#F9F6F2",
-            paddingY: 0.3,
-            paddingX: 0.4,
+            backgroundColor: "#FFEDDE",
+            paddingY: 2,
+            paddingX: 1,
+            marginTop: 1,
+            border: "2px solid #3a130c",
           }}
         >
           <Typography level="h3" fontSize="xl" fontWeight="xl">
@@ -139,6 +139,7 @@ function DrinkAddPage() {
                 variant="outlined"
                 size="small"
                 onChange={onChangeBranchInput}
+                style={{ fontFamily: "netmarble", fontSize: "16px" }}
               />
             </Grid>
           </Grid>
@@ -183,7 +184,7 @@ function DrinkAddPage() {
         <FabButton />
       </Link>
     </div>
-  )
+  );
 }
 
 const cafeList = [
@@ -198,6 +199,6 @@ const cafeList = [
   { id: 6, franchiseName: "파스쿠찌" },
   { id: 1, franchiseName: "폴바셋" },
   { id: 11, franchiseName: "할리스" },
-]
+];
 
-export default DrinkAddPage
+export default DrinkAddPage;
