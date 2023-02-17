@@ -96,7 +96,6 @@ function PaymentCustomPage(props) {
 
   // 결제창 띄우는 정보 추가 선언
   // const [priceDetail, setPriceDetail] = useState({
-  //   sizePrice: basicDrink.price,
   //   shotPrice: orderDetail.shot * drinkDetail.optionDtos[1].price,
   //   whipPrice: orderDetail.whip * drinkDetail.optionDtos[0].price,
   //   syrupPrice: orderDetail.syrup * drinkDetail.optionDtos[2].price,
@@ -132,8 +131,8 @@ function PaymentCustomPage(props) {
 
   // priceDetail 업데이트
   // useEffect(() => {
-  //   setPriceDetail({
-  //   ...priceDetail,
+  //   setOrderDetail({
+  //     ...orderDetail,
   //   shotPrice: orderDetail.shot * drinkDetail.optionDtos[1].price,
   //   whipPrice: orderDetail.whip * drinkDetail.optionDtos[0].price,
   //   syrupPrice: orderDetail.syrup * drinkDetail.optionDtos[2].price,
