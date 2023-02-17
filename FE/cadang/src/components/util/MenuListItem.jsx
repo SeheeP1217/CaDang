@@ -43,7 +43,8 @@ function MenuListItem(props) {
         <img
           src={question}
           alt={question}
-          style={{ maxWidth: "300px", textAlign: "center" }}
+          // style={{ maxWidth: "300px", textAlign: "center" }}
+          style={{ width: "50%", textAlign: "center", marginLeft: 60, marginTop: 140 }}
         />
         <Typography
           style={{

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { Paper } from "@mui/material";
+import { Card, Paper } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { Link, useHistory } from "react-router-dom";
 
@@ -54,7 +54,7 @@ function ReviewListItem(props) {
     return (<div>아직 기록이 없어요:(</div>)
   }
   return (
-    <Paper elevation={1} sx={{ backgroundColor: "#fafafa", margin: "3px" }}>
+    <Card elevation={1} sx={{ backgroundColor: "#fafafa", margin: "3px" }}>
       {reviewDatas.map((review) => {
         //console.log(review)
         return (
@@ -102,7 +102,7 @@ function ReviewListItem(props) {
           </Grid>
         );
       })}
-    </Paper>
+    </Card>
   );
 }
 

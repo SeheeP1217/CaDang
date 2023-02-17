@@ -36,7 +36,7 @@ function WeeklyReportChart(props) {
             <XAxis dataKey="date" tickFormatter={date => dayjs(date).format("MM/DD")}/>
             <YAxis width={5}/>
             <Tooltip />
-            <Bar dataKey={props.option} fill="#8EA7E9" />
+            <Bar dataKey={props.option} fill="#FFBA00" />
           </BarChart>
         </ResponsiveContainer>
       </Grid>
