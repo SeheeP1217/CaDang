@@ -8,6 +8,10 @@ import { Card, Paper } from "@mui/material"
 import IconButton from "@mui/material/IconButton"
 import { Link, useHistory } from "react-router-dom"
 
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined"
+import DeleteIcon from "@mui/icons-material/Delete"
+import { deleteReview } from "../api/report"
+
 const Img = styled("img")({
   margin: "auto",
   display: "block",
@@ -15,12 +19,12 @@ const Img = styled("img")({
 })
 
 function ReviewListItem(props) {
-  const history = useHistory();
+  const history = useHistory()
   const onModifyClickHandler = (event) => {
     // console.log(event.target.parentElement.parentElement.id);
-    props.onClick(event.target.parentElement.parentElement.id);
+    props.onClick(event.target.parentElement.parentElement.id)
     // console.log(props.selectIndex);
-  };
+  }
 
   useEffect(() => {
     console.log(props.selectIndex)
@@ -35,88 +39,75 @@ function ReviewListItem(props) {
       await deleteReview(
         reviewId,
         (res) => {
-          console.log(res);
-          return res;
+          console.log(res)
+          return res
         },
         (err) => console.log(err)
       )
         .then((response) => {
           if (response.status === 200) {
-            history.push("/mypage");
+            history.push("/mypage")
           }
         })
         .catch(function (err) {
-          console.log(err);
-        });
+          console.log(err)
+        })
     }
-  };
-  console.log(props.reviews);
-  const reviewDatas = props.reviews.recordList;
+  }
+  console.log(props.reviews)
+  const reviewDatas = props.reviews.recordList
   if (!reviewDatas || !reviewDatas.length) {
-    return <div>아직 기록이 없어요:(</div>;
+    return <div>아직 기록이 없어요:(</div>
   }
   return (
     <Card elevation={1} sx={{ backgroundColor: "#fafafa", margin: "3px" }}>
       {reviewDatas.map((review) => {
         //console.log(review)
         return (
-          <Card sx={{ marginBottom: "3px" }}>
-            <Grid container spacing={2} key={review.id}>
-              <Grid item xs={2} margin="auto">
-                <Img
-                  id={review.id}
-                  alt="drink"
-                  src={review.photo}
-                  sx={{
-                    width: "90%",
-                    backgroundColor: "#fafafa",
-                    marginLeft: "7px",
-                  }}
-                />
-              </Grid>
-              <Grid item xs={10} sm container margin="auto">
-                <Grid item xs container spacing={2}>
-                  <Grid item xs style={{ marginTop: "5px" }}>
-                    <Typography variant="subtitle1" component="div">
-                      {review.drinkName}
-                    </Typography>
-                    <Typography variant="body2">
-                      {review.caffeine} / {review.sugar} / {review.cal} /
-                      {review.price}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {review.memo}
-                    </Typography>
-                  </Grid>
+          <Grid container spacing={2} key={review.id}>
+            <Grid item xs={2} margin="auto">
+              <Img
+                id={review.id}
+                alt="drink"
+                src={review.photo}
+                sx={{ width: "90%", backgroundColor: "#fafafa" }}
+              />
+            </Grid>
+            <Grid item xs={10} sm container margin="auto">
+              <Grid item xs container spacing={2}>
+                <Grid item xs>
+                  <Typography variant="subtitle1" component="div">
+                    {review.drinkName}
+                  </Typography>
+                  <Typography variant="body2">
+                    {review.caffeine} / {review.sugar} / {review.cal} /
+                    {review.price}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {review.memo}
+                  </Typography>
                 </Grid>
-                <Grid>
-                  <Grid
-                    justifyContent="space-between"
-                    alignItems="center"
-                    style={{ marginRight: "5px" }}
+              </Grid>
+              <Grid>
+                <Grid justifyContent="space-between" alignItems="center">
+                  <Typography variant="subtitle1">
+                    {dayjs(review.regDate).format("YY/MM/DD")}
+                  </Typography>
+                  {/* <Link to={{ pathname: `/review/${review.id}`, state:{review} }}> */}
+                  <Link
+                    to={{ pathname: `/review/${review.id}`, state: { review } }}
                   >
-                    <Typography variant="subtitle1">
-                      {dayjs(review.regDate).format("YY/MM/DD")}
-                    </Typography>
-                    {/* <Link to={{ pathname: `/review/${review.id}`, state:{review} }}> */}
-                    <Link
-                      to={{
-                        pathname: `/review/${review.id}`,
-                        state: { review },
-                      }}
-                    >
-                      <IconButton style={{ padding: 0 }}>
-                        <EditOutlinedIcon />
-                      </IconButton>
-                    </Link>
-                    <IconButton onClick={() => deleteReviewRecord(review.id)}>
-                      <DeleteIcon />
+                    <IconButton style={{ padding: 0 }}>
+                      <EditOutlinedIcon />
                     </IconButton>
-                  </Grid>
+                  </Link>
+                  <IconButton onClick={() => deleteReviewRecord(review.id)}>
+                    <DeleteIcon />
+                  </IconButton>
                 </Grid>
               </Grid>
             </Grid>
-          </Card>
+          </Grid>
         )
       })}
     </Card>
