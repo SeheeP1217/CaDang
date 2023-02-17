@@ -29,8 +29,8 @@ SSAFY 8기 2학기 공통프로젝트
 ### 💰 주문
 
 **주문 및 결제**
-| ![Untitled](img/Untitled.png) | ![Untitled](img/Untitled%201.png)|
-| -- | -- |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![Untitled](img/Untitled.png) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![Untitled](img/Untitled%201.png)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| ![d](img/%EC%A3%BC%EB%AC%B8%EC%BB%A4%EC%8A%A4%ED%85%80.png)|
+| -- | -- | --|
 
 - 자신의 주변에 있는 카페 목록을 받아서 음료를 선택하고 주문할 수 있어요. 주문하면서 음료 영양성분을 확인하고, 선택한 음료를 마셨을 때 섭취 변화량을 확인할 수 있어요.
 
@@ -43,7 +43,7 @@ SSAFY 8기 2학기 공통프로젝트
 - 내가 따로 데이터를 기록하지 않아도 주문하면 바로 기록에 추가돼요.
 
 ### 👍 기록 및 추천
-| ![Snipaste_2023-02-17_00-10-11.png](img/Snipaste_2023-02-17_00-10-11.png) | ![Snipaste_2023-02-17_00-11-39.png](img/Snipaste_2023-02-17_00-11-39.png) | ![Snipaste_2023-02-17_00-48-15.png](img/Snipaste_2023-02-17_00-48-15.png) |
+| &nbsp;&nbsp;&nbsp;![Snipaste_2023-02-17_00-10-11.png](img/Snipaste_2023-02-17_00-10-11.png)&nbsp;&nbsp;&nbsp; | ![Snipaste_2023-02-17_00-11-39.png](img/Snipaste_2023-02-17_00-11-39.png) | &nbsp;&nbsp;&nbsp;![Snipaste_2023-02-17_00-48-15.png](img/Snipaste_2023-02-17_00-48-15.png)&nbsp;&nbsp;&nbsp; |
 | -- | -- | -- |
 
 - 우리 서비스를 이용해서 주문하지 않았어도 나중에 카페를 검색해서 음료를 선택하고 기록에 추가할 수 있어요.
