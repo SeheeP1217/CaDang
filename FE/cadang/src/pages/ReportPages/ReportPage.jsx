@@ -80,12 +80,14 @@ function ReportPage() {
             // to="/weekly-report"
             label="주간리포트"
             {...a11yProps(0)}
+            style={{ fontFamily: "netmarble", color: "black" }}
           />
           <Tab
             // component={Link}
             // to="/month-report"
             label="월간리포트"
             {...a11yProps(1)}
+            style={{ fontFamily: "netmarble", color: "black" }}
           />
         </Tabs>
       </Box>
