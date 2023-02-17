@@ -50,13 +50,13 @@ export default function CategorySearch() {
   //   checkCafe();
   // };
 
-  const onCheckCafe = (cafe) => {
+  const onCheckCafe = (cafe, dist) => {
     const cafeWords = cafe.split(" ");
     const firstWord = cafeWords[0];
     const isCafeInList = cafeList.some((item) => item.franchiseName.includes(firstWord));
     console.log(firstWord);
     if (isCafeInList) {
-      history.push({ pathname: "/selectmenu", state: { cafe } });
+      history.push({ pathname: "/selectmenu", state: { cafe, dist } });
     } else {
       alert("아직 제휴 카페가 아닙니다:(");
     }
@@ -65,8 +65,6 @@ export default function CategorySearch() {
   // const [location, setLocation] = useState();
 
   useEffect(() => {
-    console.log("***");
-
     let placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 }),
       contentNode = document.createElement("div"), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
       markers = [], // 마커를 담을 배열입니다
@@ -265,7 +263,7 @@ export default function CategorySearch() {
       if (status === kakao.maps.services.Status.OK) {
         // 정상적으로 검색이 완료됐으면 지도에 마커를 표출합니다
         // console.log(pagination.current);
-        console.log(data);
+        // console.log(data);
         // setList({...list, data});
         // getData(data);
         displayPlaces(data);
@@ -430,12 +428,12 @@ export default function CategorySearch() {
   }, []);
 
   useEffect(() => {
-    console.log("====== list 변수 : ======");
+    // console.log("====== list 변수 : ======");
     // console.log(list[0]);
 
     const cafeNames = list.map((element, idx) => {
-      console.log("cafe name: " + idx + " : " + element.place_name);
-      console.log("cafe address: " + element.address_name);
+      // console.log("cafe name: " + idx + " : " + element.place_name);
+      // console.log("cafe address: " + element.address_name);
     });
   }, [list]);
 
@@ -499,7 +497,7 @@ export default function CategorySearch() {
                 ? list.map((element, i) => (
                     <Item
                       sx={{ padding: 1.5 }}
-                      onMouseDown={() => onCheckCafe(element.place_name)}
+                      onMouseDown={() => onCheckCafe(element.place_name, element.distance)}
                       // component={Link}
                       // to="/selectmenu"
                       textdecoration="none"
