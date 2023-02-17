@@ -254,10 +254,11 @@ function DrinkRecommendation() {
             display: "flex",
             justifyContent: "flex-end",
             textAlign: "center",
+            fontFamily: 'netmarble',
           }}
         >
           <Link to={{ pathname: `/payment/custom`, state: { drinkItem } }}>
-            <Button size="small">주문하러 가기</Button>
+            <Button size="small" style={{textDecoration: 'none', fontStyle: 'netmarble'}}>주문하러 가기</Button>
           </Link>
         </Grid>
       </Card>
