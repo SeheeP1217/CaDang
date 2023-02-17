@@ -72,9 +72,6 @@ public class UserAuthController {
         logger.info("modify - 호출 {} ");
         logger.info(" 요청 시간 - {}", LocalDateTime.now());
 
-        System.out.println(userModifyDto.getCaffeGoal());
-        System.out.println(userModifyDto.getSugarGoal());
-        System.out.println(userModifyDto.getNickname());
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();

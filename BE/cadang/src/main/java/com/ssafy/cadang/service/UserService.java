@@ -188,7 +188,6 @@ public class UserService {
         Pattern pattern = Pattern.compile("^(?=.*[a-zA-Z])(?=.*[0-9]).{8,20}$");
         Matcher matcher = pattern.matcher(password);
 
-        System.out.println(password);
         if (!matcher.matches()) throw new CustomException(ExceptionEnum.PASSWORD_NOT_VALID);
 
 
