@@ -60,7 +60,7 @@ SSAFY 8기 2학기 공통프로젝트
 
 
 
-| ![Snipaste_2023-02-17_00-15-02.png](img/Snipaste_2023-02-17_00-15-02.png) | ![Snipaste_2023-02-17_00-15-36.png](img/Snipaste_2023-02-17_00-15-36.png) |
+| ![Snipaste_2023-02-17_00-15-02.png](img/%EB%A6%AC%ED%8F%AC%ED%8A%B8-%EC%A3%BC%EA%B0%84.png) | ![Snipaste_2023-02-17_00-15-36.png](img/%EC%9B%94%EA%B0%84%20%EB%A6%AC%ED%8F%AC%ED%8A%B8.png) |
 | -- | -- |
 
 - 매일 카페인과 당 섭취 목표량을 설정할 수 있어요.
