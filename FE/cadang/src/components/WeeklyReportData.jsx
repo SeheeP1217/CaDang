@@ -150,21 +150,22 @@ function WeeklyReportData(props) {
   }
 
   return (
-    <Paper>
+    <Paper style={{ borderRadius: "10px" }}>
       <Tabs
         value={value}
         onChange={handleChange}
         aria-label="full width tabs example"
         variant="fullWidth"
       >
-        {/* 이미지 크기 제한 어케 하징......... */}
         <Tab
+          style={{ fontFamily: "netmarble", color: "black" }}
           icon={<img width="15%" src={coffeebean} alt="coffeebean" />}
           iconPosition="start"
           label="카페인"
           {...a11yProps(0)}
         />
         <Tab
+          style={{ fontFamily: "netmarble", color: "black" }}
           icon={<img width="15%" src={sugar} alt="sugar" />}
           iconPosition="start"
           label="당"
@@ -190,10 +191,20 @@ function WeeklyReportData(props) {
         <TitleCard>
           <Grid container spacing={1}>
             <Grid item xs={6}>
-              <Typography>오늘 섭취량</Typography>
+              <Typography style={{ fontFamily: "netmarble" }}>
+                오늘 섭취량
+              </Typography>
             </Grid>
             <Grid item xs={6}>
-              <Typography style={{ textAlign: "center" }}>
+              {" "}
+              <Typography
+                style={{
+                  textAlign: "center",
+                  fontFamily: "netmarble",
+                  fontSize: "14px",
+                  marginRight: "5px",
+                }}
+              >
                 {<img width="15%" src={coffeebean} alt="coffeebean" />}{" "}
                 {weeklyData.todayCaffe}
                 mg{"   "}
@@ -204,7 +215,14 @@ function WeeklyReportData(props) {
           </Grid>
         </TitleCard>
 
-        <Box variant="outlined" style={{ backgroundColor: "#FFF2F2" }}>
+        <Box
+          variant="outlined"
+          style={{
+            backgroundColor: "#FFF2F2",
+            padding: "5px",
+            borderRadius: "5px",
+          }}
+        >
           <Typography varient="body1">
             <div>지난주 같은 요일보다 카페인 섭취량이</div>
 
@@ -225,10 +243,19 @@ function WeeklyReportData(props) {
         <TitleCard>
           <Grid container spacing={1}>
             <Grid item xs={6}>
-              <Typography>이번주 섭취량</Typography>
+              <Typography style={{ fontFamily: "netmarble" }}>
+                이번주 섭취량
+              </Typography>
             </Grid>
             <Grid item xs={6}>
-              <Typography style={{ textAlign: "center" }}>
+              <Typography
+                style={{
+                  textAlign: "center",
+                  fontFamily: "netmarble",
+                  fontSize: "14px",
+                  marginRight: "5px",
+                }}
+              >
                 {<img width="15%" src={coffeebean} alt="coffeebean" />}{" "}
                 {weeklyData.thisWeekCaffe}mg{" "}
                 {<img width="15%" src={sugar} alt="sugar" />}{" "}
@@ -238,7 +265,14 @@ function WeeklyReportData(props) {
           </Grid>
         </TitleCard>
 
-        <Paper variant="outlined" style={{ backgroundColor: "#FFF2F2" }}>
+        <Paper
+          variant="outlined"
+          style={{
+            backgroundColor: "#FFF2F2",
+            padding: "5px",
+            borderRadius: "5px",
+          }}
+        >
           <Typography varient="body1">
             <div>지난주 대비 카페인 섭취량이</div>
             <div>
