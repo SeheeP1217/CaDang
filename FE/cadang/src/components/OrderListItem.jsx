@@ -51,7 +51,7 @@ export default function OrderListItem(props) {
         "음료 제조가 완료됐습니다."
       );
       setAccept(false);
-      console.log("send to server : 음료 제조가 완료됐습니다. msg 전송." + id);
+      // console.log("send to server : 음료 제조가 완료됐습니다. msg 전송." + id);
     }
   };
 
@@ -65,7 +65,7 @@ export default function OrderListItem(props) {
       // setAccept(false);
       setComplete(false);
       // setPickup(false);
-      console.log("send to server : 음료가 픽업 완료됐습니다. msg 전송." + id);
+      // console.log("send to server : 음료가 픽업 완료됐습니다. msg 전송." + id);
 
       // 음료를 손님이 픽업 완료해갔다면 음료 리스트에서 삭제하기
       props.onRemove(props.id);
@@ -76,7 +76,7 @@ export default function OrderListItem(props) {
 
   // 카페가 주문 현황 상태를 "제조 완료"버튼을 눌렀을 경우
   const onClickComplete = () => {
-    console.log("제조 완료 버튼 클릭 !!!!!!!!!");
+    // console.log("제조 완료 버튼 클릭 !!!!!!!!!");
     setAccept(false);
     setComplete(true);
 
@@ -88,7 +88,7 @@ export default function OrderListItem(props) {
           orderItem.orderId,
           "COMPLETE",
           (res) => {
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
           },
           (err) => console.log(err)
@@ -97,14 +97,14 @@ export default function OrderListItem(props) {
 
       putOrder();
 
-      console.log("putOrder() 후 : 서버로부터 받아온 customerId => " + id);
+      // console.log("putOrder() 후 : 서버로부터 받아온 customerId => " + id);
     } else {
     }
   };
 
   // 카페가 주문 현황 상태를 "픽업 완료" 버튼을 눌렀을 경우
   const onClickPickUp = () => {
-    console.log("픽업 완료 버튼 클릭!!!!!!!!!!!!!!");
+    // console.log("픽업 완료 버튼 클릭!!!!!!!!!!!!!!");
     setComplete(false);
     setTimeout(() => (pickupBtn.current.style.backgroundColor = "#FF9E57"), 10);
     // setPickup(true);
@@ -117,7 +117,7 @@ export default function OrderListItem(props) {
           orderItem.orderId,
           "PICKUP",
           (res) => {
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
           },
           (err) => console.log(err)
@@ -135,11 +135,11 @@ export default function OrderListItem(props) {
     else if (props.order.orderStatus === "COMPLETE") setComplete(true);
     // else if (props.order.orderStatus === "PICKUP") setPickup(true);
 
-    console.log(props.order.orderStatus);
+    // console.log(props.order.orderStatus);
   }, []);
 
   useEffect(() => {
-    console.log("변경된 orderStatus : " + status);
+    // console.log("변경된 orderStatus : " + status);
 
     if (status === "COMPLETE") {
       setTimeout(() => handleClickSendToComplete(), 500);
@@ -150,16 +150,16 @@ export default function OrderListItem(props) {
   }, [status]);
 
   useEffect(() => {
-    console.log("변경된 Id : " + id);
+    // console.log("변경된 Id : " + id);
     setCustomerId(id);
 
     if (status === "COMPLETE") {
-      console.log("현재 주문 현황 COMPLETE인 경우 accept 상태: " + accept);
+      // console.log("현재 주문 현황 COMPLETE인 경우 accept 상태: " + accept);
       setTimeout(() => setAccept(false), 10);
       setTimeout(() => handleClickSendToComplete(), 500);
       // setCustomerId();
     } else if (status === "PICKUP") {
-      console.log("현재 주문 현황 PICKUP인 경우 complete 상태: " + complete);
+      // console.log("현재 주문 현황 PICKUP인 경우 complete 상태: " + complete);
       // setPickup(false);
       setTimeout(() => setComplete(false), 10);
       setTimeout(() => handleClickSendToPickup(), 500);

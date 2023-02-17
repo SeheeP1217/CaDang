@@ -13,7 +13,7 @@ export default function NewOrderListItem(props) {
   // const [userId, setUserId] = useState(0);
 
   const onClickAccept = () => {
-    console.log("수락 버튼 클릭!!!!!!!!!!!!!!!!!!!!!!!");
+    // console.log("수락 버튼 클릭!!!!!!!!!!!!!!!!!!!!!!!");
     // if (window.confirm(`${props.id + 1}번째 주문을 수락하시겠습니까?`))
     if (window.confirm(`${props.id + 1}번째 주문을 수락하시겠습니까?`)) {
       setStatus((accept) => "accept");
@@ -23,7 +23,7 @@ export default function NewOrderListItem(props) {
           drinkItem.orderId,
           "ACCEPT",
           (res) => {
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
           },
           (err) => console.log(err)
@@ -35,13 +35,13 @@ export default function NewOrderListItem(props) {
 
       putOrder();
 
-      console.log("현재 주문 상태 : " + status);
+      // console.log("현재 주문 상태 : " + status);
 
       if (status === "accept") {
-        console.log("userId 값이 바뀌었을 때 작동하는 useEffect() : " + status);
+        // console.log("userId 값이 바뀌었을 때 작동하는 useEffect() : " + status);
         // setTimeout(() => handleClickSendToAccept(), 30);
       } else if (status === "cancel") {
-        console.log("userId 값이 바뀌었을 때 작동하는 useEffect() : " + status);
+        // console.log("userId 값이 바뀌었을 때 작동하는 useEffect() : " + status);
         // setTimeout(() => handleClickSendToCancel(), 30);
       }
 
@@ -51,7 +51,7 @@ export default function NewOrderListItem(props) {
   };
 
   const onClickCancel = () => {
-    console.log("거절 버튼 클릭!!!!!!!!!!!!!!!!!!!!");
+    // console.log("거절 버튼 클릭!!!!!!!!!!!!!!!!!!!!");
 
     if (window.confirm(`${props.id + 1}번째 주문을 거절하시겠습니까?`)) {
       setStatus((accept) => "cancel");
@@ -61,7 +61,7 @@ export default function NewOrderListItem(props) {
           drinkItem.orderId,
           "CANCEL",
           (res) => {
-            console.log(res.data);
+            // console.log(res.data);
             return res.data;
           },
           (err) => console.log(err)
@@ -74,13 +74,13 @@ export default function NewOrderListItem(props) {
       putOrder();
 
       // console.log("서버로부터 받아온 userId : " + userId);
-      console.log("현재 주문 상태 : " + status);
+      // console.log("현재 주문 상태 : " + status);
 
       if (status === "accept") {
-        console.log("userId 값이 바뀌었을 때 작동하는 useEffect() : " + status);
+        // console.log("userId 값이 바뀌었을 때 작동하는 useEffect() : " + status);
         // setTimeout(() => handleClickSendToAccept(), 30);
       } else if (status === "cancel") {
-        console.log("userId 값이 바뀌었을 때 작동하는 useEffect() : " + status);
+        // console.log("userId 값이 바뀌었을 때 작동하는 useEffect() : " + status);
         // setTimeout(() => handleClickSendToCancel(), 30);
       }
 
@@ -106,12 +106,12 @@ export default function NewOrderListItem(props) {
   // }, [userId]);
 
   useEffect(() => {
-    console.log("status 상태 바뀐건가아ㅏㅇ아ㅏ아앙?");
+    // console.log("status 상태 바뀐건가아ㅏㅇ아ㅏ아앙?");
     if (status === "accept") {
-      console.log(status);
+      // console.log(status);
       // setTimeout(() => handleClickSendToAccept(), 50);
     } else if (status === "cancel") {
-      console.log(status);
+      // console.log(status);
       // setTimeout(() => handleClickSendToCancel(), 50);
     }
   }, [status]);

@@ -19,11 +19,11 @@ export default function PaymentPage() {
   const drinkItem = location.state.drinkItem;
   const storeId = location.state.drinkDetail.storeId;
 
-  console.log("storeId : " + storeId);
-  console.log("orderDetail-syrup : " + orderDetail.syrup);
-  console.log("orderDetail-vanilla : " + orderDetail.vanilla);
-  console.log("orderDetail-hazelnut : " + orderDetail.hazelnut);
-  console.log("orderDetail-caramel : " + orderDetail.caramel);
+  // console.log("storeId : " + storeId);
+  // console.log("orderDetail-syrup : " + orderDetail.syrup);
+  // console.log("orderDetail-vanilla : " + orderDetail.vanilla);
+  // console.log("orderDetail-hazelnut : " + orderDetail.hazelnut);
+  // console.log("orderDetail-caramel : " + orderDetail.caramel);
 
   const kakaoPayDiv = useRef();
   const Item = styled(Paper)(({ theme }) => ({
@@ -56,8 +56,8 @@ export default function PaymentPage() {
     await order(
       item,
       (res) => {
-        console.log("=======!!!!!!!!!!!!!!=========");
-        console.log(res.data);
+        // console.log("=======!!!!!!!!!!!!!!=========");
+        // console.log(res.data);
         return res.data;
       },
       (err) => console.log(err)
@@ -66,7 +66,7 @@ export default function PaymentPage() {
 
   const [drinkAtom, setDrinkAtom] = useRecoilState(orderItem);
   setDrinkAtom(orderDetail);
-  console.log("drinkAtom !!!!!!!!! : " + drinkAtom.sugarContent);
+  // console.log("drinkAtom !!!!!!!!! : " + drinkAtom.sugarContent);
   const [payItem, setPayItem] = useState({
     // 응답에서 가져올 값들
     next_redirect_pc_url: "",
@@ -93,9 +93,9 @@ export default function PaymentPage() {
   // }, []);
 
   const onClickKakaopay = (event) => {
-    console.log("카카오페이 결제하러 가기!!!!!!!!!!!!");
+    // console.log("카카오페이 결제하러 가기!!!!!!!!!!!!");
     const { params } = payItem;
-    console.log(params);
+    // console.log(params);
 
     const url = "";
     if (btnActive === false) {
@@ -114,14 +114,14 @@ export default function PaymentPage() {
         // 설정한 매개변수들
         params,
       }).then((response) => {
-        console.log(response);
-        console.log(response.data.next_redirect_pc_url);
+        // console.log(response);
+        // console.log(response.data.next_redirect_pc_url);
 
         if (response.status == 200) {
           orderRegist();
           // 결제가 가능하다면 결제 페이지로 새로운 창 뜨게 함
           // <Link to="response.data.next_redirect_pc_url" />;
-          console.log("orderDetail ==> " + orderDetail.drinkId);
+          // console.log("orderDetail ==> " + orderDetail.drinkId);
           window.open(response.data.next_redirect_mobile_url);
         } else if (response.status == 404) {
           // 404 에러라면
@@ -152,7 +152,7 @@ export default function PaymentPage() {
       });
     }
 
-    console.log(btnActive);
+    // console.log(btnActive);
   };
 
   return (
