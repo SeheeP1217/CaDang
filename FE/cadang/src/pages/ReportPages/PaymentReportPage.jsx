@@ -13,7 +13,7 @@ export default function PaymentReportPage() {
     const getOrderList = async () => {
       await orderList(
         (res) => {
-          console.log(res.data);
+          // console.log(res.data);
           return res.data;
         },
         (err) => console.log(err)

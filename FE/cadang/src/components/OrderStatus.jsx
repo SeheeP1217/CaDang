@@ -27,13 +27,13 @@ export default function OrderStatus(props) {
   const [data, setData] = useState([]);
   const [drink, setDrink] = useState([]);
   const userId = props.userId;
-  console.log("OrderStatus 컴포넌트 안에서 props로 받아온 userId : " + userId);
+  // console.log("OrderStatus 컴포넌트 안에서 props로 받아온 userId : " + userId);
   const [msg, setMsg] = useState(""); // 웹소켓 통신으로 받아온 msg
 
   const getOrderStatus = async () => {
     await nowOrderStatus(
       (res) => {
-        console.log(res.data);
+        // console.log(res.data);
         return res.data;
       },
       (err) => console.log(err)
@@ -50,21 +50,21 @@ export default function OrderStatus(props) {
 
   useEffect(() => {
     data.map((item, key) => {
-      console.log("현재 주문 현황 통신 후 받아온 데이터 : " + item.drinkName);
+      // console.log("현재 주문 현황 통신 후 받아온 데이터 : " + item.drinkName);
     });
     setDrink(data);
   }, [data]);
 
   useEffect(() => {
     if (msg === "주문이 수락 혹은 거절됐습니다.") {
-      console.log(msg);
+      // console.log(msg);
       getOrderStatus();
-      console.log("drink의 크기 : " + drink.length);
+      // console.log("drink의 크기 : " + drink.length);
     } else if (msg === "음료 제조가 완료됐습니다.") {
-      console.log(msg);
+      // console.log(msg);
       getOrderStatus();
     } else if (msg === "음료가 픽업 완료됐습니다.") {
-      console.log(msg);
+      // console.log(msg);
       getOrderStatus();
     }
   }, [msg]);

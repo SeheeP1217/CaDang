@@ -5,17 +5,11 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 
-
 export default function PaymentCustomDrinkMenuItem(props) {
-  console.log(props.data)
+  // console.log(props.data)
   return (
     <Card sx={{ display: "flex", marginBottom: 1 }}>
-      <CardMedia
-        component="img"
-        sx={{ width: 110 }}
-        image={props.data.img}
-        alt="Live from space album cover"
-      />
+      <CardMedia component="img" sx={{ width: 110 }} image={props.data.img} alt="img" />
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent sx={{ flex: "1 0 auto" }}>
           <Typography variant="" component="div" sx={{ fontWeight: "700" }}>

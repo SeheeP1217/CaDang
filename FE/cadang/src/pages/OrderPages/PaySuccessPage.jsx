@@ -20,7 +20,7 @@ export default function PaySuccessPage() {
   const [drinkAtom, setDrinkAtom] = useRecoilState(orderItem);
   const [storeId, setStoreId] = useState(drinkAtom.storeId);
   const $websocket = useRef();
-  console.log("drinkId : " + drinkAtom.drinkId);
+  // console.log("drinkId : " + drinkAtom.drinkId);
   // console.log("drinkId : " + drinkAtom.storeId);
   // const handleMsg = (msg) => {
   //   console.log(msg);
@@ -28,7 +28,7 @@ export default function PaySuccessPage() {
 
   const handleClickSendTo = () => {
     $websocket.current.sendMessage("/message/order-request/" + 1 + "", "주문이 들어왔습니다.");
-    console.log("send to server");
+    // console.log("send to server");
     // console.log("drinkId : " + drinkAtom.drinkId);
   };
 
@@ -59,7 +59,7 @@ export default function PaySuccessPage() {
         }}
         // topics={["/topic/request-complete/", "/topics/template", "/topics/api"]}
         onMessage={(msg) => {
-          console.log(msg);
+          // console.log(msg);
         }}
         ref={$websocket}
       />
