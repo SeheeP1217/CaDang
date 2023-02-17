@@ -15,7 +15,7 @@ export default function NewOrderList() {
   const [drinks, setDrinks] = useState([]);
   const [userId, setUserId] = useState(0);
 
-  console.log("NewOrderList !!!!!!!!!!!!! " + drinks);
+  // console.log("NewOrderList !!!!!!!!!!!!! " + drinks);
   // if (!Array.isArray(props)) {
   //   console.log(props + " !!!!!!!null??????");
   //   return null;
@@ -27,7 +27,7 @@ export default function NewOrderList() {
         "/message/order-response/" + userId + "",
         "주문이 수락 혹은 거절됐습니다."
       );
-      console.log("send to server : 주문이 수락 혹은 거절됐습니다.");
+      // console.log("send to server : 주문이 수락 혹은 거절됐습니다.");
     }
   };
 
@@ -50,7 +50,7 @@ export default function NewOrderList() {
   const getOrder = async () => {
     await newOrderCheck(
       (res) => {
-        console.log(res.data);
+        // console.log(res.data);
         return res.data;
       },
       (err) => console.log(err)
@@ -70,7 +70,7 @@ export default function NewOrderList() {
   }, [data]);
 
   useEffect(() => {
-    console.log(msg);
+    // console.log(msg);
     // setDrink((drink) => {
     //   console.log("새로 들어오기 이전 데이터 :", drink);
     //   return [data, ...drink];
@@ -80,7 +80,7 @@ export default function NewOrderList() {
     const getOrder2 = async () => {
       await newOrderCheck(
         (res) => {
-          console.log(res.data);
+          // console.log(res.data);
           return res.data;
         },
         (err) => console.log(err)
@@ -90,7 +90,7 @@ export default function NewOrderList() {
     };
     getOrder2();
     setMsg("");
-    console.log(drinks + "=====");
+    // console.log(drinks + "=====");
   }, [msg]);
 
   useEffect(() => {
@@ -98,7 +98,7 @@ export default function NewOrderList() {
   }, [data]);
 
   useEffect(() => {
-    console.log("하위 컴포넌트에서 set한 userId : " + userId);
+    // console.log("하위 컴포넌트에서 set한 userId : " + userId);
 
     // 웹소켓 통신하기 !!!!!!!!!
     setTimeout(() => handleClickSendToMsg(), 30);

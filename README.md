@@ -3,7 +3,7 @@
 
 ![제목 없음-1.png](img/%25EC%25A0%259C%25EB%25AA%25A9_%25EC%2597%2586%25EC%259D%258C-1.png)
 
-[drinkornot.kr](http://drinkornot.kr) 
+## 링크(모바일) : [drinkornot.kr](http://drinkornot.kr) 
 
 ## 프로젝트 진행 기간
 

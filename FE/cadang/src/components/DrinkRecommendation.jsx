@@ -28,7 +28,7 @@ function DrinkRecommendation() {
     whip: null,
     storeName: "",
   });
-  console.log(drinkItem);
+  // console.log(drinkItem);
   const [drinkList, setDrinkList] = useState({
     drink: [
       {
@@ -60,7 +60,7 @@ function DrinkRecommendation() {
   };
 
   const onChange = (event) => {
-    console.log("위치 업데이트!!!!!!!");
+    // console.log("위치 업데이트!!!!!!!");
 
     // Get the user's current location
     //     navigator.geolocation.getCurrentPosition(position => {
@@ -159,7 +159,7 @@ function DrinkRecommendation() {
       const temp = list[0];
 
       if (temp !== undefined) {
-        temp.map((element, i) => console.log(temp[i].place_name));
+        // temp.map((element, i) => console.log(temp[i].place_name));
       }
       if (temp !== undefined) {
         temp.map((element, i) => container.push(element.place_name));
