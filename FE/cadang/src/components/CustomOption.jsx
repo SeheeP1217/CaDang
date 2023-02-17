@@ -68,6 +68,12 @@ function CustomOption(props) {
                     variant={cupSize === index ? "contained" : "outlined"}
                     style={{
                       backgroundColor: cupSize === index ? "#ffba00" : "white",
+                      color: cupSize === index ? "white" : "black",
+
+                      borderRadius: "5px",
+                      marginLeft: "3px",
+                      marginRight: "3px",
+                      borderColor: "black",
                     }}
                     key={index}
                     value={size.size}
@@ -151,6 +157,12 @@ function CustomOption(props) {
                 <Button
                   style={{
                     backgroundColor: isWhiped !== true ? "#ffba00" : "white",
+                    color: isWhiped !== true ? "white" : "black",
+
+                    borderRadius: "5px",
+                    marginLeft: "3px",
+                    marginRight: "3px",
+                    borderColor: "black",
                   }}
                   value={false}
                   variant={isWhiped ? "outlined" : "contained"}
@@ -164,6 +176,11 @@ function CustomOption(props) {
                 <Button
                   style={{
                     backgroundColor: isWhiped === true ? "#ffba00" : "white",
+                    color: isWhiped === true ? "white" : "black",
+                    borderRadius: "5px",
+                    marginLeft: "3px",
+                    marginRight: "3px",
+                    borderColor: "black",
                   }}
                   value={true}
                   variant={isWhiped ? "contained" : "outlined"}
@@ -199,6 +216,11 @@ function CustomOption(props) {
                 variant={howTasty === "LESS" ? "contained" : "outlined"}
                 style={{
                   backgroundColor: howTasty === "LESS" ? "#ffba00" : "white",
+                  color: howTasty === "LESS" ? "white" : "black",
+                  borderRadius: "5px",
+                  marginLeft: "3px",
+                  marginRight: "3px",
+                  borderColor: "black",
                 }}
                 onClick={() => {
                   setHowTasty("LESS")
@@ -211,6 +233,11 @@ function CustomOption(props) {
                 variant={howTasty === "BASIC" ? "contained" : "outlined"}
                 style={{
                   backgroundColor: howTasty === "BASIC" ? "#ffba00" : "white",
+                  color: howTasty === "BASIC" ? "white" : "black",
+                  borderRadius: "5px",
+                  marginLeft: "3px",
+                  marginRight: "3px",
+                  borderColor: "black",
                 }}
                 onClick={() => {
                   setHowTasty("BASIC")
@@ -224,6 +251,11 @@ function CustomOption(props) {
                 // style={{ backgroundColor: "#ffba00"}}
                 style={{
                   backgroundColor: howTasty === "MORE" ? "#ffba00" : "white",
+                  color: howTasty === "MORE" ? "white" : "black",
+                  borderRadius: "5px",
+                  marginLeft: "3px",
+                  marginRight: "3px",
+                  borderColor: "black",
                 }}
                 onClick={() => {
                   setHowTasty("MORE")
