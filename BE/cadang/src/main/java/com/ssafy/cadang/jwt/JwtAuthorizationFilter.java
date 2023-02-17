@@ -72,8 +72,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         System.out.println("token: " + token);
 
-        //Todo: 토큰 유효성 검사 만들기
-        // Todo: 권한이 없으면 에러 띄우기
 
         if (validateToken(token)) {
 
