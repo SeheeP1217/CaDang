@@ -182,7 +182,11 @@ function PaymentCustomPage(props) {
         if (orderDetail.whip !== value) {
           // 휘핑의 이런저런 경우 고려한 가격 변동량
           const whipChangePrice =
-          (basicDrink.whip === false || value === true) ? 500 : (basicDrink.whip === false) || value === false ? -500 : 0;
+            basicDrink.whip === false || value === true
+              ? 500
+              : basicDrink.whip === false || value === false
+              ? -500
+              : 0;
           setOrderDetail({
             ...orderDetail,
             whip: value,
@@ -201,7 +205,7 @@ function PaymentCustomPage(props) {
             //  ? orderDetail["price"] + value * updateOption.price
             //  : Math.max(orderDetail["price"] - updateOption.price, 0),
 
-            price: Math.max(orderDetail["price"] + whipChangePrice, 0)
+            price: Math.max(orderDetail["price"] + whipChangePrice, 0),
           });
         }
       } else {
@@ -241,7 +245,7 @@ function PaymentCustomPage(props) {
     //     sizePrice: drinkDetail.drinkResponseDtos[index].price,
     // })
   };
-  console.log(basicDrink.whip)
+  console.log(basicDrink.whip);
   // 당도 어카냐........사이즈 기준 커스텀 전 당 + 휘핑시럽등 당 들어가는 애들 현재 다 더해서 0.5, 1, 1.5 리턴해야하나?
   const onclickSugarContentHandler = (type, value) => {
     const nowSize = drinkDetail.drinkResponseDtos.find(
@@ -263,20 +267,20 @@ function PaymentCustomPage(props) {
       (option) => option.type.toLowerCase() === "caramel"
     );
     let standardSugar =
-    nowSize.sugar +
-    syrupOption.sugar * orderDetail.syrup +
-    vanillaOption.sugar * orderDetail.vanilla +
-    hazelnutOption.sugar * orderDetail.hazelnut +
-    caramelOption.sugar * orderDetail.caramel;
-  // 휘핑이 기본으로 들어간 음료에서는 당도 조절시 휘핑을 옵션으로 고려하면 안됨 (예외처리)
-   if (basicDrink.whip === false) {
-     standardSugar += whipOption.sugar * orderDetail.whip;
-   }
-  setOrderDetail({
-    ...orderDetail,
-    sugar: standardSugar * value,
-    sugarContent: type,
-  });
+      nowSize.sugar +
+      syrupOption.sugar * orderDetail.syrup +
+      vanillaOption.sugar * orderDetail.vanilla +
+      hazelnutOption.sugar * orderDetail.hazelnut +
+      caramelOption.sugar * orderDetail.caramel;
+    // 휘핑이 기본으로 들어간 음료에서는 당도 조절시 휘핑을 옵션으로 고려하면 안됨 (예외처리)
+    if (basicDrink.whip === false) {
+      standardSugar += whipOption.sugar * orderDetail.whip;
+    }
+    setOrderDetail({
+      ...orderDetail,
+      sugar: standardSugar * value,
+      sugarContent: type,
+    });
   };
 
   useMemo(() => {
@@ -354,14 +358,14 @@ function PaymentCustomPage(props) {
       <Grid container>
         <Box sx={{ flexGrow: 1 }} marginTop={1}>
           <Grid container spacing={2}>
-            <Grid item xs={8}>
+            <Grid item xs={12}>
               <Item sx={{ fontWeight: "700" }}>{location.state.drinkItem.storeName}</Item>
             </Grid>
-            <Grid item xs={4}>
+            {/* <Grid item xs={4}>
               <Item style={{ fontWeight: "700" }}>
                 {location.state.drinkItem.branch ? location.state.drinkItem.branch : "-"}
               </Item>
-            </Grid>
+            </Grid> */}
             <Grid item xs={12}>
               <PaymentCustomDrinkMenuItem data={drinkItem} getRecordDate={getRecordDate} />
             </Grid>

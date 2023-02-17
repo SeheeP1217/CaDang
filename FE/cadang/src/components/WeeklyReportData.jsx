@@ -190,13 +190,11 @@ function WeeklyReportData(props) {
       <Box width="85%" margin="auto">
         <TitleCard>
           <Grid container spacing={1}>
-            <Grid item xs={6}>
-              <Typography style={{ fontFamily: "netmarble" }}>
-                오늘 섭취량
-              </Typography>
+
+            <Grid item xs={5}>
+              <Typography>오늘 섭취량</Typography>
             </Grid>
-            <Grid item xs={6}>
-              {" "}
+            <Grid item xs={7}>
               <Typography
                 style={{
                   textAlign: "center",
@@ -205,10 +203,10 @@ function WeeklyReportData(props) {
                   marginRight: "5px",
                 }}
               >
-                {<img width="15%" src={coffeebean} alt="coffeebean" />}{" "}
+                {<img width="10%" src={coffeebean} alt="coffeebean" />}{" "}
                 {weeklyData.todayCaffe}
                 mg{"   "}
-                {<img width="15%" src={sugar} alt="sugar" />}{" "}
+                {<img width="10%" src={sugar} alt="sugar" />}{" "}
                 {weeklyData.todaySugar}g
               </Typography>
             </Grid>
@@ -242,12 +240,12 @@ function WeeklyReportData(props) {
         <br />
         <TitleCard>
           <Grid container spacing={1}>
-            <Grid item xs={6}>
+            <Grid item xs={5}>
               <Typography style={{ fontFamily: "netmarble" }}>
                 이번주 섭취량
               </Typography>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={7}>
               <Typography
                 style={{
                   textAlign: "center",
@@ -258,7 +256,7 @@ function WeeklyReportData(props) {
               >
                 {<img width="15%" src={coffeebean} alt="coffeebean" />}{" "}
                 {weeklyData.thisWeekCaffe}mg{" "}
-                {<img width="15%" src={sugar} alt="sugar" />}{" "}
+                {<img width="10%" src={sugar} alt="sugar" />}{" "}
                 {weeklyData.thisWeekSugar}g
               </Typography>
             </Grid>
