@@ -18,7 +18,6 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styled from "styled-components";
 import ProfileImageUploader from "../../components/util/ProfileImageUploader";
-import default_image from "../../assets/default_image.png";
 import LoadingPage from "../LoadingPage";
 
 // import netmarbleM from "../../assets/fonts/netmarble/netmarbleM"

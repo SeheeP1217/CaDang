@@ -4,31 +4,23 @@ import Box from "@mui/material/Box"
 import Typography from "@mui/joy/Typography"
 import Tabs from "@mui/material/Tabs"
 import Tab from "@mui/material/Tab"
-import { Paper } from "@mui/material"
-import { Link } from "react-router-dom"
-import styled from "styled-components"
-import { createTheme, ThemeProvider } from "@mui/material/styles"
 
 import WeeklyReportData from "../../components/WeeklyReportData"
-import MontlyReportData from "../../components/MonthlyReportData"
-import MyCalendar from "../../components/MyCalendar"
-import MonthAmount from "../../components/MonthAmont"
-import MonthRank from "../../components/MonthRank"
 import MonthlyReportData from "../../components/MonthlyReportData"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
 
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: "#3A130C",
-      },
-    },
-    typography: {
-      fontFamily: "netmarble",
-    },
-  })
+//  const theme = createTheme({
+//    palette: {
+//      primary: {
+//        main: "#3A130C",
+//      },
+//    },
+//    typography: {
+//      fontFamily: "netmarble",
+//    },
+//  })
   return (
     <div
       role="tabpanel"
@@ -101,7 +93,7 @@ function ReportPage() {
   )
 }
 
-const ReportTaps = styled(Tabs)`
-  color: #ffba00 !important;
-`
+//const ReportTaps = styled(Tabs)`
+//  color: #ffba00 !important;
+//`
 export default ReportPage

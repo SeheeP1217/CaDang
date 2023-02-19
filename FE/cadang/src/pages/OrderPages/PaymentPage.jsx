@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Paper, Box, Grid, Card } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import DrinkMenuItem from "../../components/util/DrinkMenuItem";
@@ -9,7 +9,7 @@ import kakaopay from "../../assets/payment_icon_yellow_large.png";
 import Button from "@mui/material-next/Button";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { orderItem } from "../../recoil/atom/paymentItem";
 import { order } from "../../api/pay";
 
@@ -97,7 +97,7 @@ export default function PaymentPage() {
     const { params } = payItem;
     // console.log(params);
 
-    const url = "";
+    // const url = "";
     if (btnActive === false) {
       alert("결제 수단을 선택해주세요.🙏");
     } else {
@@ -117,16 +117,16 @@ export default function PaymentPage() {
         // console.log(response);
         // console.log(response.data.next_redirect_pc_url);
 
-        if (response.status == 200) {
+        if (response.status === 200) {
           orderRegist();
           // 결제가 가능하다면 결제 페이지로 새로운 창 뜨게 함
           // <Link to="response.data.next_redirect_pc_url" />;
           // console.log("orderDetail ==> " + orderDetail.drinkId);
           window.open(response.data.next_redirect_mobile_url);
-        } else if (response.status == 404) {
+        } else if (response.status === 404) {
           // 404 에러라면
           <Link to="/error404">error 404</Link>;
-        } else if (response.status == 500) {
+        } else if (response.status === 500) {
           // 500 에러라면
           <Link to="/error500">error500</Link>;
         }

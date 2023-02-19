@@ -3,22 +3,19 @@ import Typography from "@mui/joy/Typography";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material-next/Button";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import React, { useEffect, useRef, useState, useMemo } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import React, { useRef, useMemo } from "react";
+import { useRecoilState } from "recoil";
 import { orderItem } from "../../recoil/atom/paymentItem";
-import { order } from "../../api/pay";
+// import { order } from "../../api/pay";
 // import SockJS from "sockjs-client";
 // import SockJsClient from "react-stomp";
-import * as StompJs from "@stomp/stompjs";
-import { Client, Frame } from "stompjs";
 import SockJsClient from "react-stomp";
 
 export default function PaySuccessPage() {
   // const item = useRecoilValue(orderItem);
-  const [msg, setMsg] = useState("");
-  const [drinkAtom, setDrinkAtom] = useRecoilState(orderItem);
-  const [storeId, setStoreId] = useState(drinkAtom.storeId);
+  // const [msg, setMsg] = useState("");
+  // const [drinkAtom, setDrinkAtom] = useRecoilState(orderItem);
+  // const [storeId, setStoreId] = useState(drinkAtom.storeId);
   const $websocket = useRef();
   // console.log("drinkId : " + drinkAtom.drinkId);
   // console.log("drinkId : " + drinkAtom.storeId);
