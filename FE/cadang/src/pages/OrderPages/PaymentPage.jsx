@@ -13,14 +13,17 @@ import { useRecoilState } from "recoil";
 import { orderItem } from "../../recoil/atom/paymentItem";
 import { order } from "../../api/pay";
 
-export default function PaymentPage() {
+export default function PaymentPage(props) {
   const location = useLocation();
   const orderDetail = location.state.orderDetail;
   const drinkItem = location.state.drinkItem;
   const storeId = location.state.drinkDetail.storeId;
   const optionPriceTable = location.state.optionPriceTable;
-  console.log(optionPriceTable)
+  const sizePrice = location.state.sizePrice;
   console.log(orderDetail)
+  console.log(drinkItem)
+  console.log(optionPriceTable)
+  console.log(sizePrice)
 
   // console.log("storeId : " + storeId);
   // console.log("orderDetail-syrup : " + orderDetail.syrup);
@@ -181,7 +184,7 @@ export default function PaymentPage() {
         <DrinkMenuItem drinkItem={drinkItem} />
       </div>
       {/* 주문 음료에 대한 메뉴 이름과 추가 메뉴에 대한 추가 금액 */}
-      <PaymentMoney drinkItem={drinkItem} optionPriceTable={optionPriceTable} orderDetail={orderDetail}/>
+      <PaymentMoney drinkItem={location.state.basicDrink} optionPriceTable={optionPriceTable} orderDetail={orderDetail} sizePrice={sizePrice}/>
       {/* ======================================== */}
       <Card style={{ background: "#ffffff" }} sx={{ p: 1, mt: "3%" }}>
         <Grid container>
