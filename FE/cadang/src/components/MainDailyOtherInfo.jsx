@@ -12,13 +12,13 @@ function MainDailyOtherInfo(props) {
           <Grid item xs={1.5}>
             <img src={coin} alt="coin" width="30px" />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={3.5} style={{ fontSize: "14px" }}>
             {props.data.moneyDaily} 원
           </Grid>
           <Grid item xs={1.5}>
             <img src={calories} alt="calories" width="30px" />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={3.5} style={{ fontSize: "14px" }}>
             {props.data.calDaily} Kcal
           </Grid>
           <Grid item xs={0.5} />

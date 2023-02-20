@@ -218,36 +218,40 @@ function MyPage() {
       </Stack>
       <Paper
         variant="outlined"
-        sx={{ backgroundColor: "#fff3e0", marginTop: 2 }}
+        sx={{ backgroundColor: "#fff3e0", marginTop: 2, paddingX: "5px" }}
       >
         <TitleBox sx={{ paddingY: 0 }}>
-          <InputTextBox
-            id="outlined-basic"
-            label="메뉴명 검색"
-            variant="outlined"
-            size="small"
-            onChange={onChangeKeyword}
-            InputProps={{
-              classes: {
-                root: {
-                  borderColor: "#ffab00",
-                },
-              },
-            }}
-            style={{ marginTop: 10, marginLeft: 3 }}
-          />
-          <Button
-            onMouseDown={getSearchedReviews}
-            sx={{
-              backgroundColor: "#3A130C",
-              color: "white",
-              fontFamily: "netmarble",
-              fontSize: "15px",
-              margin: 1,
-            }}
-          >
-            검색
-          </Button>
+          <Grid container xs={12} paddingY="2px">
+            <Grid item xs={9}>
+              <InputTextBox
+                id="outlined-basic"
+                label="메뉴명 검색"
+                variant="outlined"
+                size="small"
+                onChange={onChangeKeyword}
+                InputProps={{
+                  classes: {
+                    root: {
+                      borderColor: "#ffab00",
+                    },
+                  },
+                }}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <Button
+                onMouseDown={getSearchedReviews}
+                sx={{
+                  backgroundColor: "#3A130C",
+                  color: "white",
+                  fontFamily: "netmarble",
+                  fontSize: "15px",
+                }}
+              >
+                검색
+              </Button>
+            </Grid>
+          </Grid>
           {/* <ReviewSearchBar label="메뉴, 카페명 검색" data={review} getSearchedReviews={getSearchedReviews} onChangeKeyword={onChangeKeyword} /> */}
         </TitleBox>
         <Typography
