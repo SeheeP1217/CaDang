@@ -1,0 +1,8 @@
+@media only screen and (min-width: 1px) {
+    /* styles for screens with a minimum width of 768 pixels */
+    .container {
+      max-width: 360px;
+      max-height: 740px;
+      margin: 0 auto;
+    }
+  }
