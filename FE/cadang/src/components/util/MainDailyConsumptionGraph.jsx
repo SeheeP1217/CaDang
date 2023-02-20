@@ -59,7 +59,7 @@ function MainDailyConsumptionGraph(props) {
         <Grid
           item
           xs={12}
-          style={{ textAlign: "end", marginRight: 35, marginTop: 5 }}
+          style={{ textAlign: "end", marginRight: 15, marginTop: 5 }}
         >
           <Typography style={{ fontFamily: "netmarble" }}>
             {Number(chartData.caffeDaily)}mg / {chartData.caffeGoal}mg
@@ -111,7 +111,7 @@ function MainDailyConsumptionGraph(props) {
         <Grid
           item
           xs={12}
-          style={{ textAlign: "end", marginRight: 35, marginTop: 5 }}
+          style={{ textAlign: "end", marginRight: 15, marginTop: 5 }}
         >
           <Typography style={{ fontFamily: "netmarble" }}>
             {Number(chartData.sugarDaily)}g / {chartData.sugarGoal}g
