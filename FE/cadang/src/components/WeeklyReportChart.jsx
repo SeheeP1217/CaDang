@@ -42,7 +42,11 @@ function WeeklyReportChart(props) {
             <YAxis width={5} tick={{ fontSize: 12 }} />
 
             <Tooltip />
-            <Bar dataKey={props.option} fill="#FFBA00" />
+            <Bar
+              dataKey={props.option}
+              fill="#FFBA00"
+              radius={[10, 10, 0, 0]}
+            />
           </BarChart>
         </ResponsiveContainer>
       </Grid>
