@@ -1,9 +1,12 @@
-import React, { useEffect, useMemo, useState, useCallback, useRef } from "react";
-import { Paper, Box, Grid, Card } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Box, Grid, Card } from "@mui/material";
+import styled from "styled-components";
 import Typography from "@mui/joy/Typography";
 
 export default function PaymentMoney(props) {
+  console.log(props);
+
+  const engOptionToKor = {whip: "휘핑", shot: "샷", syrup: "시럽", hazelnut: "헤이즐넛 시럽", vanilla: "바닐라 시럽", caramel: "카라멜 시럽"}
+
   return (
     <div>
       <Box
@@ -14,33 +17,52 @@ export default function PaymentMoney(props) {
         주문 음료
       </Box>
       <Card sx={{ mt: "3%", p: 1 }}>
-        <Grid container>
-          {/* ================================================= */}
-          <Grid item xs={8} sx={{ display: "flex", justifyContent: "flex-start" }}>
-            <Typography
-              sx={{
-                fontWeight: "700",
-                display: "inline",
-                fontSize: 18,
-              }}
-            >
-              {props.drinkItem.drinkName}
-            </Typography>
-          </Grid>
-          <Grid item xs={4} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}>
-            <Typography
-              sx={{
-                fontWeight: "700",
-                display: "inline",
-                fontSize: 18,
-              }}
-            >
-              +{props.drinkItem.price}원
-            </Typography>
-          </Grid>
-          {/* =============================================== */}
-        </Grid>
+        <MoneyBox>
+          <span >
+            {props.drinkItem.drinkName}
+          </span>
+          <span >
+            + {props.sizePrice}
+          </span>
+          </MoneyBox>
+          
+          {props.optionPriceTable.map((option) => {
+            if (option.type === 'whip' && !props.drinkItem.whip && props.orderDetail[option.type]) {
+              return (
+                <MoneyBox key={option.type}>
+                  <span>
+                    {engOptionToKor[option.type]}
+                  </span>
+                  <span>
+                    + {option.price * props.orderDetail[option.type]}
+                  </span>
+                  </MoneyBox>
+            )
+            } else if (option.type === 'whip') {
+              return;
+            }
+            if (props.orderDetail[option.type]) {
+              return (
+                <MoneyBox key={option.type}>
+                  <span>
+                    {engOptionToKor[option.type]}
+                  </span>
+                  <span >
+                    + {option.price * props.orderDetail[option.type]}
+                  </span>
+                </MoneyBox>
+            )
+            }
+          })}
+          
+        
+       
       </Card>
     </div>
   );
 }
+
+const MoneyBox =  styled.div`
+  display: flex;
+  justify-content: space-between;
+`
