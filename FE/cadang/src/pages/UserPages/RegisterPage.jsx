@@ -18,7 +18,6 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import styled from "styled-components"
 import ProfileImageUploader from "../../components/util/ProfileImageUploader"
-import default_image from "../../assets/default_image.png"
 import LoadingPage from "../LoadingPage"
 
 // import netmarbleM from "../../assets/fonts/netmarble/netmarbleM"
@@ -371,11 +370,11 @@ const RegisterPage = () => {
       alert("아이디 형식을 확인하세요")
     } else if (passwordRegex.test(passwordRegex) === false) {
       alert("비밀번호 형식을 확인하세요")
-    } else if (password !== passwordState ) {
+    } else if (password !== passwordState) {
       alert("비밀번호가 일치하지 않습니다")
     } else if (emailRegex.test(emailRegex) === false) {
       alert("이메일 형식을 확인하세요")
-    } 
+    }
   }
   const theme = createTheme({
     palette: {

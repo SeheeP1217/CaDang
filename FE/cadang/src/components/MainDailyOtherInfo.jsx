@@ -7,7 +7,7 @@ function MainDailyOtherInfo(props) {
   return (
     <List>
       {props !== undefined && (
-        <Grid container xs={12}>
+        <Grid container>
           <Grid item xs={1.5} />
           <Grid item xs={1.5}>
             <img src={coin} alt="coin" width="30px" />

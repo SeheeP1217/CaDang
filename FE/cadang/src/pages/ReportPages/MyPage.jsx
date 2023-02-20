@@ -12,11 +12,9 @@ import Grid from "@mui/material/Grid"
 import { Card, TextField } from "@mui/material"
 import { Link } from "react-router-dom"
 import dayjs from "dayjs"
-import { createTheme, ThemeProvider } from "@mui/material/styles"
 import styled from "styled-components"
 
 // 검색바 import
-import ReviewSearchBar from "../../components/util/ReviewSearchBar"
 import Pagination from "@mui/material/Pagination"
 
 // 기록 리스트
@@ -34,16 +32,16 @@ import { todayDashboard } from "../../api/main"
 import { useEffect } from "react"
 
 function MyPage() {
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: "#3A130C",
-      },
-    },
-    typography: {
-      fontFamily: "netmarble",
-    },
-  })
+  // const theme = createTheme({
+  //   palette: {
+  //     primary: {
+  //       main: "#3A130C",
+  //     },
+  //   },
+  //   typography: {
+  //     fontFamily: "netmarble",
+  //   },
+  // })
   const [pageIndex, setPageIndex] = useState(1)
   const [searchKeyword, setSearchKeyword] = useState("")
 
@@ -108,8 +106,7 @@ function MyPage() {
     }
     getReviews()
     getDashboard()
-    console.log(review)
-  }, [])
+  }, [pageIndex])
 
   useEffect(() => {
     const getReviews = async () => {
@@ -122,7 +119,6 @@ function MyPage() {
       ).then((data) => setReview(data))
     }
     getReviews()
-    console.log(review)
   }, [pageIndex])
 
   const getPageIndex = (idx) => {
@@ -294,10 +290,10 @@ const TitleBox = styled(Box)`
   border-bottom: 2px solid #ffab00 !important;
 `
 
-const ImageContainer = styled(Grid)`
-  grid-template-columns: 3fr 7fr;
-  grid-template-rows: repeat(2, 1fr);
-`
+// const ImageContainer = styled(Grid)`
+//  grid-template-columns: 3fr 7fr;
+//  grid-template-rows: repeat(2, 1fr);
+// `
 
 const InputTextBox = styled(TextField)`
   border-color: #ffab00;
