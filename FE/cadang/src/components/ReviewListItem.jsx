@@ -91,13 +91,8 @@ function ReviewListItem(props) {
         // console.log(review)
         return (
           <Card style={{ marginBottom: 5 }}>
-            <Grid
-              container
-              spacing={2}
-              key={review.id}
-              style={{ paddingRight: "7px" }}
-            >
-              <Grid item xs={2} margin="auto">
+            <Grid container xs={12} spacing={1} key={review.id}>
+              <Grid item xs={3} margin="auto">
                 <Img
                   id={review.id}
                   alt="drink"
@@ -105,46 +100,52 @@ function ReviewListItem(props) {
                   sx={{ width: "100%", backgroundColor: "#fafafa" }}
                 />
               </Grid>
-              <Grid item xs={10} sm container margin="auto">
-                <Grid item xs container spacing={2}>
-                  <Grid item xs>
-                    {/* 기록은 가게 이름이 안뜨는데 어카쥥 */}
-                    <Typography variant="subtitle1" component="div">
-                      {review.storeName !== null
-                        ? review.storeName
-                        : "직접추가 기록"}
-                    </Typography>
-                    <Typography variant="subtitle1" component="div">
-                      {review.drinkName}
-                    </Typography>
-                    <Typography variant="body2">
-                      {review.caffeine}mg / {review.sugar}g
-                      <br />
-                      {review.cal}Kcal /{review.price}원
-                    </Typography>
-                    {renderMemo(review.memo, review.id)}
-                  </Grid>
+
+              <Grid item xs={9} sm container>
+                <Grid item xs={8}>
+                  {/* 기록은 가게 이름이 안뜨는데 어카쥥 */}
+                  <Typography variant="subtitle1" component="div">
+                    {review.storeName !== null
+                      ? review.storeName
+                      : "직접추가 기록"}
+                  </Typography>
                 </Grid>
-                <Grid>
-                  <Grid justifyContent="space-between" alignItems="center">
-                    <Typography variant="subtitle1">
-                      {dayjs(review.regDate).format("YY/MM/DD")}
-                    </Typography>
-                    {/* <Link to={{ pathname: `/review/${review.id}`, state:{review} }}> */}
-                    <Link
-                      to={{
-                        pathname: `/review/${review.id}`,
-                        state: { review },
-                      }}
-                    >
-                      <IconButton style={{ padding: 0 }}>
-                        <EditOutlinedIcon />
-                      </IconButton>
-                    </Link>
-                    <IconButton onClick={() => deleteReviewRecord(review.id)}>
-                      <DeleteIcon />
+                <Grid item xs={4}>
+                  <Typography variant="subtitle1" component="div">
+                    {dayjs(review.regDate).format("YY/MM/DD")}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="subtitle1" component="div">
+                    {review.drinkName}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="body2">
+                    {review.caffeine}mg / {review.sugar}g
+                  </Typography>
+                </Grid>
+                <Grid item xs={8}>
+                  <Typography variant="body2">
+                    {review.cal}Kcal /{review.price}원
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  {renderMemo(review.memo, review.id)}
+                  {/* <Link to={{ pathname: `/review/${review.id}`, state:{review} }}> */}
+                  <Link
+                    to={{
+                      pathname: `/review/${review.id}`,
+                      state: { review },
+                    }}
+                  >
+                    <IconButton style={{ padding: 0 }}>
+                      <EditOutlinedIcon />
                     </IconButton>
-                  </Grid>
+                  </Link>
+                  <IconButton onClick={() => deleteReviewRecord(review.id)}>
+                    <DeleteIcon />
+                  </IconButton>
                 </Grid>
               </Grid>
             </Grid>

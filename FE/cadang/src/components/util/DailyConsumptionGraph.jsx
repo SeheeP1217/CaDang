@@ -1,34 +1,34 @@
-import { Directions } from "@mui/icons-material";
-import { Grid, Typography } from "@mui/material";
-import React, { useMemo, useState, useEffect } from "react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
-import coffeebean from "../../assets/coffeebean.png";
-import sugar from "../../assets/sugar.png";
-import "./DailyConsumptionGraph.css";
+import { Directions } from "@mui/icons-material"
+import { Grid, Typography } from "@mui/material"
+import React, { useMemo, useState, useEffect } from "react"
+import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts"
+import coffeebean from "../../assets/coffeebean.png"
+import sugar from "../../assets/sugar.png"
+import "./DailyConsumptionGraph.css"
 
 function DailyConsumptionGraph(props) {
   const [allCaffeine, setAllCaffeine] = useState(
     Number(props.consumptionInfo.caffeDaily) +
       Number(props.selectDrinkInfo.caffeine)
-  );
+  )
   const [allSugar, setAllSugar] = useState(
     Number(props.consumptionInfo.sugarDaily) +
       Number(props.selectDrinkInfo.sugar)
-  );
+  )
 
   useEffect(() => {
     setAllCaffeine(
       Number(props.consumptionInfo.caffeDaily) +
         Number(props.selectDrinkInfo.caffeine)
-    );
+    )
     setAllSugar(
       Number(props.consumptionInfo.sugarDaily) +
         Number(props.selectDrinkInfo.sugar)
-    );
-  }, [props.consumptionInfo, props.selectDrinkInfo]);
+    )
+  }, [props.consumptionInfo, props.selectDrinkInfo])
 
-  const [caffeineSuccess, setCaffeinSuccess] = useState(true);
-  const [sugarSuccess, setSugarSuccess] = useState(true);
+  const [caffeineSuccess, setCaffeinSuccess] = useState(true)
+  const [sugarSuccess, setSugarSuccess] = useState(true)
 
   const caffeineData = useMemo(
     () => [
@@ -44,7 +44,7 @@ function DailyConsumptionGraph(props) {
       props.consumptionInfo.caffeDaily,
       props.selectDrinkInfo.caffeine,
     ]
-  );
+  )
 
   const sugarData = useMemo(
     () => [
@@ -60,17 +60,17 @@ function DailyConsumptionGraph(props) {
       props.consumptionInfo.sugarDaily,
       props.selectDrinkInfo.sugar,
     ]
-  );
+  )
 
   useEffect(() => {
     if (allCaffeine > Number(props.consumptionInfo.caffeGoal)) {
-      setCaffeinSuccess(false);
-    } else setCaffeinSuccess(true);
+      setCaffeinSuccess(false)
+    } else setCaffeinSuccess(true)
 
     if (allSugar > Number(props.consumptionInfo.sugarGoal)) {
-      setSugarSuccess(false);
-    } else setSugarSuccess(true);
-  }, [allCaffeine, allSugar]);
+      setSugarSuccess(false)
+    } else setSugarSuccess(true)
+  }, [allCaffeine, allSugar])
   return (
     <Grid
       container
@@ -206,6 +206,7 @@ function DailyConsumptionGraph(props) {
             dataKey="consumption"
             stackId="a"
             fill={sugarSuccess === true ? "#3A130C" : "#ff0000"}
+            background={{ fill: "#eee", radius: 20 }}
             radius={20}
           />
           <Bar
@@ -217,7 +218,7 @@ function DailyConsumptionGraph(props) {
         </BarChart>
       </Grid>
     </Grid>
-  );
+  )
 }
 
-export default DailyConsumptionGraph;
+export default DailyConsumptionGraph

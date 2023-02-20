@@ -1,71 +1,84 @@
-import Button from "@mui/material/Button";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import IconButton from "@mui/material/IconButton";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import { Card, Grid, Divider } from "@mui/material";
-import Typography from "@mui/joy/Typography";
+import Button from "@mui/material/Button"
+import ButtonGroup from "@mui/material/ButtonGroup"
+import IconButton from "@mui/material/IconButton"
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline"
+import { Card, Grid, Divider, Box } from "@mui/material"
+import Typography from "@mui/joy/Typography"
+import styled from "styled-components"
 
 function ReadOnlyCustomOption(props) {
   // console.log(props.data)
-  const custom = props.data;
+  const custom = props.data
   return (
     <div>
       <Divider>custom</Divider>
       <Card>
         <Grid container>
-          <Grid item xs={4}>
-            사이즈
+          <CustomTitle item xs={6}>
+            <TitleBox>사이즈</TitleBox>
+          </CustomTitle>
+          <Grid item xs={6}>
+            {custom.size} 사이즈
           </Grid>
-          <Grid item xs={8}>
-            {custom.size}
+          <CustomTitle item xs={6}>
+            <TitleBox>샷</TitleBox>
+          </CustomTitle>
+          <Grid item xs={6}>
+            {custom.shot}샷
           </Grid>
-          <Grid item xs={4}>
-            샷
-          </Grid>
-          <Grid item xs={8}>
-            {custom.shot}
-          </Grid>
-          <Grid item xs={4}>
-            휘핑
-          </Grid>
-          <Grid item xs={8}>
+          <CustomTitle item xs={6}>
+            <TitleBox>휘핑</TitleBox>
+          </CustomTitle>
+          <Grid item xs={6}>
             {custom.whip ? "O" : "X"}
           </Grid>
-          <Grid item xs={4}>
-            당도
-          </Grid>
-          <Grid item xs={8}>
+          <CustomTitle item xs={6}>
+            <TitleBox>당도</TitleBox>
+          </CustomTitle>
+          <Grid item xs={6}>
             {custom.sugarContent}
           </Grid>
-          <Grid item xs={4}>
-            시럽
+          <CustomTitle item xs={6}>
+            <TitleBox>시럽</TitleBox>
+          </CustomTitle>
+          <Grid item xs={6}>
+            {custom.syrup} 번
           </Grid>
-          <Grid item xs={8}>
-            {custom.syrup}
+          <CustomTitle item xs={6}>
+            <TitleBox>바닐라 시럽</TitleBox>
+          </CustomTitle>
+          <Grid item xs={6}>
+            {custom.vanilla} 번
           </Grid>
-          <Grid item xs={4}>
-            바닐라 시럽
+          <CustomTitle item xs={6}>
+            <TitleBox>카라멜 시럽</TitleBox>
+          </CustomTitle>
+          <Grid item xs={6}>
+            {custom.caramel} 번
           </Grid>
-          <Grid item xs={8}>
-            {custom.vanilla}
-          </Grid>
-          <Grid item xs={4}>
-            카라멜 시럽
-          </Grid>
-          <Grid item xs={8}>
-            {custom.caramel}
-          </Grid>
-          <Grid item xs={4}>
-            헤이즐넛 시럽
-          </Grid>
-          <Grid item xs={8}>
-            {custom.hazelnut}
+          <CustomTitle item xs={6}>
+            <TitleBox>헤이즐넛 시럽</TitleBox>
+          </CustomTitle>
+          <Grid item xs={6}>
+            {custom.hazelnut} 번
           </Grid>
         </Grid>
       </Card>
     </div>
-  );
+  )
 }
 
-export default ReadOnlyCustomOption;
+const CustomTitle = styled(Grid)`
+  text-align: center;
+`
+const TitleBox = styled(Box)`
+  background-color: #3a130c;
+  color: #ffffff;
+  border-radius: 3px;
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+`
+export default ReadOnlyCustomOption

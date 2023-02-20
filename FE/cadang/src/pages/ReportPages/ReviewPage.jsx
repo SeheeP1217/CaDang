@@ -1,23 +1,23 @@
-import * as React from "react";
-import axios from "axios";
-import dayjs from "dayjs";
-import { Fragment, useState, useMemo, useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
-import { Grid, Card } from "@mui/material";
-import Typography from "@mui/joy/Typography";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import * as React from "react"
+import axios from "axios"
+import dayjs from "dayjs"
+import { Fragment, useState, useMemo, useEffect } from "react"
+import { useHistory, useLocation } from "react-router-dom"
+import { Grid, Card } from "@mui/material"
+import Typography from "@mui/joy/Typography"
+import TextField from "@mui/material/TextField"
+import Button from "@mui/material/Button"
 
-import { userReviewDetail } from "../../api/report";
+import { userReviewDetail } from "../../api/report"
 
-import ModifyReviewInfo from "../../components/ModifyReviewInfo";
-import ReadOnlyCustomOption from "../../components/ReadOnlyCustomOption";
+import ModifyReviewInfo from "../../components/ModifyReviewInfo"
+import ReadOnlyCustomOption from "../../components/ReadOnlyCustomOption"
 
 const ReviewPage = () => {
-  const history = useHistory();
-  const location = useLocation();
-  const reviewId = location.state.review.id;
-  const originImg = location.state.review.photo;
+  const history = useHistory()
+  const location = useLocation()
+  const reviewId = location.state.review.id
+  const originImg = location.state.review.photo
 
   const [reviewDetail, setreviewDetail] = useState({
     reviewDetail: [
@@ -43,15 +43,17 @@ const ReviewPage = () => {
         defaultUrl: "",
       },
     ],
-  });
+  })
 
-  const [modifyDate, setmodifyDate] = useState(dayjs(reviewDetail.regDate).format("YYYY-MM-DD"));
+  const [modifyDate, setmodifyDate] = useState(
+    dayjs(reviewDetail.regDate).format("YYYY-MM-DD")
+  )
   // const [modifyIsPublic, setmodifyIsPublic] = useState(true);
-  const [modifyMemo, setModifyMemo] = useState(reviewDetail.memo);
+  const [modifyMemo, setModifyMemo] = useState(reviewDetail.memo)
   const [modifyImage, setModifyImage] = useState({
     image_file: "",
     preview_URL: originImg,
-  });
+  })
 
   // console.log(modifyDate)
   useMemo(() => {
@@ -59,51 +61,51 @@ const ReviewPage = () => {
       await userReviewDetail(
         reviewId,
         (res) => {
-          return res.data;
+          return res.data
         },
         (err) => console.log(err)
-      ).then((data) => setreviewDetail(data));
-    };
-    getReviewDetails();
-  }, [reviewId]);
+      ).then((data) => setreviewDetail(data))
+    }
+    getReviewDetails()
+  }, [reviewId])
 
   useEffect(() => {
-    setmodifyDate(dayjs(reviewDetail.regDate).format("YYYY-MM-DD"));
-    setModifyMemo(reviewDetail.memo);
+    setmodifyDate(dayjs(reviewDetail.regDate).format("YYYY-MM-DD"))
+    setModifyMemo(reviewDetail.memo)
     setModifyImage({
       image_file: "",
       preview_URL: originImg,
-    });
-  }, [reviewDetail, originImg]);
+    })
+  }, [reviewDetail, originImg])
 
   // console.log(reviewDetail);
-  const [isModified, setIsModified] = useState(0);
+  const [isModified, setIsModified] = useState(0)
 
   /////////날짜 변경 확인
   const getRecordDate = (newValue) => {
-    setmodifyDate(newValue);
-  };
+    setmodifyDate(newValue)
+  }
 
   /////////이미지 변경 확인
   const getImg = (image_file, preview_URL) => {
-    const newImage = { image_file, preview_URL };
-    setModifyImage(newImage);
-  };
+    const newImage = { image_file, preview_URL }
+    setModifyImage(newImage)
+  }
 
   const changeImg = () => {
-    setIsModified(1);
+    setIsModified(1)
     // console.log(isModified)
-  };
+  }
 
   const deleteImg = () => {
-    setIsModified(2);
+    setIsModified(2)
     // console.log(isModified)
-  };
+  }
 
   //리뷰글 변경 확인
   const onChangeMemo = (e) => {
-    setModifyMemo(e.target.value);
-  };
+    setModifyMemo(e.target.value)
+  }
 
   const modifyData = {
     id: reviewDetail.id,
@@ -111,14 +113,14 @@ const ReviewPage = () => {
     isPublic: true,
     memo: modifyMemo,
     isModified: isModified,
-  };
+  }
 
   // console.log(modifyData)
-  const formData = new FormData();
+  const formData = new FormData()
   if (modifyImage.image_file) {
-    formData.append("image", modifyImage.image_file);
+    formData.append("image", modifyImage.image_file)
   }
-  formData.append("data", JSON.stringify(modifyData));
+  formData.append("data", JSON.stringify(modifyData))
 
   const modifyReviewDetailRecord = async () => {
     await axios
@@ -132,13 +134,13 @@ const ReviewPage = () => {
       .then(function (response) {
         // console.log(response, "성공")
         if (response.status === 200) {
-          history.push("/mypage");
+          history.push("/mypage")
         }
       })
       .catch(function (err) {
         // console.log(err)
-      });
-  };
+      })
+  }
 
   return (
     <Fragment>
@@ -153,7 +155,7 @@ const ReviewPage = () => {
         deleteImg={deleteImg}
         getRecordDate={getRecordDate}
       />
-      <Card sx={{ marginTop: 2, height: 110 }}>
+      <Card sx={{ marginTop: 2, height: 110, paddingX: "17px" }}>
         <TextField
           defaultValue={reviewDetail.memo}
           fullWidth
@@ -161,16 +163,31 @@ const ReviewPage = () => {
           rows={4}
           variant="standard"
           onChange={onChangeMemo}
+          label="음료의 후기를 남겨보세요"
         />
       </Card>
       <ReadOnlyCustomOption data={reviewDetail} />
-      <Grid item>
-        <Button fullWidth={true} onClick={modifyReviewDetailRecord}>
-          저장하기
-        </Button>
+      <Grid container>
+        <Grid item xs={8} />
+        <Grid item xs={4}>
+          <Button
+            fullWidth={true}
+            onClick={modifyReviewDetailRecord}
+            sx={{
+              borderRadius: 2,
+              background: "#ffba00",
+              fontSize: 16,
+              fontWeight: "700",
+              color: "white",
+              mt: 1,
+            }}
+          >
+            저장하기
+          </Button>
+        </Grid>
       </Grid>
     </Fragment>
-  );
-};
+  )
+}
 
-export default ReviewPage;
+export default ReviewPage
