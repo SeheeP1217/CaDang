@@ -45,7 +45,7 @@ function WeeklyReportChart(props) {
             <Bar
               dataKey={props.option}
               fill="#FFBA00"
-              radius={[10, 10, 0, 0]}
+              radius={[5, 5, 0, 0]}
             />
           </BarChart>
         </ResponsiveContainer>

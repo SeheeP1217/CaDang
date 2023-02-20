@@ -222,7 +222,7 @@ function MyPage() {
       >
         <TitleBox sx={{ paddingY: 0 }}>
           <Grid container xs={12} paddingY="2px">
-            <Grid item xs={9}>
+            <Grid item xs={8}>
               <InputTextBox
                 id="outlined-basic"
                 label="메뉴명 검색"
@@ -238,6 +238,7 @@ function MyPage() {
                 }}
               />
             </Grid>
+            <Grid item xs={1}></Grid>
             <Grid item xs={3}>
               <Button
                 onMouseDown={getSearchedReviews}
