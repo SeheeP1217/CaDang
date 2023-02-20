@@ -14,10 +14,11 @@ import ModifyReviewInfo from "../../components/ModifyReviewInfo"
 import ReadOnlyCustomOption from "../../components/ReadOnlyCustomOption"
 
 const ReviewPage = () => {
-  const history = useHistory()
-  const location = useLocation()
-  const reviewId = location.state.review.id
-  const originImg = location.state.review.photo
+  const history = useHistory();
+  const location = useLocation();
+  const reviewId = location.state.review.id;
+  const originImg = location.state.review.photo;
+  console.log(originImg)
 
   const [reviewDetail, setreviewDetail] = useState({
     reviewDetail: [

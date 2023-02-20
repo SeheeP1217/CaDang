@@ -56,19 +56,4 @@ public class Data {
         this.regDate = date;
     }
 
-
-//    public static DataBuilder builder(User user) {
-//        if (user == null) {
-//            throw new IllegalArgumentException("필수 파라미터 누락");
-//        }
-//
-//        return customBuilder().user(user);
-//
-//    }
-//
-//    public static DataBuilder customBuilder() {
-//        return new DataBuilder();
-//    }
-
-
 }

@@ -9,6 +9,7 @@ import com.ssafy.cadang.dto.user.UserPassChangeDto;
 import com.ssafy.cadang.service.DataService;
 import com.ssafy.cadang.service.UserAuthService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+@Tag(name = "회원", description = "권한이 필요한 api 입니다.")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user2")
@@ -38,6 +40,7 @@ public class UserAuthController {
 
     // 초기 카페인, 당목표량 설정
     @PutMapping("/goalSet")
+    @Operation(summary = "회원 가입 이후 카페인, 당 목표량 설정")
     public ResponseEntity<?> goalSet(HttpServletRequest request, @Valid @RequestBody UserGoalDto userGoalDto, BindingResult bindingResult) throws Exception {
 
         logger.info("goalSet - 호출 {} ");
@@ -63,14 +66,12 @@ public class UserAuthController {
 
     //유저 프로필 수정
     @PutMapping("/modify")
+    @Operation(summary = "유저 프로필 수정")
     public ResponseEntity<?> modify( @Valid UserModifyDto userModifyDto, BindingResult bindingResult, HttpServletRequest request) throws IOException {
 
         logger.info("modify - 호출 {} ");
         logger.info(" 요청 시간 - {}", LocalDateTime.now());
 
-        System.out.println(userModifyDto.getCaffeGoal());
-        System.out.println(userModifyDto.getSugarGoal());
-        System.out.println(userModifyDto.getNickname());
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
@@ -81,7 +82,6 @@ public class UserAuthController {
         }
 
         Long id = Long.valueOf(request.getAttribute("userId").toString());
-
 
         userAuthService.modifyUserInfo(userModifyDto, id);
         dataService.updateGoal(id);
@@ -94,6 +94,7 @@ public class UserAuthController {
 
     //로그인 이후 비밀번호 재설정
     @PutMapping("/newpass")
+    @Operation(summary = "로그인 이후 비밀번호 재설정")
     public ResponseEntity<?> newpass(HttpServletRequest request, @Valid UserPassChangeDto userPassChangeDto, BindingResult bindingResult) {
 
         logger.info("newpass - 호출 {} ");
@@ -115,6 +116,7 @@ public class UserAuthController {
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @Operation(summary = "로그아웃")
     public ResponseEntity<String> logout(HttpServletResponse response) {
 
         logger.info("logout - 호출 {} ");
@@ -130,6 +132,7 @@ public class UserAuthController {
 
     // 회원 탈퇴하기
     @DeleteMapping("/deleteAccount")
+    @Operation(summary = "회원 탈퇴")
     public ResponseEntity<?> deleteAccount(HttpServletRequest request,String password) {
 
         logger.info("deleteAccount - 호출 {} ");

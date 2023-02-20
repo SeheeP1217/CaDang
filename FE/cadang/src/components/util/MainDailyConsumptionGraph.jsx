@@ -12,7 +12,7 @@ function MainDailyConsumptionGraph(props) {
     {
       name: "카페인",
       goal: chartData.caffeGoal,
-      consumption: chartData.caffeDaily,
+      consumption: chartData.caffeDaily
     },
   ])
   const [sugarData, setSugarData] = useState([
@@ -28,7 +28,7 @@ function MainDailyConsumptionGraph(props) {
       {
         name: "카페인",
         goal: chartData.caffeGoal,
-        consumption: chartData.caffeDaily,
+        consumption: chartData.caffeDaily
       },
     ])
     setSugarData([
