@@ -156,6 +156,7 @@ function WeeklyReportData(props) {
         onChange={handleChange}
         aria-label="full width tabs example"
         variant="fullWidth"
+        sx={{ "& .MuiTabs-indicator": { backgroundColor: "#FFAb00" } }}
       >
         <Tab
           style={{ fontFamily: "netmarble", color: "black" }}
@@ -223,13 +224,13 @@ function WeeklyReportData(props) {
           <Typography varient="body1">
             <div>지난주 같은 요일보다 카페인 섭취량이</div>
 
-            <div style={{color: weeklyData.dayCaffeGap > 0 ? 'red' : 'blue'}}>
+            <div style={{ color: weeklyData.dayCaffeGap > 0 ? "red" : "blue" }}>
               {weeklyData.dayCaffeGap > 0
                 ? weeklyData.dayCaffeGap + " mg만큼 늘었습니다"
                 : -1 * weeklyData.dayCaffeGap + " mg만큼 줄었습니다"}
             </div>
             <div>지난주 같은 요일보다 당 섭취량이</div>
-            <div style={{color: weeklyData.daySugarGap > 0 ? 'red' : 'blue'}}>
+            <div style={{ color: weeklyData.daySugarGap > 0 ? "red" : "blue" }}>
               {weeklyData.daySugarGap > 0
                 ? weeklyData.daySugarGap + " g만큼 늘었습니다"
                 : -1 * weeklyData.daySugarGap + " g만큼 줄었습니다"}
@@ -253,7 +254,7 @@ function WeeklyReportData(props) {
                   marginRight: "5px",
                 }}
               >
-                {<img width="15%" src={coffeebean} alt="coffeebean" />}{" "}
+                {<img width="10%" src={coffeebean} alt="coffeebean" />}{" "}
                 {weeklyData.thisWeekCaffe}mg{" "}
                 {<img width="10%" src={sugar} alt="sugar" />}{" "}
                 {weeklyData.thisWeekSugar}g
@@ -272,13 +273,17 @@ function WeeklyReportData(props) {
         >
           <Typography varient="body1">
             <div>지난주 대비 카페인 섭취량이</div>
-            <div style={{color: weeklyData.weekCaffeGap > 0 ? 'red' : 'blue'}}>
+            <div
+              style={{ color: weeklyData.weekCaffeGap > 0 ? "red" : "blue" }}
+            >
               {weeklyData.weekCaffeGap > 0
                 ? weeklyData.weekCaffeGap + " mg만큼 늘었습니다"
                 : -1 * weeklyData.weekCaffeGap + " mg만큼 줄었습니다"}
             </div>
             <div>지난주 대비 당 섭취량이</div>
-            <div style={{color: weeklyData.weekSugarGap > 0 ? 'red' : 'blue'}}>
+            <div
+              style={{ color: weeklyData.weekSugarGap > 0 ? "red" : "blue" }}
+            >
               {weeklyData.weekSugarGap > 0
                 ? weeklyData.weekSugarGap + " g만큼 늘었습니다"
                 : -1 * weeklyData.weekSugarGap + " g만큼 줄었습니다"}
