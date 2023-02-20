@@ -9,6 +9,7 @@ import App from "./App";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
+  // <div className="container">
   <RecoilRoot>
     <React.Suspense fallback={LoadingPage}>
       <BrowserRouter>
@@ -16,6 +17,7 @@ root.render(
       </BrowserRouter>
     </React.Suspense>
   </RecoilRoot>
+  // </div>
 );
 
 // ReactDOM.render(

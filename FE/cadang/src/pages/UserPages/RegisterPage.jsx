@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from "react"
+import { Link, useHistory } from "react-router-dom"
+import axios from "axios"
 import {
   Button,
   CssBaseline,
@@ -14,59 +14,58 @@ import {
   Typography,
   Container,
   Card,
-} from "@mui/material/";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import styled from "styled-components";
-import ProfileImageUploader from "../../components/util/ProfileImageUploader";
-import default_image from "../../assets/default_image.png";
-import LoadingPage from "../LoadingPage";
+} from "@mui/material/"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
+import styled from "styled-components"
+import ProfileImageUploader from "../../components/util/ProfileImageUploader"
+import LoadingPage from "../LoadingPage"
 
 // import netmarbleM from "../../assets/fonts/netmarble/netmarbleM"
 
 const RegisterPage = () => {
   // const [checked, setChecked] = useState(false)
-  const [username, setUserName] = useState("");
-  const [memberId, setMemberId] = useState("");
-  const [email, setEmail] = useState("");
-  const [key, setKey] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordState, setpasswordState] = useState("");
-  const [nickname, setNickname] = useState("");
+  const [username, setUserName] = useState("")
+  const [memberId, setMemberId] = useState("")
+  const [email, setEmail] = useState("")
+  const [key, setKey] = useState("")
+  const [password, setPassword] = useState("")
+  const [passwordState, setpasswordState] = useState("")
+  const [nickname, setNickname] = useState("")
 
-  const [usernameError, setUserNameError] = useState("");
-  const [memberIdError, setMemberIdError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [keyError, setKeyError] = useState("");
-  const [passwordStateError, setPasswordStateError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [nicknameError, setNicknameError] = useState("");
-  const [registerError, setRegisterError] = useState("");
-  const history = useHistory();
+  const [usernameError, setUserNameError] = useState("")
+  const [memberIdError, setMemberIdError] = useState("")
+  const [emailError, setEmailError] = useState("")
+  const [keyError, setKeyError] = useState("")
+  const [passwordStateError, setPasswordStateError] = useState("")
+  const [passwordError, setPasswordError] = useState("")
+  const [nicknameError, setNicknameError] = useState("")
+  const [registerError, setRegisterError] = useState("")
+  const history = useHistory()
 
-  const [checkIdDone, setCheckIdDone] = useState(false);
-  const [checkEmailDone, setCheckEmailDone] = useState(false);
-  const [checkEmailNumberDone, setCheckEmailNumberDone] = useState(false);
-  const [image, setImage] = useState();
+  const [checkIdDone, setCheckIdDone] = useState(false)
+  const [checkEmailDone, setCheckEmailDone] = useState(false)
+  const [checkEmailNumberDone, setCheckEmailNumberDone] = useState(false)
+  const [image, setImage] = useState()
 
-  const [imgFile, setImgfile] = useState(null);
-  const [prevUrl, setPrevUrl] = useState("");
+  const [imgFile, setImgfile] = useState(null)
+  const [prevUrl, setPrevUrl] = useState("")
 
-  const [focused, setFocused] = useState(false);
+  const [focused, setFocused] = useState(false)
 
   const handleFocus = () => {
-    setFocused(true);
-  };
+    setFocused(true)
+  }
 
   const handleBlur = () => {
-    setFocused(false);
-  };
+    setFocused(false)
+  }
 
   const getImg = (image_file, preview_URL) => {
-    setImgfile(() => image_file);
-    setPrevUrl(() => preview_URL);
-  };
-  const [loading, setLoading] = useState(false);
-  const [loginError, setLoginError] = useState("");
+    setImgfile(() => image_file)
+    setPrevUrl(() => preview_URL)
+  }
+  const [loading, setLoading] = useState(false)
+  const [loginError, setLoginError] = useState("")
 
   // const onhandlePost = async (data) => {
   //   const { memberId, email, username, nickname, password } = data
@@ -100,99 +99,110 @@ const RegisterPage = () => {
   //     })
   // }
   // 이름 유효성 검사
-  const usernameRegex = /^[가-힣a-zA-Z]+$/;
+  const usernameRegex = /^[가-힣a-zA-Z]+$/
   const onChangeUserName = (e) => {
-    if (!e.target.value || usernameRegex.test(e.target.value) || username.length < 1)
-      setUserNameError(false);
-    else setUserNameError("올바른 이름을 입력해주세요.");
-    setUserName(e.target.value);
-  };
+    if (
+      !e.target.value ||
+      usernameRegex.test(e.target.value) ||
+      username.length < 1
+    )
+      setUserNameError(false)
+    else setUserNameError("올바른 이름을 입력해주세요.")
+    setUserName(e.target.value)
+  }
 
   // 아이디 유효성 체크
-  const idRegex = /^[a-zA-Z0-9]+$/;
+  const idRegex = /^[a-zA-Z0-9]+$/
   const onChangeUserId = (e) => {
     if (!e.target.value || idRegex.test(e.target.value) || memberId.length < 1)
-      setMemberIdError(false);
-    else setMemberIdError("영문자+숫자 조합으로 입력해주세요.");
-    setMemberId(e.target.value);
-  };
+      setMemberIdError(false)
+    else setMemberIdError("영문자+숫자 조합으로 입력해주세요.")
+    setMemberId(e.target.value)
+  }
 
   // 비밀번호 유효성 체크
-  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,20}$/;
+  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,20}$/
   const onChangePassword = (e) => {
-    if (!e.target.value || passwordRegex.test(e.target.value)) setPasswordError(false);
-    else setPasswordError("숫자+영문자 조합으로 8~20자리로 입력해주세요.");
+    if (!e.target.value || passwordRegex.test(e.target.value))
+      setPasswordError(false)
+    else setPasswordError("숫자+영문자 조합으로 8~20자리로 입력해주세요.")
 
-    if (!passwordState || e.target.value === passwordState) setPasswordStateError(false);
-    else setPasswordStateError("비밀번호가 일치하지 않습니다.");
-    setPassword(e.target.value);
-  };
+    if (!passwordState || e.target.value === passwordState)
+      setPasswordStateError(false)
+    else setPasswordStateError("비밀번호가 일치하지 않습니다.")
+    setPassword(e.target.value)
+  }
 
   // 비밀번호 같은지 체크
   const onChangePasswordState = (e) => {
-    if (password === e.target.value) setPasswordStateError(false);
-    else setPasswordStateError("비밀번호가 일치하지 않습니다.");
-    setpasswordState(e.target.value);
-  };
+    if (password === e.target.value) setPasswordStateError(false)
+    else setPasswordStateError("비밀번호가 일치하지 않습니다.")
+    setpasswordState(e.target.value)
+  }
 
   // 이메일 유효성 체크
   const emailRegex =
-    /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
   const onChangeEmail = (e) => {
-    if (!e.target.value || emailRegex.test(e.target.value)) setEmailError(false);
-    else setEmailError("올바른 이메일 형식이 아닙니다.");
-    setEmail(e.target.value);
-  };
+    if (!e.target.value || emailRegex.test(e.target.value)) setEmailError(false)
+    else setEmailError("올바른 이메일 형식이 아닙니다.")
+    setEmail(e.target.value)
+  }
 
   // 이메일 인증 번호 유효성 체크
-  const keyRegex = /^[0-9]+$/;
+  const keyRegex = /^[0-9]+$/
   const onChangeKey = (e) => {
-    if (!e.target.value || keyRegex.test(e.target.value) || key.length < 1) setKeyError(false);
-    else setKeyError("올바른 인증번호 형식이 아닙니다.");
-    setKey(e.target.value);
-  };
+    if (!e.target.value || keyRegex.test(e.target.value) || key.length < 1)
+      setKeyError(false)
+    else setKeyError("올바른 인증번호 형식이 아닙니다.")
+    setKey(e.target.value)
+  }
 
   // 닉네임 유효성 검사
-  const nicknameRegex = /^(([가-힣a-zA-Z0-9]).{1,20})+$/;
+  const nicknameRegex = /^(([가-힣a-zA-Z0-9]).{1,20})+$/
   const onChangeNickname = (e) => {
-    if (!e.target.value || nicknameRegex.test(e.target.value) || nickname.length < 1)
-      setNicknameError(false);
-    else setNicknameError("한글, 영어, 숫자로 1~20자만 사용 가능합니다.");
-    setNickname(e.target.value);
-  };
+    if (
+      !e.target.value ||
+      nicknameRegex.test(e.target.value) ||
+      nickname.length < 1
+    )
+      setNicknameError(false)
+    else setNicknameError("한글, 영어, 숫자로 1~20자만 사용 가능합니다.")
+    setNickname(e.target.value)
+  }
 
   // 아이디 중복 확인
   const idCheck = async (data) => {
-    data = memberId;
+    data = memberId
     axios
       .get("http://i8a808.p.ssafy.io:8080/user/id/verify", {
         params: { id: data },
       })
       .then(function (response) {
         // console.log(response, "성공")
-        alert("사용할 수 있는 아이디입니다.");
+        alert("사용할 수 있는 아이디입니다.")
         // console.log(data)
-        setCheckIdDone(() => true);
+        setCheckIdDone(() => true)
       })
       .catch(function (err) {
         // console.log(err)
-        alert("이미 사용 중인 아이디입니다.");
-      });
-  };
+        alert("이미 사용 중인 아이디입니다.")
+      })
+  }
 
   const handleId = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const data = new FormData(e.currentTarget[0]);
+    const data = new FormData(e.currentTarget[0])
     const joinData = {
       memberId: data.get("memberId"),
-    };
-    idCheck(joinData);
-  };
+    }
+    idCheck(joinData)
+  }
 
   // 이메일 중복 확인 & 인증번호 받기
   const emailCheck = async (data) => {
-    data = email;
+    data = email
     // console.log(email)
     axios
       .post(
@@ -202,60 +212,60 @@ const RegisterPage = () => {
         { headers: { Authorization: `` } }
       )
       .then(function (response) {
-        alert("메일로 인증번호가 발송되었습니다.");
+        alert("메일로 인증번호가 발송되었습니다.")
         // console.log(response, "성공")
-        const checkEmailDone = "yes";
-        setCheckEmailDone(() => true);
+        const checkEmailDone = "yes"
+        setCheckEmailDone(() => true)
       })
       .catch(function (err) {
         // console.log(err)
-        alert("이미 계정이 있습니다.");
-      });
-  };
+        alert("이미 계정이 있습니다.")
+      })
+  }
 
   const handleEmail = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const data = new FormData(e.currentTarget[0]);
+    const data = new FormData(e.currentTarget[0])
     const joinData = {
       email: data.get("email"),
-    };
-    emailCheck(joinData);
-  };
+    }
+    emailCheck(joinData)
+  }
 
   // 이메일 인증번호 확인하기
   const emailNumberCheck = async (data) => {
-    data = { key, email };
+    data = { key, email }
     axios
       .get("http://i8a808.p.ssafy.io:8080/user/email/verify", {
         params: { key: key, email: email },
       })
       .then(function (response) {
         // console.log(response, "성공")
-        alert("인증이 완료되었습니다.");
+        alert("인증이 완료되었습니다.")
 
-        const checkEmailNumberDone = "yes";
-        setCheckEmailNumberDone(() => true);
+        const checkEmailNumberDone = "yes"
+        setCheckEmailNumberDone(() => true)
       })
       .catch(function (err) {
         // console.log(err)
-        alert("인증번호가 틀렸습니다.");
-      });
-  };
+        alert("인증번호가 틀렸습니다.")
+      })
+  }
 
   const handleEmailNumber = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const data = new FormData(e.currentTarget[0]);
+    const data = new FormData(e.currentTarget[0])
     const joinData = {
       key: data.get("key"),
       email: data.get("email"),
-    };
-    emailNumberCheck(joinData);
-  };
+    }
+    emailNumberCheck(joinData)
+  }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     // const data = new FormData(e.currentTarget)
     // const joinData = {
@@ -306,12 +316,12 @@ const RegisterPage = () => {
         // })
         .then((res) => {
           if (res.headers.autorization) {
-            localStorage.setItem("login-token", res.headers.autorization);
+            localStorage.setItem("login-token", res.headers.autorization)
           }
           if (res.status === 200) {
-            alert("축하합니다! 마실까 말까의 회원이 되셨습니다!");
-            const postData = { memberId, password };
-            setLoading(true); // axios 호출 전 로딩페이지를 띄우기 위한 state 처리
+            alert("축하합니다! 마실까 말까의 회원이 되셨습니다!")
+            const postData = { memberId, password }
+            setLoading(true) // axios 호출 전 로딩페이지를 띄우기 위한 state 처리
             axios
               .post("http://i8a808.p.ssafy.io:8080/login", postData, {
                 withCredentials: true,
@@ -319,26 +329,31 @@ const RegisterPage = () => {
               .then(async (response) => {
                 // console.log(response);
 
-                return response;
+                return response
               })
               .then(async (response) => {
                 if (response.headers.authorization) {
-                  localStorage.setItem("login-token", response.headers.authorization);
+                  localStorage.setItem(
+                    "login-token",
+                    response.headers.authorization
+                  )
                 }
                 if (response.status === 200) {
-                  setLoading(false);
+                  setLoading(false)
                   setTimeout(() => {
-                    history.push("/info");
-                    window.location.reload();
-                  }, 800);
+                    history.push("/info")
+                    window.location.reload()
+                  }, 800)
                 }
               })
               .catch(function (err) {
                 // console.log(err);
                 // console.log("로그인 안됨");
                 // console.log(postData);
-                setLoginError("로그인에 실패하였습니다. 다시 한 번 확인해 주세요");
-              });
+                setLoginError(
+                  "로그인에 실패하였습니다. 다시 한 번 확인해 주세요"
+                )
+              })
           }
         })
         .catch((err) => {
@@ -346,9 +361,21 @@ const RegisterPage = () => {
           // if(errorCode=="USER-002"){
           //   alert("사용 중인 아이디입니다.")
           // }
-        });
+        })
+    } else if (usernameRegex.test(username) === false) {
+      alert("이름 형식을 확인하세요")
+    } else if (nicknameRegex.test(nicknameRegex) === false) {
+      alert("닉네임 형식을 확인하세요")
+    } else if (idRegex.test(memberId) === false) {
+      alert("아이디 형식을 확인하세요")
+    } else if (passwordRegex.test(passwordRegex) === false) {
+      alert("비밀번호 형식을 확인하세요")
+    } else if (password !== passwordState) {
+      alert("비밀번호가 일치하지 않습니다")
+    } else if (emailRegex.test(emailRegex) === false) {
+      alert("이메일 형식을 확인하세요")
     }
-  };
+  }
   const theme = createTheme({
     palette: {
       primary: {
@@ -358,7 +385,7 @@ const RegisterPage = () => {
     typography: {
       fontFamily: "netmarble",
     },
-  });
+  })
   return (
     <ThemeProvider theme={theme}>
       {loading === true ? (
@@ -379,7 +406,12 @@ const RegisterPage = () => {
                 회원가입
               </Typography>
             </TitleCard>
-            <Boxs component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 0 }}>
+            <Boxs
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 0 }}
+            >
               <FormControl component="fieldset" variant="standard">
                 <BackCard>
                   <Grid container spacing={1} m={0}>
@@ -585,31 +617,31 @@ const RegisterPage = () => {
         </Container>
       )}
     </ThemeProvider>
-  );
-};
+  )
+}
 
 const FormHelperTexts = styled(FormHelperText)`
   width: 100%;
   padding-left: 16px;
   font-weight: 700 !important;
   color: #d32f2f !important;
-`;
+`
 
 const Boxs = styled(Box)`
   padding-bottom: 10px !important;
-`;
+`
 
 const BackCard = styled(Box)`
   border-radius: 10px !important;
   // border: 2px solid #674f04 !important;
   padding-bottom: 10px !important;
-`;
+`
 
 const BackButton = styled(Button)`
   border-radius: 10px !important;
   heigth: 54px !important;
   // border: 2px solid #674f04 !important;
-`;
+`
 
 const TitleCard = styled(Card)`
   border: 2px solid #ffba00 !important;
@@ -620,16 +652,16 @@ const TitleCard = styled(Card)`
   background-color: white !important;
   margin-bottom: 10px !important;
   color: #ffba00 !important;
-`;
+`
 
 const ImageContainer = styled(Grid)`
   grid-template-columns: 3fr 7fr;
   grid-template-rows: repeat(2, 1fr);
-`;
+`
 
 const SendButton = styled(Button)`
   background-color: #ffba00 !important;
   margin-top: 9px !important;
-`;
+`
 
-export default RegisterPage;
+export default RegisterPage

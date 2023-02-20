@@ -1,6 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { Box, Card, Typography } from "@mui/material";
-import Button from "@mui/material-next/Button";
 import FabButton from "../../components/util/FabButton";
 import { Link } from "react-router-dom";
 
@@ -19,7 +18,7 @@ function SelectMenuPage(props) {
 
   useEffect(() => {
     setStoreName(props.location.state.cafe);
-  }, [storeName]);
+  }, [storeName, props.location.state.cafe]);
 
   // const [possible, setPossible] = useState([])
   // const [impossible, setImpossible] = useState([])
@@ -124,7 +123,7 @@ function SelectMenuPage(props) {
     };
 
     getMenus();
-  }, []);
+  }, [date, storeName]);
   // console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", menu);
 
   // useEffect(() => {
@@ -141,12 +140,12 @@ function SelectMenuPage(props) {
     });
   }, [selectDrinkInfo]);
 
-  const finalData = {
-    franchiseId: menu.franchiseId,
-    franchiseName: storeName,
-    drink: selectDrinkInfo,
-    branch: "",
-  };
+//  const finalData = {
+//    franchiseId: menu.franchiseId,
+//    franchiseName: storeName,
+//   drink: selectDrinkInfo,
+//   branch: "",
+//  };
   // console.log("**** selctDrinkInfo : " + selectDrinkInfo);
 
   const nextPage = (event) => {
