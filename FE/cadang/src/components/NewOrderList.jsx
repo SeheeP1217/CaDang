@@ -122,7 +122,7 @@ export default function NewOrderList() {
           }}
           topics={["/topic/store-order-manage/1", ""]}
           onMessage={(msg) => {
-            console.log(msg);
+            // console.log(msg);
             setMsg(msg);
           }}
           ref={$websocket}

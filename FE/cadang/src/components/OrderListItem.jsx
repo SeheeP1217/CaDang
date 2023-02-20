@@ -80,26 +80,26 @@ export default function OrderListItem(props) {
     setAccept(false);
     setComplete(true);
 
-    if (window.confirm("제조 완료하셨습니까?")) {
-      setStatus("COMPLETE"); // 제조 완료했다면 음료 주문 상태 변경
-      // 주문 상태 변경 요청 api 함수
-      const putOrder = async () => {
-        await setOrderStatus(
-          orderItem.orderId,
-          "COMPLETE",
-          (res) => {
-            // console.log(res.data);
-            return res.data;
-          },
-          (err) => console.log(err)
-        ).then((data) => setId(data));
-      };
+    // if (window.confirm("제조 완료하셨습니까?")) {
+    setStatus("COMPLETE"); // 제조 완료했다면 음료 주문 상태 변경
+    // 주문 상태 변경 요청 api 함수
+    const putOrder = async () => {
+      await setOrderStatus(
+        orderItem.orderId,
+        "COMPLETE",
+        (res) => {
+          // console.log(res.data);
+          return res.data;
+        },
+        (err) => console.log(err)
+      ).then((data) => setId(data));
+    };
 
-      putOrder();
+    putOrder();
 
-      // console.log("putOrder() 후 : 서버로부터 받아온 customerId => " + id);
-    } else {
-    }
+    // console.log("putOrder() 후 : 서버로부터 받아온 customerId => " + id);
+    // } else {
+    // }
   };
 
   // 카페가 주문 현황 상태를 "픽업 완료" 버튼을 눌렀을 경우
@@ -109,24 +109,24 @@ export default function OrderListItem(props) {
     setTimeout(() => (pickupBtn.current.style.backgroundColor = "#FF9E57"), 10);
     // setPickup(true);
 
-    if (window.confirm("손님이 픽업 완료했습니까?")) {
-      setStatus("PICKUP"); // 음료가 픽업 완료됐다면 status 변경
-      // 주문 상태 변경 요청 api 함수
-      const putOrder = async () => {
-        await setOrderStatus(
-          orderItem.orderId,
-          "PICKUP",
-          (res) => {
-            // console.log(res.data);
-            return res.data;
-          },
-          (err) => console.log(err)
-        ).then((data) => setId(data));
-      };
+    // if (window.confirm("손님이 픽업 완료했습니까?")) {
+    setStatus("PICKUP"); // 음료가 픽업 완료됐다면 status 변경
+    // 주문 상태 변경 요청 api 함수
+    const putOrder = async () => {
+      await setOrderStatus(
+        orderItem.orderId,
+        "PICKUP",
+        (res) => {
+          // console.log(res.data);
+          return res.data;
+        },
+        (err) => console.log(err)
+      ).then((data) => setId(data));
+    };
 
-      putOrder();
-    } else {
-    }
+    putOrder();
+    // } else {
+    // }
   };
 
   // orderStatus flag값 설정 -> 현재 진행 중인 상태에 대한 버튼만 회색 처리
