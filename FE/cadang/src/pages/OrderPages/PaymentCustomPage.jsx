@@ -67,6 +67,7 @@ function PaymentCustomPage(props) {
       sugarSuccess: true,
     },
   });
+  // console.log(drinkDetail.optionDtos)
   const basicDrink = drinkDetail.drinkResponseDtos[0];
   const [changedOtherInfo, setChangedOtherInfo] = useState({
     money: 0,
@@ -93,6 +94,17 @@ function PaymentCustomPage(props) {
     memo: "",
     storeName: location.state.franchiseName,
   });
+  console.log(orderDetail)
+
+
+  // 옵션 가격 테이블 새로 선언
+  const optionPriceTable = {
+  }
+  {drinkDetail.optionDtos.map((option) => {
+    optionPriceTable[option.type.toLowerCase()] = option.price
+    // option.type.toLowerCase(): option.price
+  })}
+  console.log(optionPriceTable)
 
   // 결제창 띄우는 정보 추가 선언
   // const [priceDetail, setPriceDetail] = useState({
@@ -391,7 +403,7 @@ function PaymentCustomPage(props) {
       <Grid item>
         <Link
           style={{ textDecoration: "none" }}
-          to={{ pathname: `/payment`, state: { orderDetail, drinkItem, drinkDetail } }}
+          to={{ pathname: `/payment`, state: { orderDetail, drinkItem, drinkDetail, optionPriceTable } }}
         >
           <Button
             variant="contained"
