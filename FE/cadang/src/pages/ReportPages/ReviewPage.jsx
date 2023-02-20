@@ -46,9 +46,8 @@ const ReviewPage = () => {
     ],
   });
 
-  // console.log(dayjs(reviewDetail.regDate).format("YYYY-MM-DD"))
   const [modifyDate, setmodifyDate] = useState(dayjs(reviewDetail.regDate).format("YYYY-MM-DD"));
-  const [modifyIsPublic, setmodifyIsPublic] = useState(true);
+  // const [modifyIsPublic, setmodifyIsPublic] = useState(true);
   const [modifyMemo, setModifyMemo] = useState(reviewDetail.memo);
   const [modifyImage, setModifyImage] = useState({
     image_file: "",
@@ -76,7 +75,7 @@ const ReviewPage = () => {
       image_file: "",
       preview_URL: originImg,
     });
-  }, [reviewDetail]);
+  }, [reviewDetail, originImg]);
 
   // console.log(reviewDetail);
   const [isModified, setIsModified] = useState(0);
