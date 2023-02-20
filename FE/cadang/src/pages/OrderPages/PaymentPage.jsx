@@ -107,10 +107,14 @@ export default function PaymentPage() {
         // 결제 준비 API는 POST 메소드라고 한다.
         method: "POST",
         headers: {
-          // 카카오 developers에 등록한 admin키를 헤더에 줘야 한다.
-          Authorization: `KakaoAK 31c2527be3690d20a307db4fc88f5524`,
+          Authorization: `KakaoAK ${process.env.REACT_APP_KAKAOPAY_KEY}`,
           "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
         },
+        // headers: {
+        //   // 카카오 developers에 등록한 admin키를 헤더에 줘야 한다.
+        //   Authorization: `KakaoAK `,
+        //   "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        // },
         // 설정한 매개변수들
         params,
       }).then((response) => {
@@ -123,7 +127,8 @@ export default function PaymentPage() {
           // <Link to="response.data.next_redirect_pc_url" />;
           // console.log("orderDetail ==> " + orderDetail.drinkId);
           window.open(response.data.next_redirect_mobile_url);
-        } else if (response.status === 404) {
+          // window.open(response.data.next_redirect_pc_url);
+        } else if (response.status == 404) {
           // 404 에러라면
           <Link to="/error404">error 404</Link>;
         } else if (response.status === 500) {
