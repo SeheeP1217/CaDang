@@ -96,12 +96,18 @@ function PaymentCustomPage(props) {
   });
   console.log(orderDetail)
 
+  const [sizePrice, setSizePrice] = useState(basicDrink.price)
 
+  useEffect(() => {
+    const nowSize = drinkDetail.drinkResponseDtos.find((size) => size.drinkId === orderDetail.drinkId)
+    setSizePrice(nowSize.price)
+  }, [orderDetail.drinkId])
+
+  console.log(sizePrice)
   // 옵션 가격 테이블 새로 선언
-  const optionPriceTable = {
-  }
+  const optionPriceTable = []
   {drinkDetail.optionDtos.map((option) => {
-    optionPriceTable[option.type.toLowerCase()] = option.price
+    optionPriceTable.push({'type' : option.type.toLowerCase(), 'price': option.price})
     // option.type.toLowerCase(): option.price
   })}
   console.log(optionPriceTable)
@@ -359,7 +365,7 @@ function PaymentCustomPage(props) {
     color: "000000",
   }));
 
-  console.log(orderDetail);
+
 
   return (
     <div>
@@ -403,7 +409,7 @@ function PaymentCustomPage(props) {
       <Grid item>
         <Link
           style={{ textDecoration: "none" }}
-          to={{ pathname: `/payment`, state: { orderDetail, drinkItem, drinkDetail, optionPriceTable } }}
+          to={{ pathname: `/payment`, state: { orderDetail, drinkItem, drinkDetail, optionPriceTable, basicDrink, sizePrice } }}
         >
           <Button
             variant="contained"
