@@ -8,7 +8,7 @@ import {
   FormControl,
   // FormControlLabel,
   // Checkbox,
-  FormHelperText,
+  // FormHelperText,
   Grid,
   Box,
   Typography,
@@ -18,7 +18,6 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import styled from "styled-components"
 import ModifyProfileImageUploader from "../../components/util/ModifyProfileImageUploader"
-import default_image from "../../assets/default_image.png"
 import GoalSettingItem from "../../components/util/goalSettingItem"
 import { useMemo } from "react"
 import { getUserProfile } from "../../api/user"
@@ -31,9 +30,6 @@ const UpdateProfilePage = () => {
       primary: {
         main: "#3A130C",
       },
-    },
-    typography: {
-      fontFamily: "netmarble",
     },
   })
 
@@ -234,7 +230,6 @@ const UpdateProfilePage = () => {
                 </Grid>
               </Grid>
 
-
               <GoalSettingItem
                 caffeGoal={changedProfile.caffeGoal}
                 sugarGoal={changedProfile.sugarGoal}
@@ -274,12 +269,12 @@ const UpdateProfilePage = () => {
   )
 }
 
-const FormHelperTexts = styled(FormHelperText)`
-  width: 100%;
-  padding-left: 16px;
-  font-weight: 700 !important;
-  color: #d32f2f !important;
-`
+// const FormHelperTexts = styled(FormHelperText)`
+//   width: 100%;
+//   padding-left: 16px;
+//   font-weight: 700 !important;
+//   color: #d32f2f !important;
+// `
 
 const Boxs = styled(Box)`
   padding-bottom: 10px !important;
@@ -295,7 +290,7 @@ const TitleCard = styled(Card)`
   margin-bottom: 10px !important;
   color: #ffba00 !important;
 `
-const SendButton = styled(Button)`
-  background-color: #ffba00 !important;
-`
+// const SendButton = styled(Button)`
+//   background-color: #ffba00 !important;
+// `
 export default UpdateProfilePage

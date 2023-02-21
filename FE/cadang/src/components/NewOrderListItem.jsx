@@ -1,11 +1,9 @@
-import React, { useEffect, useRef, useState, useMemo } from "react";
-import PropTypes from "prop-types";
-import { Paper, Box, Grid, Card } from "@mui/material";
+import React, { useEffect, useState, useMemo } from "react";
+import { Grid } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import Button from "@mui/material-next/Button";
 import Divider from "@mui/material/Divider";
 import { setOrderStatus } from "../api/cafeCeo";
-import SockJsClient from "react-stomp";
 
 export default function NewOrderListItem(props) {
   const [drinkItem, setDrinkItem] = useState();

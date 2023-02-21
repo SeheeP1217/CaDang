@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState, useMemo } from "react";
-import PropTypes from "prop-types";
-import { Paper, Box, Grid, Card } from "@mui/material";
+import { Grid } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import OrderListItem from "./OrderListItem";
 import { orderList } from "../api/cafeCeo";
@@ -60,7 +59,6 @@ export default function OrderList() {
           </Grid>
           <Typography
             sx={{
-              fontFamily: "netmarble",
               fontSize: "20px",
               fontWeight: "xl",
               level: "h3",

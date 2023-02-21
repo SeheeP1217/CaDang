@@ -1,11 +1,15 @@
 import { Button, Card, Typography, Grid } from "@mui/material"
 import { Link } from "react-router-dom"
-import drink from "../assets/drink.png"
 import axios from "axios"
 import React, { useEffect, useState } from "react"
 import { useRecoilState, useRecoilValue } from "recoil"
 import { userId, todayDate } from "../recoil/atom/user.jsx"
 import { recommendDrinks } from "../api/main"
+import coffeebean from "../assets/coffeebean.png"
+import sugar from "../assets/sugar.png"
+import coin from "../assets/coin.png"
+import calories from "../assets/calories.png"
+import { margin } from "@mui/system"
 
 function DrinkRecommendation() {
   const [list, setList] = useState([])
@@ -252,18 +256,35 @@ function DrinkRecommendation() {
               </Button>
             )}
           </Grid>
+          <Grid item xs={1} />
           <Grid item xs={4}>
             {drinkItem !== undefined && (
-              <Typography>{drinkItem.caffeine}mg</Typography>
+              <Typography style={{ textAlign: "left" }}>
+                <img src={coffeebean} alt="coffeebean" width="25px" />
+                {"    "}
+                {drinkItem.caffeine}mg
+              </Typography>
             )}
             {drinkItem !== undefined && (
-              <Typography>{drinkItem.sugar}g</Typography>
+              <Typography style={{ textAlign: "left" }}>
+                <img src={sugar} alt="sugar" width="25px" />
+                {"    "}
+                {drinkItem.sugar}g
+              </Typography>
             )}
             {drinkItem !== undefined && (
-              <Typography>{drinkItem.cal}Kcal</Typography>
+              <Typography style={{ textAlign: "left" }}>
+                <img src={calories} alt="calories" width="25px" />
+                {"    "}
+                {drinkItem.cal}Kcal
+              </Typography>
             )}
             {drinkItem !== undefined && (
-              <Typography>{drinkItem.price}원</Typography>
+              <Typography style={{ textAlign: "left" }}>
+                <img src={coin} alt="coin" width="25px" />
+                {"    "}
+                {drinkItem.price}원
+              </Typography>
             )}
           </Grid>
         </Grid>
@@ -273,7 +294,6 @@ function DrinkRecommendation() {
             display: "flex",
             justifyContent: "flex-end",
             textAlign: "center",
-            fontFamily: "netmarble",
           }}
         >
           <Link

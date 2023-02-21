@@ -1,4 +1,3 @@
-import Typography from "@mui/joy/Typography"
 import { List, Grid } from "@mui/material"
 import coin from "../assets/coin.png"
 import calories from "../assets/calories.png"

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState, useMemo } from "react";
-import PropTypes from "prop-types";
 import NewOrderListItem from "./NewOrderListItem.jsx";
 import SockJsClient from "react-stomp";
 import { newOrderCheck } from "../api/cafeCeo";
@@ -136,7 +135,6 @@ export default function NewOrderList() {
           </Grid>
           <Typography
             sx={{
-              fontFamily: "netmarble",
               fontSize: "20px",
               fontWeight: "xl",
               level: "h3",

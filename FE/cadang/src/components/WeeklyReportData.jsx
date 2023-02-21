@@ -15,7 +15,6 @@ import styled from "styled-components"
 import { getWeeklyData, getGraphData } from "../api/report"
 
 // 정보 박스
-import ListItemDecorator from "@mui/joy/ListItemDecorator"
 import WeeklyReportChart from "./WeeklyReportChart"
 
 function TabPanel(props) {
@@ -197,16 +196,16 @@ function WeeklyReportData(props) {
             <Grid item xs={7}>
               <Typography
                 style={{
-                  textAlign: "center",
+                  textAlign: "right",
                   fontFamily: "netmarble",
                   fontSize: "14px",
                   marginRight: "5px",
                 }}
               >
-                {<img width="10%" src={coffeebean} alt="coffeebean" />}{" "}
+                {<img width="12%" src={coffeebean} alt="coffeebean" />}{" "}
                 {weeklyData.todayCaffe}
                 mg{"   "}
-                {<img width="10%" src={sugar} alt="sugar" />}{" "}
+                {<img width="12%" src={sugar} alt="sugar" />}{" "}
                 {weeklyData.todaySugar}g
               </Typography>
             </Grid>
@@ -248,15 +247,15 @@ function WeeklyReportData(props) {
             <Grid item xs={7}>
               <Typography
                 style={{
-                  textAlign: "center",
+                  textAlign: "right",
                   fontFamily: "netmarble",
                   fontSize: "14px",
                   marginRight: "5px",
                 }}
               >
-                {<img width="10%" src={coffeebean} alt="coffeebean" />}{" "}
+                {<img width="12%" src={coffeebean} alt="coffeebean" />}{" "}
                 {weeklyData.thisWeekCaffe}mg{" "}
-                {<img width="10%" src={sugar} alt="sugar" />}{" "}
+                {<img width="12%" src={sugar} alt="sugar" />}{" "}
                 {weeklyData.thisWeekSugar}g
               </Typography>
             </Grid>
@@ -306,7 +305,6 @@ const TitleCard = styled(Card)`
   height: 5% !important;
   margin-bottom: 5px !important;
   color: white !important;
-  font-family: netmarble !important;
 `
 
 export default WeeklyReportData

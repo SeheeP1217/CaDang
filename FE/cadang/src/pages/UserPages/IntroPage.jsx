@@ -3,7 +3,7 @@ import Stack from "@mui/material/Stack"
 import { Link } from "react-router-dom"
 import introimage from "../../assets/introimage.jpg"
 import coffeeheart from "../../assets/coffeeheart.gif"
-import { Grid, Box } from "@mui/material"
+import { Grid } from "@mui/material"
 import styled from "styled-components"
 import mainlogo from "../../assets/mainlogo.png"
 import "./introPage.css"
@@ -74,7 +74,6 @@ function FirstPage() {
                 top: "80%",
                 backgroundColor: "#3A130C",
                 color: "white",
-                fontFamily: "netmarble",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
               }}
@@ -89,7 +88,6 @@ function FirstPage() {
                 position: "absolute",
                 top: "85%",
                 color: "white",
-                fontFamily: "netmarble",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
                 padding: "0px",

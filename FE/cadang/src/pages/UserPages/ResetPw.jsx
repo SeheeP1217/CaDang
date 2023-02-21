@@ -6,8 +6,6 @@ import {
   CssBaseline,
   TextField,
   FormControl,
-  // FormControlLabel,
-  // Checkbox,
   FormHelperText,
   Grid,
   Box,
@@ -18,7 +16,6 @@ import {
 import {
   createTheme,
   ThemeProvider,
-  // CreateMUIStyled,
 } from "@mui/material/styles"
 import styled from "styled-components"
 
@@ -29,15 +26,11 @@ const ResetPwPage = (location) => {
         main: "#3A130C",
       },
     },
-    typography: {
-      fontFamily: "netmarble",
-    },
   })
   const [memberId, setMemberId] = useState(-1)
   useEffect(() => {
-    console.log(location.location.props.response.data.id, "/////////")
     setMemberId(location.location.props.response.data.id)
-  }, [])
+  }, [location.location.props.response.data.id])
 
   const [password, setPassword] = useState("")
   const [passwordState, setpasswordState] = useState("")

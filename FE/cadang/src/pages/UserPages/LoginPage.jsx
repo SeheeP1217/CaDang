@@ -61,9 +61,6 @@ const LoginPage = () => {
         main: "#3A130C",
       },
     },
-    typography: {
-      fontFamily: "netmarble",
-    },
   })
   // const [checked, setChecked] = useState(false)
   const [memberId, setMemberId] = useState("")
