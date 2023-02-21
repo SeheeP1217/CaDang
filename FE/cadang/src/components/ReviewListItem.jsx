@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { styled } from "@mui/material/styles"
 import Grid from "@mui/material/Grid"
 import Typography from "@mui/material/Typography"
-import { Card, CardMedia } from "@mui/material"
+import { Card } from "@mui/material"
 import IconButton from "@mui/material/IconButton"
 import { Link, useHistory } from "react-router-dom"
 
@@ -70,8 +70,8 @@ function ReviewListItem(props) {
       return <Typography>{memo}</Typography>
     } else {
       return (
-        <Typography>
-          {memo.length > 20 ? `${memo.slice(0, 20)}...` : memo}
+        <Typography  variant="body1" style={{ wordWrap: 'break-word' }}>
+          {memo.length > 20 ? `${memo.slice(0, 15)}...` : memo}
           <Link onClick={() => onExpandClickHandler(id)}>
             <ExpandMoreIcon />
           </Link>
@@ -91,7 +91,7 @@ function ReviewListItem(props) {
         // console.log(review)
         return (
           <Card style={{ marginBottom: 5 }}>
-            <Grid container xs={12} spacing={1} key={review.id}>
+            <Grid container xs={12} spacing={1} key={review.id} style={{display: 'flex'}}>
               <Grid item xs={3} margin="auto">
                 <Img
                   id={review.id}

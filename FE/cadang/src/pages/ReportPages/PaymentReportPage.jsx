@@ -1,4 +1,4 @@
-import { Card, Grid, Button } from "@mui/material"
+import { Grid, Button } from "@mui/material"
 import PaymentRecord from "../../components/PaymentRecord"
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew"
 import { Link } from "react-router-dom"

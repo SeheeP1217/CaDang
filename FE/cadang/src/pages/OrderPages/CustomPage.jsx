@@ -5,9 +5,8 @@ import { Paper, Box, Grid, Card } from "@mui/material"
 import Typography from "@mui/joy/Typography"
 import { styled } from "@mui/material/styles"
 import Button from "@mui/material/Button"
-import { Link, useLocation, useHistory } from "react-router-dom"
+import { useLocation, useHistory } from "react-router-dom"
 import dayjs from "dayjs"
-import { createTheme, ThemeProvider } from "@mui/material/styles"
 
 import DailyConsumptionGraph from "../../components/util/DailyConsumptionGraph"
 import CustomDrinkMenuItem from "../../components/util/CustomDrinkMenuItem"
@@ -20,13 +19,13 @@ function CustomPage() {
   const location = useLocation()
   console.log(location)
   const history = useHistory()
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: "#3A130C",
-      },
-    },
-  })
+  // const theme = createTheme({
+  //   palette: {
+  //     primary: {
+  //       main: "#3A130C",
+  //     },
+  //   },
+  // })
 
   // 페이지 편집용 변수쓰
   // const franchiseId = 9;
@@ -116,7 +115,7 @@ function CustomPage() {
       sugarContent: "BASIC",
       storeName: location.state.franchiseName,
     })
-  }, [basicDrink])
+  }, [basicDrink, location.state.franchiseName])
   // console.log("this", basicDrink)
   // console.log("this", orderDetail)
 
@@ -293,7 +292,7 @@ function CustomPage() {
       })
     }
     getCustomData()
-  }, [])
+  }, [franchiseId, drinkName])
 
   console.log(orderDetail)
   console.log(withoutCustom)

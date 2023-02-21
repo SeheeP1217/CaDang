@@ -15,7 +15,6 @@ import styled from "styled-components"
 import { getWeeklyData, getGraphData } from "../api/report"
 
 // 정보 박스
-import ListItemDecorator from "@mui/joy/ListItemDecorator"
 import WeeklyReportChart from "./WeeklyReportChart"
 
 function TabPanel(props) {
