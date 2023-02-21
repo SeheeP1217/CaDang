@@ -125,14 +125,16 @@ function ReviewListItem(props) {
                     {review.caffeine}mg / {review.sugar}g
                   </Typography>
                 </Grid>
-                <Grid item xs={9.2}>
+                <Grid item xs={12}>
                   <Typography variant="body2">
                     {review.cal}Kcal /{review.price}원
                   </Typography>
                 </Grid>
-                <Grid item xs={2.8}>
+                <Grid item xs={9}>
                   {renderMemo(review.memo, review.id)}
+                  </Grid>
                   {/* <Link to={{ pathname: `/review/${review.id}`, state:{review} }}> */}
+                  <Grid item xs={3}>
                   <Link
                     to={{
                       pathname: `/review/${review.id}`,
