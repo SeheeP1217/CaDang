@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { Grid, List, Card, Divider, Button } from "@mui/material"
 import Typography from "@mui/joy/Typography"
-import drink from "../../assets/drink.png"
 
-import ListItemButton from "@mui/material/ListItemButton"
-import { Box, textAlign } from "@mui/system"
-import loading from "../../assets/loadinggif.gif"
+import { Box} from "@mui/system"
 import question from "../../assets/question.gif"
 
 function MenuListItem(props) {

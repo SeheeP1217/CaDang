@@ -1,23 +1,30 @@
-import React, { useState, useEffect, useMemo } from "react";
-import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
-import Autocomplete from "@mui/material/Autocomplete";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import { Button, Grid } from "@mui/material";
+import React, { useState, useEffect, useMemo } from "react"
+import TextField from "@mui/material/TextField"
+import Stack from "@mui/material/Stack"
+import Autocomplete from "@mui/material/Autocomplete"
+import InputLabel from "@mui/material/InputLabel"
+import MenuItem from "@mui/material/MenuItem"
+import FormControl from "@mui/material/FormControl"
+import Select from "@mui/material/Select"
+import { Button, Grid } from "@mui/material"
 
 function ReviewSearchBar(props) {
   // console.log(props);
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState([])
 
   useEffect(() => {
-    setReviews(props.data.recordList);
-  }, [props]);
+    setReviews(props.data.recordList)
+  }, [props])
 
   return (
-    <Grid container style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+    <Grid
+      container
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <Grid item xs={9}>
         <Autocomplete
           freeSolo
@@ -44,7 +51,6 @@ function ReviewSearchBar(props) {
           sx={{
             backgroundColor: "#ffba00",
             color: "white",
-            fontFamily: "netmarble",
             fontSize: "15px",
             margin: 1,
           }}
@@ -53,7 +59,7 @@ function ReviewSearchBar(props) {
         </Button>
       </Grid>
     </Grid>
-  );
+  )
 }
 
-export default ReviewSearchBar;
+export default ReviewSearchBar

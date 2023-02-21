@@ -1,5 +1,4 @@
 import { useEffect, useState, useMemo } from "react"
-import { Button } from "@mui/material"
 // import axios from "axios"
 import default_image from "../../assets/default_image.png"
 import styled from "styled-components"
@@ -128,7 +127,6 @@ const DeleteButton = styled.button`
   border-radius: 5px !important;
   border: 2px solid #674f04 !important;
   background-color: #ffffff !important;
-  font-family: netmarble;
   color: 350B !important;
 `
 const IconContainer = styled.div`

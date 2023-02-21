@@ -29,9 +29,6 @@ const SearchPwPage = () => {
         main: "#3A130C",
       },
     },
-    typography: {
-      fontFamily: "netmarble",
-    },
   })
 
   const [memberId, setMemberId] = useState("")

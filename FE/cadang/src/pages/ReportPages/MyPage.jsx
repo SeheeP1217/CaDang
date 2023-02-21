@@ -1,7 +1,6 @@
 import * as React from "react"
 import { useMemo, useState } from "react"
 import Button from "@mui/material-next/Button"
-// import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack"
 import ContentPasteSearchIcon from "@mui/icons-material/ContentPasteSearch"
 import AssessmentIcon from "@mui/icons-material/Assessment"
@@ -32,16 +31,6 @@ import { todayDashboard } from "../../api/main"
 import { useEffect } from "react"
 
 function MyPage() {
-  // const theme = createTheme({
-  //   palette: {
-  //     primary: {
-  //       main: "#3A130C",
-  //     },
-  //   },
-  //   typography: {
-  //     fontFamily: "netmarble",
-  //   },
-  // })
   const [pageIndex, setPageIndex] = useState(1)
   const [searchKeyword, setSearchKeyword] = useState("")
 
@@ -181,7 +170,6 @@ function MyPage() {
           sx={{
             backgroundColor: "#ffba00",
             color: "white",
-            fontFamily: "netmarble",
             fontSize: "20px",
             mt: "5px",
             mb: "5px",
@@ -201,7 +189,6 @@ function MyPage() {
           sx={{
             backgroundColor: "#ffba00",
             color: "white",
-            fontFamily: "netmarble",
             fontSize: "20px",
             mt: "5px",
             mb: "10px",
@@ -245,7 +232,6 @@ function MyPage() {
                 sx={{
                   backgroundColor: "#3A130C",
                   color: "white",
-                  fontFamily: "netmarble",
                   fontSize: "15px",
                 }}
               >

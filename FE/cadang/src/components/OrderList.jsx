@@ -60,7 +60,6 @@ export default function OrderList() {
           </Grid>
           <Typography
             sx={{
-              fontFamily: "netmarble",
               fontSize: "20px",
               fontWeight: "xl",
               level: "h3",

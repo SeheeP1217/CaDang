@@ -32,9 +32,6 @@ const UpdateProfilePage = () => {
         main: "#3A130C",
       },
     },
-    typography: {
-      fontFamily: "netmarble",
-    },
   })
 
   // 기존 프로필 불러오기
@@ -233,7 +230,6 @@ const UpdateProfilePage = () => {
                   />
                 </Grid>
               </Grid>
-
 
               <GoalSettingItem
                 caffeGoal={changedProfile.caffeGoal}

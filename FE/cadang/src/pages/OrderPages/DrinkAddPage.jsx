@@ -139,7 +139,7 @@ function DrinkAddPage() {
                 variant="outlined"
                 size="small"
                 onChange={onChangeBranchInput}
-                style={{ fontFamily: "netmarble", fontSize: "16px" }}
+                style={{ fontSize: "16px" }}
               />
             </Grid>
           </Grid>

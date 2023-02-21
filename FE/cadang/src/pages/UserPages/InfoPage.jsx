@@ -1,16 +1,11 @@
-import React, { useMemo, useState } from "react"
+import React, { useState } from "react"
 import Typography from "@mui/joy/Typography"
-import { Paper, Box, Grid } from "@mui/material"
-import ListItem from "@mui/material/ListItem"
-import ListItemText from "@mui/material/ListItemText"
-import TextField from "@mui/material/TextField"
+import { Paper, Grid } from "@mui/material"
 import Button from "@mui/material-next/Button"
 import Stack from "@mui/material/Stack"
-import styled from "styled-components"
 import GoalSettingItem from "../../components/util/goalSettingItem"
 import coffeebean from "../../assets/coffeebean.png"
 import sugar from "../../assets/sugar.png"
-import LoadingPage from "../LoadingPage"
 
 import ade from "../../assets/menus/ade.png"
 import americano from "../../assets/menus/americano.png"
@@ -18,10 +13,8 @@ import coke from "../../assets/menus/coke.png"
 import frappe from "../../assets/menus/frappe.png"
 import juice from "../../assets/menus/juice.png"
 import latte from "../../assets/menus/latte.png"
-import { useEffect } from "react"
 import { useHistory, Link } from "react-router-dom"
 import { setUserGoal } from "../../api/user"
-import { fontFamily } from "@mui/system"
 
 function InfoPage() {
   const history = useHistory()
@@ -283,11 +276,10 @@ function InfoPage() {
         </Paper>
 
         <GoalSettingItem
-          sugarGoal = {25}
-          caffeGoal = {400}
+          sugarGoal={25}
+          caffeGoal={400}
           onChangeCaffeineGoal={onChangeCaffeineGoal}
           onChangeSugarGoal={onChangeSugarGoal}
-
         />
         <Stack spacing={1} width="50%" margin="auto">
           <Button
@@ -296,7 +288,6 @@ function InfoPage() {
               backgroundColor: "#ffab00",
               color: "white",
               fontSize: "20px",
-              fontFamily: "netmarble",
             }}
             onMouseDown={setDrinkGoal}
           >
@@ -306,7 +297,7 @@ function InfoPage() {
             component={Link}
             to="/main"
             variant="text"
-            style={{ color: "black", fontFamily: "netmarble" }}
+            style={{ color: "black" }}
           >
             나중에 설정하기
           </Button>
@@ -315,9 +306,5 @@ function InfoPage() {
     </div>
   )
 }
-
-const CaffeAmount = styled(Typography)`
-  font-family: netmarble;
-`
 
 export default InfoPage

@@ -26,9 +26,6 @@ function CustomPage() {
         main: "#3A130C",
       },
     },
-    typography: {
-      fontFamily: "netmarble",
-    },
   })
 
   // 페이지 편집용 변수쓰
@@ -118,7 +115,7 @@ function CustomPage() {
       whip: basicDrink.whip,
       sugarContent: "BASIC",
       storeName: location.state.franchiseName,
-    });
+    })
   }, [basicDrink])
   // console.log("this", basicDrink)
   // console.log("this", orderDetail)
@@ -136,7 +133,7 @@ function CustomPage() {
     setChangedOtherInfo({
       money: orderDetail.price,
       cal: orderDetail.cal,
-    });
+    })
   }, [orderDetail])
 
   // 기존 daily + 선택음료 데이터 계산(젤 작은 사이즈 & 노옵션)
@@ -167,18 +164,22 @@ function CustomPage() {
 
   // 영양성분에 옵션정보 반영
   const onClickOptionChangeHandler = (field, value) => {
-    console.log(field, value);
+    console.log(field, value)
     if (orderDetail[field] + value >= 0) {
       // 변경하는 값의 field명과 type이름이 일치하는 옵션 선언
       const updateOption = drinkDetail.optionDtos.find(
         (option) => option.type.toLowerCase() === field
-      );
+      )
       if (updateOption.type.toLowerCase() === "whip") {
         // 휘핑 옵션 (true면 더하고 false면 마이너스 + 기존 휘핑 상태에서 변동될때만)
         if (orderDetail.whip !== value) {
           // 휘핑의 이런저런 경우 고려한 가격 변동량
           const whipChangePrice =
-          (basicDrink.whip === false || value === true) ? 500 : (basicDrink.whip === false) || value === false ? -500 : 0;
+            basicDrink.whip === false || value === true
+              ? 500
+              : basicDrink.whip === false || value === false
+              ? -500
+              : 0
           setOrderDetail({
             ...orderDetail,
             whip: value,
@@ -197,23 +198,26 @@ function CustomPage() {
             //  ? orderDetail["price"] + value * updateOption.price
             //  : Math.max(orderDetail["price"] - updateOption.price, 0),
 
-            price: Math.max(orderDetail["price"] + whipChangePrice, 0)
-          });
+            price: Math.max(orderDetail["price"] + whipChangePrice, 0),
+          })
         }
       } else {
         // 나머지 옵션
         setOrderDetail({
           ...orderDetail,
           [field]: orderDetail[field] + value,
-          caffeine: Math.max(orderDetail["caffeine"] + value * updateOption.caffeine, 0),
+          caffeine: Math.max(
+            orderDetail["caffeine"] + value * updateOption.caffeine,
+            0
+          ),
           sugar: Math.max(orderDetail["sugar"] + value * updateOption.sugar, 0),
           cal: Math.max(orderDetail["cal"] + value * updateOption.cal, 0),
           price: Math.max(orderDetail["price"] + value * updateOption.price, 0),
           // caffeine
-        });
+        })
       }
     }
-  };
+  }
 
   const [sizeButton, setSizeButton] = useState(0)
   // 사이즈 변경에 따른 옵션 초기화(전체 옵션 초기화(만약 남기고 싶은거 있으면 onClickOptionHandler처럼 초기값 앞에 더해줘야함))
@@ -386,19 +390,19 @@ function CustomPage() {
 
       <Grid item>
         <Button
-            variant="contained"
-            onClick={addDrinkRecord}
-            sx={{
-              borderRadius: 2,
-              background: "#ffba00",
-              fontSize: 16,
-              fontWeight: "700",
-              mt: 1,
-              ml: 26,
-            }}
-          >
-            기록하기
-          </Button>
+          variant="contained"
+          onClick={addDrinkRecord}
+          sx={{
+            borderRadius: 2,
+            background: "#ffba00",
+            fontSize: 16,
+            fontWeight: "700",
+            mt: 1,
+            ml: 26,
+          }}
+        >
+          기록하기
+        </Button>
       </Grid>
     </div>
   )
