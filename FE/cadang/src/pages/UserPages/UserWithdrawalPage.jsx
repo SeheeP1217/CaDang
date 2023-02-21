@@ -1,13 +1,11 @@
 import React, { useState } from "react"
-import { Link, useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import axios from "axios"
 import {
   Button,
   CssBaseline,
   TextField,
   FormControl,
-  // FormControlLabel,
-  // Checkbox,
   FormHelperText,
   Grid,
   Box,
@@ -18,7 +16,6 @@ import {
 import {
   createTheme,
   ThemeProvider,
-  // CreateMUIStyled,
 } from "@mui/material/styles"
 import styled from "styled-components"
 
@@ -40,9 +37,6 @@ const UserWithdrawalPage = () => {
       primary: {
         main: "#3A130C",
       },
-    },
-    typography: {
-      fontFamily: "netmarble",
     },
   })
   const history = useHistory()

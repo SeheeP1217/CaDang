@@ -71,7 +71,6 @@ function Item(props) {
 }
 const RankCarousel = styled(Carousel)`
   margin: 0 auto;
-  font-family: "netmarble";
   border-top: 6px solid #ffba00 !important;
 `
 

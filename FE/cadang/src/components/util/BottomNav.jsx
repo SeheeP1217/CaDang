@@ -9,7 +9,6 @@ import CoffeeIcon from "@mui/icons-material/Coffee"
 import NoteAltIcon from "@mui/icons-material/NoteAlt"
 import PersonIcon from "@mui/icons-material/Person"
 import Paper from "@mui/material/Paper"
-import styled from "styled-components"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 
 function BottomNav() {
@@ -21,7 +20,6 @@ function BottomNav() {
       },
     },
     typography: {
-      fontFamily: "netmarble",
       fontSize: 12,
     },
   })

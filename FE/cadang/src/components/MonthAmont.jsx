@@ -12,9 +12,6 @@ export default function MonthAmount(props) {
         main: "#3A130C",
       },
     },
-    typography: {
-      fontFamily: "netmarble",
-    },
   })
   console.log("월월", props)
   return (

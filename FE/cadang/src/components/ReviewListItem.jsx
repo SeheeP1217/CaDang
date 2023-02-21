@@ -111,7 +111,7 @@ function ReviewListItem(props) {
                   </Typography>
                 </Grid>
                 <Grid item xs={4}>
-                  <Typography variant="subtitle1" component="div">
+                  <Typography variant="subtitle2" component="div">
                     {dayjs(review.regDate).format("YY/MM/DD")}
                   </Typography>
                 </Grid>
@@ -125,12 +125,12 @@ function ReviewListItem(props) {
                     {review.caffeine}mg / {review.sugar}g
                   </Typography>
                 </Grid>
-                <Grid item xs={8}>
+                <Grid item xs={9.2}>
                   <Typography variant="body2">
                     {review.cal}Kcal /{review.price}원
                   </Typography>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={2.8}>
                   {renderMemo(review.memo, review.id)}
                   {/* <Link to={{ pathname: `/review/${review.id}`, state:{review} }}> */}
                   <Link
@@ -139,11 +139,14 @@ function ReviewListItem(props) {
                       state: { review },
                     }}
                   >
-                    <IconButton style={{ padding: 0 }}>
+                    <IconButton style={{ padding: 0, paddingBottom: 2 }}>
                       <EditOutlinedIcon />
                     </IconButton>
                   </Link>
-                  <IconButton onClick={() => deleteReviewRecord(review.id)}>
+                  <IconButton
+                    onClick={() => deleteReviewRecord(review.id)}
+                    style={{ padding: 0, paddingBottom: 2 }}
+                  >
                     <DeleteIcon />
                   </IconButton>
                 </Grid>

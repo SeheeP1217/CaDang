@@ -6,8 +6,6 @@ import {
   CssBaseline,
   TextField,
   FormControl,
-  // FormControlLabel,
-  // Checkbox,
   FormHelperText,
   Grid,
   Box,
@@ -18,7 +16,6 @@ import {
 import {
   createTheme,
   ThemeProvider,
-  // CreateMUIStyled,
 } from "@mui/material/styles"
 import styled from "styled-components"
 
@@ -28,9 +25,6 @@ const ResetPwPage = (location) => {
       primary: {
         main: "#3A130C",
       },
-    },
-    typography: {
-      fontFamily: "netmarble",
     },
   })
   const [memberId, setMemberId] = useState(-1)

@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react"
+import React from "react"
 import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import interactionPlugin from "@fullcalendar/interaction"
@@ -55,9 +55,6 @@ class MyCalendar extends React.Component {
         primary: {
           main: "#3A130C",
         },
-      },
-      typography: {
-        fontFamily: "netmarble",
       },
     })
 
@@ -182,7 +179,6 @@ const Icon = styled.img`
 const ModalCard = styled(Card)`
   border: 5px solid #3a130c !important;
   border: 10px solid #ffba00 !important;
-  font-family: netmarble !important;
 `
 
 const Date = styled.h2`

@@ -109,7 +109,6 @@ export default function OrderStatusChild(props) {
         <Grid item xs={4} sx={{ display: "flex" }}>
           <Typography
             sx={{
-              fontFamily: "netmarble",
               fontSize: "16px",
               fontWeight: "xl",
               level: "h3",
@@ -122,7 +121,6 @@ export default function OrderStatusChild(props) {
         <Grid item xs={4} sx={{ display: "flex" }}>
           <Typography
             sx={{
-              fontFamily: "netmarble",
               fontSize: "16px",
               fontWeight: "xl",
               level: "h3",
@@ -135,7 +133,6 @@ export default function OrderStatusChild(props) {
         <Grid item xs={4} sx={{ display: "flex" }}>
           <Typography
             sx={{
-              fontFamily: "netmarble",
               fontSize: "16px",
               fontWeight: "xl",
               level: "h3",

@@ -74,7 +74,6 @@ function FirstPage() {
                 top: "80%",
                 backgroundColor: "#3A130C",
                 color: "white",
-                fontFamily: "netmarble",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
               }}
@@ -89,7 +88,6 @@ function FirstPage() {
                 position: "absolute",
                 top: "85%",
                 color: "white",
-                fontFamily: "netmarble",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
                 padding: "0px",

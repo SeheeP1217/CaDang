@@ -1,31 +1,31 @@
-import { Card, Grid, Button } from "@mui/material";
-import PaymentRecord from "../../components/PaymentRecord";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { Link } from "react-router-dom";
-import { orderList } from "../../api/pay";
-import Typography from "@mui/joy/Typography";
-import { useMemo, useState } from "react";
+import { Card, Grid, Button } from "@mui/material"
+import PaymentRecord from "../../components/PaymentRecord"
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew"
+import { Link } from "react-router-dom"
+import { orderList } from "../../api/pay"
+import Typography from "@mui/joy/Typography"
+import { useMemo, useState } from "react"
 
 export default function PaymentReportPage() {
-  const [orderListData, setOrderListData] = useState([]);
+  const [orderListData, setOrderListData] = useState([])
 
   useMemo(() => {
     const getOrderList = async () => {
       await orderList(
         (res) => {
           // console.log(res.data);
-          return res.data;
+          return res.data
         },
         (err) => console.log(err)
-      ).then((data) => setOrderListData(data));
-    };
+      ).then((data) => setOrderListData(data))
+    }
 
-    getOrderList();
-  }, []);
+    getOrderList()
+  }, [])
   return (
     <div>
       <Grid container sx={{ pb: 1 }}>
-        <Button component={Link} to="/mypage">
+        <Button component={Link} to="/mypage" style={{ color: "#ffab00" }}>
           <ArrowBackIosNewIcon></ArrowBackIosNewIcon>
         </Button>
         <Typography
@@ -40,13 +40,11 @@ export default function PaymentReportPage() {
         </Typography>
       </Grid>
 
-      <Card>
-        <Grid>
-          {orderListData.map((item, key) => (
-            <PaymentRecord order={item} />
-          ))}
-        </Grid>
-      </Card>
+      <Grid>
+        {orderListData.map((item, key) => (
+          <PaymentRecord order={item} />
+        ))}
+      </Grid>
     </div>
-  );
+  )
 }
