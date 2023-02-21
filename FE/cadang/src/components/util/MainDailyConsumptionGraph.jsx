@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Grid, Typography } from "@mui/material"
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Rectangle } from "recharts"
+import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts"
 import coffeebean from "../../assets/coffeebean.png"
 import sugar from "../../assets/sugar.png"
 import "./MainDailyConsumptionGraph.css"

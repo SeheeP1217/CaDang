@@ -29,9 +29,8 @@ const ResetPwPage = (location) => {
   })
   const [memberId, setMemberId] = useState(-1)
   useEffect(() => {
-    console.log(location.location.props.response.data.id, "/////////")
     setMemberId(location.location.props.response.data.id)
-  }, [])
+  }, [location.location.props.response.data.id])
 
   const [password, setPassword] = useState("")
   const [passwordState, setpasswordState] = useState("")

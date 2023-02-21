@@ -1,7 +1,5 @@
 import * as React from "react"
 import { useState } from "react"
-import ToggleButton from "@mui/material/ToggleButton"
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup"
 import Button from "@mui/material/Button"
 import ButtonGroup from "@mui/material/ButtonGroup"
 import IconButton from "@mui/material/IconButton"
@@ -13,7 +11,6 @@ import { useEffect } from "react"
 
 function CustomOption(props) {
   const defaultInfo = props.drinkDetail.drinkResponseDtos
-  const optionInfo = props.drinkDetail.optionDtos
   const orderInfo = props.orderDetail
 
   console.log(orderInfo)
