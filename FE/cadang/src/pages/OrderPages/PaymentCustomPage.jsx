@@ -112,15 +112,6 @@ function PaymentCustomPage(props) {
   })}
   console.log(optionPriceTable)
 
-  // 결제창 띄우는 정보 추가 선언
-  // const [priceDetail, setPriceDetail] = useState({
-  //   shotPrice: orderDetail.shot * drinkDetail.optionDtos[1].price,
-  //   whipPrice: orderDetail.whip * drinkDetail.optionDtos[0].price,
-  //   syrupPrice: orderDetail.syrup * drinkDetail.optionDtos[2].price,
-  //   vanillaPrice: orderDetail.vanilla * drinkDetail.optionDtos[4].price,
-  //   hazelnutPrice: orderDetail.hazelnut * drinkDetail.optionDtos[3].price,
-  //   caramelPrice: orderDetail.caramel * drinkDetail.optionDtos[5].price,
-  // })
 
   // 선택한 음료 정보로 orderDetail 초기화
   useEffect(() => {
@@ -137,7 +128,7 @@ function PaymentCustomPage(props) {
       storeName: location.state.franchiseName,
     });
   }, [basicDrink]);
-  console.log(basicDrink.sugar);
+  console.log(basicDrink);
 
   // 전체 가격, 칼로리 변동량 계산
   useEffect(() => {
@@ -147,18 +138,6 @@ function PaymentCustomPage(props) {
     });
   }, [orderDetail]);
 
-  // priceDetail 업데이트
-  // useEffect(() => {
-  //   setOrderDetail({
-  //     ...orderDetail,
-  //   shotPrice: orderDetail.shot * drinkDetail.optionDtos[1].price,
-  //   whipPrice: orderDetail.whip * drinkDetail.optionDtos[0].price,
-  //   syrupPrice: orderDetail.syrup * drinkDetail.optionDtos[2].price,
-  //   vanillaPrice: orderDetail.vanilla * drinkDetail.optionDtos[4].price,
-  //   hazelnutPrice: orderDetail.hazelnut * drinkDetail.optionDtos[3].price,
-  //   caramelPrice: orderDetail.caramel * drinkDetail.optionDtos[5].price,
-  // })
-  // }, [orderDetail])
 
   // 기존 daily + 선택음료 데이터 계산(젤 작은 사이즈 & 노옵션)
   const withoutCustom = {
@@ -199,11 +178,13 @@ function PaymentCustomPage(props) {
         if (orderDetail.whip !== value) {
           // 휘핑의 이런저런 경우 고려한 가격 변동량
           const whipChangePrice =
-            basicDrink.whip === false || value === true
-              ? 500
-              : basicDrink.whip === false || value === false
-              ? -500
-              : 0;
+          basicDrink.whip === false && value === true
+            ? 500
+            : basicDrink.whip === true && value === false
+            ? 0
+            : basicDrink.whip === false && value === false
+            ? -500
+            : 0;
           setOrderDetail({
             ...orderDetail,
             whip: value,
@@ -218,10 +199,6 @@ function PaymentCustomPage(props) {
             cal: value
               ? orderDetail["cal"] + value * updateOption.cal
               : Math.max(orderDetail["cal"] - updateOption.cal, 0),
-            // price: value
-            //  ? orderDetail["price"] + value * updateOption.price
-            //  : Math.max(orderDetail["price"] - updateOption.price, 0),
-
             price: Math.max(orderDetail["price"] + whipChangePrice, 0),
           });
         }

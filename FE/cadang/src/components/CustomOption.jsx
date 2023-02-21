@@ -24,7 +24,7 @@ function CustomOption(props) {
 
   useEffect(() => {
     setIsWhiped(defaultInfo[0].whip)
-  }, [props])
+  }, [props.drinkDetail])
 
   return (
     <div>
@@ -167,8 +167,8 @@ function CustomOption(props) {
                   value={false}
                   variant={isWhiped ? "outlined" : "contained"}
                   onClick={() => {
-                    props.onClickOptionChangeHandler("whip", false)
                     setIsWhiped(false)
+                    props.onClickOptionChangeHandler("whip", false)
                   }}
                 >
                   X
@@ -185,8 +185,8 @@ function CustomOption(props) {
                   value={true}
                   variant={isWhiped ? "contained" : "outlined"}
                   onClick={() => {
-                    props.onClickOptionChangeHandler("whip", true)
                     setIsWhiped(true)
+                    props.onClickOptionChangeHandler("whip", true)
                   }}
                 >
                   O
