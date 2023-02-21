@@ -4,19 +4,9 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { fontSize } from "@mui/system";
 import { useEffect, useRef, useState, useMemo } from "react";
 import { Box, Grid } from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
-import { cardGrey } from "../assets/card-gray.png";
-import { card } from "../assets/card.png";
-import { coffeePot } from "../assets/coffeepot.png";
-import { coffeePotGrey } from "../assets/coffeepot-gray.png";
-import { logoDrink } from "../assets/logo-drink.png";
-import { drinkGrey } from "../assets/drink-gray.png";
-import payCompleteImg from "../assets/payComplete.png";
-import making from "../assets/making.png";
-import finished from "../assets/finished.png";
 import drinkImg from "../assets/drink.png";
 import SockJsClient from "react-stomp";
 import { nowOrderStatus } from "../api/main";
@@ -109,7 +99,6 @@ export default function OrderStatus(props) {
           >
             <Typography
               sx={{
-                fontFamily: "netmarble",
                 fontSize: "22px",
                 fontWeight: "xl",
                 level: "h3",
@@ -128,7 +117,6 @@ export default function OrderStatus(props) {
               </Grid>
               <Typography
                 sx={{
-                  fontFamily: "netmarble",
                   fontSize: "20px",
                   fontWeight: "xl",
                   level: "h3",

@@ -4,11 +4,7 @@ import coffeePot from "../assets/coffeepot.png";
 import coffeePotGrey from "../assets/coffeepot-gray.png";
 import logoDrink from "../assets/logo-drink.png";
 import drinkGrey from "../assets/drink-gray.png";
-import payCompleteImg from "../assets/payComplete.png";
-import making from "../assets/making.png";
 import arrowIcon from "../assets/arrowIcon.png";
-import finished from "../assets/finished.png";
-import { useEffect, useRef, useState, useMemo } from "react";
 import { Box, Grid } from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
@@ -109,7 +105,6 @@ export default function OrderStatusChild(props) {
         <Grid item xs={4} sx={{ display: "flex" }}>
           <Typography
             sx={{
-              fontFamily: "netmarble",
               fontSize: "16px",
               fontWeight: "xl",
               level: "h3",
@@ -122,7 +117,6 @@ export default function OrderStatusChild(props) {
         <Grid item xs={4} sx={{ display: "flex" }}>
           <Typography
             sx={{
-              fontFamily: "netmarble",
               fontSize: "16px",
               fontWeight: "xl",
               level: "h3",
@@ -135,7 +129,6 @@ export default function OrderStatusChild(props) {
         <Grid item xs={4} sx={{ display: "flex" }}>
           <Typography
             sx={{
-              fontFamily: "netmarble",
               fontSize: "16px",
               fontWeight: "xl",
               level: "h3",

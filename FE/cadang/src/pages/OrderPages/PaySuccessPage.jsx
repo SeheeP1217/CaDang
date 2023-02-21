@@ -4,8 +4,6 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material-next/Button";
 import { Link } from "react-router-dom";
 import React, { useRef, useMemo } from "react";
-import { useRecoilState } from "recoil";
-import { orderItem } from "../../recoil/atom/paymentItem";
 // import { order } from "../../api/pay";
 // import SockJS from "sockjs-client";
 // import SockJsClient from "react-stomp";

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { styled } from "@mui/material/styles"
 import Grid from "@mui/material/Grid"
 import Typography from "@mui/material/Typography"
-import { Card, CardMedia } from "@mui/material"
+import { Card } from "@mui/material"
 import IconButton from "@mui/material/IconButton"
 import { Link, useHistory } from "react-router-dom"
 
@@ -70,8 +70,8 @@ function ReviewListItem(props) {
       return <Typography>{memo}</Typography>
     } else {
       return (
-        <Typography>
-          {memo.length > 20 ? `${memo.slice(0, 20)}...` : memo}
+        <Typography  variant="body1" style={{ wordWrap: 'break-word' }}>
+          {memo.length > 20 ? `${memo.slice(0, 15)}...` : memo}
           <Link onClick={() => onExpandClickHandler(id)}>
             <ExpandMoreIcon />
           </Link>
@@ -91,7 +91,7 @@ function ReviewListItem(props) {
         // console.log(review)
         return (
           <Card style={{ marginBottom: 5 }}>
-            <Grid container xs={12} spacing={1} key={review.id}>
+            <Grid container xs={12} spacing={1} key={review.id} style={{display: 'flex'}}>
               <Grid item xs={3} margin="auto">
                 <Img
                   id={review.id}
@@ -111,7 +111,7 @@ function ReviewListItem(props) {
                   </Typography>
                 </Grid>
                 <Grid item xs={4}>
-                  <Typography variant="subtitle1" component="div">
+                  <Typography variant="subtitle2" component="div">
                     {dayjs(review.regDate).format("YY/MM/DD")}
                   </Typography>
                 </Grid>
@@ -125,25 +125,30 @@ function ReviewListItem(props) {
                     {review.caffeine}mg / {review.sugar}g
                   </Typography>
                 </Grid>
-                <Grid item xs={8}>
+                <Grid item xs={12}>
                   <Typography variant="body2">
                     {review.cal}Kcal /{review.price}원
                   </Typography>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={9}>
                   {renderMemo(review.memo, review.id)}
+                  </Grid>
                   {/* <Link to={{ pathname: `/review/${review.id}`, state:{review} }}> */}
+                  <Grid item xs={3}>
                   <Link
                     to={{
                       pathname: `/review/${review.id}`,
                       state: { review },
                     }}
                   >
-                    <IconButton style={{ padding: 0 }}>
+                    <IconButton style={{ padding: 0, paddingBottom: 2 }}>
                       <EditOutlinedIcon />
                     </IconButton>
                   </Link>
-                  <IconButton onClick={() => deleteReviewRecord(review.id)}>
+                  <IconButton
+                    onClick={() => deleteReviewRecord(review.id)}
+                    style={{ padding: 0, paddingBottom: 2 }}
+                  >
                     <DeleteIcon />
                   </IconButton>
                 </Grid>

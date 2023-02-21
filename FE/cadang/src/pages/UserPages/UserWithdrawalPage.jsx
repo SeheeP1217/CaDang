@@ -1,14 +1,12 @@
 import React, { useState } from "react"
-import { Link, useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 import axios from "axios"
 import {
   Button,
   CssBaseline,
   TextField,
   FormControl,
-  // FormControlLabel,
-  // Checkbox,
-  FormHelperText,
+  // FormHelperText,
   Grid,
   Box,
   Typography,
@@ -18,17 +16,16 @@ import {
 import {
   createTheme,
   ThemeProvider,
-  // CreateMUIStyled,
 } from "@mui/material/styles"
 import styled from "styled-components"
 
 // mui의 css 우선순위가 높기때문에 important를 설정 - 실무하다 보면 종종 발생 우선순위 문제
-const FormHelperTexts = styled(FormHelperText)`
-  width: 100%;
-  padding-left: 16px;
-  font-weight: 700 !important;
-  color: #d32f2f !important;
-`
+// const FormHelperTexts = styled(FormHelperText)`
+//   width: 100%;
+//   padding-left: 16px;
+//   font-weight: 700 !important;
+//   color: #d32f2f !important;
+// `
 
 const Boxs = styled(Box)`
   padding-bottom: 40px !important;
@@ -40,9 +37,6 @@ const UserWithdrawalPage = () => {
       primary: {
         main: "#3A130C",
       },
-    },
-    typography: {
-      fontFamily: "netmarble",
     },
   })
   const history = useHistory()

@@ -134,7 +134,7 @@ export default function PaymentPage(props) {
           // console.log("orderDetail ==> " + orderDetail.drinkId);
           window.open(response.data.next_redirect_mobile_url);
           // window.open(response.data.next_redirect_pc_url);
-        } else if (response.status == 404) {
+        } else if (response.status === 404) {
           // 404 에러라면
           <Link to="/error404">error 404</Link>;
         } else if (response.status === 500) {

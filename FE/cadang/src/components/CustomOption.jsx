@@ -1,7 +1,5 @@
 import * as React from "react"
 import { useState } from "react"
-import ToggleButton from "@mui/material/ToggleButton"
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup"
 import Button from "@mui/material/Button"
 import ButtonGroup from "@mui/material/ButtonGroup"
 import IconButton from "@mui/material/IconButton"
@@ -13,7 +11,6 @@ import { useEffect } from "react"
 
 function CustomOption(props) {
   const defaultInfo = props.drinkDetail.drinkResponseDtos
-  const optionInfo = props.drinkDetail.optionDtos
   const orderInfo = props.orderDetail
 
   console.log(orderInfo)
@@ -24,7 +21,7 @@ function CustomOption(props) {
 
   useEffect(() => {
     setIsWhiped(defaultInfo[0].whip)
-  }, [props])
+  }, [props.drinkDetail])
 
   return (
     <div>
@@ -167,8 +164,8 @@ function CustomOption(props) {
                   value={false}
                   variant={isWhiped ? "outlined" : "contained"}
                   onClick={() => {
-                    props.onClickOptionChangeHandler("whip", false)
                     setIsWhiped(false)
+                    props.onClickOptionChangeHandler("whip", false)
                   }}
                 >
                   X
@@ -185,8 +182,8 @@ function CustomOption(props) {
                   value={true}
                   variant={isWhiped ? "contained" : "outlined"}
                   onClick={() => {
-                    props.onClickOptionChangeHandler("whip", true)
                     setIsWhiped(true)
+                    props.onClickOptionChangeHandler("whip", true)
                   }}
                 >
                   O

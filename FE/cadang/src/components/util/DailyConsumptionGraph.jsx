@@ -1,4 +1,3 @@
-import { Directions } from "@mui/icons-material"
 import { Grid, Typography } from "@mui/material"
 import React, { useMemo, useState, useEffect } from "react"
 import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts"
@@ -81,7 +80,7 @@ function DailyConsumptionGraph(props) {
         xs={12}
         style={{ textAlign: "end", marginRight: 8, marginTop: 5 }}
       >
-        <Typography style={{ fontFamily: "netmarble" }}>
+        <Typography>
           {Number(props.consumptionInfo.caffeDaily)}
           {props.selectDrinkInfo.caffeine &&
           props.selectDrinkInfo.caffeine > 0 ? (
@@ -152,7 +151,7 @@ function DailyConsumptionGraph(props) {
         xs={12}
         style={{ textAlign: "end", marginRight: 8, marginTop: 5 }}
       >
-        <Typography style={{ fontFamily: "netmarble" }}>
+        <Typography>
           {Number(props.consumptionInfo.sugarDaily)}
           {props.selectDrinkInfo.sugar && props.selectDrinkInfo.sugar > 0 ? (
             <span style={{ color: "red" }}>

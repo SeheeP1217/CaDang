@@ -382,9 +382,6 @@ const RegisterPage = () => {
         main: "#3A130C",
       },
     },
-    typography: {
-      fontFamily: "netmarble",
-    },
   })
   return (
     <ThemeProvider theme={theme}>

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
-// import axios from "axios"
 import default_image from "../../assets/default_image.png";
 import styled from "styled-components";
 

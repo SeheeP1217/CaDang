@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useCallback, useRef } from "react";
+import React from "react";
 import { Box, Grid, Card, Divider } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 
@@ -11,9 +11,9 @@ export default function PaymentRecord(props) {
   });
 
   return (
-    <div>
+    <Card style={{ marginBottom: "5px" }}>
       <Box
-        style={{ marginTop: "3%" }}
+        style={{ marginTop: "2%" }}
         component="span"
         sx={{ ml: 2, display: "block", fontSize: 18, fontWeight: "700" }}
       >
@@ -38,7 +38,12 @@ export default function PaymentRecord(props) {
           <Grid
             item
             xs={12}
-            sx={{ ml: 1, boxShadow: 0, display: "flex", justifyContent: "flex-start" }}
+            sx={{
+              ml: 1,
+              boxShadow: 0,
+              display: "flex",
+              justifyContent: "flex-start",
+            }}
           >
             <Typography
               sx={{
@@ -54,7 +59,12 @@ export default function PaymentRecord(props) {
           <Grid
             item
             xs={12}
-            sx={{ ml: 1, boxShadow: 0, display: "flex", justifyContent: "flex-start" }}
+            sx={{
+              ml: 1,
+              boxShadow: 0,
+              display: "flex",
+              justifyContent: "flex-start",
+            }}
           >
             <Typography
               sx={{
@@ -70,6 +80,6 @@ export default function PaymentRecord(props) {
           {/* =============================================== */}
         </Grid>
       </Card>
-    </div>
+    </Card>
   );
 }

@@ -1,14 +1,14 @@
 // import { element } from "prop-types";
 import Stack from "@mui/material/Stack";
-import { Link, useHistory } from "react-router-dom";
-import { Paper, Grid, Divider, Card, Button, Typography } from "@mui/material";
+import { useHistory } from "react-router-dom";
+import { Paper, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import React, { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { todayDate } from "../recoil/atom/user.jsx";
 import "./CategorySearch.css";
-import { checkCafeList } from "../api/cafeMap";
+// import { checkCafeList } from "../api/cafeMap";
 
 const { kakao } = window;
 

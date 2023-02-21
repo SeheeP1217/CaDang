@@ -48,9 +48,6 @@ const SearchIdPage = () => {
         main: "#3A130C",
       },
     },
-    typography: {
-      fontFamily: "netmarble",
-    },
   })
   // const [checked, setChecked] = useState(false)
   const [username, setUserName] = useState("")
