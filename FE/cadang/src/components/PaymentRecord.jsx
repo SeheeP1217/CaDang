@@ -1,14 +1,14 @@
-import React, { useEffect, useMemo, useState, useCallback, useRef } from "react"
-import { Box, Grid, Card, Divider } from "@mui/material"
-import Typography from "@mui/joy/Typography"
+import React from "react";
+import { Box, Grid, Card, Divider } from "@mui/material";
+import Typography from "@mui/joy/Typography";
 
 export default function PaymentRecord(props) {
-  const regDate = props.order.regDate
+  const regDate = props.order.regDate;
   const formattedRegDate = new Date(regDate).toLocaleDateString("ko-KR", {
     year: "numeric",
     month: "long",
     day: "numeric",
-  })
+  });
 
   return (
     <Card style={{ marginBottom: "5px" }}>
@@ -23,11 +23,7 @@ export default function PaymentRecord(props) {
       <Card sx={{ mt: "3%", p: 1 }}>
         <Grid container sx={{}}>
           {/* ================================================= */}
-          <Grid
-            item
-            xs={12}
-            sx={{ ml: 1, display: "flex", justifyContent: "flex-start" }}
-          >
+          <Grid item xs={12} sx={{ ml: 1, display: "flex", justifyContent: "flex-start" }}>
             <Typography
               sx={{
                 fontWeight: "700",
@@ -85,5 +81,5 @@ export default function PaymentRecord(props) {
         </Grid>
       </Card>
     </Card>
-  )
+  );
 }

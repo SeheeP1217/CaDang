@@ -1,73 +1,63 @@
-import * as React from "react"
-import Accordion from "@mui/material/Accordion"
-import AccordionSummary from "@mui/material/AccordionSummary"
-import AccordionDetails from "@mui/material/AccordionDetails"
-import Typography from "@mui/material/Typography"
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import { fontSize } from "@mui/system"
-import { useEffect, useRef, useState, useMemo } from "react"
-import { Box, Grid } from "@mui/material"
-import CardMedia from "@mui/material/CardMedia"
-import { cardGrey } from "../assets/card-gray.png"
-import { card } from "../assets/card.png"
-import { coffeePot } from "../assets/coffeepot.png"
-import { coffeePotGrey } from "../assets/coffeepot-gray.png"
-import { logoDrink } from "../assets/logo-drink.png"
-import { drinkGrey } from "../assets/drink-gray.png"
-import payCompleteImg from "../assets/payComplete.png"
-import making from "../assets/making.png"
-import finished from "../assets/finished.png"
-import drinkImg from "../assets/drink.png"
-import SockJsClient from "react-stomp"
-import { nowOrderStatus } from "../api/main"
-import OrderStatusChild from "./OrderStatusChild"
+import * as React from "react";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useEffect, useRef, useState, useMemo } from "react";
+import { Box, Grid } from "@mui/material";
+import CardMedia from "@mui/material/CardMedia";
+import drinkImg from "../assets/drink.png";
+import SockJsClient from "react-stomp";
+import { nowOrderStatus } from "../api/main";
+import OrderStatusChild from "./OrderStatusChild";
 
 export default function OrderStatus(props) {
-  const $websocket = useRef()
-  const [data, setData] = useState([])
-  const [drink, setDrink] = useState([])
-  const userId = props.userId
+  const $websocket = useRef();
+  const [data, setData] = useState([]);
+  const [drink, setDrink] = useState([]);
+  const userId = props.userId;
   // console.log("OrderStatus 컴포넌트 안에서 props로 받아온 userId : " + userId);
-  const [msg, setMsg] = useState("") // 웹소켓 통신으로 받아온 msg
+  const [msg, setMsg] = useState(""); // 웹소켓 통신으로 받아온 msg
 
   const getOrderStatus = async () => {
     await nowOrderStatus(
       (res) => {
         // console.log(res.data);
-        return res.data
+        return res.data;
       },
       (err) => console.log(err)
-    ).then((data) => setData(data))
-  }
+    ).then((data) => setData(data));
+  };
 
   // 컴포넌트 렌더링 되기 전 : 사용자의 현재 주문 상태가 있는지 확인
   // /get 요청으로 api 통신
   useMemo(() => {
-    getOrderStatus()
-  }, [])
+    getOrderStatus();
+  }, []);
 
-  useEffect(() => {})
+  useEffect(() => {});
 
   useEffect(() => {
     data.map((item, key) => {
       // console.log("현재 주문 현황 통신 후 받아온 데이터 : " + item.drinkName);
-    })
-    setDrink(data)
-  }, [data])
+    });
+    setDrink(data);
+  }, [data]);
 
   useEffect(() => {
     if (msg === "주문이 수락 혹은 거절됐습니다.") {
       // console.log(msg);
-      getOrderStatus()
+      getOrderStatus();
       // console.log("drink의 크기 : " + drink.length);
     } else if (msg === "음료 제조가 완료됐습니다.") {
       // console.log(msg);
-      getOrderStatus()
+      getOrderStatus();
     } else if (msg === "음료가 픽업 완료됐습니다.") {
       // console.log(msg);
-      getOrderStatus()
+      getOrderStatus();
     }
-  }, [msg])
+  }, [msg]);
 
   return (
     <div
@@ -84,8 +74,8 @@ export default function OrderStatus(props) {
           }}
           topics={["/topic/customer-order-manage/" + userId + "", ""]}
           onMessage={(msg) => {
-            console.log("웹소켓 통신으로 받아온 메시지: " + msg)
-            setMsg(msg)
+            console.log("웹소켓 통신으로 받아온 메시지: " + msg);
+            setMsg(msg);
           }}
           ref={$websocket}
         />
@@ -121,21 +111,9 @@ export default function OrderStatus(props) {
         </Box>
         <AccordionDetails>
           {data.length === 0 && (
-            <Grid
-              container
-              sx={{ mt: 0, display: "flex", justifyContent: "center" }}
-            >
-              <Grid
-                item
-                xs={12}
-                sx={{ display: "flex", justifyContent: "center" }}
-              >
-                <CardMedia
-                  component="img"
-                  sx={{ width: 80 }}
-                  image={drinkImg}
-                  alt="payImg"
-                />
+            <Grid container sx={{ mt: 0, display: "flex", justifyContent: "center" }}>
+              <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+                <CardMedia component="img" sx={{ width: 80 }} image={drinkImg} alt="payImg" />
               </Grid>
               <Typography
                 sx={{
@@ -153,11 +131,9 @@ export default function OrderStatus(props) {
             </Grid>
           )}
           {data.length !== 0 &&
-            data.map((item, key) => (
-              <OrderStatusChild drink={item} key={key} />
-            ))}
+            data.map((item, key) => <OrderStatusChild drink={item} key={key} />)}
         </AccordionDetails>
       </Accordion>
     </div>
-  )
+  );
 }

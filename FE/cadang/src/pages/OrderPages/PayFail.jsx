@@ -4,7 +4,6 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material-next/Button";
 import { Link } from "react-router-dom";
 import paymentCancel from "../../assets/paymentCancel.png";
-import payFail from "../../assets/paymentCancel.png";
 
 export default function PayFailPage() {
   return (
