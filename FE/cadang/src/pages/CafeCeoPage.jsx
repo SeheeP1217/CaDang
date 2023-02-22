@@ -1,21 +1,22 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Box, Card } from "@mui/material";
-import Typography from "@mui/joy/Typography";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import NewOrderList from "../components/NewOrderList";
-import OrderList from "../components/OrderList";
+import React from "react"
+import PropTypes from "prop-types"
+import { Box, Card } from "@mui/material"
+import Typography from "@mui/joy/Typography"
+import Tabs from "@mui/material/Tabs"
+import Tab from "@mui/material/Tab"
+import NewOrderList from "../components/NewOrderList"
+import OrderList from "../components/OrderList"
+import Divider from "@mui/material/Divider"
 
 export default function CafeCeoPage() {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(0)
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+    setValue(newValue)
+  }
 
   function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+    const { children, value, index, ...other } = props
 
     return (
       <div
@@ -31,20 +32,20 @@ export default function CafeCeoPage() {
           </Box>
         )}
       </div>
-    );
+    )
   }
 
   TabPanel.propTypes = {
     children: PropTypes.node,
     index: PropTypes.number.isRequired,
     value: PropTypes.number.isRequired,
-  };
+  }
 
   function a11yProps(index) {
     return {
       id: `simple-tab-${index}`,
       "aria-controls": `simple-tabpanel-${index}`,
-    };
+    }
   }
 
   // useEffect(() => {
@@ -61,13 +62,22 @@ export default function CafeCeoPage() {
           onChange={handleChange}
           aria-label="basic tabs example"
           variant="fullWidth"
+          sx={{ "& .MuiTabs-indicator": { backgroundColor: "#ffffff" } }}
         >
-          <Tab label="신규 주문" {...a11yProps(0)} />
-          <Tab label="주문 목록" {...a11yProps(1)} />
+          <Tab
+            label="신규 주문"
+            {...a11yProps(0)}
+            style={{ color: "#ffffff", fontSize: "20px" }}
+          />
+          <Tab
+            label="주문 목록"
+            {...a11yProps(1)}
+            style={{ color: "#ffffff", fontSize: "20px" }}
+          />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <Card sx={{ mt: "", p: 1 }}>
+        <Card sx={{ mt: "", p: 1, borderRadius: "15px" }}>
           {/* 신규 주문에 대한 컴포넌트 */}
           {/* {drink.length !== 0 && <NewOrderList drinks={drink} />} */}
           <NewOrderList />
@@ -75,10 +85,10 @@ export default function CafeCeoPage() {
         </Card>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Card sx={{ mt: "", p: 1 }}>
+        <Card sx={{ mt: "", p: 2, borderRadius: "15px" }}>
           <OrderList />
         </Card>
       </TabPanel>
     </Card>
-  );
+  )
 }
