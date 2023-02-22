@@ -70,7 +70,7 @@ function ReviewListItem(props) {
       return <Typography>{memo}</Typography>
     } else {
       return (
-        <Typography  variant="body1" style={{ wordWrap: 'break-word' }}>
+        <Typography>
           {memo.length > 20 ? `${memo.slice(0, 15)}...` : memo}
           <Link onClick={() => onExpandClickHandler(id)}>
             <ExpandMoreIcon />
@@ -130,7 +130,7 @@ function ReviewListItem(props) {
                     {review.cal}Kcal /{review.price}원
                   </Typography>
                 </Grid>
-                <Grid item xs={9}>
+                <Grid item xs={9} style={{overflowWrap: 'break-word'}}>
                   {renderMemo(review.memo, review.id)}
                   </Grid>
                   {/* <Link to={{ pathname: `/review/${review.id}`, state:{review} }}> */}
