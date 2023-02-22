@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState, useMemo } from "react";
 import { Box, Grid } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 import Button from "@mui/material-next/Button";
-import Divider from "@mui/material/Divider";
 import SockJsClient from "react-stomp";
 import { setOrderStatus } from "../api/cafeCeo";
 
@@ -345,7 +344,6 @@ export default function OrderListItem(props) {
           {/* <FormControlLabel value="disabled" disabled control={<Radio />} label="other" /> */}
         {/* </RadioGroup> */}
       </Box>
-      <Divider />
     </div>
   );
 }

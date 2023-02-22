@@ -1,20 +1,20 @@
-import React, { useEffect, useState, useMemo } from "react";
-import { Grid } from "@mui/material";
-import Typography from "@mui/joy/Typography";
-import Button from "@mui/material-next/Button";
-import Divider from "@mui/material/Divider";
-import { setOrderStatus } from "../api/cafeCeo";
+import React, { useEffect, useState, useMemo } from "react"
+import { Grid } from "@mui/material"
+import Typography from "@mui/joy/Typography"
+import Button from "@mui/material-next/Button"
+import Divider from "@mui/material/Divider"
+import { setOrderStatus } from "../api/cafeCeo"
 
 export default function NewOrderListItem(props) {
-  const [drinkItem, setDrinkItem] = useState();
-  const [status, setStatus] = useState("none");
+  const [drinkItem, setDrinkItem] = useState()
+  const [status, setStatus] = useState("none")
   // const [userId, setUserId] = useState(0);
 
   const onClickAccept = () => {
     // console.log("수락 버튼 클릭!!!!!!!!!!!!!!!!!!!!!!!");
     // if (window.confirm(`${props.id + 1}번째 주문을 수락하시겠습니까?`))
     // if (window.confirm(`${props.id + 1}번째 주문을 수락하시겠습니까?`)) {
-    setStatus((accept) => "accept");
+    setStatus((accept) => "accept")
 
     const putOrder = async () => {
       await setOrderStatus(
@@ -22,16 +22,16 @@ export default function NewOrderListItem(props) {
         "ACCEPT",
         (res) => {
           // console.log(res.data);
-          return res.data;
+          return res.data
         },
         (err) => console.log(err)
       ).then((data) => {
-        props.setUserId((userId) => data);
-        setStatus((status) => "accept");
-      });
-    };
+        props.setUserId((userId) => data)
+        setStatus((status) => "accept")
+      })
+    }
 
-    putOrder();
+    putOrder()
 
     // console.log("현재 주문 상태 : " + status);
 
@@ -43,16 +43,16 @@ export default function NewOrderListItem(props) {
       // setTimeout(() => handleClickSendToCancel(), 30);
     }
 
-    props.deleteChild(props.id);
+    props.deleteChild(props.id)
     // } else {
     // }
-  };
+  }
 
   const onClickCancel = () => {
     // console.log("거절 버튼 클릭!!!!!!!!!!!!!!!!!!!!");
 
     // if (window.confirm(`${props.id + 1}번째 주문을 거절하시겠습니까?`)) {
-    setStatus((accept) => "cancel");
+    setStatus((accept) => "cancel")
 
     const putOrder = async () => {
       await setOrderStatus(
@@ -60,16 +60,16 @@ export default function NewOrderListItem(props) {
         "CANCEL",
         (res) => {
           // console.log(res.data);
-          return res.data;
+          return res.data
         },
         (err) => console.log(err)
       ).then((data) => {
-        props.setUserId((userId) => data);
-        setStatus((status) => "cancel");
-      });
-    };
+        props.setUserId((userId) => data)
+        setStatus((status) => "cancel")
+      })
+    }
 
-    putOrder();
+    putOrder()
 
     // console.log("서버로부터 받아온 userId : " + userId);
     // console.log("현재 주문 상태 : " + status);
@@ -82,13 +82,13 @@ export default function NewOrderListItem(props) {
       // setTimeout(() => handleClickSendToCancel(), 30);
     }
 
-    props.deleteChild(props.id);
+    props.deleteChild(props.id)
     // }
-  };
+  }
 
   useMemo(() => {
-    setDrinkItem(props.drink);
-  }, []);
+    setDrinkItem(props.drink)
+  }, [])
 
   // useEffect(() => {
   //   // console.log("서버로부터 받아온 userId : " + userId);
@@ -112,18 +112,25 @@ export default function NewOrderListItem(props) {
       // console.log(status);
       // setTimeout(() => handleClickSendToCancel(), 50);
     }
-  }, [status]);
+  }, [status])
 
   useEffect(() => {
-    setDrinkItem(props.drink);
-  }, [props.drink]);
+    setDrinkItem(props.drink)
+  }, [props.drink])
 
   // console.log("NewOrderListItem !!!!!!!!!!! " + props.drink);
 
   return (
     <div>
       <Grid sx={{ mt: 2 }} container>
-        <Grid item xs={8} sx={{ display: "flex", justifyContent: "flex-start" }}>
+        <Grid
+          item
+          xs={8}
+          sx={{
+            display: "flex",
+            justifyContent: "flex-start",
+          }}
+        >
           {drinkItem !== undefined && (
             <Typography
               sx={{
@@ -136,7 +143,11 @@ export default function NewOrderListItem(props) {
             </Typography>
           )}
         </Grid>
-        <Grid item xs={4} sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}>
+        <Grid
+          item
+          xs={4}
+          sx={{ boxShadow: 0, display: "flex", justifyContent: "flex-end" }}
+        >
           {drinkItem !== undefined && (
             <Typography
               sx={{
@@ -154,7 +165,12 @@ export default function NewOrderListItem(props) {
         <Grid
           item
           xs={12}
-          sx={{ mt: 1, boxShadow: 0, display: "flex", justifyContent: "flex-start" }}
+          sx={{
+            mt: 1,
+            boxShadow: 0,
+            display: "flex",
+            justifyContent: "flex-start",
+          }}
         >
           {drinkItem !== undefined && (
             <Typography
@@ -164,14 +180,18 @@ export default function NewOrderListItem(props) {
                 fontSize: 13,
               }}
             >
-              샷:{drinkItem.shot} / 시럽:{drinkItem.syrup} / 바닐라 시럽:{drinkItem.vanilla} /
-              헤이즐넛 시럽:{drinkItem.hazelnut}
+              샷:{drinkItem.shot} / 시럽:{drinkItem.syrup} / 바닐라 시럽:
+              {drinkItem.vanilla} / 헤이즐넛 시럽:{drinkItem.hazelnut}
             </Typography>
           )}
         </Grid>
       </Grid>
       <Grid container sx={{ mb: 2 }}>
-        <Grid item xs={6} sx={{ boxShadow: 0, display: "flex", justifyContent: "center" }}>
+        <Grid
+          item
+          xs={6}
+          sx={{ boxShadow: 0, display: "flex", justifyContent: "center" }}
+        >
           <Button
             onMouseDown={onClickAccept}
             variant="contained"
@@ -186,7 +206,11 @@ export default function NewOrderListItem(props) {
             수락
           </Button>
         </Grid>
-        <Grid item xs={6} sx={{ boxShadow: 0, display: "flex", justifyContent: "center" }}>
+        <Grid
+          item
+          xs={6}
+          sx={{ boxShadow: 0, display: "flex", justifyContent: "center" }}
+        >
           <Button
             onMouseDown={onClickCancel}
             variant="contained"
@@ -205,5 +229,5 @@ export default function NewOrderListItem(props) {
       </Grid>
       <Divider />
     </div>
-  );
+  )
 }
